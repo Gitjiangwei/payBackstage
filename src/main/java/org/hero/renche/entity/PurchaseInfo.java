@@ -42,5 +42,9 @@ public class PurchaseInfo implements Serializable {
     /**插入时间*/
     private String createTime;
 
+    private String totalPrice;
+
+    private String remarks;
+
 
 }
