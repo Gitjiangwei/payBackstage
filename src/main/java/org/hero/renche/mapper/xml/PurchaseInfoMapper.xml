@@ -2,4 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.PurchaseInfoMapper">
 
+    
+    <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.PurchaseInfo">
+
+        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,isarrival,arrival_time,create_time,total_price,remarks,file_rel_id
+        from tx_purchase_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="PurchaseInfo.purchaseItem != null and PurchaseInfo.purchaseItem != '' ">
+              and  purchase_item like CONCAT('%',#{PurchaseInfo.purchaseItem},'%')
+            </if>
+            <if test="PurchaseInfo.purchaser != null and PurchaseInfo.purchaser != '' ">
+                and  purchaser  like CONCAT('%',#{PurchaseInfo.purchaser},'%')
+            </if>
+            <if test="PurchaseInfo.isarrival != null and PurchaseInfo.isarrival != '' ">
+                and  isarrival = #{PurchaseInfo.isarrival}
+            </if>
+            <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
+                and  purchase_time = #{PurchaseInfo.purchaseTime}
+            </if>
+        </trim>
+        order by create_time desc
+    </select>
 </mapper>
