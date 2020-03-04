@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.CompanyInfoMapper">
 
+    <select id="qryListCompanyInfo" resultType="org.hero.renche.entity.CompanyInfo">
+
+        select company_id,company_name,type,shuihao,bank,bank_no,contacts,phone,id_card,hobby,address,email
+        from tx_company_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="CompanyInfo.companyName != null and CompanyInfo.companyName != '' ">
+                and  company_name like CONCAT('%',#{CompanyInfo.companyName},'%')
+            </if>
+            <if test="CompanyInfo.shuihao != null and CompanyInfo.shuihao != '' ">
+                and  shuihao  like CONCAT('%',#{CompanyInfo.shuihao},'%')
+            </if>
+            <if test="CompanyInfo.type != null and CompanyInfo.type != '' ">
+                and  type = #{CompanyInfo.type}
+            </if>
+        </trim>
+        order by create_time desc
+    </select>
+
 </mapper>

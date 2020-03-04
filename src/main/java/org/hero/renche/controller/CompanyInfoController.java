@@ -1,16 +1,14 @@
 package org.hero.renche.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.service.ICompanyInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
-import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.demo.test.entity.JeecgDemo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,28 +38,13 @@ public class CompanyInfoController {
      */
     @ApiOperation(value = "获取客户信息列表", notes = "获取客户信息列表", produces = "application/json")
     @GetMapping(value = "/list")
-    public Result<IPage<CompanyInfo>> list(CompanyInfo company, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<CompanyInfo>> list(CompanyInfo company, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
-        Result<IPage<CompanyInfo>> result = new Result<>();
-        QueryWrapper<CompanyInfo> queryWrapper = null;
+        Result<PageInfo<CompanyInfo>> result = new Result<>();
 
-        // 手工转换实体驼峰字段为下划线分隔表字段
-        queryWrapper = new QueryWrapper<CompanyInfo>(company);
-        Page<CompanyInfo> page = new Page<CompanyInfo>(pageNo, pageSize);
-
-        // 排序逻辑 处理
-        String column = req.getParameter("column");
-        String order = req.getParameter("order");
-        if (oConvertUtils.isNotEmpty(column) && oConvertUtils.isNotEmpty(order)) {
-            if ("asc".equals(order)) {
-                queryWrapper.orderByAsc(oConvertUtils.camelToUnderline(column));
-            } else {
-                queryWrapper.orderByDesc(oConvertUtils.camelToUnderline(column));
-            }
-        }
-        IPage<CompanyInfo> pageList = companyInfoService.page(page, queryWrapper);
+        PageInfo<CompanyInfo> companyInfoPageInfo = companyInfoService.qryCompanyInfo(company,pageNo,pageSize);
         result.setSuccess(true);
-        result.setResult(pageList);
+        result.setResult(companyInfoPageInfo);
         return result;
     }
 
