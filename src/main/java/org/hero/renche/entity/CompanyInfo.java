@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 客户信息表
@@ -42,6 +43,6 @@ public class CompanyInfo implements Serializable {
     /**身份证号*/
     private String idCard;
     /**创建时间*/
-    private String createTime;
+    private Date createTime;
 
 }

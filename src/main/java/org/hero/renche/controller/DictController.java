@@ -43,7 +43,6 @@ public class DictController {
             result.error500("操作失败");
             return result;
         }
-
         return result;
     }
 
