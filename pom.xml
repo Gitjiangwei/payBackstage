@@ -56,7 +56,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-	    
+		<!-- 分页插件 -->
+		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.12</version>
+		</dependency>
 		<!-- Lombok get set 构造方法 toString logger 自动生成工具-->
         <!--注意：需要IDE也安装对应插件，可直接在plugins里面搜，不安装，语法报错但不影响编译和运行-->
 		<dependency>
