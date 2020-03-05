@@ -16,4 +16,8 @@ public interface PurchaseInfoMapper extends BaseMapper<PurchaseInfo> {
 
 
     List<PurchaseInfo> qryListPurchaseInfo(@Param("PurchaseInfo") PurchaseInfo purchaseInfo);
+
+
+    int updatePurchaseByIds(List<String> purchaseByIds);
+
 }

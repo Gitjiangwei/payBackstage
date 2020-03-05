@@ -20,7 +20,20 @@
             <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
                 and  purchase_time = #{PurchaseInfo.purchaseTime}
             </if>
+            <if test="PurchaseInfo.purchaser != null and PurchaseInfo.purchaser != ''">
+                and purchase_id = #{PurchaseInfo.purchaseId}
+            </if>
         </trim>
         order by create_time desc
     </select>
+    
+    
+    <update id="updatePurchaseByIds">
+        UPDATE tx_purchase_info set isarrival = '1'
+        where purchase_id in
+        <foreach collection="list" item="purchaseByIds" open="(" close=")" separator=",">
+            #{purchaseByIds}
+        </foreach>
+    </update>
+
 </mapper>
