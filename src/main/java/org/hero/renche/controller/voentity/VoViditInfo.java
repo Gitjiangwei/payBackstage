@@ -1,8 +1,7 @@
-package org.hero.renche.entity;
+package org.hero.renche.controller.voentity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,20 +9,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 客户拜访记录表
- *
- */
 @Data
-@TableName("tx_visit_info")
-public class VisitInfo  implements Serializable {
+public class VoViditInfo implements Serializable {
     private static final long serialVersionUID = 1L;
+
 
     /**ID*/
     @TableId(type = IdType.UUID)
     private String visitId;
     /**客户信息id*/
     private String companyId;
+    /**客户名称*/
+    private String  companyName;
     /**拜访时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

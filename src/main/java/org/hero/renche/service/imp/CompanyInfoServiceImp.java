@@ -7,6 +7,7 @@ import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.mapper.CompanyInfoMapper;
 import org.hero.renche.service.ICompanyInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,13 @@ public class CompanyInfoServiceImp extends ServiceImpl<CompanyInfoMapper, Compan
 
     @Autowired
     private CompanyInfoMapper companyInfoMapper;
+
+
+    @Override
+    public String qryCompanyIdByname(String CompanyName) {
+        String companyId=companyInfoMapper.qryCompanyIdByname(CompanyName);
+        return companyId;
+    }
 
     @Transactional
     @Override
