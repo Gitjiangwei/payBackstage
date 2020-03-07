@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 采购设备接口
  */
-public interface PurchaseService extends IService<PurchaseInfo> {
+public interface IPurchaseService extends IService<PurchaseInfo> {
 
 
     /**
