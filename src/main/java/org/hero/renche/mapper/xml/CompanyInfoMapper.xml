@@ -34,4 +34,26 @@
        where  company_id=#{companyId}
     </update>
 
+
+    <select id="qryCompanyNames" resultType="java.lang.String">
+
+        select distinct company_name value from tx_company_info order by company_name desc
+
+
+    </select>
+    <select id="qryCompanyName" resultType="java.util.HashMap">
+
+        select distinct company_id id , company_name value  from tx_company_info order by company_name desc
+
+
+    </select>
+
+<!--
+
+    <select id="queryDictItemsByCode" parameterType="String"  resultType="java.util.HashMap">
+		   select s.dict_code_id value,s.dict_code_name text from tx_dict s
+		   where s.dict_code = #{code} order by s.order_no asc
+	</select>
+-->
+
 </mapper>

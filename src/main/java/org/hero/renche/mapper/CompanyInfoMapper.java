@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.hero.renche.entity.CompanyInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户信息 Mapper 接口
@@ -17,5 +18,8 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfo> {
 
 
     int upCompanyNameById(String companyName,String companyId);
+
+    List qryCompanyNames();
+    List<Map<String, String>> qryCompanyName();
 
 }

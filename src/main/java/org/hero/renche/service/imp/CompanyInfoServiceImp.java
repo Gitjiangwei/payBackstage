@@ -7,11 +7,11 @@ import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.mapper.CompanyInfoMapper;
 import org.hero.renche.service.ICompanyInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CompanyInfoServiceImp extends ServiceImpl<CompanyInfoMapper, CompanyInfo> implements ICompanyInfoService {
@@ -33,6 +33,11 @@ public class CompanyInfoServiceImp extends ServiceImpl<CompanyInfoMapper, Compan
         PageHelper.startPage(page,pageSize);
         List<CompanyInfo> companyInfoList = companyInfoMapper.qryListCompanyInfo(companyInfo);
         return new PageInfo<CompanyInfo>(companyInfoList);
+    }
+
+    @Override
+    public List<Map<String, String>> qryCompanyName() {
+        return companyInfoMapper.qryCompanyName();
     }
 
 }

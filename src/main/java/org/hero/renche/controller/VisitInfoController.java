@@ -20,6 +20,8 @@ import sun.misc.Request;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -54,9 +56,7 @@ public class VisitInfoController {
         String suc="true";
         result.setSuccess(true);
         result.setResult(visitInfoPageInfo);
-      /*  System.out.println("///////=" + visitInfoPageInfo.getSize());*/
-
-    return result;
+           return result;
     }
 
     /**
@@ -165,6 +165,31 @@ public class VisitInfoController {
        }
 
         return result;
+
+    }
+
+
+
+     @ApiOperation(value ="获取客户名称" , notes = "获取客户名称" , produces = "application/json")
+     @GetMapping(value = "getn")
+    public Result<List<Map<String, String>>> getCompanyName(HttpServletRequest request){
+
+        Result<List<Map<String, String>>> result=new Result<>();
+
+        try{
+            List<Map<String, String>> companyN=iCompanyInfoService.qryCompanyName();
+            result.setSuccess(true);
+            result.setResult(companyN);
+        }catch (Exception e){
+            e.printStackTrace();
+
+            log.info(e.getMessage());
+            result.error500("获取客户名称失败");
+        }
+
+
+        return result;
+
 
     }
 
