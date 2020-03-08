@@ -64,7 +64,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
     @Override
     public boolean insertReceiving(PurchaseInfo purchaseInfo) {
         Boolean flag = false;
-        Map<String,String> receivingMap = new HashMap<String, String>();
+        Map<String,Object> receivingMap = new HashMap<String, Object>();
         receivingMap.put("equipCount",purchaseInfo.getQuantity());
         receivingMap.put("equipPrice",purchaseInfo.getPrice());
         receivingMap.put("equipModel",purchaseInfo.getItemModel());
@@ -74,6 +74,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         int thisEquipCounts = equipInfoMapper.qryEquipKeyCount(purchaseInfo.getPurchaseId());
         //List<EquipInfo> equipInfoList = equipInfoMapper.qryEquipListKey(equipInfo);
         receivingMap.put("thisEquipCounts",String.valueOf(thisEquipCounts));
+        //注入mapper
+        receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
         //执行线程
         new AsynTask().asyncTask(receivingMap);
         try {

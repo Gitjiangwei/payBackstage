@@ -22,10 +22,10 @@ public class AsynTask {
 
 
 
-   public void asyncTask(Map<String,String> map){
+   public void asyncTask(Map<String,Object> map){
         try {
             final int[] resultCount = {0};
-            String equipName = map.get("equipName") == null ? "" : map.get("equipName");
+            String equipName = map.get("equipName") == null ? "" : map.get("equipName").toString();
             List<EquipInfo> equipInfoList1 = new ArrayList<EquipInfo>();
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -36,24 +36,23 @@ public class AsynTask {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    String thisEquipCount = map.get("thisEquipCounts");
+                    String thisEquipCount = map.get("thisEquipCounts").toString();
                     //入库生成设备编号
                     Map<String, String> receivingMap = new HashMap<String, String>();
-                    for (int i = 1; i <= Integer.valueOf(map.get("equipCount") == null ? "0" : map.get("equipCount")); i++) {
+                    for (int i = 1; i <= Integer.valueOf(map.get("equipCount").toString() == null ? "0" : map.get("equipCount").toString()); i++) {
                         EquipInfo equipInfo = new EquipInfo();
                         receivingMap = DailyinComeNumberUtil.dailyinNumber(String.valueOf(i), thisEquipCount);
                         thisEquipCount = receivingMap.get("thisEquipCount");
                         equipInfo.setEquipId(UUID.randomUUID().toString().replace("-", ""));
                         equipInfo.setEquipName(equipName);
-                        equipInfo.setEquipModel(map.get("equipModel"));
+                        equipInfo.setEquipModel(map.get("equipModel").toString());
                         equipInfo.setEquipNo(receivingMap.get("num"));//设备编号
-                        equipInfo.setEquipPrice(map.get("equipPrice"));
-                        equipInfo.setPurchaseId(map.get("purchaseId"));
+                        equipInfo.setEquipPrice(map.get("equipPrice").toString());
+                        equipInfo.setPurchaseId(map.get("purchaseId").toString());
                         System.out.println(receivingMap.get("num"));
                         equipInfoList1.add(equipInfo);
                     }
-                    AbstractApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-                    PurchaseInfoMapper purchaseInfoMapper = ac.getBean(PurchaseInfoMapper.class);
+                    PurchaseInfoMapper purchaseInfoMapper = (PurchaseInfoMapper)map.get("purchaseInfoMapper");
                     resultCount[0] = purchaseInfoMapper.insertReceiving(equipInfoList1);
                 }
             });
