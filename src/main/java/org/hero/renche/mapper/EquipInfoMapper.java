@@ -18,4 +18,7 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
     List<EquipinfoModel> qryEquipList(@Param("equip")Map<String,String> map);
 
     List<EquipInfo> qryEquipListKey(@Param("equipInfo") EquipInfo equipInfo);
+
+    int qryEquipKeyCount(@Param("purchaseId") String purchaseId);
+
 }
