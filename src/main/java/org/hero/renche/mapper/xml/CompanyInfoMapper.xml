@@ -27,12 +27,14 @@
     </select>
 
 
+<!--
 
     <update id="upCompanyNameById" >
 
        update tx_company_info set company_name=#{companyName}
        where  company_id=#{companyId}
     </update>
+-->
 
 
     <select id="qryCompanyNames" resultType="java.lang.String">

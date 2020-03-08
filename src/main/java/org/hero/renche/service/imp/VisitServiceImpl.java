@@ -37,18 +37,19 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public boolean upViditInfo(String companyName,VisitInfo viditInfo) {
-        String companyId=viditInfo.getCompanyId();
-        int b=companyInfoMapper.upCompanyNameById(companyName,companyId);
+    public boolean upViditInfo(VisitInfo viditInfo) {
         int i=visitInfoMapper.updateById(viditInfo);
-        if(i>0&&i>0){
+        if(i>0){
             return true;
         }else {
             return false;
         }
 
 
-    }
+        }
+
+
+
 
     @Override
     public boolean deleteVisitInfoById(String visitId) {

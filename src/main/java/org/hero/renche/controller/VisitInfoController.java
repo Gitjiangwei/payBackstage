@@ -52,10 +52,17 @@ public class VisitInfoController {
                                                   @RequestParam(name = "pageSize", defaultValue = "10")Integer pageSize,
                                                   HttpServletRequest request){
         Result<PageInfo<VoViditInfo>> result=new Result<>();
-        PageInfo<VoViditInfo> visitInfoPageInfo=visitService.qryViditInfo(voViditInfo,pageNo,pageSize);
-        String suc="true";
-        result.setSuccess(true);
-        result.setResult(visitInfoPageInfo);
+
+        try{
+            PageInfo<VoViditInfo> visitInfoPageInfo=visitService.qryViditInfo(voViditInfo,pageNo,pageSize);
+            result.setSuccess(true);
+            result.setResult(visitInfoPageInfo);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("获取列表失败");
+        }
+        /*System.out.println("-------------------获取客户拜访列表------------");*/
            return result;
     }
 
@@ -120,7 +127,7 @@ public class VisitInfoController {
             visitInfo.setCompanyId(companyId);
             visitInfo.setVisitId(visitId);
 
-           boolean bo= visitService.upViditInfo(companyName,visitInfo);
+           boolean bo= visitService.upViditInfo(visitInfo);
             if(bo!=true){
                 result.error500("修改失败");
             }
