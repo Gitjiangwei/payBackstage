@@ -1,5 +1,6 @@
 package org.hero.renche.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -154,6 +155,27 @@ public class PurchaseInfoController {
             }else {
                 result.success("收货成功！");
             }
+        }
+        return result;
+    }
+
+
+
+    @AutoLog("设备入库")
+    @PostMapping(value = "/insertReceiving")
+    public Result<PurchaseInfo> insertReceiving(@RequestBody JSONObject jsonParam){
+        Result<PurchaseInfo> result = new Result<PurchaseInfo>();
+        PurchaseInfo purchaseInfo = new PurchaseInfo();
+        purchaseInfo.setPurchaseItem(jsonParam.get("purchaseItem").toString());
+        purchaseInfo.setItemModel(jsonParam.get("itemModel").toString());
+        purchaseInfo.setPrice(jsonParam.get("price").toString());
+        purchaseInfo.setQuantity(jsonParam.get("quantity").toString());
+        purchaseInfo.setPurchaseId(jsonParam.get("purchaseId").toString());
+        Boolean resultCount =IPurchaseService.insertReceiving(purchaseInfo);
+        if(resultCount){
+            result.success("程序自动将设备入库，请等待！");
+        }else{
+            result.error500("入库失败");
         }
         return result;
     }
