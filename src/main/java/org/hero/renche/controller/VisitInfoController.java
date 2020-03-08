@@ -122,7 +122,7 @@ public class VisitInfoController {
 
            boolean bo= visitService.upViditInfo(companyName,visitInfo);
             if(bo!=true){
-                result.error500("添加失败");
+                result.error500("修改失败");
             }
             result.setResult(voViditInfo);
             result.setSuccess(true);
@@ -130,7 +130,7 @@ public class VisitInfoController {
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("添加失败");
+            result.error500("修改失败");
         }
         return result;
 

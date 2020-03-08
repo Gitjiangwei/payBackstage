@@ -9,10 +9,12 @@ import org.hero.renche.mapper.VisitInfoMapper;
 import org.hero.renche.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class VisitServiceImpl implements VisitService {
 
     @Autowired

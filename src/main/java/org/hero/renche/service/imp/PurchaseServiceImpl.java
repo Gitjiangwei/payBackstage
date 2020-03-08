@@ -32,7 +32,6 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
     @Transactional
     @Override
     public PageInfo<PurchaseInfo> qryPurchaseInfo(PurchaseInfo purchaseInfo, Integer page, Integer pageSize) {
-
         PageHelper.startPage(page,pageSize);
         List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(purchaseInfo);
         return new PageInfo<PurchaseInfo>(purchaseInfoList);
@@ -86,8 +85,5 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         }
         return flag;
     }
-
-
-
 
 }
