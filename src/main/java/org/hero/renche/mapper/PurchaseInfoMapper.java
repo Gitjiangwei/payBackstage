@@ -3,6 +3,7 @@ package org.hero.renche.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.PurchaseInfo;
 
 import java.util.List;
@@ -19,5 +20,8 @@ public interface PurchaseInfoMapper extends BaseMapper<PurchaseInfo> {
 
 
     int updatePurchaseByIds(List<String> purchaseByIds);
+
+
+    int insertReceiving(List<EquipInfo> equipInfoList);
 
 }
