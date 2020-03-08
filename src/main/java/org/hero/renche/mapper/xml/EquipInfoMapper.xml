@@ -61,4 +61,10 @@
             </if>
         </trim>
     </select>
+
+
+    <select id="qryEquipKeyCount" resultType="int">
+        select count(1) from tx_equip_info
+        where purchase_id = #{purchaseId}
+    </select>
 </mapper>
