@@ -5,7 +5,7 @@
     
     <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.PurchaseInfo">
 
-        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,isarrival,arrival_time,create_time,total_price,remarks,file_rel_id
+        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,isarrival,arrival_time,create_time,total_price,remarks,file_rel_id,isstorage
         from tx_purchase_info
         <trim prefix="where" prefixOverrides="and">
             <if test="PurchaseInfo.purchaseItem != null and PurchaseInfo.purchaseItem != '' ">
@@ -17,11 +17,11 @@
             <if test="PurchaseInfo.isarrival != null and PurchaseInfo.isarrival != '' ">
                 and  isarrival = #{PurchaseInfo.isarrival}
             </if>
+            <if test="PurchaseInfo.isstorage != null and PurchaseInfo.isstorage != '' ">
+                and  isstorage = #{PurchaseInfo.isstorage}
+            </if>
             <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
                 and  purchase_time = #{PurchaseInfo.purchaseTime}
-            </if>
-            <if test="PurchaseInfo.purchaser != null and PurchaseInfo.purchaser != ''">
-                and purchase_id = #{PurchaseInfo.purchaseId}
             </if>
         </trim>
         order by create_time desc
@@ -35,5 +35,20 @@
             #{purchaseByIds}
         </foreach>
     </update>
+
+
+
+    <insert id="insertReceiving">
+
+        insert into insert into tx_equip_info(equip_id,equip_name,equip_model,equip_no,equip_price,purchase_id,create_time)
+        VALUES
+        <foreach collection="list" item="equipList" open="(" close=")" separator=",">
+            #{equipList.equipId},#{equipList.equipName},#{equipList.equipModel},#{equipList.equipNo},#{equipList.equipPrice},#{equipList.purchaseId},sysdate()
+        </foreach>
+
+
+)
+
+    </insert>
 
 </mapper>
