@@ -78,6 +78,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
         //执行线程
         new AsynTask().asyncTask(receivingMap);
+
+        System.out.println("11111111111111111111111");
         try {
             Thread.sleep(1000);
             flag = true;
@@ -87,7 +89,16 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         return flag;
     }
 
+    @Override
+    public Boolean qryPurchaseInfoKey(String purchaseId) {
 
+        String isstorage = purchaseInfoMapper.qryPurchaseInfoKey(purchaseId);
+        if(isstorage.equals("1")){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 
 }

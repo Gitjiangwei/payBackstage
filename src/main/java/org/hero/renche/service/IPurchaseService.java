@@ -43,4 +43,11 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
      * @return
      */
     boolean insertReceiving(PurchaseInfo purchaseInfo);
+
+    /**
+     * 监听设备入库情况
+     * @param purchaseId
+     * @return
+     */
+    Boolean qryPurchaseInfoKey(String purchaseId);
 }

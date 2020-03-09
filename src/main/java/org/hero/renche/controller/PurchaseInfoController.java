@@ -179,4 +179,17 @@ public class PurchaseInfoController {
         }
         return result;
     }
+
+
+    @GetMapping(value = "/qryPurchaseKey")
+    public Result<PurchaseInfo> qryPurchaseKey(@RequestParam(name = "purchaseId") String purchaseId){
+        Result<PurchaseInfo> result = new Result<>();
+        Boolean resultOk = IPurchaseService.qryPurchaseInfoKey(purchaseId);
+        if(resultOk){
+            result.success("1");
+        }else {
+            result.error500("2");
+        }
+        return result;
+    }
 }

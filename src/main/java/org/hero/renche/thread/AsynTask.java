@@ -54,12 +54,14 @@ public class AsynTask {
                     }
                     PurchaseInfoMapper purchaseInfoMapper = (PurchaseInfoMapper)map.get("purchaseInfoMapper");
                     resultCount[0] = purchaseInfoMapper.insertReceiving(equipInfoList1);
+                    int count = resultCount[0];
+                   if(count>0) {
+                       purchaseInfoMapper.updatePurchaseKey(map.get("purchaseId").toString());
+                    }
                 }
             });
             thread.start();
-            if(resultCount[0]>0) {
-                throw new AuthenticationException("设备“" + map.get("equipName") == null ? "" : map.get("equipName") + "”入库成功！");
-            }
+
         }catch (Exception e){
             e.printStackTrace();
             throw new AuthenticationException("设备“" + map.get("equipName") == null ? "" : map.get("equipName")+ "”入库失败！",e);
