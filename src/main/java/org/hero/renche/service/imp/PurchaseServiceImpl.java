@@ -32,7 +32,6 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
     @Transactional
     @Override
     public PageInfo<PurchaseInfo> qryPurchaseInfo(PurchaseInfo purchaseInfo, Integer page, Integer pageSize) {
-
         PageHelper.startPage(page,pageSize);
         List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(purchaseInfo);
         return new PageInfo<PurchaseInfo>(purchaseInfoList);
@@ -78,8 +77,6 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
         //执行线程
         new AsynTask().asyncTask(receivingMap);
-
-        System.out.println("11111111111111111111111");
         try {
             Thread.sleep(1000);
             flag = true;

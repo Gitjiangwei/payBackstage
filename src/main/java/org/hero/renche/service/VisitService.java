@@ -11,7 +11,7 @@ public interface VisitService {
     boolean addViditInfo(VisitInfo viditInfo);
 
 
-    boolean upViditInfo(String companyName, VisitInfo viditInfo);
+    boolean upViditInfo( VisitInfo viditInfo);
 
     boolean deleteVisitInfoById(String visitId);
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class CompanyInfoServiceImp extends ServiceImpl<CompanyInfoMapper, CompanyInfo> implements ICompanyInfoService {
 
     @Autowired

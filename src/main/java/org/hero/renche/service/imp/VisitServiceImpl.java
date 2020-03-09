@@ -9,10 +9,12 @@ import org.hero.renche.mapper.VisitInfoMapper;
 import org.hero.renche.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class VisitServiceImpl implements VisitService {
 
     @Autowired
@@ -35,18 +37,19 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public boolean upViditInfo(String companyName,VisitInfo viditInfo) {
-        String companyId=viditInfo.getCompanyId();
-        int b=companyInfoMapper.upCompanyNameById(companyName,companyId);
+    public boolean upViditInfo(VisitInfo viditInfo) {
         int i=visitInfoMapper.updateById(viditInfo);
-        if(i>0&&i>0){
+        if(i>0){
             return true;
         }else {
             return false;
         }
 
 
-    }
+        }
+
+
+
 
     @Override
     public boolean deleteVisitInfoById(String visitId) {

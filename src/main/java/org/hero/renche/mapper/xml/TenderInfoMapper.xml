@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.TenderInfoMapper">
 
+
+    <select id="qryTenderList" resultType="org.hero.renche.entity.TenderInfo">
+        SELECT *  FROM tx_tender_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
+                and  prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
+            </if>
+            <if test="TenderInfo.tenderNo != null and TenderInfo.tenderNo != '' ">
+                and  tender_no  like CONCAT('%',#{TenderInfo.tenderNo },'%')
+            </if>
+            <if test="TenderInfo.tenderCompany != null and TenderInfo.tenderCompany!= '' ">
+                and  tender_company  like CONCAT('%',#{TenderInfo.tenderCompany },'%')
+            </if>
+
+        </trim>
+        order by create_time desc
+    </select>
+
+
+    <insert id="addTenser" parameterType="org.hero.renche.entity.TenderInfo">
+        insert into  tx_tender_info
+        values (#{TenderInfo.tenderId},#{TenderInfo.tenderNo},
+        #{TenderInfo.prjName},#{TenderInfo.tenderCompany},
+        #{TenderInfo.tenderOffer},#{TenderInfo.deposit},
+        #{TenderInfo.isBack},#{TenderInfo.createTime})
+
+    </insert>
+
+
 </mapper>
