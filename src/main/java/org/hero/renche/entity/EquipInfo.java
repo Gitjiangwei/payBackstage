@@ -42,6 +42,8 @@ public class EquipInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
+    /**厂家设备编号*/
+    private String manufacoryNo;
 
 
 }
