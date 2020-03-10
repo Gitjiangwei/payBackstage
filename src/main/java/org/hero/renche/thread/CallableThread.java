@@ -52,7 +52,7 @@ public class CallableThread implements Callable<Integer> {
                     Map<String, String> receivingMap = new HashMap<String, String>();
                     for (int i = 1; i <= Integer.valueOf(map.get("equipCount") == null ? "0" : map.get("equipCount")); i++) {
                         equipInfo = new EquipInfo();
-                        receivingMap = DailyinComeNumberUtil.dailyinNumber(String.valueOf(i), thisEquipCount);
+                        receivingMap = DailyinComeNumberUtil.dailyinNumber(String.valueOf(i), thisEquipCount,map);
                         thisEquipCount = receivingMap.get("thisEquipCount");
                         equipInfo.setEquipId(UUID.randomUUID().toString().replace("-", ""));
                         equipInfo.setEquipName(equipName);
