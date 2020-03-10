@@ -29,6 +29,15 @@
     </insert>
 
 
+    <delete id="removeByIds">
+        delete from  tx_visit_info where visit_id in
+        <foreach collection="list" item="stringList" open="(" close=")" separator=",">
+            #{stringList}
+        </foreach>
+
+    </delete>
+
+
 
 
 </mapper>

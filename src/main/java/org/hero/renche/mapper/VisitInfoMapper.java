@@ -16,4 +16,5 @@ public interface VisitInfoMapper extends BaseMapper<VisitInfo> {
     List<VoViditInfo> qryListVisitInfo(@Param("VoViditInfo") VoViditInfo voViditInfo);
 
     Integer addVisitInfo(@Param("VisitInfo") VisitInfo visitInfo);
+    int  removeByIds(List<String> stringList);
 }
