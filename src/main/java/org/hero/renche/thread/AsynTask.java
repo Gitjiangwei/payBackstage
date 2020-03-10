@@ -37,11 +37,16 @@ public class AsynTask {
                         e.printStackTrace();
                     }
                     String thisEquipCount = map.get("thisEquipCounts").toString();
+                    Map<String,String> purchaseMap = new HashMap<String, String>();
+                    //设备名称
+                    purchaseMap.put("equipName",equipName);
+                    //设备型号
+                    purchaseMap.put("equipModel",map.get("equipModel").toString());
                     //入库生成设备编号
                     Map<String, String> receivingMap = new HashMap<String, String>();
                     for (int i = 1; i <= Integer.valueOf(map.get("equipCount").toString() == null ? "0" : map.get("equipCount").toString()); i++) {
                         EquipInfo equipInfo = new EquipInfo();
-                        receivingMap = DailyinComeNumberUtil.dailyinNumber(String.valueOf(i), thisEquipCount);
+                        receivingMap = DailyinComeNumberUtil.dailyinNumber(String.valueOf(i), thisEquipCount,purchaseMap);
                         thisEquipCount = receivingMap.get("thisEquipCount");
                         equipInfo.setEquipId(UUID.randomUUID().toString().replace("-", ""));
                         equipInfo.setEquipName(equipName);
@@ -54,12 +59,14 @@ public class AsynTask {
                     }
                     PurchaseInfoMapper purchaseInfoMapper = (PurchaseInfoMapper)map.get("purchaseInfoMapper");
                     resultCount[0] = purchaseInfoMapper.insertReceiving(equipInfoList1);
+                    int count = resultCount[0];
+                   if(count>0) {
+                       purchaseInfoMapper.updatePurchaseKey(map.get("purchaseId").toString());
+                    }
                 }
             });
             thread.start();
-            if(resultCount[0]>0) {
-                throw new AuthenticationException("设备“" + map.get("equipName") == null ? "" : map.get("equipName") + "”入库成功！");
-            }
+
         }catch (Exception e){
             e.printStackTrace();
             throw new AuthenticationException("设备“" + map.get("equipName") == null ? "" : map.get("equipName")+ "”入库失败！",e);
