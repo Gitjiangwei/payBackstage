@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.TenderInfo;
 
+import java.util.List;
+
 public interface TenderService {
 
     PageInfo<TenderInfo> qryTenderList(TenderInfo tenderInfo,Integer pageNo,Integer pageSize);
@@ -12,4 +14,5 @@ public interface TenderService {
     Boolean addTender(TenderInfo TenderInfo);
     Boolean deleteTenderInfoById(String id);
     boolean upTenderById(TenderInfo tenderInfo);
+    boolean deleteBatchTenderInfo(List<String> paramIds);
 }

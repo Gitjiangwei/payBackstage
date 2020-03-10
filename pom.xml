@@ -100,7 +100,13 @@
 		  <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
 		  <version>2.5.0</version>
 		</dependency>
-				
+		<!--拼音-->
+		<!-- https://mvnrepository.com/artifact/com.github.open-android/pinyin4j -->
+		<dependency>
+			<groupId>org.clojars.cbilson</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>		
 		<!-- json -->
 		<dependency>
          	<groupId>com.alibaba</groupId>

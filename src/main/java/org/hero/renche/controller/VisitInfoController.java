@@ -6,8 +6,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.controller.voentity.VoViditInfo;
+import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.service.ICompanyInfoService;
+import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.service.VisitService;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.BeanUtils;
@@ -20,10 +22,7 @@ import sun.misc.Request;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -92,7 +91,7 @@ public class VisitInfoController {
         visitInfo.setCompanyId(companyId);
         boolean bool=visitService.addViditInfo(visitInfo);
         result.setResult(visitInfo);
-        result.setSuccess(true);
+        result.success("添加成功！");
     }catch (Exception e){
         e.printStackTrace();
         log.info(e.getMessage());
@@ -132,7 +131,7 @@ public class VisitInfoController {
                 result.error500("修改失败");
             }
             result.setResult(voViditInfo);
-            result.setSuccess(true);
+            result.success("修改成功！");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -163,7 +162,7 @@ public class VisitInfoController {
            if(bo!=true){
                result.error500("删除失败，数据库删除不成功");
            }
-           result.setSuccess(true);
+           result.success("删除成功！");
 
        }catch (Exception e){
            e.printStackTrace();
@@ -197,6 +196,41 @@ public class VisitInfoController {
 
         return result;
 
+
+    }
+
+/**
+ * 批量删除客户拜访记录
+ * @param ids
+ * @param request
+ * @return
+ */
+
+    @ApiOperation(value ="删除客户拜访记录" , notes = "删除客户拜访数据列表" , produces = "application/json")
+    @DeleteMapping(value = "/deleteBatch")
+    public Result<String> deleteBatchVisitInfo(@RequestParam(value = "ids") String ids,HttpServletRequest request){
+        Result<String> result=new Result<>();
+        try{
+
+            System.out.println("================ids"+ids);
+            if(ids==null||"".equals(ids.trim())){
+                result.error500("参数丢失！");
+            }else{
+                boolean resultOk = visitService.removeByIds(Arrays.asList(ids.split(",")));
+                if(resultOk){
+                    result.success("批量删除成功！");
+                }
+            }
+
+            result.setSuccess(true);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("删除失败");
+        }
+
+        return result;
 
     }
 

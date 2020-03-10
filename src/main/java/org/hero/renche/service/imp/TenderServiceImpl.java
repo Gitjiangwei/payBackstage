@@ -61,4 +61,15 @@ public class TenderServiceImpl implements TenderService {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteBatchTenderInfo(List<String> paramIds) {
+       int i= tenderInfoMapper.deleteBatchTenderInfo(paramIds);
+
+        if(i==paramIds.size()){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
