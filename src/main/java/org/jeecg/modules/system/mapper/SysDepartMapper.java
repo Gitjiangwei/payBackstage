@@ -17,4 +17,7 @@ import java.util.List;
  * @Since：   2019-01-22
  */
 public interface SysDepartMapper extends BaseMapper<SysDepart> {
+
+
+    List<SysDepart> qryTreePurchase(@Param("witchCompany")String witchCompany);
 }

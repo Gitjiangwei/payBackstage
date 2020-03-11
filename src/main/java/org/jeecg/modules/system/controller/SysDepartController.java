@@ -40,7 +40,25 @@ public class SysDepartController {
 	public Result<List<SysDepartTreeModel>> queryTreeList() {
 		Result<List<SysDepartTreeModel>> result = new Result<>();
 		try {
-			List<SysDepartTreeModel> list = sysDepartService.queryTreeList();
+			List<SysDepartTreeModel> list = sysDepartService.queryTreeList("");
+			result.setResult(list);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 * 查询数据 查出采购来源商并以树结构数据格式响应给前端
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/queryTreeLists", method = RequestMethod.GET)
+	public Result<List<SysDepartTreeModel>> queryTreeLists() {
+		Result<List<SysDepartTreeModel>> result = new Result<>();
+		try {
+			List<SysDepartTreeModel> list = sysDepartService.queryTreeList("3");
 			result.setResult(list);
 			result.setSuccess(true);
 		} catch (Exception e) {

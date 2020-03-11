@@ -86,4 +86,16 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         return flag;
     }
 
+    @Override
+    public Boolean qryPurchaseInfoKey(String purchaseId) {
+
+        String isstorage = purchaseInfoMapper.qryPurchaseInfoKey(purchaseId);
+        if(isstorage.equals("1")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
 }

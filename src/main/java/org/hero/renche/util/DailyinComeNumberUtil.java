@@ -22,12 +22,15 @@ public class DailyinComeNumberUtil {
      * @param thisEquipCount 数据库的数量
      * @return
      */
-    public static Map<String,String> dailyinNumber(String purchaseNumber,String thisEquipCount){
+    public static Map<String,String> dailyinNumber(String purchaseNumber,String thisEquipCount,Map<String,String> purchaseMap){
         Map<String,String> map = new HashMap<String, String>();
         String number = "";
         //每个设备最大数为6位数
         String numberCount = "";
         int a = Integer.valueOf(thisEquipCount);
+        String purchaeName = purchaseMap.get("equipName")==null?"":purchaseMap.get("equipName");
+        String purchaseModel = purchaseMap.get("equipModel") == null?"":purchaseMap.get("equipModel");
+        String pinyinName = PinyinUtil.getPinYinHeadChar(purchaeName,true);
         //生成时间
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String date = format.format(new Date(System.currentTimeMillis()));
@@ -37,15 +40,14 @@ public class DailyinComeNumberUtil {
             for(int i = 0;i< num; i++){
                 numberCount = "0" + numberCount;
             }
-
-            number = "HEROSB-"+date+numberCount+thisEquipCount;
+            number = "HEROSB-"+pinyinName+purchaseModel+"-"+date+numberCount+thisEquipCount;
         }else{
             thisEquipCount =  String.valueOf(a+1);
             int num = 6 - purchaseNumber.length();
             for(int i = 0;i< num; i++){
                 numberCount = "0" + numberCount;
             }
-            number = "HEROSB-"+date+numberCount+thisEquipCount;
+            number = "HEROSB-"+pinyinName+purchaseModel+"-"+date+numberCount+thisEquipCount;
         }
         map.put("thisEquipCount",thisEquipCount);
         map.put("num",number);
@@ -55,12 +57,16 @@ public class DailyinComeNumberUtil {
     public static void main(String[] args){
         String thisEquipCount = "98";
         Map<String,String> map = new HashMap<String,String>();
+        Map<String,String> purchaseMap = new HashMap<String,String>();
+        purchaseMap.put("equipName","空调");
+        //设备型号
+        purchaseMap.put("equipModel","X90");
         map.put("",thisEquipCount);
-     /*  for (int i = 1; i<=10; i++) {
-           map = dailyinNumber(String.valueOf(i),thisEquipCount );
+       for (int i = 1; i<=10; i++) {
+           map = dailyinNumber(String.valueOf(i),thisEquipCount,purchaseMap);
            thisEquipCount = map.get("thisEquipCount");
            System.out.println(map.get("num"));
-       }*/
+       }
 
 
        try {

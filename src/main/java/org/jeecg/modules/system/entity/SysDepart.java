@@ -69,6 +69,9 @@ public class SysDepart implements Serializable {
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+
+	/**标记是否为设备采购来源商*/
+	private String witchCompany;
 	
 	/**
 	 * 重写equals方法
@@ -97,7 +100,8 @@ public class SysDepart implements Serializable {
                 Objects.equals(createBy, depart.createBy) &&
                 Objects.equals(createTime, depart.createTime) &&
                 Objects.equals(updateBy, depart.updateBy) &&
-                Objects.equals(updateTime, depart.updateTime);
+                Objects.equals(updateTime, depart.updateTime) &&
+				Objects.equals(witchCompany,depart.witchCompany);
     }
 
     /**
@@ -109,6 +113,6 @@ public class SysDepart implements Serializable {
         return Objects.hash(super.hashCode(), id, parentId, departName, 
         		departNameEn, departNameAbbr, departOrder, description, 
         		orgType, orgCode, mobile, fax, address, memo, status, 
-        		delFlag, createBy, createTime, updateBy, updateTime);
+        		delFlag, createBy, createTime, updateBy, updateTime,witchCompany);
     }
 }

@@ -21,4 +21,7 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
 
     int qryEquipKeyCount(@Param("purchaseId") String purchaseId);
 
+
+    int updateDetailEquipInfo(@Param("equipInfo") EquipInfo equipInfo);
+
 }

@@ -49,7 +49,7 @@
 
 
     <select id="qryEquipListKey" resultType="org.hero.renche.entity.EquipInfo">
-        select a.equip_id,a.equip_no,equip_price,a.`condition`,a.use_times,b.dict_code_id as 'equipStatus' from tx_equip_info a
+        select a.equip_id,a.equip_name,a.equip_no,equip_price,a.`condition`,a.use_times,b.dict_code_id as 'equipStatus',a.manufacory_no from tx_equip_info a
         LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
         <trim prefix="where" prefixOverrides="and">
             a.purchase_id = #{equipInfo.purchaseId}
@@ -67,4 +67,24 @@
         select count(1) from tx_equip_info
         where purchase_id = #{purchaseId}
     </select>
+
+
+    <update id="updateDetailEquipInfo" >
+        update  tx_equip_info a
+        <trim  prefix="set" suffixOverrides=",">
+            <if test="equipInfo.equipStatus != null and equipInfo.equipStatus != '' ">
+                a.equip_status = #{equipInfo.equipStatus},
+            </if>
+            <if test="equipInfo.condition != null and equipInfo.condition != '' ">
+                a.condition = #{equipInfo.condition},
+            </if>
+            <if test="equipInfo.manufacoryNo !=null and equipInfo.manufacoryNo != '' ">
+                a.manufacory_no = #{equipInfo.manufacoryNo},
+            </if>
+            <if test="equipInfo.useTimes !=null and equipInfo.useTimes != '' ">
+                a.use_times = #{equipInfo.useTimes},
+            </if>
+        </trim>
+        where equip_id = #{equipInfo.equipId}
+    </update>
 </mapper>

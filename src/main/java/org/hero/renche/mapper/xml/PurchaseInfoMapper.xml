@@ -40,10 +40,10 @@
 
     <insert id="insertReceiving">
 
-        insert into insert into tx_equip_info(equip_id,equip_name,equip_model,equip_no,equip_price,purchase_id,create_time)
+        insert into tx_equip_info(equip_id,equip_name,equip_model,equip_no,equip_price,purchase_id,create_time)
         VALUES
-        <foreach collection="list" item="equipList" open="(" close=")" separator=",">
-            #{equipList.equipId},#{equipList.equipName},#{equipList.equipModel},#{equipList.equipNo},#{equipList.equipPrice},#{equipList.purchaseId},sysdate()
+        <foreach collection="list" item="equipList"  separator=")," >
+            (#{equipList.equipId},#{equipList.equipName},#{equipList.equipModel},#{equipList.equipNo},#{equipList.equipPrice},#{equipList.purchaseId},sysdate()
         </foreach>
 
 
@@ -51,4 +51,13 @@
 
     </insert>
 
+
+    <select id="qryPurchaseInfoKey" resultType="String">
+        select isstorage from tx_purchase_info where purchase_Id=#{purchaseId}
+    </select>
+
+    <update id="updatePurchaseKey">
+         UPDATE tx_purchase_info set isstorage = '1'
+         where purchase_id=#{purchaseById}
+    </update>
 </mapper>
