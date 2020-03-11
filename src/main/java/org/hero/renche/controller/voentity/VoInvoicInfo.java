@@ -1,32 +1,24 @@
-package org.hero.renche.entity;
+package org.hero.renche.controller.voentity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 发票信息表
- *
- */
 @Data
-@TableName("tx_invoci_info")
-public class InvociInfo implements Serializable {
+public class VoInvoicInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**ID*/
-    @TableId(type = IdType.UUID)
     private String invociId;
     /**发票名称*/
     private String invociName;
     /**开票时间*/
-    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date invociTime;
     /**发票内容*/
     private String content;
@@ -40,12 +32,16 @@ public class InvociInfo implements Serializable {
     private String bank;
     /**银行账号*/
     private String bankNo;
+    /**创建时间*/
+    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
+     /*附件数量*/
+    private int fileRelNum;
+    /*附件名称*/
+    private String fileName;
     /**附件关联id*/
     private String fileRelId;
-    /**创建时间*/
-    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd ")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
 
 
 }

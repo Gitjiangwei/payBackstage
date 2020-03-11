@@ -33,7 +33,6 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public boolean addViditInfo(VisitInfo viditInfo) {
         Integer falg=visitInfoMapper.addVisitInfo(viditInfo);
-        System.out.println("======falg======"+falg);
         return true;
     }
 
