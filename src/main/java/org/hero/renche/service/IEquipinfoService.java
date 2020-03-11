@@ -26,4 +26,12 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     PageInfo<EquipInfo> qryEquipListKeyDetail(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
+
+
+    /**
+     * 修改设备库存的数据
+     * @param equipInfo
+     * @return
+     */
+    Boolean updateDetailEquipInfo(EquipInfo equipInfo);
 }

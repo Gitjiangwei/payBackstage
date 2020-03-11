@@ -31,6 +31,7 @@ public class SysDepartServiceImpl<T> extends ServiceImpl<SysDepartMapper, SysDep
 	// 该集合用来存储部门下的所有数据
 	private List<SysDepart> globalList = new ArrayList<>();
 
+	private String caig;
 
 	/**
 	 * queryTreeList 对应 queryTreeList 查询所有的部门数据,以树结构形式响应给前端
@@ -38,6 +39,9 @@ public class SysDepartServiceImpl<T> extends ServiceImpl<SysDepartMapper, SysDep
 	@Override
 	public List<SysDepartTreeModel> queryTreeList() {
 		LambdaQueryWrapper<SysDepart> query = new LambdaQueryWrapper<SysDepart>();
+		if(caig!=null&&!"".equals(caig.trim())){
+			query.eq(SysDepart::getWitchCompany, caig);
+		}
 		query.eq(SysDepart::getDelFlag, 0);
 		query.orderByAsc(SysDepart::getDepartOrder);
 		List<SysDepart> list = sysDepartService.list(query);
@@ -45,6 +49,16 @@ public class SysDepartServiceImpl<T> extends ServiceImpl<SysDepartMapper, SysDep
 		// 调用wrapTreeDataToTreeList方法生成树状数据
 		List<SysDepartTreeModel> listResult = FindsDepartsChildrenUtil.wrapTreeDataToTreeList(list);
 		return listResult;
+	}
+
+	/**
+	 * queryTreeList 对应 queryTreeList 查询所有的部门数据,以树结构形式响应给前端
+	 */
+	@Override
+	public List<SysDepartTreeModel> queryTreeList(String caig) {
+		this.caig = caig;
+		List<SysDepartTreeModel>  queryTreeList = queryTreeList();
+		return queryTreeList;
 	}
 
 	/**
@@ -77,8 +91,8 @@ public class SysDepartServiceImpl<T> extends ServiceImpl<SysDepartMapper, SysDep
 	 * saveDepartData 的调用方法,生成部门编码和部门类型
 	 * 
 	 * @param parentId
-	 * @param strArray
-	 * @param departList
+	 * @param
+	 * @param
 	 * @return
 	 */
 	private String[] generateOrgCode(String parentId) {	

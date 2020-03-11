@@ -35,4 +35,15 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
         List<EquipInfo> equipInfoList = equipInfoMapper.qryEquipListKey(equipInfo);
         return new PageInfo<EquipInfo>(equipInfoList);
     }
+
+    @Override
+    public Boolean updateDetailEquipInfo(EquipInfo equipInfo) {
+        Boolean flag = false;
+        int resultOk = equipInfoMapper.updateDetailEquipInfo(equipInfo);
+        if(resultOk>0){
+            flag = true;
+        }
+
+        return flag;
+    }
 }

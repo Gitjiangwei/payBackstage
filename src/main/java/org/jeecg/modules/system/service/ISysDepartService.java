@@ -23,6 +23,12 @@ public interface ISysDepartService extends IService<SysDepart>{
     List<SysDepartTreeModel> queryTreeList();
 
     /**
+     * 查询设备来源商信息,并分节点进行显示
+     * @return
+     */
+    List<SysDepartTreeModel> queryTreeList(String caig);
+
+    /**
      * 保存部门数据
      * @param sysDepart
      */

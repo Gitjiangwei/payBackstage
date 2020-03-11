@@ -6,10 +6,9 @@ import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
 import org.hero.renche.service.IEquipinfoService;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +59,27 @@ public class EquipInfoController {
         PageInfo<EquipInfo> equipInfoPageInfo = equipinfoService.qryEquipListKeyDetail(equipInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(equipInfoPageInfo);
+        return result;
+    }
+
+
+    @AutoLog("修改设备库存数据")
+    @PostMapping(value = "/equipKeyDetail")
+    public Result<EquipInfo> updateDetailEquipInfo(@RequestBody EquipInfo equipInfo){
+        Result<EquipInfo> result = new Result<>();
+        if(equipInfo.getEquipId()==null || equipInfo.getEquipId().equals("")){
+            result.error500("参数丢失！");
+        }else {
+            if(equipInfo.getEquipStatus()!=null && equipInfo.getEquipStatus().equals("INREPAIR")){
+                equipInfo.setEquipStatus("0bd710ac593811eaab75b4a9fc4b5236");
+            }
+            Boolean resultOk = equipinfoService.updateDetailEquipInfo(equipInfo);
+            if(resultOk){
+                result.success("修改成功！");
+            }else {
+                result.error500("修改失败！");
+            }
+        }
         return result;
     }
 }
