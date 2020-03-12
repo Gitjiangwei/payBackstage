@@ -14,4 +14,8 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfo> {
 
     List<CompanyInfo> qryListCompanyInfo(@Param("CompanyInfo") CompanyInfo companyInfo);
 
+    List<String> getIds(String companyName);
+
+    String checkNameIsExsit(String companyNAme);
+
 }

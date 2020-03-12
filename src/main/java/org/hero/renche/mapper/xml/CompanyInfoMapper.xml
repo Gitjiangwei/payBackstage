@@ -20,4 +20,12 @@
         order by create_time desc
     </select>
 
+    <select id="getIds" resultType="java.lang.String">
+        select company_id from tx_company_info where company_name like CONCAT('%',#{companyName},'%')
+    </select>
+
+    <select id="checkNameIsExsit" resultType="java.lang.String">
+        select company_id from tx_company_info where company_name  = #{companyName}
+    </select>
+
 </mapper>

@@ -3,9 +3,12 @@ package org.hero.renche.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 工程点信息表
@@ -38,11 +41,15 @@ public class ProjectItemInfo implements Serializable {
     /**工程进度*/
     private String progressOfItem;
     /**进场时间*/
-    private String entryTime;
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date entryTime;
     /**完成时间*/
-    private String finishTime;
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd ")
+    private Date finishTime;
     /**创建时间*/
-    private String createTime;
+    private Date createTime;
 
 
 }
