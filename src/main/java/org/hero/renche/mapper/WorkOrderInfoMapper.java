@@ -13,4 +13,6 @@ import java.util.List;
 public interface WorkOrderInfoMapper extends BaseMapper<WorkOrderInfo> {
 
     List<WorkOrderInfo> qryWorkOrderInfoList(@Param("WorkOrderInfo") WorkOrderInfo workOrderInfo);
+
+    int addWorkOrderInfo(@Param("WorkOrderInfo") WorkOrderInfo workOrderInfo);
 }

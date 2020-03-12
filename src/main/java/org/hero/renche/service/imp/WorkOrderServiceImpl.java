@@ -28,7 +28,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Override
     public boolean addWorkOrderInfo(WorkOrderInfo workOrderInfo) {
 
-        int i=workOrderInfoMapper.insert(workOrderInfo);
+        int i=workOrderInfoMapper.addWorkOrderInfo(workOrderInfo);
         if(i>0){
             return  true;
         }else {

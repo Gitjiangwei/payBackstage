@@ -55,10 +55,16 @@ public class WorkOrderInfoController {
         return  result;
     }
 
+    /**添加工单信息
+     *
+     * @param workOrderInfo
+     * @param request
+     * @return
+     */
 
     @ApiOperation( value = "添加工单信息" , notes = "添加工单信息" , produces = "application/json")
     @PostMapping("/addWorkOrderInfo")
-    public Result<WorkOrderInfo> addWorkOrderInfo(WorkOrderInfo workOrderInfo ){
+    public Result<WorkOrderInfo> addWorkOrderInfo(@RequestBody  WorkOrderInfo workOrderInfo  ){
          Result<WorkOrderInfo>  result=new Result<>();
          try {
              if(workOrderInfo==null){
