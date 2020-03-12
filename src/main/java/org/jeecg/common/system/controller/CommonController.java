@@ -83,7 +83,7 @@ public class CommonController {
 	 * @param request
 	 * @param response
 	 */
-	@GetMapping(value = "/view/**")
+	@PostMapping(value = "/view/**")
 	public void view(HttpServletRequest request, HttpServletResponse response) {
 		// ISO-8859-1 ==> UTF-8 进行编码转换
 		String imgPath = extractPathFromPattern(request);
@@ -100,11 +100,11 @@ public class CommonController {
 			String imgurl = localPath + File.separator + imgPath;
 			inputStream = new BufferedInputStream(new FileInputStream(imgurl));
 			outputStream = response.getOutputStream();
-			byte[] buf = new byte[1024];
+/*			byte[] buf = new byte[1024];
 			int len;
 			while ((len = inputStream.read(buf)) > 0) {
 				outputStream.write(buf, 0, len);
-			}
+			}*/
 			response.flushBuffer();
 		} catch (IOException e) {
 			log.info("预览图片失败" + e.getMessage());
