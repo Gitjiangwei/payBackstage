@@ -71,7 +71,7 @@ public class CompanyInfoController {
 
     /**
      * 编辑
-     * @param jeecgDemo
+     * @param companyInfo
      * @return
      */
     @PutMapping(value = "/edit")
@@ -129,6 +129,31 @@ public class CompanyInfoController {
             this.companyInfoService.removeByIds(Arrays.asList(ids.split(",")));
             result.success("删除成功!");
         }
+        return result;
+    }
+
+    /**
+     * 根据公司名称判断公司是否存在
+     *
+     * @param name
+     * @return
+     */
+    @AutoLog(value = "根据公司名称判断公司是否存在")
+    @GetMapping(value = "/checkNameIsExsit")
+    public Result<CompanyInfo> checkNameIsExsit(@RequestParam(name = "name", required = true) String name) {
+        Result<CompanyInfo> result = new Result<CompanyInfo>();
+        if (name == null || "".equals(name.trim())) {
+            result.error500("参数不识别！");
+        } else {
+            String id = companyInfoService.checkNameIsExsit(name);
+            if (id != null && !"".equals(id)) {
+                result.success(id);
+            }else{
+                result.success("该公司不存在，请先维护!");
+                result.setSuccess(false);
+            }
+        }
+
         return result;
     }
 

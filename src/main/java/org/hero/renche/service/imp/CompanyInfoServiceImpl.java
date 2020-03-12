@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class CompanyInfoServiceImp extends ServiceImpl<CompanyInfoMapper, CompanyInfo> implements ICompanyInfoService {
+public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, CompanyInfo> implements ICompanyInfoService {
 
     @Autowired
     private CompanyInfoMapper companyInfoMapper;
@@ -27,13 +27,23 @@ public class CompanyInfoServiceImp extends ServiceImpl<CompanyInfoMapper, Compan
         return companyId;
     }
 
-    @Transactional
     @Override
     public PageInfo<CompanyInfo> qryCompanyInfo(CompanyInfo companyInfo, Integer page, Integer pageSize) {
 
         PageHelper.startPage(page,pageSize);
         List<CompanyInfo> companyInfoList = companyInfoMapper.qryListCompanyInfo(companyInfo);
         return new PageInfo<CompanyInfo>(companyInfoList);
+    }
+
+    @Override
+    public List<String> getIds(String companyName){
+        return companyInfoMapper.getIds(companyName);
+    }
+
+    @Override
+    public String checkNameIsExsit(String companyName){
+        String id = companyInfoMapper.checkNameIsExsit(companyName);
+        return id;
     }
 
     @Override

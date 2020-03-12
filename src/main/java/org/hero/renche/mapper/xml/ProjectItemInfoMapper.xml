@@ -2,4 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.ProjectItemInfoMapper">
 
+    <select id="qryListProjectItemInfo" resultType="org.hero.renche.entity.vo.ProjectItemVo">
+
+        select prj_item_id as prjItemId,prj_item_name as prjItemName,prj_item_num as prjItemNum,prj_item_type as prjItemType,
+            prj_name as prjName,company_name as companyName,belong_company as belongCompany,person_in_charge as personInCharge,
+            person_tel as personTel,progress_of_item as progressOfItem,entry_time as entryTime,finish_time as finishTime,prj_item_place as prjItemPlace
+        from tx_project_item t
+        left join tx_company_info c on t.belong_company = c.company_Id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="ProjectItemInfo.prjItemName != null and ProjectItemInfo.prjItemName != '' ">
+                and  prj_item_name like #{ProjectItemInfo.prjItemName}
+            </if>
+            <if test="ProjectItemInfo.prjName != null and ProjectItemInfo.prjName != '' ">
+                and  prj_name  like #{ProjectItemInfo.prjName}
+            </if>
+            <if test="ProjectItemInfo.prjItemType != null and ProjectItemInfo.prjItemType != '' ">
+                and  prj_item_type = #{ProjectItemInfo.prjItemType}
+            </if>
+            <if test="ProjectItemInfo.belongCompany != null and ProjectItemInfo.belongCompany != '' ">
+                and  c.company_name like #{ProjectItemInfo.belongCompany}
+            </if>
+            <if test="ProjectItemInfo.prjItemNum != null and ProjectItemInfo.prjItemNum != '' ">
+                and  prj_item_num like #{ProjectItemInfo.prjItemNum}
+            </if>
+            <if test="ProjectItemInfo.personInCharge != null and ProjectItemInfo.personInCharge != '' ">
+                and  person_in_charge like #{ProjectItemInfo.personInCharge}
+            </if>
+            <if test="ProjectItemInfo.progressOfItem != null and ProjectItemInfo.progressOfItem != '' ">
+                and  progress_of_item like #{ProjectItemInfo.progressOfItem}
+            </if>
+            <if test="ProjectItemInfo.entryTime != null ">
+                and  entry_time = #{ProjectItemInfo.entryTime}
+            </if>
+            <if test="ProjectItemInfo.finishTime != null ">
+                and  finish_time = #{ProjectItemInfo.finishTime}
+            </if>
+
+        </trim>
+        order by t.create_time desc
+    </select>
+
 </mapper>

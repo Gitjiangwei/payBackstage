@@ -3,9 +3,12 @@ package org.hero.renche.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 合同信息表
@@ -42,6 +45,8 @@ public class ContractInfo implements Serializable {
     /**备注*/
     private String remark;
     /**要求部署时间*/
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private String requireDeployTime;
     /**招标id*/
     private String tenderId;
@@ -50,6 +55,6 @@ public class ContractInfo implements Serializable {
     /**扫描件上传附件关联id*/
     private String fileRelId;
     /**创建时间*/
-    private String createTime;
+    private Date createTime;
 
 }
