@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.CompanyInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户信息 Mapper 接口
@@ -12,7 +13,17 @@ import java.util.List;
  */
 public interface CompanyInfoMapper extends BaseMapper<CompanyInfo> {
 
-    List<CompanyInfo> qryListCompanyInfo(@Param("CompanyInfo") CompanyInfo companyInfo);
+    String qryCompanyIdByname(String CompanyName);
+
+    List<CompanyInfo> qryListCompanyInfo(CompanyInfo companyInfo);
+
+/*
+
+    int upCompanyNameById(@Param(value = "companyName") String companyName, @Param(value = "companyId") String companyId);
+*/
+
+    List qryCompanyNames();
+    List<Map<String, String>> qryCompanyName();
 
     List<String> getIds(String companyName);
 

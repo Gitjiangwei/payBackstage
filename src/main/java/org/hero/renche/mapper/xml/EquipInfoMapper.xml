@@ -2,4 +2,89 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.EquipInfoMapper">
 
+
+    <select id="qryEquipList" parameterType="Map" resultType="org.hero.renche.entity.modelData.EquipinfoModel">
+
+
+        select b.purchase_id, b.equip_name,b.create_time,b.equip_model,count(1) as 'count',count(c.couns) as 'inuse_count',count(d.couns) as 'free_count',count(e.couns) as 'maintenonce_count',
+        count(g.couns) as 'scrip_count'
+        from tx_equip_info b
+        LEFT JOIN (
+            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+          where b.dict_code_name = '使用中'
+            GROUP BY a.equip_status,equip_id
+        )c  ON  b.equip_id  = c.equip_id
+        LEFT JOIN (
+            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+          where b.dict_code_name = '空闲'
+            GROUP BY a.equip_status,equip_id
+        )d  ON  b.equip_id  = d.equip_id
+        LEFT JOIN (
+            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+          where b.dict_code_name = '维修中'
+            GROUP BY a.equip_status,equip_id
+        )e  ON  b.equip_id  = e.equip_id
+        LEFT JOIN (
+            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+            where b.dict_code_name = '报废'
+            GROUP BY a.equip_status,equip_id
+        )g  ON  b.equip_id  = g.equip_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="equip.equipName != null and equip.equipName != '' ">
+                and b.equip_name like CONCAT('%',#{equip.equipName},'%')
+            </if>
+            <if test="equip.equipModel != null and equip.equipModel != '' ">
+                and b.equip_model like CONCAT('%',#{equip.equipModel},'%')
+        </if>
+        </trim>
+
+
+        GROUP BY b.purchase_id ORDER BY b.create_time
+
+    </select>
+
+
+    <select id="qryEquipListKey" resultType="org.hero.renche.entity.EquipInfo">
+        select a.equip_id,a.equip_name,a.equip_no,equip_price,a.`condition`,a.use_times,b.dict_code_id as 'equipStatus',a.manufacory_no from tx_equip_info a
+        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+        <trim prefix="where" prefixOverrides="and">
+            a.purchase_id = #{equipInfo.purchaseId}
+            <if test="equipInfo.equipNo!=null and equipInfo.equipNo != '' ">
+                and a.equip_no like CONCAT('%',#{equipInfo.equipNo},'%',)
+            </if>
+            <if test="equipInfo.equipStatus != null and equipInfo.equipStatus != '' ">
+                and b.dict_code_id = #{equipInfo.equipStatus}
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="qryEquipKeyCount" resultType="int">
+        select count(1) from tx_equip_info
+        where purchase_id = #{purchaseId}
+    </select>
+
+
+    <update id="updateDetailEquipInfo" >
+        update  tx_equip_info a
+        <trim  prefix="set" suffixOverrides=",">
+            <if test="equipInfo.equipStatus != null and equipInfo.equipStatus != '' ">
+                a.equip_status = #{equipInfo.equipStatus},
+            </if>
+            <if test="equipInfo.condition != null and equipInfo.condition != '' ">
+                a.condition = #{equipInfo.condition},
+            </if>
+            <if test="equipInfo.manufacoryNo !=null and equipInfo.manufacoryNo != '' ">
+                a.manufacory_no = #{equipInfo.manufacoryNo},
+            </if>
+            <if test="equipInfo.useTimes !=null and equipInfo.useTimes != '' ">
+                a.use_times = #{equipInfo.useTimes},
+            </if>
+        </trim>
+        where equip_id = #{equipInfo.equipId}
+    </update>
 </mapper>

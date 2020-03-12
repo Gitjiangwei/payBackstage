@@ -3,9 +3,12 @@ package org.hero.renche.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 客户拜访记录表
@@ -22,7 +25,9 @@ public class VisitInfo  implements Serializable {
     /**客户信息id*/
     private String companyId;
     /**拜访时间*/
-    private String visitTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date visitTime;
     /**拜访人*/
     private String visitor;
     /**拜访方式*/

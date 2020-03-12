@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 采购设备接口
  */
-public interface PurchaseService extends IService<PurchaseInfo> {
+public interface IPurchaseService extends IService<PurchaseInfo> {
 
 
     /**
@@ -36,4 +36,18 @@ public interface PurchaseService extends IService<PurchaseInfo> {
      * @return
      */
     boolean updatePurchaseIds(String ids);
+
+    /**
+     * 设备入库
+     * @param purchaseInfo
+     * @return
+     */
+    boolean insertReceiving(PurchaseInfo purchaseInfo);
+
+    /**
+     * 监听设备入库情况
+     * @param purchaseId
+     * @return
+     */
+    Boolean qryPurchaseInfoKey(String purchaseId);
 }

@@ -70,6 +70,8 @@ public class SysDepartTreeModel implements Serializable{
 
     private Date updateTime;
 
+    private String witchCompany;
+
     private List<SysDepartTreeModel> children = new ArrayList<>();
 
 
@@ -100,6 +102,7 @@ public class SysDepartTreeModel implements Serializable{
         this.createTime = sysDepart.getCreateTime();
         this.updateBy = sysDepart.getUpdateBy();
         this.updateTime = sysDepart.getUpdateTime();
+        this.witchCompany = sysDepart.getWitchCompany();
     }
     
     
@@ -297,6 +300,14 @@ public class SysDepartTreeModel implements Serializable{
         this.updateTime = updateTime;
     }
 
+    public String getWitchCompany() {
+        return witchCompany;
+    }
+
+    public void setWitchCompany(String witchCompany) {
+        this.witchCompany = witchCompany;
+    }
+
     public SysDepartTreeModel() { }
 
     /**
@@ -326,7 +337,8 @@ public class SysDepartTreeModel implements Serializable{
                 Objects.equals(createTime, model.createTime) &&
                 Objects.equals(updateBy, model.updateBy) &&
                 Objects.equals(updateTime, model.updateTime) &&
-                Objects.equals(children, model.children);
+                Objects.equals(children, model.children) &&
+                Objects.equals(witchCompany,model.witchCompany);
     }
     
     /**
@@ -338,7 +350,7 @@ public class SysDepartTreeModel implements Serializable{
         return Objects.hash(id, parentId, departName, departNameEn, departNameAbbr,
         		departOrder, description, orgType, orgCode, mobile, fax, address, 
         		memo, status, delFlag, createBy, createTime, updateBy, updateTime, 
-        		children);
+        		children,witchCompany);
     }
 
 }

@@ -5,8 +5,10 @@
     
     <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.PurchaseInfo">
 
-        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,isarrival,arrival_time,create_time,total_price,remarks,file_rel_id
-        from tx_purchase_info
+        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,b.depart_name as 'whichCompany',
+        isarrival,arrival_time,a.create_time,total_price,remarks,file_rel_id,isstorage
+        from tx_purchase_info a
+        LEFT JOIN sys_depart b on a.which_company = b.id
         <trim prefix="where" prefixOverrides="and">
             <if test="PurchaseInfo.purchaseItem != null and PurchaseInfo.purchaseItem != '' ">
               and  purchase_item like CONCAT('%',#{PurchaseInfo.purchaseItem},'%')
@@ -17,11 +19,11 @@
             <if test="PurchaseInfo.isarrival != null and PurchaseInfo.isarrival != '' ">
                 and  isarrival = #{PurchaseInfo.isarrival}
             </if>
+            <if test="PurchaseInfo.isstorage != null and PurchaseInfo.isstorage != '' ">
+                and  isstorage = #{PurchaseInfo.isstorage}
+            </if>
             <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
                 and  purchase_time = #{PurchaseInfo.purchaseTime}
-            </if>
-            <if test="PurchaseInfo.purchaser != null and PurchaseInfo.purchaser != ''">
-                and purchase_id = #{PurchaseInfo.purchaseId}
             </if>
         </trim>
         order by create_time desc
@@ -36,4 +38,28 @@
         </foreach>
     </update>
 
+
+
+    <insert id="insertReceiving">
+
+        insert into tx_equip_info(equip_id,equip_name,equip_model,equip_no,equip_price,purchase_id,create_time)
+        VALUES
+        <foreach collection="list" item="equipList"  separator=")," >
+            (#{equipList.equipId},#{equipList.equipName},#{equipList.equipModel},#{equipList.equipNo},#{equipList.equipPrice},#{equipList.purchaseId},sysdate()
+        </foreach>
+
+
+)
+
+    </insert>
+
+
+    <select id="qryPurchaseInfoKey" resultType="String">
+        select isstorage from tx_purchase_info where purchase_Id=#{purchaseId}
+    </select>
+
+    <update id="updatePurchaseKey">
+         UPDATE tx_purchase_info set isstorage = '1'
+         where purchase_id=#{purchaseById}
+    </update>
 </mapper>

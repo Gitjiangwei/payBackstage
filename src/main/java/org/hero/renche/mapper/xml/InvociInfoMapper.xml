@@ -2,4 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.InvociInfoMapper">
 
+
+    <select id="qryVoInvoicInfoList" resultType="org.hero.renche.controller.voentity.VoInvoicInfo">
+      SELECT
+	a.invoci_id,
+	a.invoci_name,
+	a.invoci_time,
+	a.content,
+	a.shuihao,
+	a.address,
+	a.tel,
+	a.bank,
+	a.bank_no,
+	a.create_time,
+	b.file_name,
+	b.file_url,
+	b.file_id
+FROM
+	tx_invoci_info a
+	left join tx_file_rel b ON a.file_rel_id = b.file_rel_id
+	<trim prefix="where" prefixOverrides="and">
+        <if test="VoInvoicInfo.invociName !=null and VoInvoicInfo.invociName != '' ">
+            and  a.invoci_name like CONCAT('%',#{VoInvoicInfo.invociName},'%')
+        </if>
+
+        <if test="VoInvoicInfo.shuihao !=null and VoInvoicInfo.shuihao != '' "  >
+            and a.shuihao like CONCAT('%',#{VoInvoicInfo.shuihao},'%')
+        </if>
+
+        <if test="VoInvoicInfo.invociTime != null and VoInvoicInfo.invociTime != '' ">
+            and  a.invoci_time = #{VoInvoicInfo.invociTime}
+        </if>
+
+    </trim>
+		order by a.create_time desc
+
+    </select>
+<!--
+	<insert id="addInvoic" parameterType="org.hero.renche.controller.voentity.VoInvoicInfo">
+		INSERT INTO tx_invoci_info
+		( invoci_id, invoci_name, invoci_time,
+		 content, shuihao, address, tel, bank,
+		 bank_no, file_rel_id, create_Time )
+		VALUES(
+		#{VoInvoicInfo.invociId},#{VoInvoicInfo.invociName},#{VoInvoicInfo.invociTime},
+		#{VoInvoicInfo.content},#{VoInvoicInfo.shuihao},#{VoInvoicInfo.address},
+		#{VoInvoicInfo.tel},#{VoInvoicInfo.bank},#{VoInvoicInfo.bankNo}，
+		#{VoInvoicInfo.fileRelId},#{VoInvoicInfo.createTime}
+
+		)
+
+
+
+	</insert>-->
+
+
+
+	<insert id="addInvoic" parameterType="org.hero.renche.entity.InvociInfo">
+		INSERT INTO tx_invoci_info
+		( invoci_id, invoci_name, invoci_time, content, shuihao, address, tel, bank, bank_no, file_rel_id, create_Time )
+
+		VALUES(
+		#{InvociInfo.invociId},#{InvociInfo.invociName},#{InvociInfo.invociTime},
+		#{InvociInfo.content},#{InvociInfo.shuihao},#{InvociInfo.address},
+		#{InvociInfo.tel},#{InvociInfo.bank},#{InvociInfo.bankNo},
+		#{InvociInfo.fileRelId},#{InvociInfo.createTime}
+
+		)
+
+
+
+	</insert>
+
+	<update id="updateInvoicById"  parameterType="org.hero.renche.entity.InvociInfo">
+		update tx_invoci_info
+		set invoci_name=#{InvociInfo.invociName} , invoci_time=#{InvociInfo.invociTime} ,
+		 content = #{InvociInfo.content} , shuihao = #{InvociInfo.shuihao} ,
+		address = #{InvociInfo.address} , tel = #{InvociInfo.tel} ,
+		 bank = #{InvociInfo.bank} , bank_no = #{InvociInfo.bankNo} ,
+		 file_rel_id = #{InvociInfo.fileRelId} where invoci_id = #{InvociInfo.invociId}
+	</update>
+
 </mapper>

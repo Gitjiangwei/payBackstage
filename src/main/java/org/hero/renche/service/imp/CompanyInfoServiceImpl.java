@@ -11,12 +11,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
+@Transactional
 public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, CompanyInfo> implements ICompanyInfoService {
 
     @Autowired
     private CompanyInfoMapper companyInfoMapper;
+
+
+    @Override
+    public String qryCompanyIdByname(String CompanyName) {
+        String companyId=companyInfoMapper.qryCompanyIdByname(CompanyName);
+        return companyId;
+    }
 
     @Transactional
     @Override
@@ -38,6 +47,11 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
     public String checkNameIsExsit(String companyName){
         String id = companyInfoMapper.checkNameIsExsit(companyName);
         return id;
+    }
+
+    @Override
+    public List<Map<String, String>> qryCompanyName() {
+        return companyInfoMapper.qryCompanyName();
     }
 
 }

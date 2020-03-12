@@ -1,24 +1,18 @@
 package org.hero.renche.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.PurchaseInfo;
-import org.hero.renche.service.PurchaseService;
+import org.hero.renche.service.IPurchaseService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
-import org.jeecg.common.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -29,7 +23,7 @@ public class PurchaseInfoController {
 
 
     @Autowired
-    private PurchaseService purchaseService;
+    private IPurchaseService IPurchaseService;
 
     /**
      * 查询采购设备信息
@@ -45,7 +39,7 @@ public class PurchaseInfoController {
                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest request){
 
        Result<PageInfo<PurchaseInfo>> result = new Result<>();
-        PageInfo<PurchaseInfo> purchaseInfoPageInfo = purchaseService.qryPurchaseInfo(purchaseInfo,pageNo,pageSize);
+        PageInfo<PurchaseInfo> purchaseInfoPageInfo = IPurchaseService.qryPurchaseInfo(purchaseInfo,pageNo,pageSize);
         // 手工转换实体驼峰字段为下划线分隔表字段
         result.setSuccess(true);
         result.setResult(purchaseInfoPageInfo);
@@ -70,7 +64,7 @@ public class PurchaseInfoController {
             BigDecimal total = bigDecimal.multiply(bigDecimal1);
             purchaseInfo.setTotalPrice(total.toString());
             purchaseInfo.setCreateTime(new Date());
-            purchaseService.save(purchaseInfo);
+            IPurchaseService.save(purchaseInfo);
             result.success("添加成功");
         }catch (Exception e){
             e.printStackTrace();
@@ -95,12 +89,12 @@ public class PurchaseInfoController {
             BigDecimal bigDecimal = new BigDecimal(price);
             BigDecimal bigDecimal1 = new BigDecimal(num);
             purchaseInfo.setTotalPrice(bigDecimal.multiply(bigDecimal1).toString());
-            int purchaseInfoCount = purchaseService.qryPurchaseId(purchaseInfo.getPurchaseId());
+            int purchaseInfoCount = IPurchaseService.qryPurchaseId(purchaseInfo.getPurchaseId());
             //int purchaseInfoCount = 1;
             if(purchaseInfoCount == 0){
                 result.error500("未找到对应实体");
             }else {
-                boolean results = purchaseService.updateById(purchaseInfo);
+                boolean results = IPurchaseService.updateById(purchaseInfo);
                 if (results){
                     result.success("修改成功");
                 }
@@ -121,7 +115,7 @@ public class PurchaseInfoController {
         if(ids==null||"".equals(ids.trim())){
             result.error500("参数丢失！");
         }else{
-            boolean resultOk = purchaseService.removeByIds(Arrays.asList(ids.split(",")));
+            boolean resultOk = IPurchaseService.removeByIds(Arrays.asList(ids.split(",")));
             if(resultOk){
                 result.success("删除成功！");
             }
@@ -133,13 +127,13 @@ public class PurchaseInfoController {
     @PostMapping(value = "/delete")
     public Result<PurchaseInfo> deleteById(@RequestParam(name = "id") String id){
         Result<PurchaseInfo> result = new Result<PurchaseInfo>();
-        int purchaseInfoCount = purchaseService.qryPurchaseId(id);
+        int purchaseInfoCount = IPurchaseService.qryPurchaseId(id);
         if(id==null||"".equals(id.trim())){
             result.error500("参数丢失！");
         }else if (purchaseInfoCount == 0){
             result.error500("未找到对应实体！");
         }else{
-            boolean resultOk = purchaseService.removeById(id);
+            boolean resultOk = IPurchaseService.removeById(id);
             if (resultOk){
                 result.success("删除成功！");
             }
@@ -155,12 +149,46 @@ public class PurchaseInfoController {
         if (ids==null || "".equals(ids.trim())){
             result.success("参数丢失！");
         }else {
-            boolean resultOk = purchaseService.updatePurchaseIds(ids);
+            boolean resultOk = IPurchaseService.updatePurchaseIds(ids);
             if (!resultOk){
                 result.error500("收货失败！");
             }else {
                 result.success("收货成功！");
             }
+        }
+        return result;
+    }
+
+
+
+    @AutoLog("设备入库")
+    @PostMapping(value = "/insertReceiving")
+    public Result<PurchaseInfo> insertReceiving(@RequestBody JSONObject jsonParam){
+        Result<PurchaseInfo> result = new Result<PurchaseInfo>();
+        PurchaseInfo purchaseInfo = new PurchaseInfo();
+        purchaseInfo.setPurchaseItem(jsonParam.get("purchaseItem").toString());
+        purchaseInfo.setItemModel(jsonParam.get("itemModel").toString());
+        purchaseInfo.setPrice(jsonParam.get("price").toString());
+        purchaseInfo.setQuantity(jsonParam.get("quantity").toString());
+        purchaseInfo.setPurchaseId(jsonParam.get("purchaseId").toString());
+        Boolean resultCount =IPurchaseService.insertReceiving(purchaseInfo);
+        if(resultCount){
+            result.success("程序自动将设备入库，请等待！");
+        }else{
+            result.error500("入库失败");
+        }
+        return result;
+    }
+
+
+    @GetMapping(value = "/qryPurchaseKey")
+    public Result<PurchaseInfo> qryPurchaseKey(@RequestParam(name = "purchaseId") String purchaseId){
+        Result<PurchaseInfo> result = new Result<>();
+        Boolean resultOk = IPurchaseService.qryPurchaseInfoKey(purchaseId);
+        if(resultOk){
+            result.success("1");
+        }else {
+            result.error500("2");
         }
         return result;
     }

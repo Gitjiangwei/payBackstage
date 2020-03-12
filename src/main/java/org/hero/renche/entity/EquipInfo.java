@@ -3,9 +3,12 @@ package org.hero.renche.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 设备信息表
@@ -36,7 +39,11 @@ public class EquipInfo implements Serializable {
     /**采购id*/
     private String purchaseId;
     /**创建时间*/
-    private String createTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
+    /**厂家设备编号*/
+    private String manufacoryNo;
 
 
 }

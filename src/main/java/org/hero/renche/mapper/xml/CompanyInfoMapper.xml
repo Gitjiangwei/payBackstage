@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.CompanyInfoMapper">
 
+    <select id="qryCompanyIdByname" resultType="java.lang.String">
+       SELECT company_id FROM tx_company_info where company_name = #{companyName}
+    </select>
+
+
+
     <select id="qryListCompanyInfo" resultType="org.hero.renche.entity.CompanyInfo">
 
         select company_id,company_name,type,shuihao,bank,bank_no,contacts,phone,id_card,hobby,address,email
@@ -19,6 +25,38 @@
         </trim>
         order by create_time desc
     </select>
+
+
+<!--
+
+    <update id="upCompanyNameById" >
+
+       update tx_company_info set company_name=#{companyName}
+       where  company_id=#{companyId}
+    </update>
+-->
+
+
+    <select id="qryCompanyNames" resultType="java.lang.String">
+
+        select distinct company_name value from tx_company_info order by company_name desc
+
+
+    </select>
+    <select id="qryCompanyName" resultType="java.util.HashMap">
+
+        select distinct company_id id , company_name value  from tx_company_info order by company_name desc
+
+
+    </select>
+
+<!--
+
+    <select id="queryDictItemsByCode" parameterType="String"  resultType="java.util.HashMap">
+		   select s.dict_code_id value,s.dict_code_name text from tx_dict s
+		   where s.dict_code = #{code} order by s.order_no asc
+	</select>
+-->
 
     <select id="getIds" resultType="java.lang.String">
         select company_id from tx_company_info where company_name like CONCAT('%',#{companyName},'%')

@@ -50,10 +50,12 @@ public class PurchaseInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
-
+    /**总价格*/
     private String totalPrice;
-
+    /**备注*/
     private String remarks;
+    /**是否入库*/
+    private String isstorage;
 
 
 }

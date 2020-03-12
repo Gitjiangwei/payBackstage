@@ -100,7 +100,13 @@
 		  <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
 		  <version>2.5.0</version>
 		</dependency>
-				
+		<!--拼音-->
+		<!-- https://mvnrepository.com/artifact/com.github.open-android/pinyin4j -->
+		<dependency>
+			<groupId>org.clojars.cbilson</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>		
 		<!-- json -->
 		<dependency>
          	<groupId>com.alibaba</groupId>
@@ -161,15 +167,32 @@
 			<artifactId>codegenerate</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 	
 	</dependencies>
 
 	<build>
 		<plugins>
+		<!--	<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>-->
+			<!--热部署-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork> <!-- 如果没有该配置，devtools不会生效 -->
+				</configuration>
 			</plugin>
+
+
+
 			<!-- 指定JDK编译版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
