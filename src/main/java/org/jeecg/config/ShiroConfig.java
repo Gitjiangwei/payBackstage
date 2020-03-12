@@ -45,6 +45,7 @@ public class ShiroConfig {
 		// 配置不会被拦截的链接 顺序判断
 		filterChainDefinitionMap.put("/sys/login", "anon"); //登录接口排除
 		filterChainDefinitionMap.put("/sys/common/view/**", "anon");//图片预览不限制token
+		filterChainDefinitionMap.put("/sys/common/upload", "anon");//图片预览不限制token
 		filterChainDefinitionMap.put("/api/auth/logout", "anon");//退出登录
 		filterChainDefinitionMap.put("/auth/2step-code", "anon");//退出登录
 		filterChainDefinitionMap.put("/auth/2step-code", "anon");//退出登录
