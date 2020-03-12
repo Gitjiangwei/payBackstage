@@ -114,8 +114,8 @@ public class InvociInfoController {
 
 
     @ApiOperation(value = "根据id删除发票信息" , notes = "根据id删除发票信息" , produces = "application/json")
-    @DeleteMapping("/delete")
-    public Result<String> delete(  String id ){
+    @PostMapping("/delete")
+    public Result<String> delete( @RequestParam(name = "id") String id ){
 
         Result<String> result =new Result<>();
         try {
@@ -149,7 +149,7 @@ public class InvociInfoController {
      * @return
      */
     @ApiOperation(value = "批量删除发票信息" , notes = "批量删除发票信息" , produces = "application/json")
-    @DeleteMapping("/deleteBat")
+    @PostMapping ("/deleteBat")
     public Result<String> deleteBat(@RequestParam("ids") String ids){
         Result<String> result=new Result<>();
 

@@ -1,5 +1,7 @@
 package org.hero.renche.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -149,15 +151,16 @@ public class VisitInfoController {
      */
 
     @ApiOperation(value ="删除客户拜访记录" , notes = "删除客户拜访数据列表" , produces = "application/json")
-    @DeleteMapping(value = "/delete")
-    public Result<String> deleteVisitInfo(@RequestParam(value = "id") String id,HttpServletRequest request){
+    @PostMapping(value = "/delete")
+    public Result<String> deleteVisitInfo(@RequestBody   String id){
         Result<String> result=new Result<>();
        try{
-
+           JSONObject jsonx = JSON.parseObject(id);
+           String ids = jsonx.getString("id");
            if(id==null){
                result.error500("删除失败,公司id不存在");
            }
-           boolean bo=visitService.deleteVisitInfoById(id);
+           boolean bo=visitService.deleteVisitInfoById(ids);
            if(bo!=true){
                result.error500("删除失败，数据库删除不成功");
            }
@@ -205,13 +208,12 @@ public class VisitInfoController {
  * @return
  */
 
-    @ApiOperation(value ="删除客户拜访记录" , notes = "删除客户拜访数据列表" , produces = "application/json")
-    @DeleteMapping(value = "/deleteBatch")
-    public Result<String> deleteBatchVisitInfo(@RequestParam(value = "ids") String ids,HttpServletRequest request){
+    @ApiOperation(value ="批量删除客户拜访记录" , notes = "批量删除客户拜访数据列表" , produces = "application/json")
+    @PostMapping(value = "/deleteBatch")
+    public Result<String> deleteBatchVisitInfo(@RequestParam(name = "ids")  String ids){
         Result<String> result=new Result<>();
         try{
 
-            System.out.println("================ids"+ids);
             if(ids==null||"".equals(ids.trim())){
                 result.error500("参数丢失！");
             }else{

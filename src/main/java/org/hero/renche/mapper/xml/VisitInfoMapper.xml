@@ -37,6 +37,10 @@
 
     </delete>
 
+    <delete id="deleteVisitInfoById">
+        delete from  tx_visit_info where visit_id = #{visitId}
+    </delete>
+
 
 
 

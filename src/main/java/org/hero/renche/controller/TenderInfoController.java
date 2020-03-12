@@ -141,7 +141,7 @@ public class TenderInfoController {
      */
 
     @ApiOperation(value ="删除招标信息" , notes = "删除招标信息" , produces = "application/json")
-    @DeleteMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     public Result<String> deleteTenderInfo(@RequestParam(value = "id") String id,HttpServletRequest request){
         Result<String> result=new Result<>();
         try{
@@ -166,14 +166,14 @@ public class TenderInfoController {
     }
 
     /**
-     * 批量删除找遍信息
+     * 批量删除招标信息
      * @param ids
      * @param request
      * @return
      */
 
     @ApiOperation(value ="批量删除招标信息" , notes = "批量删除招标信息" , produces = "application/json")
-    @DeleteMapping(value = "/deleteBat")
+    @PostMapping(value = "/deleteBat")
     public Result<String> deleteBatch(@RequestParam (value = "ids") String ids ,HttpServletRequest request){
         Result<String> result=new Result<>();
        try{
