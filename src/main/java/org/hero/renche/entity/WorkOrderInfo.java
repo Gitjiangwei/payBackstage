@@ -3,9 +3,12 @@ package org.hero.renche.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 工单信息表
@@ -30,9 +33,13 @@ public class WorkOrderInfo implements Serializable {
     /**任务描述*/
     private String describe;
     /**创建时间*/
-    private String createTime;
+    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
     /**完成时间*/
-    private String completeTime;
+    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date completeTime;
     /**工单状态*/
     private String status;
     /**附件关联id*/
