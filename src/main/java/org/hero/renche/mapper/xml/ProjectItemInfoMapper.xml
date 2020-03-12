@@ -20,7 +20,7 @@
                 and  prj_item_type = #{ProjectItemInfo.prjItemType}
             </if>
             <if test="ProjectItemInfo.belongCompany != null and ProjectItemInfo.belongCompany != '' ">
-                and  companyName like #{ProjectItemInfo.belongCompany}
+                and  c.company_name like #{ProjectItemInfo.belongCompany}
             </if>
             <if test="ProjectItemInfo.prjItemNum != null and ProjectItemInfo.prjItemNum != '' ">
                 and  prj_item_num like #{ProjectItemInfo.prjItemNum}
