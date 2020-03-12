@@ -27,7 +27,6 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
         return companyId;
     }
 
-    @Transactional
     @Override
     public PageInfo<CompanyInfo> qryCompanyInfo(CompanyInfo companyInfo, Integer page, Integer pageSize) {
 
@@ -36,13 +35,11 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
         return new PageInfo<CompanyInfo>(companyInfoList);
     }
 
-    @Transactional
     @Override
     public List<String> getIds(String companyName){
         return companyInfoMapper.getIds(companyName);
     }
 
-    @Transactional
     @Override
     public String checkNameIsExsit(String companyName){
         String id = companyInfoMapper.checkNameIsExsit(companyName);

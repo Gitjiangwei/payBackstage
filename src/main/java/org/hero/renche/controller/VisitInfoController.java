@@ -61,12 +61,11 @@ public class VisitInfoController {
             log.info(e.getMessage());
             result.error500("获取列表失败");
         }
-        /*System.out.println("-------------------获取客户拜访列表------------");*/
            return result;
     }
 
     /**
-     * 添加数据拜访记录
+     * 添加客户拜访记录
      * @param voViditInfo
      *  @param request
      * @return

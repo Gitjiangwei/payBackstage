@@ -2,4 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.WorkOrderInfoMapper">
 
+    <select id="qryWorkOrderInfoList"  resultType="org.hero.renche.entity.WorkOrderInfo" >
+
+        select * from  tx_work_order
+        <trim prefix="where" prefixOverrides="and">
+            <if test="WorkOrderInfo.workName != null and WorkOrderInfo.workName != '' ">
+           and work_name like CONCAT('%',#{WorkOrderInfo.workName},'%')
+           </if>
+           <if test="WorkOrderInfo.chargePerson != null and WorkOrderInfo.chargePerson != ''">
+              and  charge_person like CONCAT('%',#{WorkOrderInfo.chargePerson},'%')
+           </if>
+        </trim>
+        order by create_time desc
+
+
+    </select>
+
 </mapper>

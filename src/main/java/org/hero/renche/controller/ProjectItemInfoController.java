@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
 import org.hero.renche.entity.vo.ProjectItemVo;
-import org.hero.renche.service.ICompanyInfoService;
 import org.hero.renche.service.IProjectItemInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -28,9 +27,6 @@ public class ProjectItemInfoController {
 
     @Autowired
     private IProjectItemInfoService projectItemInfoService;
-
-    @Autowired
-    private ICompanyInfoService companyInfoService;
 
     /**
      * 分页列表查询
@@ -71,11 +67,11 @@ public class ProjectItemInfoController {
 
     /**
      * 添加
-     * @param
+     * @param projectItemVo
      * @return
      */
     @PostMapping(value = "/add")
-    @AutoLog(value = "添加客户信息")
+    @AutoLog(value = "添加工程点信息")
     public Result<ProjectItemInfo> add(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
         ProjectItemTransformation transformation = new ProjectItemTransformation();
@@ -94,12 +90,14 @@ public class ProjectItemInfoController {
 
     /**
      * 编辑
-     * @param projectItemInfo
+     * @param projectItemVo
      * @return
      */
     @PutMapping(value = "/edit")
-    public Result<ProjectItemInfo> eidt(@RequestBody ProjectItemInfo projectItemInfo) {
+    public Result<ProjectItemInfo> eidt(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
+        ProjectItemTransformation transformation = new ProjectItemTransformation();
+        ProjectItemInfo projectItemInfo = transformation.toPo(projectItemVo);
         ProjectItemInfo projectItemInfoEntity = projectItemInfoService.getById(projectItemInfo.getPrjItemId());
         if (projectItemInfoEntity == null) {
             result.error500("未找到对应实体");
@@ -120,7 +118,7 @@ public class ProjectItemInfoController {
      * @param id
      * @return
      */
-    @AutoLog(value = "删除客户信息")
+    @AutoLog(value = "删除工程点信息")
     @DeleteMapping(value = "/delete")
     public Result<ProjectItemInfo> delete(@RequestParam(name = "id", required = true) String id) {
         Result<ProjectItemInfo> result = new Result<>();
