@@ -26,4 +26,18 @@
 
     </insert>
 
+    <delete id="removeWorkOrderByIds" >
+        delete from tx_work_order where work_id in
+        <foreach collection="list" item="workIds" open="(" close=")" separator=",">
+            #{workIds}
+        </foreach>
+    </delete>
+
+    <select id="qryWorkOrderInfoListById" resultType="java.lang.Integer" >
+        select count(0) from tx_work_order where work_id in
+        <foreach collection="workIds" item="workIds" open="(" close=")" separator=",">
+            #{workIds}
+        </foreach>
+    </select>
+
 </mapper>

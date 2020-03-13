@@ -83,6 +83,7 @@ public class TenderInfoController {
             Boolean bool=tenderService.addTender(tenderInfo);
             if(bool==true){
                 result.success("添加成功！");
+                result.setSuccess(true);
                 result.setResult(tenderInfo);
             }else {
                 result.error500("添加招标信息失败");
@@ -118,9 +119,11 @@ public class TenderInfoController {
             Boolean bool=tenderService.upTenderById(tenderInfo);
             if(bool==true){
                 result.success("修改成功");
+                result.setSuccess(true);
                 result.setResult(tenderInfo);
             }else {
                 result.error500("添加招标信息失败");
+                return result;
             }
 
 
@@ -152,8 +155,10 @@ public class TenderInfoController {
             boolean bo=tenderService.deleteTenderInfoById(id);
             if(bo!=true){
                 result.error500("删除失败，数据库删除不成功");
+                return result;
             }
             result.success("删除成功！");
+            result.setSuccess(true);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -184,8 +189,10 @@ public class TenderInfoController {
            boolean delBool=tenderService.deleteBatchTenderInfo(paramIds);
            if(delBool!=true){
                result.error500("批量删除失败");
+               return result;
            }
            result.success("批量删除成功！");
+           result.setSuccess(true);
 
        }catch (Exception e){
            e.printStackTrace();

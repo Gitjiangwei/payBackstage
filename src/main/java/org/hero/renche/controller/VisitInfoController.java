@@ -93,6 +93,7 @@ public class VisitInfoController {
         boolean bool=visitService.addViditInfo(visitInfo);
         result.setResult(visitInfo);
         result.success("添加成功！");
+        result.setSuccess(true);
     }catch (Exception e){
         e.printStackTrace();
         log.info(e.getMessage());
@@ -133,6 +134,7 @@ public class VisitInfoController {
             }
             result.setResult(voViditInfo);
             result.success("修改成功！");
+            result.setSuccess(true);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -145,8 +147,8 @@ public class VisitInfoController {
 
     /**
      * 删除客户拜访记录
-     * @param voViditInfo
-     * @param request
+     * @param id
+     *
      * @return
      */
 
@@ -159,11 +161,20 @@ public class VisitInfoController {
            String ids = jsonx.getString("id");
            if(id==null){
                result.error500("删除失败,公司id不存在");
+               return result;
            }
+           int visitnum=visitService.qryVisitInfoById(ids);
+           if(visitnum==0){
+               result.error500("删除失败,公司id不存在");
+               return result;
+           }
+
+           //使用post请求，参数是放在JSON体中，需要使用java代码取出
            boolean bo=visitService.deleteVisitInfoById(ids);
            if(bo!=true){
                result.error500("删除失败，数据库删除不成功");
            }
+           result.setSuccess(true);
            result.success("删除成功！");
 
        }catch (Exception e){
@@ -204,7 +215,7 @@ public class VisitInfoController {
 /**
  * 批量删除客户拜访记录
  * @param ids
- * @param request
+ *
  * @return
  */
 
@@ -219,6 +230,7 @@ public class VisitInfoController {
             }else{
                 boolean resultOk = visitService.removeByIds(Arrays.asList(ids.split(",")));
                 if(resultOk){
+                    result.setSuccess(true);
                     result.success("批量删除成功！");
                 }
             }

@@ -42,6 +42,12 @@
     </delete>
 
 
+    <select id="selectVisitById" resultType="java.lang.Integer" >
+
+     select count(0) from tx_visit_info where visit_id =#{visitId}
+    </select>
+
+
 
 
 </mapper>

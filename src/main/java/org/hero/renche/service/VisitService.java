@@ -17,4 +17,5 @@ public interface VisitService {
 
     boolean deleteVisitInfoById(String visitId);
     boolean removeByIds(List<String> stringList);
+    int qryVisitInfoById(String visitId);
 }

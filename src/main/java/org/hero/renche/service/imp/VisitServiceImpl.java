@@ -71,4 +71,10 @@ public class VisitServiceImpl implements VisitService {
         }
 
     }
+
+    @Override
+    public int qryVisitInfoById(String visitId) {
+        int i=visitInfoMapper.selectVisitById(visitId);
+        return i;
+    }
 }
