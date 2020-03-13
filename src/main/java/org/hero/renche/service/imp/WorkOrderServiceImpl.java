@@ -28,12 +28,39 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Override
     public boolean addWorkOrderInfo(WorkOrderInfo workOrderInfo) {
 
-        int i=workOrderInfoMapper.insert(workOrderInfo);
+        int i=workOrderInfoMapper.addWorkOrderInfo(workOrderInfo);
         if(i>0){
             return  true;
         }else {
             return false;
         }
 
+    }
+
+    @Override
+    public boolean removeWorkOrderById(String id) {
+        int i=workOrderInfoMapper.deleteById(id);
+        if(i>0){
+            return  true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeWorkOrderByIds(List<String> workIds) {
+
+        int i=workOrderInfoMapper.removeWorkOrderByIds(workIds);
+        if(i>0){
+            return  true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int qryWorkOrderInfoListById(List workIds) {
+        int i=workOrderInfoMapper.qryWorkOrderInfoListById(workIds);
+        return 0;
     }
 }

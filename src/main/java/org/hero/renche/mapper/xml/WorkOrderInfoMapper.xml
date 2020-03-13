@@ -18,4 +18,26 @@
 
     </select>
 
+    <insert id="addWorkOrderInfo" parameterType="org.hero.renche.entity.WorkOrderInfo" >
+
+      insert into tx_work_order(work_id, prj_item_id,work_name , create_person,  charge_person, `describe`,create_time,  complete_time,`status`, file_rel_id)
+ VALUES(#{WorkOrderInfo.workId},#{WorkOrderInfo.prjItemId},#{WorkOrderInfo.workName},#{WorkOrderInfo.createPerson},#{WorkOrderInfo.chargePerson},
+         #{WorkOrderInfo.describe},#{WorkOrderInfo.createTime},#{WorkOrderInfo.completeTime},#{WorkOrderInfo.status},#{WorkOrderInfo.fileRelId})
+
+    </insert>
+
+    <delete id="removeWorkOrderByIds" >
+        delete from tx_work_order where work_id in
+        <foreach collection="list" item="workIds" open="(" close=")" separator=",">
+            #{workIds}
+        </foreach>
+    </delete>
+
+    <select id="qryWorkOrderInfoListById" resultType="java.lang.Integer" >
+        select count(0) from tx_work_order where work_id in
+        <foreach collection="workIds" item="workIds" open="(" close=")" separator=",">
+            #{workIds}
+        </foreach>
+    </select>
+
 </mapper>

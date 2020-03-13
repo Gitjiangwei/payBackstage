@@ -1,5 +1,7 @@
 package org.hero.renche.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -91,6 +93,7 @@ public class VisitInfoController {
         boolean bool=visitService.addViditInfo(visitInfo);
         result.setResult(visitInfo);
         result.success("添加成功！");
+        result.setSuccess(true);
     }catch (Exception e){
         e.printStackTrace();
         log.info(e.getMessage());
@@ -131,6 +134,7 @@ public class VisitInfoController {
             }
             result.setResult(voViditInfo);
             result.success("修改成功！");
+            result.setSuccess(true);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -143,24 +147,34 @@ public class VisitInfoController {
 
     /**
      * 删除客户拜访记录
-     * @param voViditInfo
-     * @param request
+     * @param id
+     *
      * @return
      */
 
     @ApiOperation(value ="删除客户拜访记录" , notes = "删除客户拜访数据列表" , produces = "application/json")
-    @DeleteMapping(value = "/delete")
-    public Result<String> deleteVisitInfo(@RequestParam(value = "id") String id,HttpServletRequest request){
+    @PostMapping(value = "/delete")
+    public Result<String> deleteVisitInfo(@RequestBody   String id){
         Result<String> result=new Result<>();
        try{
-
+           JSONObject jsonx = JSON.parseObject(id);
+           String ids = jsonx.getString("id");
            if(id==null){
                result.error500("删除失败,公司id不存在");
+               return result;
            }
-           boolean bo=visitService.deleteVisitInfoById(id);
+           int visitnum=visitService.qryVisitInfoById(ids);
+           if(visitnum==0){
+               result.error500("删除失败,公司id不存在");
+               return result;
+           }
+
+           //使用post请求，参数是放在JSON体中，需要使用java代码取出
+           boolean bo=visitService.deleteVisitInfoById(ids);
            if(bo!=true){
                result.error500("删除失败，数据库删除不成功");
            }
+           result.setSuccess(true);
            result.success("删除成功！");
 
        }catch (Exception e){
@@ -201,22 +215,22 @@ public class VisitInfoController {
 /**
  * 批量删除客户拜访记录
  * @param ids
- * @param request
+ *
  * @return
  */
 
-    @ApiOperation(value ="删除客户拜访记录" , notes = "删除客户拜访数据列表" , produces = "application/json")
-    @DeleteMapping(value = "/deleteBatch")
-    public Result<String> deleteBatchVisitInfo(@RequestParam(value = "ids") String ids,HttpServletRequest request){
+    @ApiOperation(value ="批量删除客户拜访记录" , notes = "批量删除客户拜访数据列表" , produces = "application/json")
+    @PostMapping(value = "/deleteBatch")
+    public Result<String> deleteBatchVisitInfo(@RequestParam(name = "ids")  String ids){
         Result<String> result=new Result<>();
         try{
 
-            System.out.println("================ids"+ids);
             if(ids==null||"".equals(ids.trim())){
                 result.error500("参数丢失！");
             }else{
                 boolean resultOk = visitService.removeByIds(Arrays.asList(ids.split(",")));
                 if(resultOk){
+                    result.setSuccess(true);
                     result.success("批量删除成功！");
                 }
             }
