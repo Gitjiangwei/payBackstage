@@ -1,26 +1,22 @@
 package org.jeecg.common.system.controller;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hero.renche.entity.FileRel;
+import org.hero.renche.service.IFileRelService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.modules.system.entity.SysUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
@@ -42,6 +38,10 @@ public class CommonController {
 
 	@Value(value = "${uploadpath}")
 	private String uploadpath;
+
+	@Autowired
+	private IFileRelService fileRelService;
+
 
 	@PostMapping(value = "/upload")
 	public Result<SysUser> upload(HttpServletRequest request, HttpServletResponse response) {
@@ -66,8 +66,18 @@ public class CommonController {
 			if (dbpath.contains("\\")) {
 				dbpath = dbpath.replace("\\", "/");
 			}
-			result.setMessage(dbpath);
-			result.setSuccess(true);
+			FileRel fileRel = new FileRel();
+			fileRel.setFileName(orgName);
+			fileRel.setFileUrl(dbpath);
+			Map<String,Object> fileMap = fileRelService.fileUpload(fileRel);
+			Boolean resultOk = Boolean.parseBoolean(fileMap.get("flag").toString());
+			if(resultOk){
+				result.setSuccess(true);
+				result.setMessage(fileMap.get("fileRelId").toString());
+			}else {
+				result.setMessage("上传失败！");
+				result.setSuccess(false);
+			}
 		} catch (IOException e) {
 			result.setSuccess(false);
 			result.setMessage(e.getMessage());
@@ -139,5 +149,43 @@ public class CommonController {
 		String bestMatchPattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
 		return new AntPathMatcher().extractPathWithinPattern(bestMatchPattern, path);
 	}
+
+
+
+
+	@GetMapping(value = "/download")
+	public HttpServletResponse download(@RequestParam(name = "fileRelId") String fileRelId, HttpServletResponse response) {
+		     try {
+
+		     		String path = fileRelService.qryFileRelKey(fileRelId);
+		     		String uploadpaths = uploadpath.replace("\\","/");
+		     		path = uploadpaths + "/" + path;
+			       // path是指欲下载的文件的路径。
+			       File file = new File(path);
+			       // 取得文件名。
+			       String filename = file.getName();
+			       // 取得文件的后缀名。
+			       //String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+
+			       // 以流的形式下载文件。
+			       InputStream fis = new BufferedInputStream(new FileInputStream(path));
+			       byte[] buffer = new byte[fis.available()];
+			       fis.read(buffer);
+			       fis.close();
+			       // 清空response
+			       response.reset();
+			      // 设置response的Header
+			       response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+			       response.addHeader("Content-Length", "" + file.length());
+			       OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+			       response.setContentType("application/octet-stream");
+			       toClient.write(buffer);
+			       toClient.flush();
+			       toClient.close();
+			     } catch (IOException ex) {
+			       ex.printStackTrace();
+			     }
+		     return response;
+		   }
 
 }

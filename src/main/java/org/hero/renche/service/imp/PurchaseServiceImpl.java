@@ -97,5 +97,26 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         }
     }
 
+    @Override
+    public boolean updatePurchaseIds(PurchaseInfo purchaseInfo) {
+
+        int result = purchaseInfoMapper.updatePurchaseByKey(purchaseInfo);
+        if(result>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public String qryePurchaseId(String purchaseId) {
+        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfoId(purchaseId);
+        String whichCompany = "";
+        for(PurchaseInfo item:purchaseInfoList){
+            whichCompany = item.getWhichCompany();
+        }
+        return whichCompany;
+    }
+
 
 }
