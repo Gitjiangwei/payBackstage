@@ -24,4 +24,11 @@
 		</if>
 	</select>
 
+	<delete id="deleteFile">
+		delete from tx_file_rel where file_rel_id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
 </mapper>

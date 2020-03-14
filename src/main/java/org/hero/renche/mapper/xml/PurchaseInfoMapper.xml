@@ -25,6 +25,9 @@
             <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
                 and  purchase_time = #{PurchaseInfo.purchaseTime}
             </if>
+            <if test="PurchaseInfo.purchaseId != null and PurchaseInfo.purchaseId != '' ">
+                and  purchase_id = #{PurchaseInfo.purchaseId}
+            </if>
         </trim>
         order by create_time desc
     </select>
@@ -111,4 +114,8 @@
     </update>
 
 
+    <update id="updateFileIds">
+           update tx_purchase_info set  file_rel_id = #{purchaseInfo.fileRelId}
+            where purchase_id = #{purchaseInfo.purchaseId}
+    </update>
 </mapper>

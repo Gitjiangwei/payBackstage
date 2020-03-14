@@ -12,4 +12,6 @@ public interface FileRelMapper extends BaseMapper<FileRel> {
 
 
     List<FileRel> qryFileRel(@Param("templist") List<String> fileRelId,@Param("fileName") String fileName);
+
+    int deleteFile(@Param("list") List<String> fileListId);
 }

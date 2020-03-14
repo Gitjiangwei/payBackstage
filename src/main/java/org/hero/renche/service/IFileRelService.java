@@ -25,4 +25,9 @@ public interface IFileRelService extends IService<FileRel> {
 
     String qryFileRelKey(String fileRelId);
 
+    /**
+     * 附件删除
+     */
+    Boolean deleteFile(String fileIds);
+
 }

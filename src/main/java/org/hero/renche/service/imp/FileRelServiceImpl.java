@@ -39,6 +39,11 @@ public class FileRelServiceImpl extends ServiceImpl<FileRelMapper,FileRel> imple
     @Override
     public PageInfo<FileRel> qryFileRel(FileRel fileRels,String fileRel,Integer pageNo,Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
+
+        if(fileRel == null || fileRel.equals("")){
+            List<FileRel> fileRelLists = new ArrayList<FileRel>();
+            return new PageInfo<FileRel>(fileRelLists);
+        }
         String[] file = fileRel.split(",");
         List<String> fileRelList = new ArrayList<String>(Arrays.asList(file));
         List<FileRel> fileRelLists = relMapper.qryFileRel(fileRelList,fileRels.getFileName());
@@ -55,5 +60,16 @@ public class FileRelServiceImpl extends ServiceImpl<FileRelMapper,FileRel> imple
             fileRelUrl = item.getFileUrl();
         }
         return fileRelUrl;
+    }
+
+    @Override
+    public Boolean deleteFile(String fileIds) {
+        Boolean flag = false;
+        String[] str = fileIds.split(",");
+        int result = relMapper.deleteFile(Arrays.asList(str));
+        if(result>0){
+            flag = true;
+        }
+        return flag;
     }
 }

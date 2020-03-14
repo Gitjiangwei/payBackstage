@@ -113,7 +113,7 @@ public class PurchaseInfoController {
             if(purchaseInfoCount == 0){
                 result.error500("未找到对应实体");
             }else {
-                boolean results = IPurchaseService.updatePurchaseIds(purchaseInfo);
+                boolean results = IPurchaseService.updatePurchaseKeys(purchaseInfo);
                 if (results){
                     result.success("修改成功");
                 }
@@ -213,7 +213,7 @@ public class PurchaseInfoController {
     }
 
     @RequestMapping(value = "/fileList")
-    public Result<PageInfo<FileRel>> qryFileList(FileRel rel,@RequestParam(name = "fileRelId") String fileRelId,
+    public Result<PageInfo<FileRel>> qryFileList(FileRel rel,@RequestParam(name = "fileRelId",required = false) String fileRelId,
                                        @RequestParam(name = "pageNo",defaultValue = "1") Integer pageNo,
                                        @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize){
         Result<PageInfo<FileRel>> result = new Result<PageInfo<FileRel>>();

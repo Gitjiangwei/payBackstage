@@ -34,4 +34,7 @@ public interface PurchaseInfoMapper extends BaseMapper<PurchaseInfo> {
 
     List<PurchaseInfo> qryListPurchaseInfoId(@Param("purchaseById")  String purchaseById);
 
+
+    int updateFileIds(@Param("purchaseInfo") PurchaseInfo purchaseInfo);
+
 }
