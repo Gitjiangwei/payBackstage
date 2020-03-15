@@ -50,4 +50,16 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
      * @return
      */
     Boolean qryPurchaseInfoKey(String purchaseId);
+
+    /**
+     * 采购设备信息修改
+     * @param purchaseInfo
+     * @return
+     */
+    boolean updatePurchaseKeys(PurchaseInfo purchaseInfo);
+
+
+    String qryePurchaseId(String purchaseId);
+
+    boolean updateFileIds(PurchaseInfo purchaseInfo);
 }

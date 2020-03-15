@@ -5,13 +5,30 @@
 
 	<insert id="addFileRel" parameterType="org.hero.renche.entity.FileRel">
 		INSERT INTO  tx_file_rel
-		(file_rel_id , rel_table , file_id , file_url ，file_name)
+		(file_rel_id,rel_table,file_id,file_url,file_name)
 		VALUES(
 		#{FileRel.fileRelId},#{FileRel.reltable},#{FileRel.fileId},
 		#{FileRel.fileUrl},#{FileRel.fileName}
 		)
 	</insert>
 
+	<select id="qryFileRel" resultType="org.hero.renche.entity.FileRel">
+		select file_rel_id, rel_table, file_id, file_url, file_name
+		from tx_file_rel
+		where file_rel_id in
+		<foreach collection="templist" item="fileRelId" open="(" close=")" separator=",">
+			#{fileRelId}
+		</foreach>
+		<if test="fileName != null and fileName != ''">
+			and 	file_name like CONCAT('%',#{fileName},'%')
+		</if>
+	</select>
 
+	<delete id="deleteFile">
+		delete from tx_file_rel where file_rel_id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 
 </mapper>

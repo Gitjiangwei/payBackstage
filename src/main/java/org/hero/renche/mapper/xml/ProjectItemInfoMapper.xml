@@ -42,4 +42,11 @@
         order by t.create_time desc
     </select>
 
+
+    <select id="qryPrjItemIdByPrjItemName" resultType="java.lang.String" >
+
+         select prj_item_id from tx_project_item where prj_item_name = #{prjName}
+
+    </select>
+
 </mapper>

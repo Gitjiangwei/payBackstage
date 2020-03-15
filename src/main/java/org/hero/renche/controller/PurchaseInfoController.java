@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hero.renche.entity.FileRel;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.service.IFileRelService;
 import org.hero.renche.service.IPurchaseService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -25,6 +27,9 @@ public class PurchaseInfoController {
     @Autowired
     private IPurchaseService IPurchaseService;
 
+    @Autowired
+    private IFileRelService fileRelService;
+
     /**
      * 查询采购设备信息
      * @param purchaseInfo
@@ -35,7 +40,7 @@ public class PurchaseInfoController {
      */
     @ApiOperation(value = "获取采购设备数据列表", notes = "获取所有采购设备信息数据列表", produces = "application/json")
     @RequestMapping(value = "/qryPurchase")
-    public Result<PageInfo<PurchaseInfo>> qryPurchase(PurchaseInfo purchaseInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<PurchaseInfo>> qryPurchase(PurchaseInfo purchaseInfo,@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest request){
 
        Result<PageInfo<PurchaseInfo>> result = new Result<>();
@@ -46,6 +51,20 @@ public class PurchaseInfoController {
         return result;
     }
 
+    /**
+     * 根据设备ID查询设备来源商
+     * @param purchaseId
+     * @return
+     */
+    @RequestMapping(value = "/qryPurchaseId")
+    public Result<String> qryPurchaseKeys(@RequestParam(name = "purchaseId") String purchaseId){
+        Result<String> result = new Result<>();
+        String whichCompany = IPurchaseService.qryePurchaseId(purchaseId);
+        if(!whichCompany.equals("")){
+            result.success(whichCompany);
+        }
+        return result;
+    }
 
     /**
      * 添加需要采购的设备
@@ -94,7 +113,7 @@ public class PurchaseInfoController {
             if(purchaseInfoCount == 0){
                 result.error500("未找到对应实体");
             }else {
-                boolean results = IPurchaseService.updateById(purchaseInfo);
+                boolean results = IPurchaseService.updatePurchaseKeys(purchaseInfo);
                 if (results){
                     result.success("修改成功");
                 }
@@ -190,6 +209,17 @@ public class PurchaseInfoController {
         }else {
             result.error500("2");
         }
+        return result;
+    }
+
+    @RequestMapping(value = "/fileList")
+    public Result<PageInfo<FileRel>> qryFileList(FileRel rel,@RequestParam(name = "fileRelId",required = false) String fileRelId,
+                                       @RequestParam(name = "pageNo",defaultValue = "1") Integer pageNo,
+                                       @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize){
+        Result<PageInfo<FileRel>> result = new Result<PageInfo<FileRel>>();
+        PageInfo<FileRel> fileRelPageInfo = fileRelService.qryFileRel(rel,fileRelId,pageNo,pageSize);
+        result.setSuccess(true);
+        result.setResult(fileRelPageInfo);
         return result;
     }
 }

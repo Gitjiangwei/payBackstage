@@ -18,4 +18,8 @@ public interface VisitInfoMapper extends BaseMapper<VisitInfo> {
     Integer addVisitInfo(@Param("VisitInfo") VisitInfo visitInfo);
     int  removeByIds(List<String> stringList);
 
+    int deleteVisitInfoById(@Param("visitId") String visitId);
+
+    int selectVisitById(@Param("visitId") String visitId);
+
 }

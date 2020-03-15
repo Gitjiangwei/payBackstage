@@ -25,10 +25,19 @@
             <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
                 and  purchase_time = #{PurchaseInfo.purchaseTime}
             </if>
+            <if test="PurchaseInfo.purchaseId != null and PurchaseInfo.purchaseId != '' ">
+                and  purchase_id = #{PurchaseInfo.purchaseId}
+            </if>
         </trim>
         order by create_time desc
     </select>
-    
+
+    <select id="qryListPurchaseInfoId" resultType="org.hero.renche.entity.PurchaseInfo">
+         select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,
+        isarrival,arrival_time,create_time,total_price,remarks,file_rel_id,isstorage
+        from tx_purchase_info
+        where purchase_id = #{purchaseById}
+    </select>
     
     <update id="updatePurchaseByIds">
         UPDATE tx_purchase_info set isarrival = '1'
@@ -61,5 +70,52 @@
     <update id="updatePurchaseKey">
          UPDATE tx_purchase_info set isstorage = '1'
          where purchase_id=#{purchaseById}
+    </update>
+
+    <update id="updatePurchaseByKey">
+        update tx_purchase_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="purchaseInfo.purchaseItem != null and purchaseInfo.purchaseItem != '' ">
+                purchase_item = #{purchaseInfo.purchaseItem},
+            </if>
+            <if test="purchaseInfo.itemModel != null and purchaseInfo.itemModel != '' ">
+                item_model = #{purchaseInfo.itemModel},
+            </if>
+            <if test="purchaseInfo.price != null and purchaseInfo.price != '' ">
+                price = #{purchaseInfo.price},
+            </if>
+            <if test="purchaseInfo.quantity != null and purchaseInfo.quantity != '' ">
+                quantity = #{purchaseInfo.quantity},
+            </if>
+            <if test="purchaseInfo.totalPrice != null and purchaseInfo.totalPrice != '' ">
+                total_price = #{purchaseInfo.totalPrice},
+            </if>
+            <if test="purchaseInfo.purchaser != null and purchaseInfo.purchaser != '' ">
+                purchaser = #{purchaseInfo.purchaser},
+            </if>
+            <if test="purchaseInfo.purchaseTime != null ">
+                purchase_time = #{purchaseInfo.purchaseTime},
+            </if>
+            <if test="purchaseInfo.whichCompany != null and purchaseInfo.whichCompany != '' ">
+                which_company = #{purchaseInfo.whichCompany},
+            </if>
+            <if test="purchaseInfo.arrivalTime != null ">
+                arrival_time = #{purchaseInfo.arrivalTime},
+            </if>
+            <if test="purchaseInfo.fileRelId != null and purchaseInfo.fileRelId != '' ">
+                file_rel_id = #{purchaseInfo.fileRelId},
+            </if>
+            <if test="purchaseInfo.remarks != null and purchaseInfo.remarks != '' ">
+                remarks = #{purchaseInfo.remarks},
+            </if>
+        </trim>
+        where purchase_id = #{purchaseInfo.purchaseId}
+
+    </update>
+
+
+    <update id="updateFileIds">
+           update tx_purchase_info set  file_rel_id = #{purchaseInfo.fileRelId}
+            where purchase_id = #{purchaseInfo.purchaseId}
     </update>
 </mapper>

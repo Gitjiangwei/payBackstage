@@ -97,5 +97,55 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         }
     }
 
+    @Override
+    public boolean updatePurchaseKeys(PurchaseInfo purchaseInfo) {
+
+        int result = purchaseInfoMapper.updatePurchaseByKey(purchaseInfo);
+        if(result>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public String qryePurchaseId(String purchaseId) {
+        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfoId(purchaseId);
+        String whichCompany = "";
+        for(PurchaseInfo item:purchaseInfoList){
+            whichCompany = item.getWhichCompany();
+        }
+        return whichCompany;
+    }
+
+    @Override
+    public boolean updateFileIds(PurchaseInfo purchaseInfo) {
+        boolean flag = false;
+        PurchaseInfo pur = new PurchaseInfo();
+        String oldFileRelId = "";
+        String newFileRelId = "";
+        pur.setPurchaseId(purchaseInfo.getPurchaseId());
+        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(pur);
+        for(PurchaseInfo item : purchaseInfoList){
+            oldFileRelId = item.getFileRelId();
+        }
+        List<String> oldFlieRelIdList = new ArrayList<>(Arrays.asList(oldFileRelId.split(",")));
+        for(String items : oldFlieRelIdList){
+            if (!items.equals(purchaseInfo.getFileRelId())){
+                newFileRelId =  items + newFileRelId + ",";
+            }
+        }
+        char a = newFileRelId.charAt(newFileRelId.length() - 1);
+        if(a == ','){
+            newFileRelId = newFileRelId.substring(0,newFileRelId.length() - 1);
+        }
+        purchaseInfo.setFileRelId(newFileRelId);
+        int result = purchaseInfoMapper.updateFileIds(purchaseInfo);
+        if(result>0){
+            flag = true;
+        }
+        return flag;
+    }
+
 
 }

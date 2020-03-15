@@ -50,20 +50,31 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public boolean deleteVisitInfoById(String visitId) {
         this.visitId = visitId;
-        int i=visitInfoMapper.deleteById(visitId);
-      return true;
+        int i=visitInfoMapper.deleteVisitInfoById(visitId);
+        if(i>0){
+            return true;
+        }else {
+           return false;
+        }
+
 
     }
 
     @Override
     public boolean removeByIds(List<String> stringList) {
         int i=visitInfoMapper.removeByIds(stringList);
-        System.out.println("==============iiiii=========="+i);
+
         if(i>0){
             return true;
         }else {
             return false;
         }
 
+    }
+
+    @Override
+    public int qryVisitInfoById(String visitId) {
+        int i=visitInfoMapper.selectVisitById(visitId);
+        return i;
     }
 }

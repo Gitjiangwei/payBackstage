@@ -15,4 +15,6 @@ public interface ProjectItemInfoMapper extends BaseMapper<ProjectItemInfo> {
 
     List<ProjectItemVo> qryListProjectItemInfo(@Param("ProjectItemInfo") ProjectItemInfo projectItemInfo);
 
+    String qryPrjItemIdByPrjItemName(String prjName);
+
 }
