@@ -12,6 +12,8 @@ public class ContractInfoVo extends ContractInfo implements Serializable {
 
     private String companyNameB;
 
+    private String prjName;
+
     public String getCompanyNameA() {
         return companyNameA;
     }
@@ -26,6 +28,14 @@ public class ContractInfoVo extends ContractInfo implements Serializable {
 
     public void setCompanyNameB(String companyNameB) {
         this.companyNameB = companyNameB;
+    }
+
+    public String getPrjName() {
+        return prjName;
+    }
+
+    public void setPrjName(String prjName) {
+        this.prjName = prjName;
     }
 
 }

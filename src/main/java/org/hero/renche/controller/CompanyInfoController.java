@@ -98,7 +98,7 @@ public class CompanyInfoController {
      * @return
      */
     @AutoLog(value = "删除客户信息")
-    @DeleteMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     public Result<CompanyInfo> delete(@RequestParam(name = "id", required = true) String id) {
         Result<CompanyInfo> result = new Result<CompanyInfo>();
         CompanyInfo companyInfo = companyInfoService.getById(id);
@@ -120,7 +120,7 @@ public class CompanyInfoController {
      * @param ids
      * @return
      */
-    @DeleteMapping(value = "/deleteBatch")
+    @PostMapping(value = "/deleteBatch")
     public Result<CompanyInfo> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         Result<CompanyInfo> result = new Result<CompanyInfo>();
         if (ids == null || "".equals(ids.trim())) {
