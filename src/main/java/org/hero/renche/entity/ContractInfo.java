@@ -47,7 +47,7 @@ public class ContractInfo implements Serializable {
     /**要求部署时间*/
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private String requireDeployTime;
+    private Date requireDeployTime;
     /**招标id*/
     private String tenderId;
     /**电子版上传附件关联id*/

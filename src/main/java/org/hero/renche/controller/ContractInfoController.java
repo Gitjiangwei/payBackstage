@@ -1,11 +1,14 @@
 package org.hero.renche.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.ContractInfo;
+import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.vo.ContractInfoTransformation;
 import org.hero.renche.entity.vo.ContractInfoVo;
+import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IContractInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -41,21 +44,6 @@ public class ContractInfoController {
     public Result<PageInfo<ContractInfoVo>> list(ContractInfo contractInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                                  @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<ContractInfoVo>> result = new Result<>();
-        if(contractInfo.getContractName() != null && !"".equals(contractInfo.getContractName())){
-            contractInfo.setContractName("*%" + contractInfo.getContractName() + "%*");
-        }
-        if(contractInfo.getContractNoA() != null && !"".equals(contractInfo.getContractNoA())){
-            contractInfo.setContractNoA("*%" + contractInfo.getContractNoA() + "%*");
-        }
-        if(contractInfo.getContractNoB() != null && !"".equals(contractInfo.getContractNoB())){
-            contractInfo.setContractNoB("*%" + contractInfo.getContractNoB() + "%*");
-        }
-        if(contractInfo.getPartyA() != null && !"".equals(contractInfo.getPartyA())){
-            contractInfo.setPartyA("*%" + contractInfo.getPartyA() + "%*");
-        }
-        if(contractInfo.getPartyB() != null && !"".equals(contractInfo.getPartyB())){
-            contractInfo.setPartyB("*%" + contractInfo.getPartyB() + "%*");
-        }
         PageInfo<ContractInfoVo> pageList = contractInfoService.qryContractInfo(contractInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(pageList);
@@ -116,7 +104,7 @@ public class ContractInfoController {
      * @return
      */
     @AutoLog(value = "删除合同信息")
-    @DeleteMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     public Result<ContractInfo> delete(@RequestParam(name = "id", required = true) String id) {
         Result<ContractInfo> result = new Result<>();
         ContractInfo contractInfo = contractInfoService.getById(id);
@@ -138,7 +126,7 @@ public class ContractInfoController {
      * @param ids
      * @return
      */
-    @DeleteMapping(value = "/deleteBatch")
+    @PostMapping(value = "/deleteBatch")
     public Result<ContractInfo> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         Result<ContractInfo> result = new Result<>();
         if (ids == null || "".equals(ids.trim())) {
@@ -146,6 +134,90 @@ public class ContractInfoController {
         } else {
             this.contractInfoService.removeByIds(Arrays.asList(ids.split(",")));
             result.success("删除成功!");
+        }
+        return result;
+    }
+
+    /**
+     * 分页列表查询除已选择工程点外的所有工程点
+     * @param projectItem
+     * @param pageNo
+     * @param pageSize
+     * @param contractId
+     * @returnp'r
+     */
+    @ApiOperation(value = "获取工程点信息列表", notes = "获取工程点信息列表", produces = "application/json")
+    @GetMapping(value = "/allPrjItemWithoutContractList")
+    public Result<PageInfo<ProjectItemVo>> allPrjItemWithoutContractList(ProjectItemInfo projectItem, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                @RequestParam(name = "contractId") String contractId) {
+        Result<PageInfo<ProjectItemVo>> result = new Result<>();
+        PageInfo<ProjectItemVo> pageList = contractInfoService.qryProjectItemInfo(projectItem,pageNo,pageSize,contractId);
+        result.setSuccess(true);
+        result.setResult(pageList);
+        return result;
+    }
+
+    /**
+     * 分页列表查询合同关联的工程点
+     * @param pageNo
+     * @param pageSize
+     * @param contractId
+     * @returnp'r
+     */
+    @ApiOperation(value = "获取工程点信息列表", notes = "获取工程点信息列表", produces = "application/json")
+    @GetMapping(value = "/contractPrjItemList")
+    public Result<PageInfo<ProjectItemVo>> contractPrjItemList(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                                         @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                                         @RequestParam(name = "contractId") String contractId) {
+        Result<PageInfo<ProjectItemVo>> result = new Result<>();
+        PageInfo<ProjectItemVo> pageList = contractInfoService.qryProItemByContractId(pageNo,pageSize,contractId);
+        result.setSuccess(true);
+        result.setResult(pageList);
+        return result;
+    }
+
+    /**
+     * 添加合同关联工程点
+     *
+     * @param data
+     * @return
+     */
+    @PostMapping(value = "/addProjectItem")
+    public Result<ContractInfo> addProjectItem(@RequestBody String data) {
+        Result<ContractInfo> result = new Result<>();
+
+        JSONObject jsonObject = JSONObject.parseObject(data);
+        String contractId = jsonObject.getString("contractId");
+        String prjItemIds = jsonObject.getString("prjItemIds");
+        prjItemIds = prjItemIds.substring(0,prjItemIds.length()-1);
+
+        boolean flag = contractInfoService.addProjectItem(contractId,prjItemIds);
+        if(flag){
+            result.success("添加成功!");
+        }else{
+            result.success("添加失败!");
+        }
+        return result;
+    }
+
+    /**
+     * 通过id删除
+     *
+     * @param prjItemId
+     * @param contractId
+     * @return
+     */
+    @AutoLog(value = "删除合同关联工程点")
+    @PostMapping(value = "/delPrjItem")
+    public Result<ContractInfo> delPrjItem(@RequestParam(name = "prjItemId", required = true) String prjItemId,
+                                           @RequestParam(name = "contractId", required = true) String contractId) {
+        Result<ContractInfo> result = new Result<>();
+        boolean flag = contractInfoService.delProjectItem(contractId,prjItemId);
+        if(flag){
+            result.success("删除成功!");
+        }else{
+            result.success("删除失败!");
         }
         return result;
     }

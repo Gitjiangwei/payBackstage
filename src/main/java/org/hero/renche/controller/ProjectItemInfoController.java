@@ -41,24 +41,6 @@ public class ProjectItemInfoController {
     public Result<PageInfo<ProjectItemVo>> list(ProjectItemInfo projectItem, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                                   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<ProjectItemVo>> result = new Result<>();
-        if(projectItem.getPrjItemName() != null && !"".equals(projectItem.getPrjItemName())){
-            projectItem.setPrjItemName("*%" + projectItem.getPrjItemName() + "%*");
-        }
-        if(projectItem.getPrjName() != null && !"".equals(projectItem.getPrjName())){
-            projectItem.setPrjName("*%" + projectItem.getPrjName() + "%*");
-        }
-        if(projectItem.getBelongCompany() != null && !"".equals(projectItem.getBelongCompany())){
-            projectItem.setBelongCompany("*%" + projectItem.getBelongCompany() + "%*");
-        }
-        if(projectItem.getPrjItemNum() != null && !"".equals(projectItem.getPrjItemNum())){
-            projectItem.setPrjItemNum("*%" + projectItem.getPrjItemNum() + "%*");
-        }
-        if(projectItem.getPersonInCharge() != null && !"".equals(projectItem.getPersonInCharge())){
-            projectItem.setPersonInCharge("*%" + projectItem.getPersonInCharge() + "%*");
-        }
-        if(projectItem.getProgressOfItem() != null && !"".equals(projectItem.getProgressOfItem())){
-            projectItem.setProgressOfItem("*%" + projectItem.getProgressOfItem() + "%*");
-        }
         PageInfo<ProjectItemVo> pageList = projectItemInfoService.qryProjectItemInfo(projectItem,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(pageList);
@@ -119,7 +101,7 @@ public class ProjectItemInfoController {
      * @return
      */
     @AutoLog(value = "删除工程点信息")
-    @DeleteMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     public Result<ProjectItemInfo> delete(@RequestParam(name = "id", required = true) String id) {
         Result<ProjectItemInfo> result = new Result<>();
         ProjectItemInfo projectItemInfo = projectItemInfoService.getById(id);
@@ -141,7 +123,7 @@ public class ProjectItemInfoController {
      * @param ids
      * @return
      */
-    @DeleteMapping(value = "/deleteBatch")
+    @PostMapping(value = "/deleteBatch")
     public Result<ProjectItemInfo> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         Result<ProjectItemInfo> result = new Result<>();
         if (ids == null || "".equals(ids.trim())) {

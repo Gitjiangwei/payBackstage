@@ -4,34 +4,35 @@
 
     <select id="qryListContractInfo" resultType="org.hero.renche.entity.vo.ContractInfoVo">
 
-        select contract_id as contractId,contract_name as contractName,party_a as partyA,a.companyName as companyNameA,
-            contract_no_a as contractNoA,party_b as partyB,b.companyName as companyNameB,contract_no_b as contractNoB,
+        select contract_id as contractId,contract_name as contractName,party_a as partyA,a.company_name as companyNameA,
+            contract_no_a as contractNoA,party_b as partyB,b.company_name as companyNameB,contract_no_b as contractNoB,
             contract_status as contractStatus,contract_money as contractMoney,sign_in_time as signInTime,remind_period as remindPeriod,
-            contract_type as contractType,remark,require_deploy_time as requireDeployTime,tender_id as tenderId
+            contract_type as contractType,remark,require_deploy_time as requireDeployTime,t.tender_id as tenderId,ti.prj_name as prjName
         from tx_contract_info t
         left join tx_company_info a on t.party_a = a.company_Id
         left join tx_company_info b on t.party_b = b.company_Id
+        left join tx_tender_info ti on t.tender_id = ti.tender_id
         <trim prefix="where" prefixOverrides="and">
             <if test="ContractInfo.contractName != null and ContractInfo.contractName != '' ">
-                and  contract_name like #{ContractInfo.contractName}
+                and  contract_name like CONCAT('%',#{ContractInfo.contractName},'%')
             </if>
             <if test="ContractInfo.contractType != null and ContractInfo.contractType != '' ">
                 and  contract_type = #{ContractInfo.contractType}
             </if>
             <if test="ContractInfo.partyA != null and ContractInfo.partyA != '' ">
-                and  a.company_name  like #{ContractInfo.partyA}
+                and  a.company_name  like CONCAT('%',#{ContractInfo.partyA},'%')
             </if>
             <if test="ContractInfo.partyB != null and ContractInfo.partyB != '' ">
-                and  b.company_name like #{ContractInfo.partyB}
+                and  b.company_name like CONCAT('%',#{ContractInfo.partyB},'%')
             </if>
             <if test="ContractInfo.contractStatus != null and ContractInfo.contractStatus != '' ">
-                and  contract_status like #{ContractInfo.contractStatus}
+                and  contract_status like CONCAT('%',#{ContractInfo.contractStatus},'%')
             </if>
             <if test="ContractInfo.contractNoA != null and ContractInfo.contractNoA != '' ">
-                and  contract_no_a like #{ContractInfo.contractNoA}
+                and  contract_no_a like CONCAT('%',#{ContractInfo.contractNoA},'%')
             </if>
             <if test="ContractInfo.contractNoB != null and ContractInfo.contractNoB != '' ">
-                and  contract_no_b like #{ContractInfo.contractNoB}
+                and  contract_no_b like CONCAT('%',#{ContractInfo.contractNoB},'%')
             </if>
 
         </trim>

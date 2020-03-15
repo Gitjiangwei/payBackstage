@@ -11,25 +11,25 @@
         left join tx_company_info c on t.belong_company = c.company_Id
         <trim prefix="where" prefixOverrides="and">
             <if test="ProjectItemInfo.prjItemName != null and ProjectItemInfo.prjItemName != '' ">
-                and  prj_item_name like #{ProjectItemInfo.prjItemName}
+                and  prj_item_name like CONCAT('%',#{ProjectItemInfo.prjItemName},'%')
             </if>
             <if test="ProjectItemInfo.prjName != null and ProjectItemInfo.prjName != '' ">
-                and  prj_name  like #{ProjectItemInfo.prjName}
+                and  prj_name  like CONCAT('%',#{ProjectItemInfo.prjName},'%')
             </if>
             <if test="ProjectItemInfo.prjItemType != null and ProjectItemInfo.prjItemType != '' ">
                 and  prj_item_type = #{ProjectItemInfo.prjItemType}
             </if>
             <if test="ProjectItemInfo.belongCompany != null and ProjectItemInfo.belongCompany != '' ">
-                and  c.company_name like #{ProjectItemInfo.belongCompany}
+                and  c.company_name like CONCAT('%',#{ProjectItemInfo.belongCompany},'%')
             </if>
             <if test="ProjectItemInfo.prjItemNum != null and ProjectItemInfo.prjItemNum != '' ">
-                and  prj_item_num like #{ProjectItemInfo.prjItemNum}
+                and  prj_item_num like CONCAT('%',#{ProjectItemInfo.prjItemNum},'%')
             </if>
             <if test="ProjectItemInfo.personInCharge != null and ProjectItemInfo.personInCharge != '' ">
-                and  person_in_charge like #{ProjectItemInfo.personInCharge}
+                and  person_in_charge like CONCAT('%',#{ProjectItemInfo.personInCharge},'%')
             </if>
             <if test="ProjectItemInfo.progressOfItem != null and ProjectItemInfo.progressOfItem != '' ">
-                and  progress_of_item like #{ProjectItemInfo.progressOfItem}
+                and  progress_of_item like CONCAT('%',#{ProjectItemInfo.progressOfItem},'%')
             </if>
             <if test="ProjectItemInfo.entryTime != null ">
                 and  entry_time = #{ProjectItemInfo.entryTime}
