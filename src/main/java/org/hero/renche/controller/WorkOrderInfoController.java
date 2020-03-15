@@ -87,8 +87,6 @@ public class WorkOrderInfoController {
                  return result ;
              }
              String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
-             System.out.println("/////////id="+prjItemId);
-
              workOrderInfo.setPrjItemId(prjItemId);
              boolean addOk=workOrderService.addWorkOrderInfo(workOrderInfo);
              if(addOk==true){
@@ -209,6 +207,38 @@ public class WorkOrderInfoController {
         return result;
 
     }
+
+    @ApiOperation(value ="修改工单信息" , produces = "application/json")
+    @PutMapping(value = "up")
+    public Result<VoWorkOrderInfo> upWorkOrderInfo(@RequestBody VoWorkOrderInfo voWorkOrderInfo){
+        Result<VoWorkOrderInfo> result=new Result<>();
+      try {
+          String prjName= voWorkOrderInfo.getPrjItemName();
+          String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
+          voWorkOrderInfo.setPrjItemId(prjItemId);
+          WorkOrderInfo workOrderInfo=new WorkOrderInfo();
+          BeanUtils.copyProperties(voWorkOrderInfo,workOrderInfo);
+          workOrderInfo.setPrjItemId(prjItemId);
+          int upNum = workOrderService.upWorkOrderInfo(workOrderInfo);
+          if(upNum==0){
+              result.error500("工单修改失败");
+              return result;
+          }
+          result.setMessage("修改成功");
+          result.setResult(voWorkOrderInfo);
+      }catch (Exception e){
+          e.printStackTrace();
+          log.info(e.getMessage());
+          result.error500("工单修改失败");
+      }
+
+
+
+        return result;
+
+    }
+
+
 
 
 
