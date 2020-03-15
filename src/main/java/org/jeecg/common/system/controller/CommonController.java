@@ -175,7 +175,7 @@ public class CommonController {
 			       // 清空response
 			       response.reset();
 			      // 设置response的Header
-			       response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+			       response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("GBK"),"ISO-8859-1"));
 			       response.addHeader("Content-Length", "" + file.length());
 			       OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
 			       response.setContentType("application/octet-stream");
