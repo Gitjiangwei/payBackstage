@@ -3,7 +3,7 @@
 <mapper namespace="org.hero.renche.mapper.VisitInfoMapper">
 
     <select id="qryListVisitInfo" resultType="org.hero.renche.controller.voentity.VoViditInfo">
-        SELECT b.company_name ,  a.visit_time , a.visitor ,a.way , a.content ,a.result,a.visit_id
+        SELECT b.company_name ,  a.visit_time , a.visitor ,a.way , a.content ,a.result,a.visit_id , a.file_rel_id
         FROM tx_visit_info a  join tx_company_info b on a.company_id=b.company_id
         <trim prefix="where" prefixOverrides="and">
             <if test="VoViditInfo.companyName !=null and VoViditInfo.companyName != '' ">
@@ -21,10 +21,10 @@
     </select>
 
     <insert id="addVisitInfo" parameterType="org.hero.renche.entity.VisitInfo">
-        insert into  tx_visit_info(visit_id,company_id,visit_time,visitor,way,content,result)
+        insert into  tx_visit_info(visit_id,company_id,visit_time,visitor,way,content,result,file_rel_id)
         values (#{VisitInfo.visitId},#{VisitInfo.companyId},
         #{VisitInfo.visitTime},#{VisitInfo.visitor},
-        #{VisitInfo.way},#{VisitInfo.content},#{VisitInfo.result})
+        #{VisitInfo.way},#{VisitInfo.content},#{VisitInfo.result},#{VisitInfo.fileRelId})
 
     </insert>
 

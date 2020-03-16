@@ -45,6 +45,8 @@ public class WorkOrderInfoController {
                                                               HttpServletRequest request){
         Result<PageInfo<VoWorkOrderInfo>> result=new Result<>();
        try {
+           /*String fileRelId=voWorkOrderInfo.getFileRelId().toString();
+           voWorkOrderInfo.setFileRelId(fileRelId);*/
            PageInfo<VoWorkOrderInfo> pageInfo=workOrderService.qryWorkOrderInfoList(voWorkOrderInfo,pageNo,pageSize);
 
                result.setSuccess(true);
@@ -79,9 +81,11 @@ public class WorkOrderInfoController {
              voWorkOrderInfo.setWorkId(workId);
              voWorkOrderInfo.setCreateTime(new Date());
              String prjName= voWorkOrderInfo.getPrjItemName();
+             String fileRelId=voWorkOrderInfo.getFileRelId();
              WorkOrderInfo workOrderInfo=new WorkOrderInfo();
              BeanUtils.copyProperties(voWorkOrderInfo,workOrderInfo);
              workOrderInfo.setCreateTime(new Date());
+             workOrderInfo.setFileRelId(fileRelId);
              if(prjName==null ||"".equals(prjName)){
                  result.setMessage("工程点不存在");
                  return result ;
@@ -215,10 +219,12 @@ public class WorkOrderInfoController {
       try {
           String prjName= voWorkOrderInfo.getPrjItemName();
           String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
+          String fileRelId=voWorkOrderInfo.getFileRelId();
           voWorkOrderInfo.setPrjItemId(prjItemId);
           WorkOrderInfo workOrderInfo=new WorkOrderInfo();
           BeanUtils.copyProperties(voWorkOrderInfo,workOrderInfo);
           workOrderInfo.setPrjItemId(prjItemId);
+          workOrderInfo.setFileRelId(fileRelId);
           int upNum = workOrderService.upWorkOrderInfo(workOrderInfo);
           if(upNum==0){
               result.error500("工单修改失败");
