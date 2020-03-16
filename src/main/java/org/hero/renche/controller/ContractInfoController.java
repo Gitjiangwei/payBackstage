@@ -21,7 +21,7 @@ import java.util.Date;
 
 /**
  * @Title: Controller
- * @Description: 客户信息管理
+ * @Description: 合同信息管理
  */
 @RestController
 @RequestMapping("/renche/contractInfo")
