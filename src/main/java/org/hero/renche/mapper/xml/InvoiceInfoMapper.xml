@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.InvoiceInfoMapper">
+
+    <select id="qryListIncoiceInfo" resultType="org.hero.renche.entity.InvoiceInfo">
+
+        select invoice_id,invoice_time,invoice_money,return_time,return_money,file_rel_id,remark
+        from tx_invoice_info where contract_id = #{contractId}
+        order by create_time desc
+    </select>
+</mapper>

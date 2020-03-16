@@ -85,7 +85,9 @@ public class VisitInfoController {
             result.error500("添加失败,该公司不存在");
         }
         VisitInfo visitInfo=new VisitInfo();
+        String fileRelId=voViditInfo.getFileRelId();
         BeanUtils.copyProperties(voViditInfo,visitInfo);
+        visitInfo.setFileRelId(fileRelId);
         String visitId= UUID.randomUUID().toString();
         visitId=visitId.replaceAll("-","").toUpperCase();
         visitInfo.setVisitId(visitId);
