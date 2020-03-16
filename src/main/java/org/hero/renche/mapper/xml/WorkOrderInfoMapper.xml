@@ -62,4 +62,38 @@
 
     </select>
 
+    <update id="upWorkOrderInfo" parameterType="org.hero.renche.entity.WorkOrderInfo" >
+
+        update tx_work_order a
+        <trim prefix="set"  suffixOverrides=",">
+        <if test="WorkOrderInfo.prjItemId != null and WorkOrderInfo.prjItemId != ''">
+            a.prj_item_id= #{WorkOrderInfo.prjItemId},
+        </if>
+        <if test="WorkOrderInfo.workName != null and WorkOrderInfo.workName != ''">
+            a.work_name= #{WorkOrderInfo.workName},
+        </if>
+        <if test="WorkOrderInfo.createPerson != null and WorkOrderInfo.createPerson != ''">
+            a.create_person= #{WorkOrderInfo.createPerson},
+        </if>
+        <if test="WorkOrderInfo.chargePerson != null and WorkOrderInfo.chargePerson != ''">
+            a.charge_person= #{WorkOrderInfo.chargePerson},
+        </if>
+        <if test="WorkOrderInfo.describe != null and WorkOrderInfo.describe != '' ">
+            a.describe = #{WorkOrderInfo.describe},
+        </if>
+        <if test="WorkOrderInfo.completeTime != null ">
+            a.complete_time = #{WorkOrderInfo.completeTime},
+        </if>
+        <if test="WorkOrderInfo.status != null and WorkOrderInfo.status != ''">
+            a.status = #{WorkOrderInfo.status},
+        </if>
+        <if test="WorkOrderInfo.prjItemId != null and WorkOrderInfo.prjItemId != ''">
+            a.file_rel_id = #{WorkOrderInfo.prjItemId},
+        </if>
+    </trim>
+        where a.work_id = #{WorkOrderInfo.workId}
+
+
+    </update>
+
 </mapper>

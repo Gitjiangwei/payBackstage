@@ -20,4 +20,5 @@ public interface WorkOrderInfoMapper extends BaseMapper<WorkOrderInfo> {
     int removeWorkOrderByIds( List<String> workIds);
     int qryWorkOrderInfoListById(@Param("workIds") List workIds);
     List<Map<String,String>> prjItemName();
+    int upWorkOrderInfo(@Param("WorkOrderInfo") WorkOrderInfo workOrderInfo);
 }

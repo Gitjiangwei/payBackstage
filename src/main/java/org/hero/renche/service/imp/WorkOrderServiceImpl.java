@@ -80,4 +80,10 @@ public class WorkOrderServiceImpl implements WorkOrderService {
            String id=  projectItemInfoMapper.qryPrjItemIdByPrjItemName(prjName);
         return id;
     }
+
+    @Override
+    public int upWorkOrderInfo(WorkOrderInfo workOrderInfo) {
+        int i =workOrderInfoMapper.upWorkOrderInfo(workOrderInfo);
+        return i;
+    }
 }
