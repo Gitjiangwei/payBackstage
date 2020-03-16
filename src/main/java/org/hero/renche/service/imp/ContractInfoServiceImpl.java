@@ -8,6 +8,7 @@ import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.vo.ContractInfoVo;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.mapper.ContractInfoMapper;
+import org.hero.renche.mapper.InvoiceInfoMapper;
 import org.hero.renche.mapper.ProContractRelMapper;
 import org.hero.renche.service.IContractInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
 
     @Autowired
     private ProContractRelMapper ProContractRelMapper;
+
+    @Autowired
+    private InvoiceInfoMapper invoiceInfoMapper;
 
     @Override
     public PageInfo<ContractInfoVo> qryContractInfo(ContractInfo contractInfo, Integer page, Integer pageSize) {
