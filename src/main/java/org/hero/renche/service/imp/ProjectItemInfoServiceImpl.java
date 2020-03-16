@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.ProjectItemInfo;
+import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.mapper.ProjectItemInfoMapper;
 import org.hero.renche.service.IProjectItemInfoService;
@@ -32,6 +33,15 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
         }
 //        List<ProjectItemVo> projectItemInfoList = projectItemInfoMapper.qryListProjectItemInfo(projectItemInfo);
         return new PageInfo<ProjectItemVo>(projectItemInfoList);
+    }
+
+    @Override
+    public PageInfo<ProjectItemModel> qryProjectItemEquip(String projectItemId, Integer pageNo, Integer pageSize) {
+
+        PageHelper.startPage(pageNo,pageSize);
+        List<ProjectItemModel> projectItemModelList = projectItemInfoMapper.qryProjectEquip(projectItemId);
+
+        return new PageInfo<ProjectItemModel>(projectItemModelList);
     }
 
 }
