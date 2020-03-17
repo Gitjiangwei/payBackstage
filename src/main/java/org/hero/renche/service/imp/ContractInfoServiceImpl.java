@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Transactional
@@ -25,7 +27,7 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
     private ContractInfoMapper contractInfoMapper;
 
     @Autowired
-    private ProContractRelMapper ProContractRelMapper;
+    private ProContractRelMapper proContractRelMapper;
 
     @Autowired
     private InvoiceInfoMapper invoiceInfoMapper;
@@ -42,7 +44,7 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
     public PageInfo<ProjectItemVo> qryProjectItemInfo(ProjectItemInfo projectItemInfo, Integer page, Integer pageSize, String contractId) {
 
         PageHelper.startPage(page,pageSize);
-        List<ProjectItemVo> projectItemList = ProContractRelMapper.qryListProjectItemInfo(projectItemInfo,contractId);
+        List<ProjectItemVo> projectItemList = proContractRelMapper.qryListProjectItemInfo(projectItemInfo,contractId);
         return new PageInfo<ProjectItemVo>(projectItemList);
     }
 
@@ -50,7 +52,7 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
     public PageInfo<ProjectItemVo> qryProItemByContractId(Integer page, Integer pageSize, String contractId) {
 
         PageHelper.startPage(page,pageSize);
-        List<ProjectItemVo> projectItemList = ProContractRelMapper.qryProItemByContractId(contractId);
+        List<ProjectItemVo> projectItemList = proContractRelMapper.qryProItemByContractId(contractId);
         return new PageInfo<ProjectItemVo>(projectItemList);
     }
 
@@ -60,7 +62,7 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
 
         int count = 0;
         for (String id : ids){
-            int num = ProContractRelMapper.addProjectItem(contractId,id);
+            int num = proContractRelMapper.addProjectItem(contractId,id);
             if(num > 0){
                 count++;
             }else{
@@ -78,12 +80,43 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
     @Override
     public boolean delProjectItem(String contractId, String prjItemId){
 
-        int count = ProContractRelMapper.delProjectItem(contractId,prjItemId);
+        int count = proContractRelMapper.delProjectItem(contractId,prjItemId);
         if(count > 0){
             return true;
         }else{
             return  false;
         }
+    }
+
+    @Override
+    public boolean updateFileIds(ContractInfo contractInfo) {
+        boolean flag = false;
+        String checkFileIds = contractInfo.getFileRelId();
+        ContractInfo pur = new ContractInfo();
+        String oldFileRelId = "";
+        String oldElecFileRel = "";
+        pur.setContractId(contractInfo.getContractId());
+        List<ContractInfoVo> contractInfoList = contractInfoMapper.qryListContractInfo(pur);
+        for(ContractInfoVo item : contractInfoList){
+            oldFileRelId = item.getFileRelId();
+            oldElecFileRel = item.getElecFileRel();
+        }
+        List<String> checkFileIdList = new ArrayList<>(Arrays.asList(checkFileIds.split(",")));
+        for(String checkFile : checkFileIdList){
+            if(oldFileRelId.contains(checkFile)){
+                oldFileRelId = oldFileRelId.replace(checkFile+",","");
+            }else{
+                oldElecFileRel = oldElecFileRel.replace(checkFile+",","");
+            }
+        }
+
+        contractInfo.setFileRelId(oldFileRelId);
+        contractInfo.setElecFileRel(oldElecFileRel);
+        int result = contractInfoMapper.updateFileIds(contractInfo);
+        if(result>0){
+            flag = true;
+        }
+        return flag;
     }
 
 }

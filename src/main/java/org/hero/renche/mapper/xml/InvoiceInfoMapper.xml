@@ -5,7 +5,20 @@
     <select id="qryListIncoiceInfo" resultType="org.hero.renche.entity.InvoiceInfo">
 
         select invoice_id,invoice_time,invoice_money,return_time,return_money,file_rel_id,remark
-        from tx_invoice_info where contract_id = #{contractId}
+        from tx_invoice_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="InvoiceInfo.contractId != null and InvoiceInfo.contractId != '' ">
+                and  contract_id = #{InvoiceInfo.contractId}
+            </if>
+            <if test="InvoiceInfo.invoiceId != null and InvoiceInfo.invoiceId != '' ">
+                and  invoice_id = #{InvoiceInfo.invoiceId}
+            </if>
+        </trim>
         order by create_time desc
     </select>
+
+    <update id="updateFileIds">
+           update tx_invoice_info set  file_rel_id = #{InvoiceInfo.fileRelId}
+            where invoice_id = #{InvoiceInfo.invoiceId}
+    </update>
 </mapper>

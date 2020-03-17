@@ -6,6 +6,8 @@ import org.hero.renche.entity.InvoiceInfo;
 
 public interface IInvoiceInfoService extends IService<InvoiceInfo> {
 
-    PageInfo<InvoiceInfo> qryInvoiceByContractId(Integer page, Integer pageSize, String contractId);
+    PageInfo<InvoiceInfo> qryInvoiceByContractId(InvoiceInfo invoiceInfo, Integer page, Integer pageSize);
+
+    boolean updateFileIds(InvoiceInfo invoiceInfo);
 
 }

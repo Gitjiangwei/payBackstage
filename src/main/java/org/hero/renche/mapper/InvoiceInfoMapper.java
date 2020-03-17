@@ -12,5 +12,7 @@ import java.util.List;
  */
 public interface InvoiceInfoMapper extends BaseMapper<InvoiceInfo> {
 
-    List<InvoiceInfo> qryListIncoiceInfo(@Param("contractId") String contractId);
+    List<InvoiceInfo> qryListIncoiceInfo(@Param("InvoiceInfo") InvoiceInfo invoiceInfo);
+
+    int updateFileIds(@Param("InvoiceInfo") InvoiceInfo invoiceInfo);
 }

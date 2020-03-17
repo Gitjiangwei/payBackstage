@@ -18,6 +18,16 @@ public class ContractInfoVo extends ContractInfo implements Serializable {
     private String allReturnMoney;
     /**回款占比**/
     private String returnMoneyPercent;
+    /**附件个数**/
+    private String fileCount;
+
+    public String getFileCount() {
+        return fileCount;
+    }
+
+    public void setFileCount(String fileCount) {
+        this.fileCount = fileCount;
+    }
 
     public String getCompanyNameA() {
         return companyNameA;

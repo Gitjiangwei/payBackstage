@@ -38,7 +38,9 @@ public class InvoiceInfoController {
                                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
                                                              @RequestParam(name = "contractId") String contractId) {
         Result<PageInfo<InvoiceInfo>> result = new Result<>();
-        PageInfo<InvoiceInfo> pageList = invoiceInfoService.qryInvoiceByContractId(pageNo,pageSize,contractId);
+        InvoiceInfo info = new InvoiceInfo();
+        info.setContractId(contractId);
+        PageInfo<InvoiceInfo> pageList = invoiceInfoService.qryInvoiceByContractId(info,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(pageList);
         return result;
@@ -124,6 +126,26 @@ public class InvoiceInfoController {
         } else {
             this.invoiceInfoService.removeByIds(Arrays.asList(ids.split(",")));
             result.success("删除成功!");
+        }
+        return result;
+    }
+
+    @PostMapping(value = "/updateFileIds")
+    public Result<InvoiceInfo> updateFileIds(@RequestParam(name = "invoiceId") String invoiceId,
+                                              @RequestParam(name = "ids") String ids){
+        Result<InvoiceInfo> result = new Result<>();
+        if(invoiceId == null || invoiceId.equals("")){
+            result.error500("遇到未知异常，请及时排除！");
+        }else{
+            InvoiceInfo invoiceInfo = new InvoiceInfo();
+            invoiceInfo.setInvoiceId(invoiceId);
+            invoiceInfo.setFileRelId(ids);
+            Boolean resultOk = invoiceInfoService.updateFileIds(invoiceInfo);
+            if(resultOk){
+                result.success("成功！");
+            }else {
+                result.error500("遇到未知异常，请及时排除！");
+            }
         }
         return result;
     }

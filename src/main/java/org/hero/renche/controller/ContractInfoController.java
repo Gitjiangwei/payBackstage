@@ -222,4 +222,24 @@ public class ContractInfoController {
         return result;
     }
 
+    @PostMapping(value = "/updateFileIds")
+    public Result<ContractInfo> updateFileIds(@RequestParam(name = "contractId") String contractId,
+                                                  @RequestParam(name = "ids") String ids){
+        Result<ContractInfo> result = new Result<>();
+        if(contractId == null || contractId.equals("")){
+            result.error500("遇到未知异常，请及时排除！");
+        }else{
+            ContractInfo contractInfo = new ContractInfo();
+            contractInfo.setContractId(contractId);
+            contractInfo.setFileRelId(ids);
+            Boolean resultOk = contractInfoService.updateFileIds(contractInfo);
+            if(resultOk){
+                result.success("成功！");
+            }else {
+                result.error500("遇到未知异常，请及时排除！");
+            }
+        }
+        return result;
+    }
+
 }

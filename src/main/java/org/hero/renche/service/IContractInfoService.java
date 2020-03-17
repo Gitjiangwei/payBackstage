@@ -19,4 +19,6 @@ public interface IContractInfoService extends IService<ContractInfo> {
 
     boolean delProjectItem(String contractId, String prjItemId);
 
+    boolean updateFileIds(ContractInfo contractInfo);
+
 }

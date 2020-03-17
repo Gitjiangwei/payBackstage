@@ -8,13 +8,18 @@
             contract_no_a as contractNoA,party_b as partyB,b.company_name as companyNameB,contract_no_b as contractNoB,
             contract_status as contractStatus,contract_money as contractMoney,sign_in_time as signInTime,remind_period as remindPeriod,
             contract_type as contractType,remark,require_deploy_time as requireDeployTime,t.tender_id as tenderId,ti.prj_name as prjName,
-            allReturnMoney,CONCAT(round((allReturnMoney/contract_money)*100,2),'%') as returnMoneyPercent
+            allReturnMoney,CONCAT(round((allReturnMoney/contract_money)*100,2),'%') as returnMoneyPercent,
+            ifnull(file_rel_id,'') as fileRelId,ifnull(elec_file_rel,'') as elecFileRel,
+            length(CONCAT(file_rel_id,elec_file_rel))-length(replace(CONCAT(file_rel_id,elec_file_rel),',','')) as fileCount
         from tx_contract_info t
         left join tx_company_info a on t.party_a = a.company_Id
         left join tx_company_info b on t.party_b = b.company_Id
         left join tx_tender_info ti on t.tender_id = ti.tender_id
         left join (SELECT contract_id,sum(return_money) as allReturnMoney from tx_invoice_info GROUP BY contract_id) c on t.contract_id = c.contract_id
         <trim prefix="where" prefixOverrides="and">
+            <if test="ContractInfo.contractId != null and ContractInfo.contractId != '' ">
+                and  t.contract_id = #{ContractInfo.contractId}
+            </if>
             <if test="ContractInfo.contractName != null and ContractInfo.contractName != '' ">
                 and  contract_name like CONCAT('%',#{ContractInfo.contractName},'%')
             </if>
@@ -40,5 +45,10 @@
         </trim>
         order by t.create_time desc
     </select>
+
+    <update id="updateFileIds">
+           update tx_contract_info set  file_rel_id = #{ContractInfo.fileRelId}, elec_file_rel = #{ContractInfo.elecFileRel}
+            where contract_id = #{ContractInfo.contractId}
+    </update>
 
 </mapper>
