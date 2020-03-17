@@ -82,4 +82,21 @@ public class EquipInfoController {
         }
         return result;
     }
+
+    @AutoLog("设备投入使用")
+    @PostMapping(value = "/updateStatus")
+    public Result<EquipInfo> updateStatus(@RequestParam(name = "equipId") String equipId){
+        Result<EquipInfo> result = new Result<>();
+        if(equipId == null || equipId.equals("")){
+            result.error500("参数丢失！");
+        }else{
+            Boolean resultOk = equipinfoService.updateEquipStatus(equipId);
+            if(resultOk){
+                result.success("设备投入使用成功！");
+            }else{
+                result.error500("修改失败！");
+            }
+        }
+        return result;
+    }
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.ProjectItemInfo;
+import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IProjectItemInfoService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Title: Controller
@@ -132,6 +134,20 @@ public class ProjectItemInfoController {
             this.projectItemInfoService.removeByIds(Arrays.asList(ids.split(",")));
             result.success("删除成功!");
         }
+        return result;
+    }
+
+
+
+    @AutoLog("查询工程点使用的设备")
+    @RequestMapping(value = "/projectIdList")
+    public Result<PageInfo<ProjectItemModel>> qryProjectItemEquip(@RequestParam(name = "projectId") String projectId,
+                                                                  @RequestParam(name = "pageNo") Integer pageNo,
+                                                                  @RequestParam(name = "pageSize") Integer pageSize){
+        Result<PageInfo<ProjectItemModel>> result = new Result<>();
+        PageInfo<ProjectItemModel> projectItemModelPageInfo = projectItemInfoService.qryProjectItemEquip(projectId,pageNo,pageSize);
+        result.setResult(projectItemModelPageInfo);
+        result.setSuccess(true);
         return result;
     }
 

@@ -34,4 +34,7 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     Boolean updateDetailEquipInfo(EquipInfo equipInfo);
+
+
+    Boolean updateEquipStatus(String equipId);
 }

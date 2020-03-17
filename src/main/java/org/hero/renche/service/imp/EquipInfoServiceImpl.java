@@ -46,4 +46,14 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
 
         return flag;
     }
+
+    @Override
+    public Boolean updateEquipStatus(String equipId) {
+        Boolean flag = false;
+        int resultOk = equipInfoMapper.updateEquipStatus(equipId);
+        if (resultOk>0){
+            flag = true;
+        }
+        return flag;
+    }
 }
