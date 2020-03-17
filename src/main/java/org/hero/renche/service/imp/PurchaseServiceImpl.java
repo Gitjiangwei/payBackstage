@@ -130,18 +130,31 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
             oldFileRelId = item.getFileRelId();
         }
         List<String> oldFlieRelIdList = new ArrayList<>(Arrays.asList(oldFileRelId.split(",")));
-        for(String items : oldFlieRelIdList){
-            if (!items.equals(purchaseInfo.getFileRelId())){
-                newFileRelId =  items + newFileRelId + ",";
+        List<String> delFlieRelIdList = new ArrayList<>(Arrays.asList(purchaseInfo.getFileRelId().split(",")));
+        LinkedList<String> result = new LinkedList<>(oldFlieRelIdList);
+        HashSet<String> set = new HashSet<>(delFlieRelIdList);
+        Iterator<String> itor = result.iterator();
+        while(itor.hasNext()){
+            if(set.contains(itor.next())){
+                itor.remove();
             }
         }
-        char a = newFileRelId.charAt(newFileRelId.length() - 1);
-        if(a == ','){
-            newFileRelId = newFileRelId.substring(0,newFileRelId.length() - 1);
+        newFileRelId = Arrays.toString(result.toArray());
+        if(newFileRelId != null && !newFileRelId.equals("")) {
+            newFileRelId = newFileRelId.substring(1);
+            newFileRelId = newFileRelId.substring(0, newFileRelId.length() - 1);
+            if(!newFileRelId.equals("")) {
+                char a = newFileRelId.charAt(newFileRelId.length() - 1);
+                if (a == ',') {
+                    newFileRelId = newFileRelId.substring(0, newFileRelId.length() - 1);
+                }
+            }
+        }else{
+            newFileRelId = "";
         }
         purchaseInfo.setFileRelId(newFileRelId);
-        int result = purchaseInfoMapper.updateFileIds(purchaseInfo);
-        if(result>0){
+        int results = purchaseInfoMapper.updateFileIds(purchaseInfo);
+        if(results>0){
             flag = true;
         }
         return flag;

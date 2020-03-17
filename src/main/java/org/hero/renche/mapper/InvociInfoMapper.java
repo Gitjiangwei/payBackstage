@@ -15,5 +15,7 @@ public interface InvociInfoMapper extends BaseMapper<InvociInfo> {
     List<VoInvoicInfo> qryVoInvoicInfoList( @Param("VoInvoicInfo") VoInvoicInfo voInvoicInfo);
     int addInvoic(@Param("InvociInfo") InvociInfo invoicInfo);
     int updateInvoicById(@Param("InvociInfo") InvociInfo invociInfo);
-//
+    int updateFileIds(@Param("ids") String ids, @Param("invociId") String invociId);
+
+    String qryFileIdByInvociId(@Param("invociId") String invociId);
 }

@@ -35,5 +35,6 @@ public class VoViditInfo implements Serializable {
     private String result;
     /**附件关联id*/
     private String fileRelId;
+    private String fileNum;
 
 }

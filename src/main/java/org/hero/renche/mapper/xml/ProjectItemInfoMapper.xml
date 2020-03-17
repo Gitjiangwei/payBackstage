@@ -49,4 +49,12 @@
 
     </select>
 
+
+    <select id="qryProjectEquip" resultType="org.hero.renche.entity.modelData.ProjectItemModel">
+        select o.out_id, info.equip_name,info.equip_model,info.equip_no,info.use_times from tx_out_equip o
+        LEFT JOIN tx_equip_info info ON o.equip_id = info.equip_id
+        where o.prj_item_id = #{projectItemId}
+
+    </select>
+
 </mapper>

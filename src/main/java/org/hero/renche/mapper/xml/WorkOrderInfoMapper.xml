@@ -87,13 +87,26 @@
         <if test="WorkOrderInfo.status != null and WorkOrderInfo.status != ''">
             a.status = #{WorkOrderInfo.status},
         </if>
-        <if test="WorkOrderInfo.prjItemId != null and WorkOrderInfo.prjItemId != ''">
-            a.file_rel_id = #{WorkOrderInfo.prjItemId},
+        <if test="WorkOrderInfo.fileRelId != null and WorkOrderInfo.fileRelId != ''">
+            a.file_rel_id = #{WorkOrderInfo.fileRelId},
         </if>
     </trim>
         where a.work_id = #{WorkOrderInfo.workId}
 
 
     </update>
+
+    <update id="updateFileIds">
+
+        update tx_work_order set file_rel_id = #{ids} where work_id = #{workId}
+    </update>
+    <select id="qryFileIdByWorkId" resultType="java.lang.String">
+
+        select file_rel_id from tx_work_order where work_id = #{workId}
+    </select>
+
+
+
+
 
 </mapper>

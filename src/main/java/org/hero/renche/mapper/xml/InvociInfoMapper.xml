@@ -15,6 +15,7 @@
 	a.bank,
 	a.bank_no,
 	a.create_time,
+	a.file_rel_id,
 	b.file_name,
 	b.file_url,
 	b.file_id
@@ -81,6 +82,14 @@ FROM
 		address = #{InvociInfo.address} , tel = #{InvociInfo.tel} ,
 		 bank = #{InvociInfo.bank} , bank_no = #{InvociInfo.bankNo} ,
 		 file_rel_id = #{InvociInfo.fileRelId} where invoci_id = #{InvociInfo.invociId}
+	</update>
+
+	<select id="qryFileIdByInvociId" resultType="java.lang.String">
+		select  file_rel_id from tx_invoci_info where invoci_id = #{invociId}
+	</select>
+
+	<update id="updateFileIds">
+		 update tx_invoci_info set file_rel_id = #{ids} where invoci_id = #{invociId}
 	</update>
 
 </mapper>

@@ -21,5 +21,8 @@ public interface VisitInfoMapper extends BaseMapper<VisitInfo> {
     int deleteVisitInfoById(@Param("visitId") String visitId);
 
     int selectVisitById(@Param("visitId") String visitId);
+    int updateFileIds(@Param("ids") String ids, @Param("visitId") String visitId);
+
+    String qryFileIdByVisitId(@Param("visitId") String visitId);
 
 }
