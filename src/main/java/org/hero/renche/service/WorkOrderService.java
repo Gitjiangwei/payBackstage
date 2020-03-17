@@ -18,4 +18,5 @@ public interface WorkOrderService {
     List<Map<String,String>> prjItemName();
     String qryPrjItemIdByPrjItemName(String prjName);
     int upWorkOrderInfo(WorkOrderInfo workOrderInfo);
+    boolean updateFileIds( String ids,String workId);
 }

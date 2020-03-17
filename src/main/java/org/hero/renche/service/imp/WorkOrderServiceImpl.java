@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -85,5 +86,36 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     public int upWorkOrderInfo(WorkOrderInfo workOrderInfo) {
         int i =workOrderInfoMapper.upWorkOrderInfo(workOrderInfo);
         return i;
+    }
+
+    @Override
+    public boolean updateFileIds(String ids, String workId) {
+        String oldfileId=workOrderInfoMapper.qryFileIdByWorkId(workId);
+        String[] fileIds=oldfileId.split(",");
+        List<String> oldidss= Arrays.asList(fileIds);
+        List<String> newidss=Arrays.asList(ids.split(","));
+        String id="";
+
+        for(String oFileid : oldidss){
+            for(String nfileId :newidss){
+                if(!nfileId.equals(oFileid)){
+                    id += oFileid+",";
+                }
+            }
+        }
+
+        char a = id.charAt(id.length() - 1);
+        if(a == ','){
+            id = id.substring(0,id.length() - 1);
+        }
+
+        System.out.println("///////////////id====="+id);
+
+        int i= workOrderInfoMapper.updateFileIds(id,workId);
+        if(i>0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
