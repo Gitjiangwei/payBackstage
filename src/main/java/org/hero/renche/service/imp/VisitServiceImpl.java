@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -76,5 +77,36 @@ public class VisitServiceImpl implements VisitService {
     public int qryVisitInfoById(String visitId) {
         int i=visitInfoMapper.selectVisitById(visitId);
         return i;
+    }
+
+    @Override
+    public boolean updateFileIds(String ids,String visitId) {
+        String oldfileId=visitInfoMapper.qryFileIdByVisitId(visitId);
+        String[] fileIds=oldfileId.split(",");
+        List<String> oldidss= Arrays.asList(fileIds);
+        List<String> newidss=Arrays.asList(ids.split(","));
+        String id="";
+
+        for(String oFileid : oldidss){
+            for(String nfileId :newidss){
+                if(!nfileId.equals(oFileid)){
+                    id += oFileid+",";
+                }
+            }
+        }
+
+        char a = id.charAt(id.length() - 1);
+        if(a == ','){
+            id = id.substring(0,id.length() - 1);
+        }
+
+        System.out.println("///////////////id====="+id);
+
+       int i= visitInfoMapper.updateFileIds(id,visitId);
+        if(i>0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
