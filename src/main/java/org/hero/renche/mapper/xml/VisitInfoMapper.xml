@@ -47,6 +47,17 @@
      select count(0) from tx_visit_info where visit_id =#{visitId}
     </select>
 
+    <update id="updateFileIds"  >
+
+       update tx_visit_info set file_rel_id = #{ids} where visit_id =#{visitId}
+
+    </update>
+
+    <select id="qryFileIdByVisitId"  resultType="java.lang.String">
+        select file_rel_id from tx_visit_info where visit_id =#{visitId}
+
+    </select>
+
 
 
 

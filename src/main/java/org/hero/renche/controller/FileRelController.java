@@ -3,8 +3,11 @@ package org.hero.renche.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.FileRel;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.VisitInfo;
+import org.hero.renche.mapper.VisitInfoMapper;
 import org.hero.renche.service.IFileRelService;
 import org.hero.renche.service.IPurchaseService;
+import org.hero.renche.service.VisitService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ public class FileRelController {
 
     @Autowired
     private IPurchaseService purchaseService;
+
+    @Autowired
+    private VisitService visitService;
+
 
 
     @AutoLog("删除附件")
@@ -57,6 +64,28 @@ public class FileRelController {
             Boolean resultOk = purchaseService.updateFileIds(purchaseInfo);
             if(resultOk){
                 result.success("成功！");
+            }else {
+                result.error500("遇到未知异常，请及时排除！");
+            }
+        }
+        return result;
+    }
+
+
+
+    @PostMapping(value = "/updateVisitInfoIds")
+    public Result<PurchaseInfo> updateVisitInfoIds(@RequestParam(name = "visitId") String visitId,
+                                                  @RequestParam(name = "ids") String ids){
+        Result<PurchaseInfo> result = new Result<>();
+        if(visitId == null || visitId.equals("")){
+            result.error500("遇到未知异常，请及时排除！");
+        }else{
+            VisitInfo visitInfo = new VisitInfo();
+            visitInfo.setFileRelId(ids);
+            visitInfo.setVisitId(visitId);
+            Boolean resultOk = visitService.updateFileIds( ids,visitId);
+            if(resultOk){
+                result.success("删除成功！");
             }else {
                 result.error500("遇到未知异常，请及时排除！");
             }
