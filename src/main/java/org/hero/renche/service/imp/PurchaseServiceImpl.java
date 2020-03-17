@@ -135,9 +135,13 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
                 newFileRelId =  items + newFileRelId + ",";
             }
         }
-        char a = newFileRelId.charAt(newFileRelId.length() - 1);
-        if(a == ','){
-            newFileRelId = newFileRelId.substring(0,newFileRelId.length() - 1);
+        if(newFileRelId != null && !newFileRelId.equals("")) {
+            char a = newFileRelId.charAt(newFileRelId.length() - 1);
+            if (a == ',') {
+                newFileRelId = newFileRelId.substring(0, newFileRelId.length() - 1);
+            }
+        }else{
+            newFileRelId = "";
         }
         purchaseInfo.setFileRelId(newFileRelId);
         int result = purchaseInfoMapper.updateFileIds(purchaseInfo);
