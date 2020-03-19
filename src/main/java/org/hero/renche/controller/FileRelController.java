@@ -2,21 +2,28 @@ package org.hero.renche.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.*;
-import org.hero.renche.mapper.VisitInfoMapper;
 import org.hero.renche.service.*;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
 
 @RestController
 @Slf4j
 @RequestMapping(value = "/renche/file")
 public class FileRelController {
 
+    @Value(value = "${uploadpath}")
+    private String uploadpath;
+
     @Autowired
     private IFileRelService fileRelService;
-
 
     @Autowired
     private IPurchaseService purchaseService;
@@ -39,11 +46,31 @@ public class FileRelController {
         if(ids == null || ids.equals("")){
             result.error500("参数丢失！");
         }else{
-            Boolean resultOk = fileRelService.deleteFile(ids);
-            if(resultOk){
-                result.success("删除成功");
-            }else {
-                result.error500("删除失败！");
+            try {
+                String[] fileRelIds = ids.split(",");
+                String path = "";
+                String uploadpaths = "";
+                File file = null;
+                for (String item : fileRelIds){
+                    path = fileRelService.qryFileRelKey(item);
+                    uploadpaths = uploadpath.replace("\\","/");
+                    path = uploadpaths + "/" + path;
+                    // path是指欲删除的文件的路径。
+                    file = new File(path);
+                    if(file.exists()){
+                        if (file.isFile()) {
+                            file.delete();
+                        }
+                    }
+                }
+                Boolean resultOk = fileRelService.deleteFile(ids);
+                if(resultOk){
+                    result.success("删除成功");
+                }else {
+                    result.error500("删除失败！");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
 

@@ -38,9 +38,11 @@ public class ContractInfo implements Serializable {
     private String contractMoney;
     /**签收时间*/
     private String signInTime;
+    /**提醒周期类型*/
+    private String remindPeriodType;
     /**提醒周期*/
     private String remindPeriod;
-    /**合同k类型*/
+    /**合同类型*/
     private String contractType;
     /**备注*/
     private String remark;
