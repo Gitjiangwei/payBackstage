@@ -48,6 +48,10 @@ public class ProjectItemInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd ")
     private Date finishTime;
+    /**要求部署时间*/
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date requireDeployTime;
     /**创建时间*/
     private Date createTime;
 

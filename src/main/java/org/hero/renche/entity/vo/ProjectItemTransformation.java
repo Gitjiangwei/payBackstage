@@ -18,6 +18,7 @@ public class ProjectItemTransformation {
         po.setProgressOfItem(vo.getProgressOfItem());
         po.setEntryTime(vo.getEntryTime());
         po.setFinishTime(vo.getFinishTime());
+        po.setRequireDeployTime(vo.getRequireDeployTime());
         return  po;
     }
 
@@ -35,6 +36,7 @@ public class ProjectItemTransformation {
         vo.setProgressOfItem(po.getProgressOfItem());
         vo.setEntryTime(po.getEntryTime());
         vo.setFinishTime(po.getFinishTime());
+        vo.setRequireDeployTime(po.getRequireDeployTime());
         return  vo;
     }
 
