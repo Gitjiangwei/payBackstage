@@ -30,6 +30,8 @@ public class ProjectItemInfo implements Serializable {
     private String prjItemPlace;
     /**工程类型*/
     private String prjItemType;
+    /**工程状态*/
+    private String prjItemStatus;
     /**项目名称*/
     private String prjName;
     /**项目所属公司*/

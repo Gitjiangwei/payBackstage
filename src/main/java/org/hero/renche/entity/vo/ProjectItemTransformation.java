@@ -10,6 +10,7 @@ public class ProjectItemTransformation {
         po.setPrjItemName(vo.getPrjItemName());
         po.setPrjItemNum(vo.getPrjItemNum());
         po.setPrjItemType(vo.getPrjItemType());
+        po.setPrjItemStatus(vo.getPrjItemStatus());
         po.setPrjName(vo.getPrjName());
         po.setPrjItemPlace(vo.getPrjItemPlace());
         po.setPersonInCharge(vo.getPersonInCharge());
@@ -29,6 +30,7 @@ public class ProjectItemTransformation {
         vo.setPrjItemNum(po.getPrjItemNum());
         vo.setPrjItemType(po.getPrjItemType());
         vo.setPrjName(po.getPrjName());
+        vo.setPrjItemStatus(po.getPrjItemStatus());
         vo.setPrjItemPlace(po.getPrjItemPlace());
         vo.setPersonInCharge(po.getPersonInCharge());
         vo.setPersonTel(po.getPersonTel());
