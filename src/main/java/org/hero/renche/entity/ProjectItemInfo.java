@@ -30,6 +30,8 @@ public class ProjectItemInfo implements Serializable {
     private String prjItemPlace;
     /**工程类型*/
     private String prjItemType;
+    /**工程状态*/
+    private String prjItemStatus;
     /**项目名称*/
     private String prjName;
     /**项目所属公司*/
@@ -48,6 +50,10 @@ public class ProjectItemInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd ")
     private Date finishTime;
+    /**要求部署时间*/
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date requireDeployTime;
     /**创建时间*/
     private Date createTime;
 

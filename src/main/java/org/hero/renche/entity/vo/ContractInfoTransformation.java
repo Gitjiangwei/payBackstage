@@ -15,10 +15,10 @@ public class ContractInfoTransformation {
         po.setContractType(vo.getContractType());
         po.setPartyA(vo.getPartyA());
         po.setPartyB(vo.getPartyB());
+        po.setRemindPeriodType(vo.getRemindPeriodType());
         po.setRemindPeriod(vo.getRemindPeriod());
         po.setSignInTime(vo.getSignInTime());
         po.setRemark(vo.getRemark());
-        po.setRequireDeployTime(vo.getRequireDeployTime());
         po.setFileRelId(vo.getFileRelId());
         po.setElecFileRel(vo.getElecFileRel());
         po.setTenderId(vo.getTenderId());
@@ -36,10 +36,10 @@ public class ContractInfoTransformation {
         vo.setContractType(po.getContractType());
         vo.setPartyA(po.getPartyA());
         vo.setPartyB(po.getPartyB());
+        po.setRemindPeriodType(vo.getRemindPeriodType());
         vo.setRemindPeriod(po.getRemindPeriod());
         vo.setSignInTime(po.getSignInTime());
         vo.setRemark(po.getRemark());
-        vo.setRequireDeployTime(po.getRequireDeployTime());
         vo.setFileRelId(po.getFileRelId());
         vo.setElecFileRel(po.getElecFileRel());
         vo.setTenderId(po.getTenderId());

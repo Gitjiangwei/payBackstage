@@ -21,4 +21,9 @@ public class ContactUtils {
     private static  final String  PROJECTITEMTYPE_PERSONORCAR = "PERSONORCAR";//人车
     private static  final String  PROJECTITEMTYPE_FOURG = "FOURG";//4G
 
+    /** 提醒周期类型 **/
+    private static  final String  REMINDPERIODTYPE = "REMINDPERIODTYPE";
+    private static  final String  REMINDPERIODTYPE_WEEK = "WEEK";//按周
+    private static  final String  REMINDPERIODTYPE_MONTH = "MONTH";//按月
+
 }

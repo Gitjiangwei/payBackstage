@@ -10,6 +10,7 @@ public class ProjectItemTransformation {
         po.setPrjItemName(vo.getPrjItemName());
         po.setPrjItemNum(vo.getPrjItemNum());
         po.setPrjItemType(vo.getPrjItemType());
+        po.setPrjItemStatus(vo.getPrjItemStatus());
         po.setPrjName(vo.getPrjName());
         po.setPrjItemPlace(vo.getPrjItemPlace());
         po.setPersonInCharge(vo.getPersonInCharge());
@@ -18,6 +19,7 @@ public class ProjectItemTransformation {
         po.setProgressOfItem(vo.getProgressOfItem());
         po.setEntryTime(vo.getEntryTime());
         po.setFinishTime(vo.getFinishTime());
+        po.setRequireDeployTime(vo.getRequireDeployTime());
         return  po;
     }
 
@@ -28,6 +30,7 @@ public class ProjectItemTransformation {
         vo.setPrjItemNum(po.getPrjItemNum());
         vo.setPrjItemType(po.getPrjItemType());
         vo.setPrjName(po.getPrjName());
+        vo.setPrjItemStatus(po.getPrjItemStatus());
         vo.setPrjItemPlace(po.getPrjItemPlace());
         vo.setPersonInCharge(po.getPersonInCharge());
         vo.setPersonTel(po.getPersonTel());
@@ -35,6 +38,7 @@ public class ProjectItemTransformation {
         vo.setProgressOfItem(po.getProgressOfItem());
         vo.setEntryTime(po.getEntryTime());
         vo.setFinishTime(po.getFinishTime());
+        vo.setRequireDeployTime(po.getRequireDeployTime());
         return  vo;
     }
 
