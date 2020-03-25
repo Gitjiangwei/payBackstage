@@ -3,6 +3,7 @@ package org.hero.renche.service.imp;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.hero.renche.controller.voentity.projectStatus;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -44,4 +46,17 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
         return new PageInfo<ProjectItemModel>(projectItemModelList);
     }
 
+    @Override
+    public List<projectStatus> qryStatusList() {
+        List<projectStatus> list= projectItemInfoMapper.qryStatusList();
+
+        return list;
+    }
+
+    @Override
+    public List<projectStatus> qryStatusList1() {
+        List<projectStatus> list= projectItemInfoMapper.qryStatusList1();
+
+        return list;
+    }
 }

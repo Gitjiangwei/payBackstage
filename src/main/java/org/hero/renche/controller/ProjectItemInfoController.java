@@ -3,6 +3,7 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hero.renche.controller.voentity.projectStatus;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
@@ -11,12 +12,14 @@ import org.hero.renche.service.IProjectItemInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Title: Controller
@@ -149,6 +152,43 @@ public class ProjectItemInfoController {
         result.setResult(projectItemModelPageInfo);
         result.setSuccess(true);
         return result;
+    }
+
+    @AutoLog("查询人员车辆工程点状态数量")
+    @GetMapping(value = "/qryStatus")
+    public Result<List<projectStatus>> qryStatus(){
+        Result<List<projectStatus>> result=new Result<>();
+
+        try{
+            List<projectStatus> statusList=projectItemInfoService.qryStatusList();
+            result.setResult(statusList);
+            result.setSuccess(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("查询失败");
+        }
+
+        return result;
+
+    }
+    @AutoLog("查询4G视频工程点状态数量")
+    @GetMapping(value = "/qryStatus1")
+    public Result<List<projectStatus>> qryStatus1(){
+        Result<List<projectStatus>> result=new Result<>();
+
+        try{
+            List<projectStatus> statusList=projectItemInfoService.qryStatusList1();
+            result.setResult(statusList);
+            result.setSuccess(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("查询失败");
+        }
+
+        return result;
+
     }
 
 }
