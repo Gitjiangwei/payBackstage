@@ -2,6 +2,7 @@ package org.hero.renche.service;
 
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
+import org.hero.renche.controller.voentity.VoVidit;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.entity.VisitInfo;
 
@@ -21,4 +22,6 @@ public interface VisitService {
     int qryVisitInfoById(String visitId);
 
     boolean updateFileIds(String ids,String visitId);
+
+    List qryViditInfolist(VoViditInfo voVidit);
 }

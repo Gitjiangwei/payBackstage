@@ -2,6 +2,7 @@ package org.hero.renche.service.imp;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.hero.renche.controller.voentity.VoVidit;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.mapper.CompanyInfoMapper;
@@ -113,5 +114,12 @@ public class VisitServiceImpl implements VisitService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public List qryViditInfolist(VoViditInfo voVidit) {
+
+        List exList=visitInfoMapper.qryViditInfolist(voVidit);
+        return exList;
     }
 }
