@@ -4,7 +4,7 @@ import org.hero.renche.entity.ContractInfo;
 
 public class ContractInfoTransformation {
 
-    public ContractInfo toPo(ContractInfoVo vo){
+    public static ContractInfo toPo(ContractInfoVo vo){
         ContractInfo po = new ContractInfo();
         po.setContractId(vo.getContractId());
         po.setContractName(vo.getContractName());
@@ -25,7 +25,7 @@ public class ContractInfoTransformation {
         return  po;
     }
 
-    public ContractInfoVo toVo(ContractInfo po){
+    public static ContractInfoVo toVo(ContractInfo po){
         ContractInfoVo vo = new ContractInfoVo();
         vo.setContractId(po.getContractId());
         vo.setContractName(po.getContractName());

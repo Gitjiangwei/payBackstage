@@ -61,8 +61,7 @@ public class ProjectItemInfoController {
     @AutoLog(value = "添加工程点信息")
     public Result<ProjectItemInfo> add(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
-        ProjectItemTransformation transformation = new ProjectItemTransformation();
-        ProjectItemInfo projectItemInfo = transformation.toPo(projectItemVo);
+        ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
         projectItemInfo.setCreateTime(new Date());
         try {
             boolean ok = projectItemInfoService.save(projectItemInfo);
@@ -83,8 +82,7 @@ public class ProjectItemInfoController {
     @PutMapping(value = "/edit")
     public Result<ProjectItemInfo> eidt(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
-        ProjectItemTransformation transformation = new ProjectItemTransformation();
-        ProjectItemInfo projectItemInfo = transformation.toPo(projectItemVo);
+        ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
         ProjectItemInfo projectItemInfoEntity = projectItemInfoService.getById(projectItemInfo.getPrjItemId());
         if (projectItemInfoEntity == null) {
             result.error500("未找到对应实体");
