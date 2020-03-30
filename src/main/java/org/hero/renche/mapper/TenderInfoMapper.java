@@ -15,4 +15,5 @@ public interface TenderInfoMapper extends BaseMapper<TenderInfo> {
     List<TenderInfo> qryTenderList(@Param("TenderInfo") TenderInfo tenderInfo);
     int addTenser(@Param("TenderInfo") TenderInfo tenderInfo);
     int deleteBatchTenderInfo(List<String> paramIds);
+    List exportTenderInfoList(@Param("TenderInfo") TenderInfo tenderInfo);
 }

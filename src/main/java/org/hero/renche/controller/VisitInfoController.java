@@ -303,7 +303,7 @@ public class VisitInfoController {
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("导出客户列表失败");
+            result.error500("导出失败");
         }
         return result;
     }
