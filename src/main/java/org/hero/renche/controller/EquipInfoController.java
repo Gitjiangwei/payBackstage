@@ -3,15 +3,20 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.hero.renche.entity.EquipInfo;
+import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
 import org.hero.renche.service.IEquipinfoService;
+import org.hero.renche.service.IPurchaseService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/renche/equip")
@@ -96,6 +101,66 @@ public class EquipInfoController {
             }else{
                 result.error500("修改失败！");
             }
+        }
+        return result;
+    }
+
+    /**
+     * 导出设备库存列表
+     *
+     * @param
+     * @param response
+     * @return
+     */
+    @GetMapping("/exportEquip")
+    public Result<PageInfo<EquipInfo>> exportEquip(EquipInfo equipInfo , HttpServletResponse response){
+        Result<PageInfo<EquipInfo>> result=new Result<>();
+        try{
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("equipName",equipInfo.getEquipName());
+            map.put("equipModel",equipInfo.getEquipModel());
+            List<EquipinfoModel> qryList= equipinfoService.exportEquipInfoList(map);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            EquipinfoModel vv=null;
+            for(int i=0;i<qryList.size();i++){
+                list=new ArrayList();
+                vv=qryList.get(i);
+                Date date1= vv.getCreateTime();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
+                String createTime = formatter.format(date1);
+                list.add(i+1);
+                list.add(vv.getEquipName());
+                list.add(vv.getEquipModel());
+                list.add(vv.getCount());
+                list.add(vv.getInuseCount());
+                list.add(vv.getFreeCount());
+                list.add(vv.getScripCount());
+                list.add(vv.getMaintenonceCount());
+                list.add(createTime);
+                lists.add(list);
+            }
+            ExcelData excelData=new ExcelData();
+            excelData.setName("设备库存");
+            List titlesList=new ArrayList();
+            titlesList.add("序号");
+            titlesList.add("设备名称");
+            titlesList.add("设备型号");
+            titlesList.add("数量");
+            titlesList.add("使用中");
+            titlesList.add("空闲");
+            titlesList.add("报废");
+            titlesList.add("维修中");
+            titlesList.add("入库时间");
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "设备库存.xlsx" , excelData);
+            result.setMessage("导出成功");
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            result.error500("导出失败");
         }
         return result;
     }
