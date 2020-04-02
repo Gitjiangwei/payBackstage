@@ -56,4 +56,10 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
         }
         return flag;
     }
+
+    @Override
+    public List exportEquipInfoList(Map<String, String> map) {
+        List list=equipInfoMapper.exportEquipInfoList(map);
+        return list;
+    }
 }

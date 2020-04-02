@@ -93,4 +93,50 @@
         update tx_equip_info set equip_status = '0bd5a7bb593811eaab75b4a9fc4b5236'
         where equip_id = #{equipId}
     </update>
+
+
+    <select id="exportEquipInfoList" parameterType="Map" resultType="org.hero.renche.entity.modelData.EquipinfoModel">
+
+
+        select b.purchase_id, b.equip_name,b.create_time,b.equip_model,count(1) as 'count',count(c.couns) as 'inuse_count',count(d.couns) as 'free_count',count(e.couns) as 'maintenonce_count',
+        count(g.couns) as 'scrip_count'
+        from tx_equip_info b
+        LEFT JOIN (
+        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+        where b.dict_code_name = '使用中'
+        GROUP BY a.equip_status,equip_id
+        )c  ON  b.equip_id  = c.equip_id
+        LEFT JOIN (
+        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+        where b.dict_code_name = '空闲'
+        GROUP BY a.equip_status,equip_id
+        )d  ON  b.equip_id  = d.equip_id
+        LEFT JOIN (
+        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+        where b.dict_code_name = '维修中'
+        GROUP BY a.equip_status,equip_id
+        )e  ON  b.equip_id  = e.equip_id
+        LEFT JOIN (
+        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
+        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+        where b.dict_code_name = '报废'
+        GROUP BY a.equip_status,equip_id
+        )g  ON  b.equip_id  = g.equip_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="equip.equipName != null and equip.equipName != '' ">
+                and b.equip_name like CONCAT('%',#{equip.equipName},'%')
+            </if>
+            <if test="equip.equipModel != null and equip.equipModel != '' ">
+                and b.equip_model like CONCAT('%',#{equip.equipModel},'%')
+            </if>
+        </trim>
+
+
+        GROUP BY b.purchase_id ORDER BY b.create_time
+
+    </select>
+
 </mapper>
