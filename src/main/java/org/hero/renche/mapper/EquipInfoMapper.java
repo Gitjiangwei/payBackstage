@@ -25,5 +25,8 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
     int updateDetailEquipInfo(@Param("equipInfo") EquipInfo equipInfo);
 
     int updateEquipStatus(@Param("equipId") String equipId);
+    List exportEquipInfoList(@Param("equip")Map<String,String> map);
+
+    int updateEuipStatusweix(@Param("equipId") String equipId);
 
 }

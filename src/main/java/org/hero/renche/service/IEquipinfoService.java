@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IEquipinfoService extends IService<EquipInfo> {
@@ -37,4 +38,13 @@ public interface IEquipinfoService extends IService<EquipInfo> {
 
 
     Boolean updateEquipStatus(String equipId);
+
+    List exportEquipInfoList(Map<String,String> map);
+
+    /**
+     * 设备进入维修
+     * @param equipId
+     * @return
+     */
+    Boolean updateEquipStatusweix(String equipId);
 }
