@@ -270,11 +270,11 @@ public class VisitInfoController {
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
             VoViditInfo vv=null;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             for(int i=0;i<qryList.size();i++){
                 list=new ArrayList();
                 vv=qryList.get(i);
                 Date date= vv.getVisitTime();
-               SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                String dateString = formatter.format(date);
                list.add(i+1);
                list.add(vv.getCompanyName());

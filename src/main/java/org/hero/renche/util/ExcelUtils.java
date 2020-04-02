@@ -1,6 +1,10 @@
 package org.hero.renche.util;
 
 
+ import org.apache.poi.hssf.usermodel.HSSFCell;
+ import org.apache.poi.hssf.usermodel.HSSFRow;
+ import org.apache.poi.hssf.usermodel.HSSFSheet;
+ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  import org.apache.poi.ss.usermodel.Font;
  import org.apache.poi.ss.usermodel.*;
  import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -11,9 +15,13 @@ package org.hero.renche.util;
 
  import javax.servlet.http.HttpServletResponse;
  import java.awt.Color;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
  import java.io.OutputStream;
  import java.net.URLEncoder;
  import java.util.List;
+ import java.util.Map;
 
 /**
  * 导出工具类
@@ -153,6 +161,35 @@ public class ExcelUtils {
         style.setBorderColor(BorderSide.RIGHT, color);
         style.setBorderColor(BorderSide.BOTTOM, color);
     }
+//
+//    private static String[] importExcel(File file, String sheetName, int length, String[] titleColumn){
+//        String[] a = null;
+//        try {
+//            FileInputStream in = new FileInputStream(file);
+//            HSSFWorkbook workbook = new HSSFWorkbook(in);
+//            HSSFSheet sheet = workbook.getSheet(sheetName);
+//            for(int i = 0 ; i < sheet.getPhysicalNumberOfRows(); i++){
+//                HSSFRow row = sheet.getRow(i);
+//                if(null != row){
+//                    readExcelCell(row, length);
+//                }
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }finally {
+//            return  a;
+//        }
+//    }
+//
+//    private static String[] readExcelCell (HSSFRow row, int length){
+//        String[] a = new String[length];
+//
+//        for (int i = 0; i < length; i++){
+//            HSSFCell cell = row.getCell(i);
+//        }
+//
+//        return a;
+//    }
 
 }
 

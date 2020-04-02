@@ -7,7 +7,10 @@ import org.hero.renche.controller.voentity.projectStatus;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -31,5 +34,9 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
      */
     List<projectStatus> qryStatusList();
     List<projectStatus> qryStatusList1();
+
+    String importExcel(MultipartFile file);
+
+    String exportPrjItem(ProjectItemInfo projectItemInfo, HttpServletResponse response);
 
 }
