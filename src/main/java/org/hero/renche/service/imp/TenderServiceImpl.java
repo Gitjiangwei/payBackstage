@@ -72,10 +72,4 @@ public class TenderServiceImpl implements TenderService {
             return false;
         }
     }
-
-    @Override
-    public List exportTenderInfoList(TenderInfo tenderInfo) {
-        List list=tenderInfoMapper.exportTenderInfoList(tenderInfo);
-        return list;
-    }
 }

@@ -62,4 +62,14 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
         List list=equipInfoMapper.exportEquipInfoList(map);
         return list;
     }
+
+    @Override
+    public Boolean updateEquipStatusweix(String equipId) {
+        Boolean flag = false;
+        int resultOk = equipInfoMapper.updateEuipStatusweix(equipId);
+        if (resultOk>0){
+            flag = true;
+        }
+        return flag;
+    }
 }

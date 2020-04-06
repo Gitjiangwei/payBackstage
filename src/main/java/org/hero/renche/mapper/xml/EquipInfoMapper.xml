@@ -139,4 +139,9 @@
 
     </select>
 
+
+    <update id="updateEuipStatusweix">
+        update tx_equip_info set equip_status = '0bd710ac593811eaab75b4a9fc4b5236'
+        where equip_id = #{equipId}
+    </update>
 </mapper>

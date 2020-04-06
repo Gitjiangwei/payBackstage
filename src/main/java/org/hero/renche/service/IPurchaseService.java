@@ -62,6 +62,4 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
     String qryePurchaseId(String purchaseId);
 
     boolean updateFileIds(PurchaseInfo purchaseInfo);
-
-    List exportPurchaseInfoList(PurchaseInfo purchaseInfo);
 }

@@ -47,7 +47,7 @@
     </select>
 
     <select id="qryIdListByRemaindType" resultType="org.hero.renche.entity.ContractInfo">
-        select contract_id as contractId,contract_name as contractName from tx_contract_info where ifnull(remind_period_type,'WEEK')=#{type} and contract_status = '1'
+        select contract_id as contractId,contract_name as contractName from tx_contract_info where remind_period_type=#{type} and contract_status = '1'
     </select>
 
     <update id="updateFileIds">

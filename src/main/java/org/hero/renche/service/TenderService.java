@@ -15,5 +15,4 @@ public interface TenderService {
     Boolean deleteTenderInfoById(String id);
     boolean upTenderById(TenderInfo tenderInfo);
     boolean deleteBatchTenderInfo(List<String> paramIds);
-    List exportTenderInfoList(TenderInfo tenderInfo);
 }

@@ -59,25 +59,6 @@
     </select>
 
 
-    <select id="qryViditInfolist" resultType="org.hero.renche.controller.voentity.VoViditInfo">
-        SELECT b.company_name ,  a.visit_time , a.visitor ,a.way , a.content ,a.result,a.visit_id , a.file_rel_id
-        FROM tx_visit_info a  join tx_company_info b on a.company_id=b.company_id
-        <trim prefix="where" prefixOverrides="and">
-            <if test="VoViditInfo.companyName !=null and VoViditInfo.companyName != '' ">
-                and  b.company_name like CONCAT('%',#{VoViditInfo.companyName},'%')
-            </if>
-            <if test="VoViditInfo.visitTime != null and VoViditInfo.visitTime != '' ">
-                and  a.visit_time  like CONCAT('%',#{VoViditInfo.visitTime },'%')
-            </if>
-            <if test="VoViditInfo.visitor != null and VoViditInfo.visitor!= '' ">
-                and  a.visitor  like CONCAT('%',#{VoViditInfo.visitor },'%')
-            </if>
-
-        </trim>
-        order by a.visit_time desc
-    </select>
-
-
 
 
 </mapper>

@@ -160,10 +160,5 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
         return flag;
     }
 
-    @Override
-    public List exportPurchaseInfoList(PurchaseInfo purchaseInfo) {
-        List list=purchaseInfoMapper.exportPurchaseInfoList(purchaseInfo);
-        return list;
-    }
 
 }

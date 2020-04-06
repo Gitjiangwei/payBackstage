@@ -3,21 +3,20 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hero.renche.controller.voentity.VoInvoicInfo;
 import org.hero.renche.entity.TenderInfo;
 import org.hero.renche.service.TenderService;
-import org.hero.renche.util.ExcelData;
-import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @RestController()
 @Slf4j
@@ -201,62 +200,6 @@ public class TenderInfoController {
            result.error500("批量删除失败");
        }
         return  result;
-    }
-    /**
-     * 导出招标信息列表
-     *
-     * @param
-     * @param response
-     * @return
-     */
-    @ApiOperation(value = "导出招标信息列表", notes = "导出招标信息列表", produces = "application/json")
-    @GetMapping(value = "/exportTender" )
-    public Result<PageInfo<TenderInfo>> exportTender(TenderInfo tenderInfo , HttpServletResponse response){
-        Result<PageInfo<TenderInfo>> result=new Result<>();
-
-        try{
-            List<TenderInfo> qryList=tenderService.exportTenderInfoList(tenderInfo);
-            List<List<Object>> lists=new ArrayList<>();
-            List<Object> list=null;
-            TenderInfo vv=null;
-            for(int i=0;i<qryList.size();i++){
-                list=new ArrayList();
-                vv=qryList.get(i);
-                Date date1= vv.getCreateTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
-                String createTime = formatter.format(date1);
-                list.add(i+1);
-                list.add(vv.getPrjName());
-                list.add(vv.getTenderNo());
-                list.add(vv.getTenderCompany());
-                list.add(vv.getTenderOffer());
-                list.add(vv.getDeposit());
-                list.add(vv.getIsBack());
-                list.add(createTime);
-                lists.add(list);
-            }
-            ExcelData excelData=new ExcelData();
-            excelData.setName("发票管理");
-            List titlesList=new ArrayList();
-            titlesList.add("序号");
-            titlesList.add("项目名称");
-            titlesList.add("招标编号");
-            titlesList.add("投标单位");
-            titlesList.add("报价（万元）");
-            titlesList.add("保证金（万元");
-            titlesList.add("保证金是否退回");
-            titlesList.add("创建时间");
-            excelData.setTitles(titlesList);
-            excelData.setRows(lists);
-            ExcelUtils.exportExcel(response , "招标管理.xlsx" , excelData);
-            result.setMessage("导出成功");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            log.info(e.getMessage());
-            result.error500("导出招标信息失败");
-        }
-        return result;
     }
 
 

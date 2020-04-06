@@ -122,10 +122,4 @@ public class WorkOrderServiceImpl implements WorkOrderService {
             return false;
         }
     }
-
-    @Override
-    public List exportWorkOrderInfoList(VoWorkOrderInfo voWorkOrderInfo) {
-        List list=workOrderInfoMapper.exportWorkOrderInfoList(voWorkOrderInfo);
-        return list;
-    }
 }

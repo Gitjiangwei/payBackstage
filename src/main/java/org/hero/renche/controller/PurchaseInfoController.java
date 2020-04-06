@@ -4,27 +4,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hero.renche.controller.voentity.VoViditInfo;
-import org.hero.renche.controller.voentity.VoWorkOrderInfo;
 import org.hero.renche.entity.FileRel;
 import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.service.IFileRelService;
 import org.hero.renche.service.IPurchaseService;
-import org.hero.renche.util.ExcelData;
-import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -230,73 +222,4 @@ public class PurchaseInfoController {
         result.setResult(fileRelPageInfo);
         return result;
     }
-
-    /**
-     * 导出设备采购列表
-     *
-     * @param
-     * @param response
-     * @return
-     */
-    @GetMapping("/exportPurchase")
-    public Result<PageInfo<PurchaseInfo>> exportPurchase(PurchaseInfo purchaseInfo , HttpServletResponse response){
-        Result<PageInfo<PurchaseInfo>> result=new Result<>();
-
-        try{
-            List<PurchaseInfo> qryList=IPurchaseService.exportPurchaseInfoList(purchaseInfo);
-            List<List<Object>> lists=new ArrayList<>();
-            List<Object> list=null;
-            PurchaseInfo vv=null;
-            for(int i=0;i<qryList.size();i++){
-                list=new ArrayList();
-                vv=qryList.get(i);
-                Date date1= vv.getCreateTime();
-                Date date2=vv.getPurchaseTime();
-                Date date3=vv.getArrivalTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
-                String createTime = formatter.format(date1);
-                String purchaseTime = formatter.format(date2);
-                String arrivalTime =formatter.format(date3);
-                list.add(i+1);
-                list.add(vv.getPurchaseItem());
-                list.add(vv.getItemModel());
-                list.add(vv.getPrice());
-                list.add(vv.getQuantity());
-                list.add(vv.getTotalPrice());
-                list.add(vv.getPurchaser());
-                list.add(purchaseTime);
-                list.add(vv.getWhichCompany());
-                list.add(arrivalTime);
-                list.add(vv.getIsarrival().equals("1")?"是":"否");
-                list.add(vv.getIsstorage().equals("1")?"已入库":"未入库");
-                lists.add(list);
-            }
-            ExcelData excelData=new ExcelData();
-            excelData.setName("设备采购");
-            List titlesList=new ArrayList();
-            titlesList.add("序号");
-            titlesList.add("物品名称");
-            titlesList.add("设备型号");
-            titlesList.add("单价");
-            titlesList.add("数量");
-            titlesList.add("总价");
-            titlesList.add("采购人员");
-            titlesList.add("采购时间");
-            titlesList.add("采购来源");
-            titlesList.add("到货日期");
-            titlesList.add("是否到货");
-            titlesList.add("是否入库");
-            excelData.setTitles(titlesList);
-            excelData.setRows(lists);
-            ExcelUtils.exportExcel(response , "设备采购.xlsx" , excelData);
-            result.setMessage("导出成功");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            log.info(e.getMessage());
-            result.error500("导出失败");
-        }
-        return result;
-    }
-
 }

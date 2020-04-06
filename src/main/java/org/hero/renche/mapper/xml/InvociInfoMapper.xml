@@ -92,42 +92,4 @@ FROM
 		 update tx_invoci_info set file_rel_id = #{ids} where invoci_id = #{invociId}
 	</update>
 
-
-	<select id="exportVoInvoicInfoList" resultType="org.hero.renche.controller.voentity.VoInvoicInfo">
-		SELECT
-		a.invoci_id,
-		a.invoci_name,
-		a.invoci_time,
-		a.content,
-		a.shuihao,
-		a.address,
-		a.tel,
-		a.bank,
-		a.bank_no,
-		a.create_time,
-		a.file_rel_id,
-		b.file_name,
-		b.file_url,
-		b.file_id
-		FROM
-		tx_invoci_info a
-		left join tx_file_rel b ON a.file_rel_id = b.file_rel_id
-		<trim prefix="where" prefixOverrides="and">
-			<if test="VoInvoicInfo.invociName !=null and VoInvoicInfo.invociName != '' ">
-				and  a.invoci_name like CONCAT('%',#{VoInvoicInfo.invociName},'%')
-			</if>
-
-			<if test="VoInvoicInfo.shuihao !=null and VoInvoicInfo.shuihao != '' "  >
-				and a.shuihao like CONCAT('%',#{VoInvoicInfo.shuihao},'%')
-			</if>
-
-			<if test="VoInvoicInfo.invociTime != null and VoInvoicInfo.invociTime != '' ">
-				and  a.invoci_time = #{VoInvoicInfo.invociTime}
-			</if>
-
-		</trim>
-		order by a.create_time desc
-
-	</select>
-
 </mapper>

@@ -105,36 +105,6 @@
         select file_rel_id from tx_work_order where work_id = #{workId}
     </select>
 
-    <select id="exportWorkOrderInfoList" resultType="org.hero.renche.controller.voentity.VoWorkOrderInfo" >
-
-        SELECT
-        a.work_id,
-        a.prj_item_id,
-        b.prj_item_name,
-        a.work_name,
-        a.create_person,
-        a.charge_person,
-        a.DESCRIBE,
-        a.create_Time,
-        a.complete_time,
-        a.STATUS,
-        a.file_rel_id
-        FROM
-        tx_work_order a
-        LEFT JOIN tx_project_item b ON a.prj_item_id = b.prj_item_id
-        <trim prefix="where" prefixOverrides="and">
-            <if test="VoWorkOrderInfo.workName != null and VoWorkOrderInfo.workName != '' ">
-                and a.work_name like CONCAT('%',#{VoWorkOrderInfo.workName},'%')
-            </if>
-            <if test="VoWorkOrderInfo.chargePerson != null and VoWorkOrderInfo.chargePerson != ''">
-                and  a.charge_person like CONCAT('%',#{VoWorkOrderInfo.chargePerson},'%')
-            </if>
-        </trim>
-        order by a.create_time desc
-
-
-    </select>
-
 
 
 

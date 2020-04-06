@@ -2,7 +2,6 @@ package org.hero.renche.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.hero.renche.controller.voentity.VoVidit;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.entity.VisitInfo;
 
@@ -25,6 +24,5 @@ public interface VisitInfoMapper extends BaseMapper<VisitInfo> {
     int updateFileIds(@Param("ids") String ids, @Param("visitId") String visitId);
 
     String qryFileIdByVisitId(@Param("visitId") String visitId);
-    List qryViditInfolist( @Param("VoViditInfo") VoViditInfo voViditInfo);
 
 }

@@ -19,5 +19,4 @@ public interface WorkOrderService {
     String qryPrjItemIdByPrjItemName(String prjName);
     int upWorkOrderInfo(WorkOrderInfo workOrderInfo);
     boolean updateFileIds( String ids,String workId);
-    List exportWorkOrderInfoList(VoWorkOrderInfo voWorkOrderInfo);
 }

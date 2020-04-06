@@ -36,6 +36,5 @@ public interface PurchaseInfoMapper extends BaseMapper<PurchaseInfo> {
 
 
     int updateFileIds(@Param("purchaseInfo") PurchaseInfo purchaseInfo);
-    List exportPurchaseInfoList(@Param("PurchaseInfo") PurchaseInfo purchaseInfo);
 
 }

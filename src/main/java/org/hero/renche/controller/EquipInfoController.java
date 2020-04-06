@@ -88,7 +88,24 @@ public class EquipInfoController {
         return result;
     }
 
-    @AutoLog("设备投入使用")
+    @AutoLog("设备开始维修")
+    @PostMapping(value = "/updateStatusweix")
+    public Result<EquipInfo> updateStatusweix(@RequestParam(name = "equipId") String equipId){
+        Result<EquipInfo> result = new Result<>();
+        if(equipId == null || equipId.equals("")){
+            result.error500("参数丢失！");
+        }else{
+            Boolean resultOk = equipinfoService.updateEquipStatusweix(equipId);
+            if(resultOk){
+                result.success("设备开始维修！");
+            }else{
+                result.error500("修改失败！");
+            }
+        }
+        return result;
+    }
+
+    @AutoLog("设备维修完成")
     @PostMapping(value = "/updateStatus")
     public Result<EquipInfo> updateStatus(@RequestParam(name = "equipId") String equipId){
         Result<EquipInfo> result = new Result<>();
@@ -97,7 +114,7 @@ public class EquipInfoController {
         }else{
             Boolean resultOk = equipinfoService.updateEquipStatus(equipId);
             if(resultOk){
-                result.success("设备投入使用成功！");
+                result.success("设备维修完成,可以投入使用！");
             }else{
                 result.error500("修改失败！");
             }

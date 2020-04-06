@@ -40,4 +40,11 @@ public interface IEquipinfoService extends IService<EquipInfo> {
     Boolean updateEquipStatus(String equipId);
 
     List exportEquipInfoList(Map<String,String> map);
+
+    /**
+     * 设备进入维修
+     * @param equipId
+     * @return
+     */
+    Boolean updateEquipStatusweix(String equipId);
 }

@@ -39,7 +39,6 @@
         <mybatis-plus.version>3.0.6</mybatis-plus.version>
         <druid.version>1.1.10</druid.version>
         <jwt.version>0.9.1</jwt.version>
-<!--		<skipTests>true</skipTests>-->
     </properties>
     
 	<dependencies>
@@ -174,20 +173,6 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-
-		<!--poi Excel -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
-		</dependency>
-
 	
 	</dependencies>
 
@@ -229,7 +214,6 @@
 				<includes>
 					<include>**/*.xml</include>
 					<include>**/*.json</include>
-					<include>**/*.xls</include>
 				</includes>
 			</resource>
 		</resources>

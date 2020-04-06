@@ -59,7 +59,8 @@ public class ContractInfoController {
     @AutoLog(value = "添加合同信息")
     public Result<ContractInfo> add(@RequestBody ContractInfoVo contractInfoVo) {
         Result<ContractInfo> result = new Result<>();
-        ContractInfo contractInfo = ContractInfoTransformation.toPo(contractInfoVo);
+        ContractInfoTransformation transformation = new ContractInfoTransformation();
+        ContractInfo contractInfo = transformation.toPo(contractInfoVo);
         contractInfo.setCreateTime(new Date());
         try {
             boolean ok = contractInfoService.save(contractInfo);
@@ -80,7 +81,8 @@ public class ContractInfoController {
     @PutMapping(value = "/edit")
     public Result<ContractInfo> eidt(@RequestBody ContractInfoVo contractInfoVo) {
         Result<ContractInfo> result = new Result<>();
-        ContractInfo contractInfo = ContractInfoTransformation.toPo(contractInfoVo);
+        ContractInfoTransformation transformation = new ContractInfoTransformation();
+        ContractInfo contractInfo = transformation.toPo(contractInfoVo);
         ContractInfo contractInfoEntity = contractInfoService.getById(contractInfo.getContractId());
         if (contractInfoEntity == null) {
             result.error500("未找到对应实体");

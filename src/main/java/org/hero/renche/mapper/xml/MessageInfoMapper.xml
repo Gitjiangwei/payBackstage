@@ -1,38 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.MessageInfoMapper">
-    <select id="qryMessageListByRecive" resultType="org.hero.renche.entity.MessageInfo">
-        select message_id as messageId,message_content as messageContent,rel_id as relId,message_type as messageType,
-            create_time as createTime,recive_user as reciveUser,message_status as messageStatus
-        from tx_message where recive_user = #{messageInfo.reciveUser} and message_status != '01'
-        <if test="messageInfo.messageStatus != '' and messageInfo.messageStatus != null">
-            and message_status = #{messageInfo.messageStatus}
-        </if>
-        <if test="messageInfo.startDate != null">
-            and date_format(create_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{messageInfo.startDate},'%Y-%m-%d')
-        </if>
-        <if test="messageInfo.endDate != null">
-            and date_format(create_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{messageInfo.endDate},'%Y-%m-%d')
-        </if>
-        ORDER BY create_time desc
-    </select>
-
-    <!--  已读消息  -->
-    <update id="editMessageRead">
-        update tx_message set  message_status = '0',update_time = now() where message_id = #{messageId}
-    </update>
-
-    <!--  一键已读  -->
-    <update id="updateAllReadStatus">
-        update tx_message set  message_status = '0',update_time = now() where message_status = '1' and recive_user = #{reciveUser}
-    </update>
-
-    <!--  逻辑删除  -->
-    <update id="deleteMessage">
-        update tx_message set message_status = '01',update_time = now() where message_id in
-        <foreach collection="ids" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </update>
 
 </mapper>
