@@ -3,20 +3,32 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.hero.renche.controller.voentity.VoViditInfo;
+import org.hero.renche.controller.voentity.projectStatus;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IProjectItemInfoService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @Title: Controller
@@ -58,8 +70,7 @@ public class ProjectItemInfoController {
     @AutoLog(value = "添加工程点信息")
     public Result<ProjectItemInfo> add(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
-        ProjectItemTransformation transformation = new ProjectItemTransformation();
-        ProjectItemInfo projectItemInfo = transformation.toPo(projectItemVo);
+        ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
         projectItemInfo.setCreateTime(new Date());
         try {
             boolean ok = projectItemInfoService.save(projectItemInfo);
@@ -80,8 +91,7 @@ public class ProjectItemInfoController {
     @PutMapping(value = "/edit")
     public Result<ProjectItemInfo> eidt(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
-        ProjectItemTransformation transformation = new ProjectItemTransformation();
-        ProjectItemInfo projectItemInfo = transformation.toPo(projectItemVo);
+        ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
         ProjectItemInfo projectItemInfoEntity = projectItemInfoService.getById(projectItemInfo.getPrjItemId());
         if (projectItemInfoEntity == null) {
             result.error500("未找到对应实体");
@@ -148,6 +158,124 @@ public class ProjectItemInfoController {
         PageInfo<ProjectItemModel> projectItemModelPageInfo = projectItemInfoService.qryProjectItemEquip(projectId,pageNo,pageSize);
         result.setResult(projectItemModelPageInfo);
         result.setSuccess(true);
+        return result;
+    }
+
+    @AutoLog("查询人员车辆工程点状态数量")
+    @GetMapping(value = "/qryStatus")
+    public Result<List<projectStatus>> qryStatus(){
+        Result<List<projectStatus>> result=new Result<>();
+
+        try{
+            List<projectStatus> statusList=projectItemInfoService.qryStatusList();
+            result.setResult(statusList);
+            result.setSuccess(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("查询失败");
+        }
+
+        return result;
+
+    }
+    @AutoLog("查询4G视频工程点状态数量")
+    @GetMapping(value = "/qryStatus1")
+    public Result<List<projectStatus>> qryStatus1(){
+        Result<List<projectStatus>> result=new Result<>();
+
+        try{
+            List<projectStatus> statusList=projectItemInfoService.qryStatusList1();
+            result.setResult(statusList);
+            result.setSuccess(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("查询失败");
+        }
+
+        return result;
+
+    }
+
+    /**
+     * 下载导入模板
+     *
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "下载导入模板", notes = "下载导入模板", produces = "application/json")
+    @GetMapping(value = "/exportPrjItemModel" )
+    public Result<ProjectItemInfo> exportPrjItemModel (HttpServletResponse response,HttpServletRequest request){
+        Result<ProjectItemInfo> result=new Result<>();
+        try{
+            String fileName = "prjItemExecl.xls";
+            // 设置要下载的文件的名称
+            response.setHeader("Content-disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));
+            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+            //获取文件的路径
+//            String filePath = getClass().getResource("/execl/" + fileName).getPath();
+            String path = this.getClass().getResource("").getPath();
+            path = path.substring(1,path.length()-1);
+            path = path.substring(0,path.lastIndexOf('/'))+"/util/execl/"+fileName;
+
+            FileInputStream input = new FileInputStream(new File(path.replace("/","\\")));
+            OutputStream out = response.getOutputStream();
+            byte[] b = new byte[2048];
+            int len;
+            while ((len = input.read(b)) != -1) {
+                out.write(b, 0, len);
+            }
+            //修正 Excel在“xxx.xlsx”中发现不可读取的内容。是否恢复此工作薄的内容？如果信任此工作簿的来源，请点击"是"
+            response.setHeader("Content-Length", String.valueOf(input.getChannel().size()));
+            input.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("下载导入模板失败");
+        }
+        return result;
+    }
+
+    /**
+     * 导入数据
+     *
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导入数据", notes = "导入数据", produces = "application/json")
+    @PostMapping(value = "/importPrjItem" )
+    public Result<ProjectItemInfo> importPrjItem (@RequestParam MultipartFile file, HttpServletResponse response, HttpServletRequest request){
+        Result<ProjectItemInfo> result=new Result<>();
+        try{
+            String message = projectItemInfoService.importExcel(file);
+            result.setMessage(message);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("导入数据失败");
+        }
+        return result;
+    }
+
+    /**
+     * 导出数据
+     *
+     * @return
+     */
+    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/json")
+    @GetMapping(value = "/exportPrjItem" )
+    public Result<ProjectItemInfo> exportPrjItem (ProjectItemInfo projectItem, HttpServletResponse response) {
+        Result<ProjectItemInfo> result=new Result<>();
+        try{
+            String message = projectItemInfoService.exportPrjItem(projectItem, response);
+            result.setSuccess(true);
+            result.setMessage(message);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("导出数据出错");
+        }
         return result;
     }
 

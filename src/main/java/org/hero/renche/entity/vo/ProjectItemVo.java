@@ -10,6 +10,8 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
 
     private String companyName;
 
+    private String itemTypeName;
+
     public String getCompanyName() {
         return companyName;
     }
@@ -17,5 +19,15 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
+    public String getItemTypeName() {
+        return itemTypeName;
+    }
+
+    public void setItemTypeName(String itemTypeName) {
+        this.itemTypeName = itemTypeName;
+    }
+
+
 
 }

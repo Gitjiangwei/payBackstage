@@ -4,7 +4,7 @@ import org.hero.renche.entity.ProjectItemInfo;
 
 public class ProjectItemTransformation {
 
-    public ProjectItemInfo toPo(ProjectItemVo vo){
+    public static ProjectItemInfo toPo(ProjectItemVo vo){
         ProjectItemInfo po = new ProjectItemInfo();
         po.setPrjItemId(vo.getPrjItemId());
         po.setPrjItemName(vo.getPrjItemName());
@@ -23,7 +23,7 @@ public class ProjectItemTransformation {
         return  po;
     }
 
-    public ProjectItemVo toVo(ProjectItemInfo po){
+    public static ProjectItemVo toVo(ProjectItemInfo po){
         ProjectItemVo vo = new ProjectItemVo();
         vo.setPrjItemId(po.getPrjItemId());
         vo.setPrjItemName(po.getPrjItemName());
