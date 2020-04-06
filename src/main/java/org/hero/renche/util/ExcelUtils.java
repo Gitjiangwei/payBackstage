@@ -161,35 +161,6 @@ public class ExcelUtils {
         style.setBorderColor(BorderSide.RIGHT, color);
         style.setBorderColor(BorderSide.BOTTOM, color);
     }
-//
-//    private static String[] importExcel(File file, String sheetName, int length, String[] titleColumn){
-//        String[] a = null;
-//        try {
-//            FileInputStream in = new FileInputStream(file);
-//            HSSFWorkbook workbook = new HSSFWorkbook(in);
-//            HSSFSheet sheet = workbook.getSheet(sheetName);
-//            for(int i = 0 ; i < sheet.getPhysicalNumberOfRows(); i++){
-//                HSSFRow row = sheet.getRow(i);
-//                if(null != row){
-//                    readExcelCell(row, length);
-//                }
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }finally {
-//            return  a;
-//        }
-//    }
-//
-//    private static String[] readExcelCell (HSSFRow row, int length){
-//        String[] a = new String[length];
-//
-//        for (int i = 0; i < length; i++){
-//            HSSFCell cell = row.getCell(i);
-//        }
-//
-//        return a;
-//    }
 
 }
 
