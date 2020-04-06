@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.DictItemMapper">
+
+    <select id="qryDictItem" resultType="org.hero.renche.entity.DictItem">
+        select dict_item_id,dict_item_code,dict_item_name,create_time,update_time from tx_dict_item
+        <trim prefix="where" prefixOverrides="and">
+            is_flag = '0'
+            <if test="dictItemName != null and dictItemName != ''">
+              and   dict_item_name like CONCAT('%',#{dictItemName},'%')
+            </if>
+        </trim>
+        ORDER BY update_time DESC, create_time DESC
+    </select>
+</mapper>
