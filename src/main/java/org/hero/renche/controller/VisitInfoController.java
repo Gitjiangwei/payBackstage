@@ -5,14 +5,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
+import org.hero.renche.controller.voentity.VoVidit;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.service.ICompanyInfoService;
 import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.service.VisitService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import sun.misc.Request;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -249,7 +253,60 @@ public class VisitInfoController {
 
     }
 
+    /**
+     * 导出拜访列表
+     *
+     * @param voViditInfo
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导出拜访列表", notes = "导出客户拜访数据列表", produces = "application/json")
+    @GetMapping(value = "/exportVisit1" )
+    public Result<PageInfo<VoViditInfo>> exportVisit(VoViditInfo voViditInfo , HttpServletResponse response){
+        Result<PageInfo<VoViditInfo>> result=new Result<>();
 
+        try{
+            List<VoViditInfo> qryList=visitService.qryViditInfolist(voViditInfo);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            VoViditInfo vv=null;
+            for(int i=0;i<qryList.size();i++){
+                list=new ArrayList();
+                vv=qryList.get(i);
+                Date date= vv.getVisitTime();
+               SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
+               String dateString = formatter.format(date);
+               list.add(i+1);
+               list.add(vv.getCompanyName());
+               list.add(vv.getVisitor());
+               list.add(dateString);
+               list.add(vv.getWay());
+               list.add(vv.getContent());
+               list.add(vv.getResult());
+               lists.add(list);
+            }
+            ExcelData excelData=new ExcelData();
+            excelData.setName("客户拜访记录");
+            List titlesList=new ArrayList();
+            titlesList.add("序号");
+            titlesList.add("客户名称");
+            titlesList.add("拜访人");
+            titlesList.add("拜访时间");
+            titlesList.add("拜访方式");
+            titlesList.add("拜访内容");
+            titlesList.add("拜访结果");
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "客户拜访记录.xlsx" , excelData);
+            result.setMessage("导出成功");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("导出失败");
+        }
+        return result;
+    }
 
 
 }

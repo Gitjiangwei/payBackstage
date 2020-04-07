@@ -121,4 +121,10 @@ public class InvociServiceImpl implements InvociService {
         }
     }
 
+    @Override
+    public List exportVoInvoicInfoList(VoInvoicInfo voInvoicInfo) {
+        List list=invociInfoMapper.exportVoInvoicInfoList(voInvoicInfo);
+        return list;
+    }
+
 }
