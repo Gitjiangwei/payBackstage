@@ -38,6 +38,23 @@
         </foreach>
     </delete>
 
+    <select id="exportTenderInfoList"  resultType="org.hero.renche.entity.TenderInfo">
+        SELECT *  FROM tx_tender_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
+                and  prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
+            </if>
+            <if test="TenderInfo.tenderNo != null and TenderInfo.tenderNo != '' ">
+                and  tender_no  like CONCAT('%',#{TenderInfo.tenderNo },'%')
+            </if>
+            <if test="TenderInfo.tenderCompany != null and TenderInfo.tenderCompany!= '' ">
+                and  tender_company  like CONCAT('%',#{TenderInfo.tenderCompany },'%')
+            </if>
+
+        </trim>
+        order by create_time desc
+    </select>
+
 
 
 

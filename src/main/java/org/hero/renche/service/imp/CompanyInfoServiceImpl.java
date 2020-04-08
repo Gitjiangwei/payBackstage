@@ -4,12 +4,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.ProjectItemInfo;
+import org.hero.renche.entity.vo.CompanyInfoVo;
+import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.mapper.CompanyInfoMapper;
 import org.hero.renche.service.ICompanyInfoService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,11 +37,11 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
     }
 
     @Override
-    public PageInfo<CompanyInfo> qryCompanyInfo(CompanyInfo companyInfo, Integer page, Integer pageSize) {
+    public PageInfo<CompanyInfoVo> qryCompanyInfo(CompanyInfo companyInfo, Integer page, Integer pageSize) {
 
         PageHelper.startPage(page,pageSize);
-        List<CompanyInfo> companyInfoList = companyInfoMapper.qryListCompanyInfo(companyInfo);
-        return new PageInfo<CompanyInfo>(companyInfoList);
+        List<CompanyInfoVo> companyInfoList = companyInfoMapper.qryListCompanyInfo(companyInfo);
+        return new PageInfo<CompanyInfoVo>(companyInfoList);
     }
 
     @Override
@@ -49,6 +58,50 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
     @Override
     public List<Map<String, String>> qryCompanyName() {
         return companyInfoMapper.qryCompanyName();
+    }
+
+    @Override
+    public String exportCompanyInfo (Map<String, String> map, HttpServletResponse response){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+            CompanyInfo companyInfo = new CompanyInfo();
+            companyInfo.setCompanyName(map.get("companyName"));
+            companyInfo.setShuihao(map.get("shuihao"));
+            companyInfo.setType(map.get("type"));
+
+            List<CompanyInfoVo> companyInfoList = companyInfoMapper.qryListCompanyInfo(companyInfo);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            CompanyInfoVo vo = null;
+            for(int i = 0; i < companyInfoList.size(); i++){
+                list=new ArrayList();
+                vo=companyInfoList.get(i);
+
+                list.add(vo.getCompanyName());
+                list.add(vo.getTypeName());
+                list.add(vo.getShuihao());
+                list.add(vo.getBank());
+                list.add(vo.getBankNo());
+                list.add(vo.getContacts());
+                list.add(vo.getPhone());
+                list.add(vo.getIdCard());
+                list.add(vo.getEmail());
+                list.add(vo.getHobby());
+                list.add(vo.getAddress());
+                lists.add(list);
+            }
+
+            ExcelData excelData=new ExcelData();
+            excelData.setName("客户信息");
+            String[] titleColumn = {"公司名称","公司类型","税号","开户银行","银行账号","联系人","联系电话","身份证号","邮箱","公司简介","公司地址"};
+            List<String> titlesList = Arrays.asList(titleColumn);
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "客户信息.xlsx" , excelData);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "导出成功";
     }
 
 }

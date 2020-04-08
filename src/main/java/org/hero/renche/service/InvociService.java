@@ -14,4 +14,5 @@ public interface InvociService {
     boolean deleteById(String id);
     boolean deleteBatInvoicInfo( List<String> idsList);
     boolean updateFileIds( String ids,String invociId);
+    List exportVoInvoicInfoList(VoInvoicInfo voInvoicInfo);
 }

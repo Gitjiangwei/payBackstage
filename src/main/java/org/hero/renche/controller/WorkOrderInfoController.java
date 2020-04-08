@@ -7,9 +7,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
+import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.controller.voentity.VoWorkOrderInfo;
 import org.hero.renche.entity.WorkOrderInfo;
 import org.hero.renche.service.WorkOrderService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Name;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -29,7 +34,7 @@ public class WorkOrderInfoController {
 
     /**
      * 获取工单信息列表
-     * @param workOrderInfo
+     * @param voWorkOrderInfo
      * @param pageNo
      * @param pageSize
      * @param request
@@ -63,7 +68,7 @@ public class WorkOrderInfoController {
 
     /**添加工单信息
      *
-     * @param workOrderInfo
+     * @param voWorkOrderInfo
      *
      * @return
      */
@@ -263,6 +268,68 @@ public class WorkOrderInfoController {
 
         return result;
 
+    }
+
+
+    /**
+     * 导出工单列表
+     *
+     * @param
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导出工单列表", notes = "导出工单列表", produces = "application/json")
+    @GetMapping(value = "/exportVisit" )
+    public Result<PageInfo<VoViditInfo>> exportVisit(VoWorkOrderInfo voWorkOrderInfo , HttpServletResponse response){
+        Result<PageInfo<VoViditInfo>> result=new Result<>();
+
+        try{
+            List<VoWorkOrderInfo> qryList=workOrderService.exportWorkOrderInfoList(voWorkOrderInfo);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            VoWorkOrderInfo vv=null;
+            for(int i=0;i<qryList.size();i++){
+                list=new ArrayList();
+                vv=qryList.get(i);
+                Date date1= vv.getCreateTime();
+                Date date2=vv.getCompleteTime();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
+                String createTime = formatter.format(date1);
+                String completeTime = formatter.format(date2);
+                list.add(i+1);
+                list.add(vv.getWorkName());
+                list.add(vv.getCreatePerson());
+                list.add(vv.getChargePerson());
+                list.add(vv.getDescribe());
+                list.add(createTime);
+                list.add(completeTime);
+                list.add(vv.getPrjItemName());
+                list.add(vv.getStatus());
+                lists.add(list);
+            }
+            ExcelData excelData=new ExcelData();
+            excelData.setName("工单预览");
+            List titlesList=new ArrayList();
+            titlesList.add("序号");
+            titlesList.add("工单名称");
+            titlesList.add("创建人");
+            titlesList.add("负责人");
+            titlesList.add("任务描述");
+            titlesList.add("创建时间");
+            titlesList.add("完成时间");
+            titlesList.add("工程点");
+            titlesList.add("状态");
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "工单预览.xlsx" , excelData);
+            result.setMessage("导出成功");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("导出客户列表失败");
+        }
+        return result;
     }
 
 

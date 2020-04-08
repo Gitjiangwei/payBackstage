@@ -3,20 +3,15 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.controller.voentity.projectStatus;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IProjectItemInfoService;
-import org.hero.renche.util.ExcelData;
-import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,10 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -263,12 +256,19 @@ public class ProjectItemInfoController {
      *
      * @return
      */
-    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/json")
-    @GetMapping(value = "/exportPrjItem" )
-    public Result<ProjectItemInfo> exportPrjItem (ProjectItemInfo projectItem, HttpServletResponse response) {
+    @RequestMapping(value = "/exportPrjItem" )
+    public Result<ProjectItemInfo> exportPrjItem (@RequestParam(value = "param") String params, HttpServletResponse response)  {
         Result<ProjectItemInfo> result=new Result<>();
+        params = params.replace("\"","");
+        String[] paramStrs = params.split(",");
+        Map<String,String> map = new HashMap<>();
+        for (String str : paramStrs){
+            String[] content = str.split(":");
+            map.put(content[0],content[1]);
+        }
+
         try{
-            String message = projectItemInfoService.exportPrjItem(projectItem, response);
+            String message = projectItemInfoService.exportPrjItem(map, response);
             result.setSuccess(true);
             result.setMessage(message);
         }catch (Exception e){

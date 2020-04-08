@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="00e1aff4-6d16-41e6-b1b5-c177082f0e14" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/MessageInfoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/CompanyInfoVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/MessageInfoVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/jeecg-boot.kotlin_module" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/db/data-mysql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/db/schema-mysql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/controller/${entityName}Controller.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/entity/${entityName}.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/mapper/${entityName}Mapper.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/mapper/xml/${entityName}Mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/service/I${entityName}Service.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/service/impl/${entityName}ServiceImpl.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/vue/${entityName}List.vuei" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one/java/${bussiPackage}/${entityPackage}/vue/modules/${entityName}Modal.vuei" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/controller/${entityPackage}/${entityName}Controller.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/entity/${entityPackage}/${entityName}.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/mapper/${entityPackage}/${entityName}Mapper.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/mapper/${entityPackage}/xml/${entityName}Mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/service/${entityPackage}/I${entityName}Service.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/service/${entityPackage}/impl/${entityName}ServiceImpl.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/vue/${entityPackage}/${entityName}List.vuei" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/one2/java/${bussiPackage}/vue/${entityPackage}/modules/${entityName}Modal.vuei" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/controller/${entityName}Controller.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/entity/${entityName}.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/mapper/${entityName}Mapper.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/mapper/xml/${entityName}Mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/service/I${entityName}Service.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/service/impl/${entityName}ServiceImpl.javai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/vue/${entityName}List.vuei" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/code-template/onetomany/java/${bussiPackage}/${entityPackage}/vue/modules/${entityName}Modal.vuei" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/jeecg_config.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/jeecg/jeecg_database.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/config/WebConfigurer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/CompanyInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/ContractInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/DictController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/EquipInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/FileRelController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/InvociInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/InvoiceInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/MessageInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/OutEquipController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/ProjectItemInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/PurchaseInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/TenderInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/VisitInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/WorkOrderInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/voentity/VoInvoicInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/voentity/VoVidit.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/voentity/VoViditInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/voentity/VoWorkOrderInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/controller/voentity/projectStatus.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/CompanyInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/ContractInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/Dict.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/DictItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/EquipInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/FileRel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/InvociInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/InvoiceInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/MessageInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/OutEquipInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/ProjectItemInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/PurchaseInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/RepairEquipInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/TenderInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/VisitInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/WorkOrderInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/modelData/EquipinfoModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/modelData/ProjectItemModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/vo/CompanyInfoVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/vo/ContractInfoTransformation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/vo/ContractInfoVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/vo/MessageInfoVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/vo/ProjectItemTransformation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/entity/vo/ProjectItemVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/CompanyInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/ContractInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/DictItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/DictMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/EquipInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/FileRelMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/InvociInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/InvoiceInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/MessageInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/OutEquipInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/ProContractRelMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/ProjectItemInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/PurchaseInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/RepairEquipInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/TenderInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/VisitInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/WorkOrderInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/CompanyInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/ContractInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/DictItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/DictMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/EquipInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/FileRelMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/InvociInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/InvoiceInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/MessageInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/OutEquipInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/ProContractRelMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/ProjectItemInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/PurchaseInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/RepairEquipInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/TenderInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/VisitInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/mapper/xml/WorkOrderInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/ICompanyInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IContractInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IDictItemService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IDictService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IEquipinfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IFileRelService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IInvoiceInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IMessageInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IOutEquipService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IProjectItemInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/IPurchaseService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/InvociService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/TenderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/VisitService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/WorkOrderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/CompanyInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/ContractInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/DictItemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/DictServiceImp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/EquipInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/FileRelServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/InvociServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/InvoiceInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/MessageInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/OutEquipServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/ProjectItemInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/PurchaseServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/TenderServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/VisitServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/service/imp/WorkOrderServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/task/SchedulingTask.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/task/SchedulingTaskManage.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/thread/AsynTask$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/thread/AsynTask.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/thread/CallableThread$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/thread/CallableThread.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/util/CMPOIDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/util/DailyinComeNumberUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/util/ExcelData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/util/ExcelUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/util/PinyinUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/util/execl/prjItemExecl.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/hero/renche/utils/ContactUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/JeecgApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/JeecgCodeGenerator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/api/vo/Result.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/aspect/AutoLogAspect.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/aspect/annotation/AutoLog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/constant/CommonConstant.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/constant/CommonSendStatus.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/exception/JeecgBootException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/exception/JeecgBootExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/system/api/ISysBaseAPI.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/system/controller/CommonController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/DateUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/IPUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/MD5Util.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/MyClassLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/PasswordUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/RedisUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/SpringContextUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/YouBianCodeUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/oConvertUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/superSearch/ObjectParseUtil$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/superSearch/ObjectParseUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/superSearch/QueryRuleEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/common/util/superSearch/QueryRuleVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/MybatisPlusConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/RedisConfig$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/RedisConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/ShiroConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/Swagger2Config.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/WebMvcConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/config/mybatis/MybatisInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/MockController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/permission.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/permission_no_page.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/role.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/service.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/user.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/workplace_activity.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/workplace_projects.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/workplace_radar.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/mock/json/workplace_teams.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/controller/AutoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/controller/JeecgDemoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/controller/JeecgOrderDMainController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/controller/JeecgOrderMainController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/entity/JeecgDemo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/entity/JeecgOrderCustomer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/entity/JeecgOrderMain.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/entity/JeecgOrderTicket.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/JeecgDemoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/JeecgOrderCustomerMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/JeecgOrderMainMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/JeecgOrderTicketMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/xml/JeecgDemoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/xml/JeecgOrderCustomerMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/xml/JeecgOrderMainMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/mapper/xml/JeecgOrderTicketMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/IJeecgDemoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/IJeecgOrderCustomerService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/IJeecgOrderMainService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/IJeecgOrderTicketService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/impl/JeecgDemoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/impl/JeecgOrderCustomerServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/impl/JeecgOrderMainServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/service/impl/JeecgOrderTicketServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/demo/test/vo/JeecgOrderMainPage.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/controller/QuartzJobController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/entity/QuartzJob.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/job/SampleJob.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/job/SampleParamJob.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/mapper/QuartzJobMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/mapper/xml/QuartzJobMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/service/IQuartzJobService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/quartz/service/impl/QuartzJobServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/authc/JwtToken.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/authc/MyRealm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/authc/aop/JwtFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/authc/aop/ResourceCheckFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/authc/util/JwtUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/vo/DefContants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/vo/ResponseBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/vo/UserBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/shiro/web/TestWebController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/FindsDepartsChildrenUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/LoginController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysAnnouncementController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysDepartController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysDictController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysDictItemController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysLogController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysPermissionController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysRoleController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/controller/SysUserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysAnnouncement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysDepart.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysDict.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysDictItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysLog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysPermission.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysRole.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysRolePermission.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysUser.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/entity/SysUserRole.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysAnnouncementMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysDepartMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysDictItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysDictMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysLogMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysPermissionMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysRoleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysRolePermissionMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/SysUserRoleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysAnnouncementMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysDepartMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysDictItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysDictMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysLogMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysPermissionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/mapper/xml/SysUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/DepartIdModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/SysDepartTreeModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/SysDictTree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/SysLoginModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/SysPermissionTree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/TreeModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/model/TreeSelectModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysAnnouncementService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysDepartService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysDictItemService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysDictService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysLogService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysPermissionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysRolePermissionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysRoleService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysUserRoleService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/ISysUserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysAnnouncementServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysBaseAPI.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysDepartServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysDictItemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysDictServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysLogServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysPermissionServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysRolePermissionServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysRoleServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysUserRoleServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/modules/system/service/impl/SysUserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/renche/mapper/xml/ProjectItemInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/renche/mapper/xml/PurchaseInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/renche/mapper/xml/RepairEquipInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/jeecg/renche/mapper/xml/WorkOrderInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/static/demo1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/static/view/userlist.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/templates/demo3.ftl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/jeecg-boot-1.0.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/jeecg-boot-1.0.1.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-org.jeecg.SampleTest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/surefire-reports/org.jeecg.SampleTest.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/org/jeecg/SampleTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/CompanyInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/CompanyInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ContractInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ContractInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/DictItemController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/EquipInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/EquipInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/InvociInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/InvociInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ProjectItemInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ProjectItemInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/PurchaseInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/PurchaseInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/TenderInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/TenderInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/VisitInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/VisitInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/WorkOrderInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/WorkOrderInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/MessageInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/MessageInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/ContractInfoTransformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/ContractInfoTransformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/CompanyInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/CompanyInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/InvociInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/InvociInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/MessageInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/MessageInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/PurchaseInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/PurchaseInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/TenderInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/TenderInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/VisitInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/VisitInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/WorkOrderInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/WorkOrderInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/CompanyInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/CompanyInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/ContractInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/ContractInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/InvociInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/InvociInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/MessageInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/MessageInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/ProjectItemInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/ProjectItemInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/PurchaseInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/PurchaseInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/TenderInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/TenderInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/VisitInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/VisitInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/WorkOrderInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/WorkOrderInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/ICompanyInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/ICompanyInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IMessageInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IMessageInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IProjectItemInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IProjectItemInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IPurchaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IPurchaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/InvociService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/InvociService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/TenderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/TenderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/VisitService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/VisitService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/WorkOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/WorkOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/CompanyInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/CompanyInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/InvociServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/InvociServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/MessageInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/MessageInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/ProjectItemInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/ProjectItemInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/PurchaseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/PurchaseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/TenderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/TenderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/VisitServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/VisitServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/WorkOrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/WorkOrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/classes/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>'</find>
+      <find>private</find>
+      <find>getv</find>
+      <find>matches</find>
+      <find>json</find>
+      <find>jsonobj</find>
+      <find>jsono</find>
+      <find>poi</find>
+      <find>MessageInfoTransformation</find>
+      <find>ProjectItemInfo</find>
+      <find>JSONObject</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>&quot;</replace>
+      <replace>public</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/ProjectItemInfoServiceImpl.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/CompanyInfoServiceImpl.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/CompanyInfoController.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/DictController.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/util/CMPOIDao.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/ProjectItemVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/util/ExcelUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/utils/ContactUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/ProjectItemTransformation.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IProjectItemInfoService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/ProjectItemInfoServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/ICompanyInfoService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/CompanyInfoServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/MessageInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IMessageInfoService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/MessageInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/CompanyInfoVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/ProjectItemInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/ProjectItemInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/EquipInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/EquipInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/CompanyInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/CompanyInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/CompanyInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/EquipInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/InvociInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/InvociServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/InvociService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/InvociInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/InvociInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ProjectItemInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/PurchaseInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/IPurchaseService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/PurchaseServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/PurchaseInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/PurchaseInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/TenderInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/TenderService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/TenderServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/TenderInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/TenderInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/VisitInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/VisitService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/VisitServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/VisitInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/VisitInfoMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/controller/WorkOrderInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/WorkOrderService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/WorkOrderServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/WorkOrderInfoMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/WorkOrderInfoMapper.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="jeecg-boot" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="jeecg-boot" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="25" />
+    <option name="y" value="30" />
+    <option name="width" value="1750" />
+    <option name="height" value="980" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <hideEmptyPackages ProjectPane="false" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="payBackstage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="payBackstage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="payBackstage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="payBackstage" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="payBackstage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="payBackstage" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/org/hero/renche/util/execl" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.hero.renche.entity.vo" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\renche4G\hd\payBackstage\src\main\java\org\hero\renche\util\execl" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="JeecgApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="jeecg-boot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jeecg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.jeecg.JeecgApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.JeecgApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="不需要">
+      <created>1585218063764</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585218063764</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="00e1aff4-6d16-41e6-b1b5-c177082f0e14" name="Default Changelist" comment="创建" />
+      <created>1585270898214</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585270898214</updated>
+      <workItem from="1585270918975" duration="2391000" />
+      <workItem from="1585534324809" duration="13703000" />
+      <workItem from="1585564036136" duration="1194000" />
+      <workItem from="1585622477795" duration="7204000" />
+      <workItem from="1585707996124" duration="12353000" />
+      <workItem from="1585792431501" duration="12862000" />
+      <workItem from="1585875270706" duration="11315000" />
+      <workItem from="1586163986201" duration="3684000" />
+      <workItem from="1586221705127" duration="11422000" />
+      <workItem from="1586308196337" duration="5887000" />
+    </task>
+    <task id="LOCAL-00002" summary="打包放开标签  使不测试连接数据库">
+      <created>1585550261088</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1585550261089</updated>
+    </task>
+    <task id="LOCAL-00003" summary="下载模板，导入数据">
+      <created>1585817448977</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1585817448977</updated>
+    </task>
+    <task id="LOCAL-00004" summary="导出工具类">
+      <created>1586167408370</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1586167408370</updated>
+    </task>
+    <task id="LOCAL-00005" summary="恢复数据">
+      <created>1586169172285</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1586169172285</updated>
+    </task>
+    <task id="LOCAL-00006" summary="恢复数据">
+      <created>1586169305620</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1586169305620</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="86090000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.28016084" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="JRebel" order="3" show_stripe_button="false" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="UI Designer" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info id="Web" order="8" sideWeight="0.50141644" side_tool="true" weight="0.18230563" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5410765" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.49798927" weight="0.5424929" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
+      <window_info anchor="bottom" id="Spring" order="7" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.54815865" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50268096" side_tool="true" weight="0.34419262" />
+      <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.3286119" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49731904" weight="0.34419262" />
+      <window_info anchor="bottom" id="JRebel Console" order="14" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Executor" order="15" />
+      <window_info anchor="bottom" id="Messages" order="16" weight="0.3286119" />
+      <window_info anchor="bottom" id="Thumbnails" order="17" show_stripe_button="false" weight="0.3286119" />
+      <window_info anchor="bottom" id="Problems" order="18" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.24530831" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="right" id="Bean Validation" order="8" show_stripe_button="false" weight="0.3297587" />
+      <window_info anchor="right" id="Database" order="9" weight="0.3297587" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24292101" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="JRebel" order="3" show_stripe_button="false" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="UI Designer" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info id="Web" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5410765" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.49798927" weight="0.5056657" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
+      <window_info anchor="bottom" id="Spring" order="7" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.5490798" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5020107" side_tool="true" weight="0.34560907" />
+      <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.3286119" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49798927" weight="0.34509203" />
+      <window_info anchor="bottom" id="JRebel Console" order="14" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Executor" order="15" />
+      <window_info anchor="bottom" id="Messages" order="16" weight="0.3286119" />
+      <window_info anchor="bottom" id="Thumbnails" order="17" show_stripe_button="false" weight="0.3286119" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.24590164" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="right" id="Bean Validation" order="8" show_stripe_button="false" weight="0.3297587" />
+      <window_info anchor="right" id="Database" order="9" weight="0.3297587" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="不需要" />
+    <MESSAGE value="打包放开标签  使不测试连接数据库" />
+    <MESSAGE value="下载模板，导入数据" />
+    <MESSAGE value="导出工具类" />
+    <MESSAGE value="恢复数据" />
+    <option name="LAST_COMMIT_MESSAGE" value="恢复数据" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/MessageInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="21" column="33" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/IMessageInfoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="11" column="94" selection-start-line="11" selection-start-column="81" selection-end-line="11" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/IDictItemService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/IProjectItemInfoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="47" lean-forward="true" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/ProjectItemInfoServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="36" column="24" lean-forward="true" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/ProjectItemInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="20" column="53" lean-forward="true" selection-start-line="20" selection-start-column="53" selection-end-line="20" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/ProjectItemInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/DictItemServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/EquipInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="78" lean-forward="true" selection-start-line="8" selection-start-column="78" selection-end-line="8" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/EquipInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/EquipInfoServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="68" column="50" lean-forward="true" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/CompanyInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="87" selection-start-line="8" selection-start-column="71" selection-end-line="8" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/CompanyInfoVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/CompanyInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/CompanyInfoServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="42" column="73" lean-forward="true" selection-start-line="42" selection-start-column="73" selection-end-line="42" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/entity/vo/ProjectItemTransformation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="20" column="45" lean-forward="true" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/InvociService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="12" column="52" lean-forward="true" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/InvociInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="18" lean-forward="true" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/InvociInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/InvociServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ProjectItemInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" column="19" lean-forward="true" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/CompanyInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/ContractInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1342">
+          <caret line="61" column="82" selection-start-line="61" selection-start-column="68" selection-end-line="61" selection-end-column="82" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/EquipInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="29" column="22" lean-forward="true" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/InvociInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4334">
+          <caret line="197" column="52" selection-start-line="197" selection-start-column="39" selection-end-line="197" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/MessageInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2816">
+          <caret line="128" column="63" lean-forward="true" selection-start-line="128" selection-start-column="63" selection-end-line="128" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/IPurchaseService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/PurchaseInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="56" lean-forward="true" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/PurchaseInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="15" column="35" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/PurchaseServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="164" column="36" selection-start-line="164" selection-start-column="18" selection-end-line="164" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/PurchaseInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="243" column="55" selection-start-line="243" selection-start-column="39" selection-end-line="243" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/TenderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="8" column="30" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/TenderInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="78" lean-forward="true" selection-start-line="5" selection-start-column="78" selection-end-line="5" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/TenderInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/TenderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="77" column="34" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/TenderInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="216" column="50" selection-start-line="216" selection-start-column="37" selection-end-line="216" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/voentity/VoViditInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/VisitService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="14" column="46" lean-forward="true" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/VisitInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="17" lean-forward="true" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/VisitInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="11" column="19" lean-forward="true" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/VisitServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="21" column="27" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/VisitInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="259" column="50" selection-start-line="259" selection-start-column="38" selection-end-line="259" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/WorkOrderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="14" column="43" lean-forward="true" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/xml/WorkOrderInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/mapper/WorkOrderInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/service/imp/WorkOrderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="21" column="31" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/controller/WorkOrderInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="286" column="58" selection-start-line="286" selection-start-column="42" selection-end-line="286" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/util/CMPOIDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/hero/renche/util/DailyinComeNumberUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+  </component>
+</project>

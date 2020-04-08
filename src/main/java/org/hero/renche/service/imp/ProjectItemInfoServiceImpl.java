@@ -265,52 +265,82 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
     }
 
     @Override
-    public String exportPrjItem (ProjectItemInfo projectItemInfo, HttpServletResponse response){
-        List<ProjectItemVo> projectItemInfoList = projectItemInfoMapper.qryListProjectItemInfo(projectItemInfo);
-        List<List<Object>> lists=new ArrayList<>();
-        List<Object> list=null;
-        ProjectItemVo vo = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-        for(int i = 0; i < projectItemInfoList.size(); i++){
-            list=new ArrayList();
-            vo=projectItemInfoList.get(i);
+    public String exportPrjItem (Map<String, String> map, HttpServletResponse response){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+            ProjectItemInfo projectItem = new ProjectItemInfo();
+            projectItem.setPrjItemName(map.get("prjItemName"));
+            projectItem.setPrjItemStatus(map.get("prjItemStatus"));
+            projectItem.setPrjName(map.get("prjName"));
+            projectItem.setPrjItemType(map.get("prjItemType"));
+            projectItem.setBelongCompany(map.get("belongCompany"));
+            projectItem.setPrjItemNum(map.get("prjItemNum"));
+            projectItem.setPersonInCharge(map.get("personInCharge"));
+            projectItem.setProgressOfItem(map.get("progressOfItem"));
+            if(map.get("entryTime") != null){
+                projectItem.setEntryTime(sdf.parse(map.get("entryTime")));
+            }
+            if(map.get("finishTime") != null){
+                projectItem.setFinishTime(sdf.parse(map.get("finishTime")));
+            }
+            if(map.get("requireDeployTime") != null){
+                projectItem.setRequireDeployTime(sdf.parse(map.get("requireDeployTime")));
+            }
 
-            list.add(vo.getPrjItemNum());
-            list.add(vo.getPrjItemName());
-            list.add(vo.getItemTypeName());
-            list.add(vo.getCompanyName());
-            list.add(vo.getPersonInCharge());
-            if("0".equals(vo.getPrjItemStatus())){
-                list.add("未开始");
-            }else if("1".equals(vo.getPrjItemStatus())){
-                list.add("进行中");
-            }else if("2".equals(vo.getPrjItemStatus())){
-                list.add("已结束");
-            }
-            if(vo.getEntryTime() != null){
-                list.add(sdf.format(vo.getEntryTime()));
-            }
-            if(vo.getRequireDeployTime() != null){
-                list.add(sdf.format(vo.getRequireDeployTime()));
-            }
-            if(vo.getFinishTime() != null){
-                list.add(sdf.format(vo.getFinishTime()));
-            }
-            list.add(vo.getProgressOfItem());
-            list.add(vo.getPrjItemPlace());
-            lists.add(list);
+            List<ProjectItemVo> projectItemInfoList = projectItemInfoMapper.qryListProjectItemInfo(projectItem);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            ProjectItemVo vo = null;
+            for(int i = 0; i < projectItemInfoList.size(); i++){
+                list=new ArrayList();
+                vo=projectItemInfoList.get(i);
 
+                list.add(vo.getPrjItemNum());
+                list.add(vo.getPrjItemName());
+                list.add(vo.getPrjName());
+                list.add(vo.getItemTypeName());
+                list.add(vo.getCompanyName());
+                list.add(vo.getPersonInCharge());
+                list.add(vo.getPersonTel());
+                if("0".equals(vo.getPrjItemStatus())){
+                    list.add("未开始");
+                }else if("1".equals(vo.getPrjItemStatus())){
+                    list.add("进行中");
+                }else if("2".equals(vo.getPrjItemStatus())){
+                    list.add("已结束");
+                }
+                if(vo.getEntryTime() != null){
+                    list.add(sdf.format(vo.getEntryTime()));
+                }else{
+                    list.add("");
+                }
+                if(vo.getRequireDeployTime() != null){
+                    list.add(sdf.format(vo.getRequireDeployTime()));
+                }else{
+                    list.add("");
+                }
+                if(vo.getFinishTime() != null){
+                    list.add(sdf.format(vo.getFinishTime()));
+                }else{
+                    list.add("");
+                }
+                list.add(vo.getProgressOfItem());
+                list.add(vo.getPrjItemPlace());
+                lists.add(list);
+
+            }
+
+            ExcelData excelData=new ExcelData();
+            excelData.setName("工程点信息");
+            String[] titleColumn = {"工程编号","工程点名称","项目名称","工程类型","所属公司","负责人","联系电话","工程状态","进场时间","要求部署时间","完成时间","工程进度","工程地址"};
+            List<String> titlesList = Arrays.asList(titleColumn);
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "工程点信息.xlsx" , excelData);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        ExcelData excelData=new ExcelData();
-        excelData.setName("工程点信息");
-        String[] titleColumn = {"工程编号","工程点名称","项目名称","工程类型","所属公司","负责人","联系电话","工程状态","进场时间","要求部署时间","完成时间","工程进度","工程地址"};
-        List<String> titlesList = Arrays.asList(titleColumn);
-        excelData.setTitles(titlesList);
-        excelData.setRows(lists);
-        ExcelUtils.exportExcel(response , "工程点信息.xlsx" , excelData);
-
-        return "导出成果";
+        return "导出成功";
     }
 
 }

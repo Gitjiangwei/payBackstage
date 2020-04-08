@@ -5,15 +5,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.controller.voentity.VoInvoicInfo;
 import org.hero.renche.service.InvociService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/renche/invoic")
@@ -178,4 +179,70 @@ public class InvociInfoController {
 
         return result;
     }
+
+
+
+    /**
+     * 导出发票信息列表
+     *
+     * @param
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导出发票信息列表", notes = "导出发票信息列表", produces = "application/json")
+    @GetMapping(value = "/exportInvoic" )
+    public Result<PageInfo<VoInvoicInfo>> exportInvoic(VoInvoicInfo voInvoicInfo , HttpServletResponse response){
+        Result<PageInfo<VoInvoicInfo>> result=new Result<>();
+
+        try{
+            List<VoInvoicInfo> qryList=invociService.exportVoInvoicInfoList(voInvoicInfo);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            VoInvoicInfo vv=null;
+            for(int i=0;i<qryList.size();i++){
+                list=new ArrayList();
+                vv=qryList.get(i);
+                Date date1= vv.getCreateTime();
+                Date date2=vv.getInvociTime();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
+                String createTime = formatter.format(date1);
+                String invociTime = formatter.format(date2);
+                list.add(i+1);
+                list.add(vv.getInvociName());
+                list.add(invociTime);
+                list.add(vv.getContent());
+                list.add(vv.getShuihao());
+                list.add(vv.getAddress());
+                list.add(vv.getTel());
+                list.add(vv.getBank());
+                list.add(vv.getBankNo());
+                list.add(createTime);
+                lists.add(list);
+            }
+            ExcelData excelData=new ExcelData();
+            excelData.setName("发票管理");
+            List titlesList=new ArrayList();
+            titlesList.add("序号");
+            titlesList.add("发票名称");
+            titlesList.add("开票时间");
+            titlesList.add("发票内容");
+            titlesList.add("税号");
+            titlesList.add("单位地址");
+            titlesList.add("电话号码");
+            titlesList.add("开户银行");
+            titlesList.add("银行账户");
+            titlesList.add("创建时间");
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "发票管理.xlsx" , excelData);
+            result.setMessage("导出成功");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("导出客户列表失败");
+        }
+        return result;
+    }
+
 }
