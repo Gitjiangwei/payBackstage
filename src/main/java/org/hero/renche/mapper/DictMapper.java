@@ -17,4 +17,6 @@ public interface DictMapper extends BaseMapper<Dict> {
 
     public String queryDictTextByKey(@Param("code") String code,@Param("key") String key);
 
+    public int queryDict(@Param("list") List<String> dictItemIds);
+
 }

@@ -3,7 +3,7 @@
 <mapper namespace="org.hero.renche.mapper.DictItemMapper">
 
     <select id="qryDictItem" resultType="org.hero.renche.entity.DictItem">
-        select dict_item_id,dict_item_code,dict_item_name,create_time,update_time from tx_dict_item
+        select dict_item_id,dict_item_code,dict_item_name,create_time,update_time,remarks from tx_dict_item
         <trim prefix="where" prefixOverrides="and">
             is_flag = '0'
             <if test="dictItemName != null and dictItemName != ''">
@@ -11,5 +11,36 @@
             </if>
         </trim>
         ORDER BY update_time DESC, create_time DESC
+    </select>
+
+    <insert id="saveDictItem">
+        insert into tx_dict_item(dict_item_id,dict_item_code,dict_item_name,create_time,update_time,remarks)
+        values(#{dictItemId},#{dictItemCode},#{dictItemName},NOW(),NOW(),#{remarks})
+    </insert>
+
+    <update id="updateDictItem">
+        UPDATE tx_dict_item
+        <trim prefix="set" suffixOverrides=",">
+            update_time = NOW(),
+            <if test="dictItemName != null and dictItemCode != '' ">
+                dict_item_name = #{dictItemName},
+            </if>
+            <if test="remarks != null and remarks != '' ">
+                remarks = #{remarks},
+            </if>
+        </trim>
+        where dict_item_id = #{dictItemId}
+    </update>
+
+    <update id="delDictItem">
+        UPDATE tx_dict_item SET is_flag = "1"
+        where dict_item_id IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="checkOnlyDictCode" resultType="int">
+        select count(1) FROM tx_dict_item where dict_item_code = #{dictItemCode}
     </select>
 </mapper>
