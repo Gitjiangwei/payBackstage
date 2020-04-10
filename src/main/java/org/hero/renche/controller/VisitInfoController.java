@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
-import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.VoVidit;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.entity.PurchaseInfo;
@@ -16,11 +15,9 @@ import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.service.ICompanyInfoService;
 import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.service.VisitService;
-import org.hero.renche.service.WorkOrderService;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
-import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -139,6 +136,7 @@ public class VisitInfoController {
         try{
             String companyName=voViditInfo.getCompanyName();
             String companyId=iCompanyInfoService.qryCompanyIdByname(voViditInfo.getCompanyName());
+            String  visitId=voViditInfo.getVisitId();
             if(companyId==null||companyId==""){
                 result.error500("编辑失败,该公司不存在");
             }
@@ -327,6 +325,8 @@ public class VisitInfoController {
         }
         return result;
     }
+
+
 
 
 }

@@ -37,6 +37,6 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
 
     String importExcel(MultipartFile file);
 
-    String exportPrjItem(ProjectItemInfo projectItemInfo, HttpServletResponse response);
+    String exportPrjItem(Map<String, String> map, HttpServletResponse response);
 
 }

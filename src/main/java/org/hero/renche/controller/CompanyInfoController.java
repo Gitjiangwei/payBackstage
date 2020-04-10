@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.vo.CompanyInfoVo;
 import org.hero.renche.service.ICompanyInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -13,8 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Title: Controller
@@ -38,11 +43,11 @@ public class CompanyInfoController {
      */
     @ApiOperation(value = "获取客户信息列表", notes = "获取客户信息列表", produces = "application/json")
     @GetMapping(value = "/list")
-    public Result<PageInfo<CompanyInfo>> list(CompanyInfo company, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<CompanyInfoVo>> list(CompanyInfo company, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
-        Result<PageInfo<CompanyInfo>> result = new Result<>();
+        Result<PageInfo<CompanyInfoVo>> result = new Result<>();
 
-        PageInfo<CompanyInfo> companyInfoPageInfo = companyInfoService.qryCompanyInfo(company,pageNo,pageSize);
+        PageInfo<CompanyInfoVo> companyInfoPageInfo = companyInfoService.qryCompanyInfo(company,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(companyInfoPageInfo);
         return result;
@@ -154,6 +159,33 @@ public class CompanyInfoController {
             }
         }
 
+        return result;
+    }
+
+    /**
+     * 导出数据
+     *
+     * @return
+     */
+    @RequestMapping(value = "/exportCompanyInfo" )
+    public Result<CompanyInfo> exportCompanyInfo (@RequestParam(value = "param") String params, HttpServletResponse response) {
+        Result<CompanyInfo> result=new Result<>();
+        params = params.replace("\"","");
+        String[] paramStrs = params.split(",");
+        Map<String,String> map = new HashMap<>();
+        for (String str : paramStrs){
+            String[] content = str.split(":");
+            map.put(content[0],content[1]);
+        }
+        try{
+            String message = companyInfoService.exportCompanyInfo(map, response);
+            result.setSuccess(true);
+            result.setMessage(message);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("导出数据出错");
+        }
         return result;
     }
 
