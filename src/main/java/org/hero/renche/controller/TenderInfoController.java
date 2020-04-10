@@ -81,6 +81,20 @@ public class TenderInfoController {
             String tenderId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
             tenderInfo.setTenderId(tenderId);
             tenderInfo.setCreateTime(new Date());
+            String payWay=tenderInfo.getPayWay();
+
+            double deposit= Double.parseDouble(tenderInfo.getDeposit());
+            double serviceMoney= Double.parseDouble(tenderInfo.getServiceMoney());
+
+            String recedeDeposit="";
+
+            if("1".equals(payWay)){
+                recedeDeposit=deposit+"";
+            }else if("2".equals(payWay)){
+                double temp=deposit-serviceMoney;
+                recedeDeposit=temp+"";
+            }
+            tenderInfo.setRecedeDeposit(recedeDeposit);
             Boolean bool=tenderService.addTender(tenderInfo);
             if(bool==true){
                 result.success("添加成功！");
@@ -116,6 +130,19 @@ public class TenderInfoController {
             }else if ("2".equals(isBack))
                 isBack="否";
             tenderInfo.setIsBack(isBack);
+            String payWay=tenderInfo.getPayWay();
+            double deposit= Double.parseDouble(tenderInfo.getDeposit());
+            double serviceMoney= Double.parseDouble(tenderInfo.getServiceMoney());
+
+            String recedeDeposit="";
+
+            if("1".equals(payWay)){
+                recedeDeposit=deposit+"";
+            }else if("2".equals(payWay)){
+                double temp=deposit-serviceMoney;
+                recedeDeposit=temp+"";
+            }
+            tenderInfo.setRecedeDeposit(recedeDeposit);
 
             Boolean bool=tenderService.upTenderById(tenderInfo);
             if(bool==true){
@@ -139,7 +166,7 @@ public class TenderInfoController {
 
     /**
      * 删除招标信息
-     * @param voViditInfo
+     * @param
      * @param request
      * @return
      */

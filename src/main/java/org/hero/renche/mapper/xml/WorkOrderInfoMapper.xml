@@ -15,8 +15,19 @@
         a.DESCRIBE,
         a.create_Time,
         a.complete_time,
-        a.STATUS,
-        a.file_rel_id
+        a.file_rel_id,
+        CASE
+
+        WHEN a.STATUS = '1' THEN
+        '实施'
+        WHEN a.STATUS  = '2' THEN
+        '维修'
+        WHEN a.STATUS = '3' THEN
+        '拜访'
+        WHEN a.STATUS = '4' THEN
+        '销售'
+        END STATUS
+
         FROM
         tx_work_order a
         LEFT JOIN tx_project_item b ON a.prj_item_id = b.prj_item_id
@@ -132,6 +143,12 @@
         </trim>
         order by a.create_time desc
 
+
+    </select>
+
+    <select id="qryWorkIdListByWorkName" resultType="java.lang.String">
+
+        select work_id from tx_work_order where work_name like CONCAT('%',#{workName},'%')
 
     </select>
 

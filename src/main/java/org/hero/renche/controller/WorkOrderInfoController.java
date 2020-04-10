@@ -7,13 +7,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.controller.voentity.VoWorkOrderInfo;
+import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.entity.WorkOrderInfo;
+import org.hero.renche.service.VisitService;
 import org.hero.renche.service.WorkOrderService;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.modules.shiro.authc.JwtToken;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +38,10 @@ public class WorkOrderInfoController {
     @Autowired
     private WorkOrderService workOrderService;
 
+    @Autowired
+    private VisitService visitService;
+
+
     /**
      * 获取工单信息列表
      * @param
@@ -48,6 +58,11 @@ public class WorkOrderInfoController {
                                                               @RequestParam(name = "pageNo" , defaultValue = "1") Integer pageNo ,
                                                               @RequestParam(name = "pageSize" ,defaultValue = "10") Integer pageSize,
                                                               HttpServletRequest request){
+        SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+        if(sysUser!=null){
+            System.out.println("////////////////22222222222222222222////////////////////////"+sysUser.toString());
+        }
+
         Result<PageInfo<VoWorkOrderInfo>> result=new Result<>();
        try {
            /*String fileRelId=voWorkOrderInfo.getFileRelId().toString();
@@ -75,6 +90,15 @@ public class WorkOrderInfoController {
     @ApiOperation( value = "添加工单信息" , notes = "添加工单信息" , produces = "application/json")
     @PostMapping("/addWorkOrderInfo")
     public Result<VoWorkOrderInfo> addWorkOrderInfo(@RequestBody  VoWorkOrderInfo voWorkOrderInfo  ){
+
+        SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+        String username="";
+        if(sysUser!=null){
+             username=sysUser.getUsername();
+          //  System.out.println("////////////////22222222222222222222////////////////////////"+sysUser.toString());
+        }
+
+
          Result<VoWorkOrderInfo>  result=new Result<>();
          try {
              if(voWorkOrderInfo==null){
@@ -83,16 +107,11 @@ public class WorkOrderInfoController {
              }
 
              String status=voWorkOrderInfo.getStatus();
-             if("1".equals(status)){
-                 status="未提交";
-             }else if ("2".equals(status)){
-                 status="审批中";
-             }else if ("3".equals(status)){
-                 status="已完成";
-             }
-             voWorkOrderInfo.setStatus(status);
+
+
 
              String workId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
+
              voWorkOrderInfo.setWorkId(workId);
              voWorkOrderInfo.setCreateTime(new Date());
              String prjName= voWorkOrderInfo.getPrjItemName();
@@ -107,7 +126,18 @@ public class WorkOrderInfoController {
              }
              String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
              workOrderInfo.setPrjItemId(prjItemId);
+             workOrderInfo.setCreatePerson(username);
              boolean addOk=workOrderService.addWorkOrderInfo(workOrderInfo);
+             if("3".equals(status)){
+
+                 VisitInfo visitInfo=new VisitInfo();
+                 String visitId= UUID.randomUUID().toString();
+                 visitId=visitId.replaceAll("-","").toUpperCase();
+                 visitInfo.setVisitId(visitId);
+                 visitInfo.setWorkId(workId);
+                 visitInfo.setVisitor(username);
+                 visitService.addViditInfo(visitInfo);
+             }
              if(addOk==true){
                  result.setSuccess(true);
                  result.setMessage("添加成功");

@@ -4,7 +4,30 @@
 
 
     <select id="qryTenderList" resultType="org.hero.renche.entity.TenderInfo">
-        SELECT *  FROM tx_tender_info
+        SELECT
+        tender_id,
+        tender_no,
+        prj_name,
+        tender_company,
+        tender_offer,
+        deposit,
+        is_back,
+        create_time,
+        agency,
+        purchase_person,
+        service_money,
+        pay_time,
+        recede_time,
+        recede_deposit,
+        CASE
+
+        WHEN pay_way = '1' THEN
+        '自缴'
+        WHEN pay_way = '2' THEN
+        '保证金扣除'
+        END payWay
+        FROM
+        tx_tender_info
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
                 and  prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
@@ -22,11 +45,15 @@
 
 
     <insert id="addTenser" parameterType="org.hero.renche.entity.TenderInfo">
-        insert into  tx_tender_info
+        insert into  tx_tender_info(tender_id , tender_no ,prj_name ,tender_company ,tender_offer ,
+         deposit ,is_back ,create_time ,agency ,purchase_person ,service_money ,
+          pay_time ,recede_time , pay_way , recede_deposit)
         values (#{TenderInfo.tenderId},#{TenderInfo.tenderNo},
         #{TenderInfo.prjName},#{TenderInfo.tenderCompany},
         #{TenderInfo.tenderOffer},#{TenderInfo.deposit},
-        #{TenderInfo.isBack},#{TenderInfo.createTime})
+        #{TenderInfo.isBack},#{TenderInfo.createTime},
+        #{TenderInfo.agency},#{TenderInfo.purchasePerson},
+        #{TenderInfo.serviceMoney},#{TenderInfo.payTime},#{TenderInfo.recedeTime},#{TenderInfo.payWay},#{TenderInfo.recedeDeposit})
 
     </insert>
 
