@@ -29,12 +29,12 @@ public class VoWorkOrderInfo implements Serializable {
     /**任务描述*/
     private String describe;
     /**创建时间*/
-    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd  HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     /**完成时间*/
-    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8" , pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date completeTime;
     /**工单状态*/
     private String status;

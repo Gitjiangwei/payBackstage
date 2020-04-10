@@ -22,8 +22,8 @@ public class VoViditInfo implements Serializable {
     /**客户名称*/
     private String  companyName;
     /**拜访时间*/
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date visitTime;
     /**拜访人*/
     private String visitor;
@@ -36,5 +36,12 @@ public class VoViditInfo implements Serializable {
     /**附件关联id*/
     private String fileRelId;
     private String fileNum;
+    /*工单状态*/
+    private String status;
+    /*工单负责人*/
+    private String chargePerson;
+
+    /*工单名称*/
+    private String workName;
 
 }

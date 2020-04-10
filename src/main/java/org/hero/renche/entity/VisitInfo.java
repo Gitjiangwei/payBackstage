@@ -25,8 +25,8 @@ public class VisitInfo  implements Serializable {
     /**客户信息id*/
     private String companyId;
     /**拜访时间*/
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date visitTime;
     /**拜访人*/
     private String visitor;
@@ -38,5 +38,7 @@ public class VisitInfo  implements Serializable {
     private String result;
     /**附件关联id*/
     private String fileRelId;
+    /*工单Id*/
+    private  String workId;
 
 }

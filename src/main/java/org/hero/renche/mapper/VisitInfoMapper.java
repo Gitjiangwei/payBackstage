@@ -15,6 +15,7 @@ import java.util.List;
 public interface VisitInfoMapper extends BaseMapper<VisitInfo> {
 
     List<VoViditInfo> qryListVisitInfo(@Param("VoViditInfo") VoViditInfo voViditInfo);
+    List<VoViditInfo> qryListVisitInfo1(@Param("workIdlist") List<String> workIdlist, @Param("username") String username);
 
     Integer addVisitInfo(@Param("VisitInfo") VisitInfo visitInfo);
     int  removeByIds(List<String> stringList);
