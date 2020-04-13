@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.controller.voentity.VoInvoicInfo;
 import org.hero.renche.entity.InvociInfo;
+import org.hero.renche.entity.vo.InvociInfoVo;
 
 import java.util.List;
 
@@ -12,11 +13,9 @@ import java.util.List;
  *
  */
 public interface InvociInfoMapper extends BaseMapper<InvociInfo> {
-    List<VoInvoicInfo> qryVoInvoicInfoList( @Param("VoInvoicInfo") VoInvoicInfo voInvoicInfo);
-    int addInvoic(@Param("InvociInfo") InvociInfo invoicInfo);
-    int updateInvoicById(@Param("InvociInfo") InvociInfo invociInfo);
-    int updateFileIds(@Param("ids") String ids, @Param("invociId") String invociId);
+    List<InvociInfoVo> qryInvociInfoList(@Param("InvociInfoVo") InvociInfoVo invociInfo);
+
+    int updateFileIds(@Param("InvociInfo") InvociInfo invociInfo);
 
     String qryFileIdByInvociId(@Param("invociId") String invociId);
-    List exportVoInvoicInfoList(@Param("VoInvoicInfo") VoInvoicInfo voInvoicInfo);
 }

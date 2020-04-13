@@ -34,11 +34,6 @@ public class FileRelController {
     @Autowired
     private WorkOrderService workOrderService;
 
-    @Autowired
-    private InvociService invociService;
-
-
-
     @AutoLog("删除附件")
     @PostMapping(value = "/deleteIds")
     public Result<FileRel> deleteFileIds(@RequestParam(name = "ids") String ids){
@@ -133,28 +128,6 @@ public class FileRelController {
         }
         return result;
 
-
-    }
-
-
-
-    @PostMapping(value = "updateInvoicFileIds")
-    public Result<InvociInfo> updateInvoicFileIds(@RequestParam(name = "invociId") String invociId,
-                                                  @RequestParam(name = "ids") String ids){
-
-        Result<InvociInfo> result=new Result<>();
-        if(invociId == null || invociId.equals("")){
-            result.error500("工单ID为空，请及时排除！");
-        }else{
-
-            Boolean resultOk = invociService.updateFileIds( ids,invociId);
-            if(resultOk){
-                result.success("删除成功！");
-            }else {
-                result.error500("遇到未知异常，请及时排除！");
-            }
-        }
-        return result;
 
     }
 
