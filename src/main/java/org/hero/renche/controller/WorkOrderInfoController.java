@@ -6,25 +6,23 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.controller.voentity.VoWorkOrderInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.entity.WorkOrderInfo;
+import org.hero.renche.entity.WorkServiceInfo;
 import org.hero.renche.service.VisitService;
 import org.hero.renche.service.WorkOrderService;
+import org.hero.renche.service.WorkServiceInfoService;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
-import org.jeecg.modules.shiro.authc.JwtToken;
 import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Name;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
@@ -40,6 +38,9 @@ public class WorkOrderInfoController {
 
     @Autowired
     private VisitService visitService;
+
+    @Autowired
+    private WorkServiceInfoService workServiceInfoService;
 
 
     /**
@@ -58,16 +59,8 @@ public class WorkOrderInfoController {
                                                               @RequestParam(name = "pageNo" , defaultValue = "1") Integer pageNo ,
                                                               @RequestParam(name = "pageSize" ,defaultValue = "10") Integer pageSize,
                                                               HttpServletRequest request){
-        SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
-        if(sysUser!=null){
-            System.out.println("////////////////22222222222222222222////////////////////////"+sysUser.toString());
-        }
-
         Result<PageInfo<VoWorkOrderInfo>> result=new Result<>();
        try {
-           /*String fileRelId=voWorkOrderInfo.getFileRelId().toString();
-           voWorkOrderInfo.setFileRelId(fileRelId);*/
-
            PageInfo<VoWorkOrderInfo> pageInfo=workOrderService.qryWorkOrderInfoList(voWorkOrderInfo,pageNo,pageSize);
 
                result.setSuccess(true);
@@ -94,22 +87,15 @@ public class WorkOrderInfoController {
         SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
         String username="";
         if(sysUser!=null){
-             username=sysUser.getUsername();
-          //  System.out.println("////////////////22222222222222222222////////////////////////"+sysUser.toString());
+             username=sysUser.getUsername();;
         }
-
-
          Result<VoWorkOrderInfo>  result=new Result<>();
          try {
              if(voWorkOrderInfo==null){
                  result.setMessage("工单信息为null");
                  return result ;
              }
-
              String status=voWorkOrderInfo.getStatus();
-
-
-
              String workId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
 
              voWorkOrderInfo.setWorkId(workId);
@@ -128,17 +114,15 @@ public class WorkOrderInfoController {
              workOrderInfo.setPrjItemId(prjItemId);
              workOrderInfo.setCreatePerson(username);
              boolean addOk=workOrderService.addWorkOrderInfo(workOrderInfo);
-             if("3".equals(status)){
-
-                 VisitInfo visitInfo=new VisitInfo();
-                 String visitId= UUID.randomUUID().toString();
-                 visitId=visitId.replaceAll("-","").toUpperCase();
-                 visitInfo.setVisitId(visitId);
-                 visitInfo.setWorkId(workId);
-                 visitInfo.setVisitor(username);
-                 visitService.addViditInfo(visitInfo);
-             }
-             if(addOk==true){
+             String visitor=voWorkOrderInfo.getChargePerson();
+             WorkServiceInfo workServiceInfo=new WorkServiceInfo();
+             String workServiceId= UUID.randomUUID().toString();
+             workServiceId=workServiceId.replaceAll("-","").toUpperCase();
+             workServiceInfo.setWorkServiceId(workServiceId);
+             workServiceInfo.setWorkId(workId);
+             workServiceInfo.setVisitor(visitor);
+             boolean adok=   workServiceInfoService.addWorkServiceInfo(workServiceInfo);
+             if(addOk==true&&adok==true){
                  result.setSuccess(true);
                  result.setMessage("添加成功");
                  result.setResult(voWorkOrderInfo);
@@ -206,14 +190,6 @@ public class WorkOrderInfoController {
             JSONObject jsonObject= JSON.parseObject(ids);
             String is=jsonObject.getString("ids");
             List workIds= Arrays.asList(is.split(","));
-            System.out.println("===================sssssss=========="+workIds.size());
-        /*    int removenum=workOrderService.qryWorkOrderInfoListById(workIds);
-            System.out.println("//////////removenum///"+removenum);
-            if(removenum==0){
-                result.error500("删除失败,工单id不存在");
-                return result;
-            }*/
-
             boolean removeOk=workOrderService.removeWorkOrderByIds(workIds);
             if(removeOk==true){
                 result.setSuccess(true);
@@ -262,16 +238,13 @@ public class WorkOrderInfoController {
     public Result<VoWorkOrderInfo> upWorkOrderInfo(@RequestBody VoWorkOrderInfo voWorkOrderInfo){
         Result<VoWorkOrderInfo> result=new Result<>();
       try {
-
-          String status=voWorkOrderInfo.getStatus();
-          if("1".equals(status)){
-              status="未提交";
-          }else if ("2".equals(status)){
-              status="审批中";
-          }else if ("3".equals(status)){
-              status="已完成";
+          SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+          String username="";
+          if(sysUser!=null){
+              username=sysUser.getUsername();;
           }
-          voWorkOrderInfo.setStatus(status);
+          String status=voWorkOrderInfo.getStatus();
+
           String prjName= voWorkOrderInfo.getPrjItemName();
           String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
           String fileRelId=voWorkOrderInfo.getFileRelId();
