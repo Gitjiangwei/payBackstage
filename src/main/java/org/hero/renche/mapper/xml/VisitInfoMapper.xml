@@ -3,16 +3,21 @@
 <mapper namespace="org.hero.renche.mapper.VisitInfoMapper">
 
     <select id="qryListVisitInfo" resultType="org.hero.renche.controller.voentity.VoViditInfo">
-        SELECT b.company_name ,  a.visit_time , a.visitor ,a.way , a.content ,a.result,a.visit_id , a.file_rel_id
-        FROM tx_visit_info a  join tx_company_info b on a.company_id=b.company_id
+        /*SELECT b.company_name ,  a.visit_time , a.visitor ,a.way , a.content ,a.result,a.visit_id , a.file_rel_id
+        FROM tx_visit_info a  join tx_company_info b on a.company_id=b.company_id*/
+        select a.visit_id ,c.company_name  ,b.work_name , a.visit_time , a.way ,a.content , a.result, a.file_rel_id
+        from  tx_visit_info a join tx_work_order b  on a.work_id=b.work_id  left join tx_company_info c on a.company_id=c.company_id
         <trim prefix="where" prefixOverrides="and">
             <if test="VoViditInfo.companyName !=null and VoViditInfo.companyName != '' ">
-                and  b.company_name like CONCAT('%',#{VoViditInfo.companyName},'%')
+                and  c.company_name like CONCAT('%',#{VoViditInfo.companyName},'%')
+            </if>
+            <if test="VoViditInfo.workName !=null and VoViditInfo.workName != '' ">
+                and  b.work_name like CONCAT('%',#{VoViditInfo.workName},'%')
             </if>
             <if test="VoViditInfo.visitTime != null and VoViditInfo.visitTime != '' ">
                 and  a.visit_time  like CONCAT('%',#{VoViditInfo.visitTime },'%')
             </if>
-            <if test="VoViditInfo.visitor != null and VoViditInfo.visitor!= '' ">
+            <if test="VoViditInfo.visitor != null  ">
                 and  a.visitor  like CONCAT('%',#{VoViditInfo.visitor },'%')
             </if>
 
@@ -20,11 +25,19 @@
         order by a.visit_time desc
     </select>
 
+    <select id="qryListVisitInfo1">
+        select a.visit_id ,b.work_name , a.visit_time , a.way ,a.content , a.result
+        from  tx_visit_info a join tx_work_order b  on a.work_id=b.work_id  where a.visitor = #{username } and a.work_id in
+        <foreach collection="workIdlist" item="workIdlist" open="(" close=")" separator=",">
+            #{workIdlist}
+        </foreach>
+    </select>
+
     <insert id="addVisitInfo" parameterType="org.hero.renche.entity.VisitInfo">
-        insert into  tx_visit_info(visit_id,company_id,visit_time,visitor,way,content,result,file_rel_id)
+        insert into  tx_visit_info(visit_id,company_id,visit_time,visitor,way,content,result,file_rel_id,work_id)
         values (#{VisitInfo.visitId},#{VisitInfo.companyId},
         #{VisitInfo.visitTime},#{VisitInfo.visitor},
-        #{VisitInfo.way},#{VisitInfo.content},#{VisitInfo.result},#{VisitInfo.fileRelId})
+        #{VisitInfo.way},#{VisitInfo.content},#{VisitInfo.result},#{VisitInfo.fileRelId},#{VisitInfo.workId})
 
     </insert>
 
@@ -60,16 +73,19 @@
 
 
     <select id="qryViditInfolist" resultType="org.hero.renche.controller.voentity.VoViditInfo">
-        SELECT b.company_name ,  a.visit_time , a.visitor ,a.way , a.content ,a.result,a.visit_id , a.file_rel_id
-        FROM tx_visit_info a  join tx_company_info b on a.company_id=b.company_id
+        select a.visit_id ,c.company_name  ,b.work_name , a.visit_time , a.way ,a.content , a.result,a.file_rel_id
+        from  tx_visit_info a join tx_work_order b  on a.work_id=b.work_id  left join tx_company_info c on a.company_id=c.company_id
         <trim prefix="where" prefixOverrides="and">
             <if test="VoViditInfo.companyName !=null and VoViditInfo.companyName != '' ">
-                and  b.company_name like CONCAT('%',#{VoViditInfo.companyName},'%')
+                and  c.company_name like CONCAT('%',#{VoViditInfo.companyName},'%')
+            </if>
+            <if test="VoViditInfo.workName !=null and VoViditInfo.workName != '' ">
+                and  b.work_name like CONCAT('%',#{VoViditInfo.workName},'%')
             </if>
             <if test="VoViditInfo.visitTime != null and VoViditInfo.visitTime != '' ">
                 and  a.visit_time  like CONCAT('%',#{VoViditInfo.visitTime },'%')
             </if>
-            <if test="VoViditInfo.visitor != null and VoViditInfo.visitor!= '' ">
+            <if test="VoViditInfo.visitor != null  ">
                 and  a.visitor  like CONCAT('%',#{VoViditInfo.visitor },'%')
             </if>
 

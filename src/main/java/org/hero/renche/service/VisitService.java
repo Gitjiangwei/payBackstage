@@ -11,6 +11,7 @@ import java.util.List;
 public interface VisitService {
 
     PageInfo<VoViditInfo> qryViditInfo(VoViditInfo voViditInfo, Integer page, Integer pageSize);
+    PageInfo<VoViditInfo> qryViditInfo1(List<String>workIdlist,String username, Integer page, Integer pageSize);
 
     boolean addViditInfo(VisitInfo viditInfo);
 

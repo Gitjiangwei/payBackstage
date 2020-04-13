@@ -32,6 +32,13 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
+    public PageInfo<VoViditInfo> qryViditInfo1(List<String> workIdlist, String username, Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<VoViditInfo> visitInfosList= visitInfoMapper.qryListVisitInfo1(workIdlist,username);
+        return null;
+    }
+
+    @Override
     public boolean addViditInfo(VisitInfo viditInfo) {
         Integer falg=visitInfoMapper.addVisitInfo(viditInfo);
         return true;

@@ -36,4 +36,7 @@ public class DictItem implements Serializable {
 
     //是否删除 0：未删除 1：已删除
     private String isFlag;
+
+    //备注
+    private String remarks;
 }

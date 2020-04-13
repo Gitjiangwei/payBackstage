@@ -2,19 +2,31 @@ package org.hero.renche.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
+import org.hero.renche.controller.voentity.VoVidit;
 import org.hero.renche.controller.voentity.VoViditInfo;
+import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.service.ICompanyInfoService;
+import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.service.VisitService;
+import org.hero.renche.service.WorkOrderService;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.Request;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +45,11 @@ public class VisitInfoController {
     private ICompanyInfoService iCompanyInfoService;
 
 
+    @Autowired
+    private WorkOrderService workOrderService;
+
+
+
     /**
      * 分页列表查询
      * @param voViditInfo
@@ -48,6 +65,12 @@ public class VisitInfoController {
                                                   @RequestParam(name = "pageSize", defaultValue = "10")Integer pageSize,
                                                   HttpServletRequest request){
         Result<PageInfo<VoViditInfo>> result=new Result<>();
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        String username="";
+        if(sysUser!=null){
+            username=sysUser.getUsername();
+        }
+        voViditInfo.setVisitor(username);
 
         try{
             PageInfo<VoViditInfo> visitInfoPageInfo=visitService.qryViditInfo(voViditInfo,pageNo,pageSize);
@@ -257,19 +280,25 @@ public class VisitInfoController {
         Result<PageInfo<VoViditInfo>> result=new Result<>();
 
         try{
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            String username="";
+            if(sysUser!=null){
+                username=sysUser.getUsername();
+            }
+            voViditInfo.setVisitor(username);
             List<VoViditInfo> qryList=visitService.qryViditInfolist(voViditInfo);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
             VoViditInfo vv=null;
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             for(int i=0;i<qryList.size();i++){
                 list=new ArrayList();
                 vv=qryList.get(i);
                 Date date= vv.getVisitTime();
+               SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                String dateString = formatter.format(date);
                list.add(i+1);
                list.add(vv.getCompanyName());
-               list.add(vv.getVisitor());
+               list.add(vv.getWorkName());
                list.add(dateString);
                list.add(vv.getWay());
                list.add(vv.getContent());
@@ -280,8 +309,8 @@ public class VisitInfoController {
             excelData.setName("客户拜访记录");
             List titlesList=new ArrayList();
             titlesList.add("序号");
+            titlesList.add("工单名称");
             titlesList.add("客户名称");
-            titlesList.add("拜访人");
             titlesList.add("拜访时间");
             titlesList.add("拜访方式");
             titlesList.add("拜访内容");

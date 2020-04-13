@@ -128,4 +128,10 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         List list=workOrderInfoMapper.exportWorkOrderInfoList(voWorkOrderInfo);
         return list;
     }
+
+    @Override
+    public List qryWorkIdListByWorkName(String workName) {
+       List list= workOrderInfoMapper.qryWorkIdListByWorkName(workName);
+        return list;
+    }
 }

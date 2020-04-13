@@ -14,4 +14,11 @@
 		   where s.dict_code = #{code} and s.dict_code_id = #{key}
 	</select>
 
+	<select id="queryDict" resultType="int">
+		select count(1) FROM  tx_dict
+		where  dict_item_id IN
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
 </mapper>
