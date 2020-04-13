@@ -1,18 +1,12 @@
 package org.hero.renche.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
-import org.hero.renche.controller.voentity.VoInvoicInfo;
-import org.hero.renche.controller.voentity.VoViditInfo;
+import org.hero.renche.entity.InvociInfo;
+import org.hero.renche.entity.vo.InvociInfoVo;
 
-import java.util.List;
+public interface InvociService  extends IService<InvociInfo>  {
 
-public interface InvociService {
-
-    PageInfo<VoInvoicInfo> qryInvociInfo(VoInvoicInfo voInvoicInfo, Integer pageNo, Integer pageSize);
-    boolean addInvoic(VoInvoicInfo voInvoicInfo);
-    boolean updateInvoic(VoInvoicInfo voInvoicInfo);
-    boolean deleteById(String id);
-    boolean deleteBatInvoicInfo( List<String> idsList);
-    boolean updateFileIds( String ids,String invociId);
-    List exportVoInvoicInfoList(VoInvoicInfo voInvoicInfo);
+    PageInfo<InvociInfoVo> qryInvociInfo(InvociInfoVo invociInfo, Integer pageNo, Integer pageSize);
+    boolean updateFileIds(InvociInfo invociInfo);
 }
