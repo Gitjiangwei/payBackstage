@@ -97,4 +97,53 @@
         where work_service_id=#{WorkServiceInfo.workServiceId }
     </update>
 
+
+    <select id="qryworkServiceInfoList" resultType="org.hero.renche.entity.vo.WorkServiceInfoVo">
+        SELECT
+        a.work_service_id,
+        c.company_name,
+        c.phone  ,
+        b.work_name,
+        a.visit_time,
+        a.content,
+        a.result,
+        a.file_rel_id,
+        a.plan_execu_time,
+        a.reality_execu_time,
+        a.plan_person_num,
+        a.reality_person_num,
+        a.remark,
+        case
+        when a.evaluate ='1' then '很满意'
+        when a.evaluate ='2' then '满意'
+        when a.evaluate ='3' then '一般'
+        when a.evaluate ='4' then '较差'
+        when a.evaluate ='5' then '很差'
+        else a.evaluate
+        end evaluate
+
+        FROM
+        tx_work_service a
+         LEFT JOIN tx_work_order b ON a.work_id = b.work_id
+         LEFT JOIN tx_company_info c ON a.company_id = c.company_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="WorkServiceInfoVo.companyName !=null and WorkServiceInfoVo.companyName != '' ">
+                and  c.company_name like CONCAT('%',#{WorkServiceInfoVo.companyName},'%')
+            </if>
+            <if test="WorkServiceInfoVo.workName !=null and WorkServiceInfoVo.workName != '' ">
+                and  b.work_name like CONCAT('%',#{WorkServiceInfoVo.workName},'%')
+            </if>
+            <if test="WorkServiceInfoVo.visitTime != null ">
+                and  a.visit_time  like CONCAT('%',#{WorkServiceInfoVo.visitTime },'%')
+            </if>
+            <if test="WorkServiceInfoVo.visitor != null  ">
+                and  a.visitor  like CONCAT('%',#{WorkServiceInfoVo.visitor },'%')
+            </if>
+
+        </trim>
+        order by b.create_time  desc
+
+
+    </select>
+
 </mapper>

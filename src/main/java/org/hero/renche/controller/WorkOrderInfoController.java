@@ -282,10 +282,25 @@ public class WorkOrderInfoController {
      */
     @ApiOperation(value = "导出工单列表", notes = "导出工单列表", produces = "application/json")
     @GetMapping(value = "/exportVisit" )
-    public Result<PageInfo<VoViditInfo>> exportVisit(VoWorkOrderInfo voWorkOrderInfo , HttpServletResponse response){
+    public Result<PageInfo<VoViditInfo>> exportVisit(@RequestParam(value = "param") String params, HttpServletResponse response){
         Result<PageInfo<VoViditInfo>> result=new Result<>();
 
         try{
+
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+            VoWorkOrderInfo voWorkOrderInfo=new VoWorkOrderInfo();
+            String workName=map.get("workName")==null?"":map.get("workName");
+            String chargePerson=map.get("chargePerson")==null?"":map.get("chargePerson");
+            String createPerson=map.get("createPerson")==null?"":map.get("createPerson");
+            voWorkOrderInfo.setWorkName(workName);
+            voWorkOrderInfo.setChargePerson(chargePerson);
+            voWorkOrderInfo.setCreatePerson(createPerson);
             List<VoWorkOrderInfo> qryList=workOrderService.exportWorkOrderInfoList(voWorkOrderInfo);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
@@ -318,7 +333,7 @@ public class WorkOrderInfoController {
             titlesList.add("负责人");
             titlesList.add("任务描述");
             titlesList.add("创建时间");
-            titlesList.add("完成时间");
+            titlesList.add("计划完成时间");
             titlesList.add("工程点");
             titlesList.add("状态");
             excelData.setTitles(titlesList);

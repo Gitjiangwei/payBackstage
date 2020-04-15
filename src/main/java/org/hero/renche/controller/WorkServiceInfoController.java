@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.VoViditInfo;
+import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.entity.WorkServiceInfo;
 import org.hero.renche.entity.vo.WorkServiceInfoVo;
@@ -20,6 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -67,7 +72,7 @@ public class WorkServiceInfoController {
 
     /**
      * 编辑工单服务单
-     * @param voViditInfo
+     *
      * @param request
      * @return
      */
@@ -104,6 +109,41 @@ public class WorkServiceInfoController {
         return result;
 
     }
+
+    /**
+     * 导出数据
+     *
+     * @return
+     */
+    @RequestMapping(value = "/exportWorkService" )
+    public Result<CompanyInfo> exportWorkService (@RequestParam(value = "param") String params, HttpServletResponse response) {
+        Result<CompanyInfo> result=new Result<>();
+        try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            String username="";
+            if(sysUser!=null){
+                username=sysUser.getUsername();
+            }
+            map.put("username",username);
+            String message = workServiceInfoService.exportWorkServiceInfo(map, response);
+            result.setSuccess(true);
+            result.setMessage(message);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.setMessage("导出数据出错");
+        }
+        return result;
+    }
+
 
 
 
