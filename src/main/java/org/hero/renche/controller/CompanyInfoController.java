@@ -138,27 +138,20 @@ public class CompanyInfoController {
     }
 
     /**
-     * 根据公司名称判断公司是否存在
+     * 根据公司名称模糊查询公司
      *
      * @param name
      * @return
      */
-    @AutoLog(value = "根据公司名称判断公司是否存在")
-    @GetMapping(value = "/checkNameIsExsit")
-    public Result<CompanyInfo> checkNameIsExsit(@RequestParam(name = "name", required = true) String name) {
-        Result<CompanyInfo> result = new Result<CompanyInfo>();
-        if (name == null || "".equals(name.trim())) {
-            result.error500("参数不识别！");
-        } else {
-            String id = companyInfoService.checkNameIsExsit(name);
-            if (id != null && !"".equals(id)) {
-                result.success(id);
-            }else{
-                result.success("该公司不存在，请先维护!");
-                result.setSuccess(false);
-            }
-        }
+    @AutoLog(value = "根据公司名称模糊查询公司")
+    @GetMapping(value = "/searchCompany")
+    public Result<PageInfo<CompanyInfo>> searchCompanyList(@RequestParam(name = "name", required = true) String name,@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+        Result<PageInfo<CompanyInfo>> result = new Result<>();
 
+        PageInfo<CompanyInfo> companyInfoPageInfo = companyInfoService.qryCompanyNameList(name, pageNo, pageSize);
+        result.setSuccess(true);
+        result.setResult(companyInfoPageInfo);
         return result;
     }
 

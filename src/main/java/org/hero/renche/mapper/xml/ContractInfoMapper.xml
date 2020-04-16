@@ -9,13 +9,13 @@
             contract_status as contractStatus,contract_money as contractMoney,sign_in_time as signInTime,remind_period_type as remindPeriodType,
             remind_period as remindPeriod,contract_type as contractType,remark,t.tender_id as tenderId,
             ti.prj_name as prjName,allReturnMoney,CONCAT(round((allReturnMoney/contract_money)*100,2),'%') as returnMoneyPercent,
-            ifnull(file_rel_id,'') as fileRelId,ifnull(elec_file_rel,'') as elecFileRel,
+            ifnull(file_rel_id,'') as fileRelId,ifnull(elec_file_rel,'') as elecFileRel,t.over_time as overTime,
             length(CONCAT(file_rel_id,elec_file_rel))-length(replace(CONCAT(file_rel_id,elec_file_rel),',','')) as fileCount
         from tx_contract_info t
         left join tx_company_info a on t.party_a = a.company_Id
         left join tx_company_info b on t.party_b = b.company_Id
         left join tx_tender_info ti on t.tender_id = ti.tender_id
-        left join (SELECT contract_id,sum(return_money) as allReturnMoney from tx_invoice_info GROUP BY contract_id) c on t.contract_id = c.contract_id
+        left join (SELECT contract_id,sum(back_money) as allReturnMoney from tx_money_back GROUP BY contract_id) c on t.contract_id = c.contract_id
         <trim prefix="where" prefixOverrides="and">
             <if test="ContractInfo.contractId != null and ContractInfo.contractId != '' ">
                 and  t.contract_id = #{ContractInfo.contractId}

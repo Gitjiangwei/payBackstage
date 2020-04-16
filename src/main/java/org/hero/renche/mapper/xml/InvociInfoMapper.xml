@@ -12,8 +12,8 @@
 		from tx_invoci_info i
 		left join tx_contract_info c on i.contract_id = c.contract_id
 	<trim prefix="where" prefixOverrides="and">
-        <if test="InvociInfoVo.invociName !=null and InvociInfoVo.invociName != '' ">
-            and  invoci_name like CONCAT('%',#{InvociInfoVo.invociName},'%')
+        <if test="InvociInfoVo.content !=null and InvociInfoVo.content != '' ">
+            and  content like CONCAT('%',#{InvociInfoVo.content},'%')
         </if>
 
         <if test="InvociInfoVo.shuihao !=null and InvociInfoVo.shuihao != '' "  >
@@ -25,8 +25,10 @@
 		<if test="InvociInfoVo.companyName !=null and InvociInfoVo.companyName != '' "  >
 			and company_name like CONCAT('%',#{InvociInfoVo.companyName},'%')
 		</if>
-
-        <if test="InvociInfoVo.invociTime != null and InvociInfoVo.invociTime != '' ">
+		<if test="InvociInfoVo.contractId !=null and InvociInfoVo.contractId != '' "  >
+			and i.contract_id = #{InvociInfoVo.contractId}
+		</if>
+        <if test="InvociInfoVo.invociTime != null ">
             and  invoci_time = #{InvociInfoVo.invociTime}
         </if>
 

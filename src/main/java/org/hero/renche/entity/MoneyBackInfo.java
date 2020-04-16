@@ -15,27 +15,29 @@ import java.util.Date;
  *
  */
 @Data
-@TableName("tx_invoice_info")
-public class InvoiceInfo implements Serializable {
+@TableName("tx_money_back")
+public class MoneyBackInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**ID*/
     @TableId(type = IdType.UUID)
-    private String invoiceId;
-    /**开票时间*/
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern="yyyy-MM-dd ")
-    private Date invoiceTime;
-    /**开票金额*/
-    private String invoiceMoney;
+    private String backId;
     /**回款时间*/
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd ")
-    private Date returnTime;
+    private Date backTime;
     /**回款金额*/
-    private String returnMoney;
+    private String backMoney;
     /**备注*/
     private String remark;
+    /**银行*/
+    private String bank;
+    /**银行账号*/
+    private String bankNo;
+    /**负责人*/
+    private String backPerson;
+    /**邮箱*/
+    private String email;
     /**合同id*/
     private String contractId;
     /**附件关联id*/

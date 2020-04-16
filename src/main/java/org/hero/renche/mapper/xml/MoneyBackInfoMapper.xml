@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.MoneyBackInfoMapper">
+
+    <select id="qryListBackInfo" resultType="org.hero.renche.entity.vo.MoneyBackInfoVo">
+
+        select back_id as backId,back_time as backTime,back_money as backMoney,m.remark,m.bank,m.bank_no as bankNo,back_person as backPerson,
+            email,c.contract_name as contractName,m.contract_id as contractId,m.file_rel_id,
+            length(m.file_rel_id)-length(replace(m.file_rel_id,',','')) as fileCount
+        from tx_money_back m
+        left join tx_contract_info c on c.contract_id = m.contract_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="MoneyBackInfo.contractId != null and MoneyBackInfo.contractId != '' ">
+                and  m.contract_id = #{MoneyBackInfo.contractId}
+            </if>
+            <if test="MoneyBackInfo.backId != null and MoneyBackInfo.backId != '' ">
+                and  back_id = #{MoneyBackInfo.backId}
+            </if>
+        </trim>
+        order by m.create_time desc
+    </select>
+
+    <select id="qryFileIdsById" resultType="java.lang.String">
+        select  file_rel_id from tx_money_back where back_id = #{backId}
+    </select>
+
+    <update id="updateFileIds">
+           update tx_money_back set  file_rel_id = #{MoneyBackInfo.fileRelId}
+            where back_id = #{MoneyBackInfo.backId}
+    </update>
+</mapper>

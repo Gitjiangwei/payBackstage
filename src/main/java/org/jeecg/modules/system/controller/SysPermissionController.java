@@ -131,7 +131,7 @@ public class SysPermissionController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@RequiresRoles({"admin"})
 	public Result<SysPermission> delete(@RequestParam(name="id",required=true) String id) {
 		Result<SysPermission> result = new Result<>();
@@ -146,7 +146,7 @@ public class SysPermissionController {
 	}
 	
 	
-	@RequestMapping(value = "/deleteBatch", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@RequiresRoles({"admin"})
 	public Result<SysPermission> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
 		Result<SysPermission> result = new Result<>();
