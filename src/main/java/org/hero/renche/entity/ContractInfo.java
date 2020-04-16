@@ -3,7 +3,9 @@ package org.hero.renche.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -34,7 +36,7 @@ public class ContractInfo implements Serializable {
     private String contractStatus;
     /**合同金额*/
     private String contractMoney;
-    /**签收时间*/
+    /**签收日期*/
     private String signInTime;
     /**提醒周期类型*/
     private String remindPeriodType;
@@ -42,8 +44,20 @@ public class ContractInfo implements Serializable {
     private String remindPeriod;
     /**合同类型*/
     private String contractType;
+    /**签订日期*/
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date signingTime;
+    /**甲方经办人*/
+    private String operatorA;
+    /**乙方经办人*/
+    private String operatorB;
     /**备注*/
     private String remark;
+    /**结束日期*/
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date overTime;
     /**招标id*/
     private String tenderId;
     /**电子版上传附件关联id*/

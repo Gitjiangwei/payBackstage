@@ -18,11 +18,11 @@ public interface ICompanyInfoService extends IService<CompanyInfo> {
 
     List<String> getIds(String companyName);
 
-    String checkNameIsExsit(String companyName);
-
     List<Map<String, String>> qryCompanyName();
 
     String exportCompanyInfo(Map<String, String> map, HttpServletResponse response);
+
+    PageInfo<CompanyInfo> qryCompanyNameList(String companyName, Integer page, Integer pageSize);
 
 }
 

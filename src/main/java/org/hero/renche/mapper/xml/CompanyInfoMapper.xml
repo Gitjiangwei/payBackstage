@@ -25,9 +25,6 @@
         order by create_time desc
     </select>
 
-    <select id="qryCompanyNames" resultType="java.lang.String">
-        select distinct company_name value from tx_company_info order by company_name desc
-    </select>
     <select id="qryCompanyName" resultType="java.util.HashMap">
         select distinct company_id id , company_name value  from tx_company_info order by company_name desc
     </select>
@@ -36,8 +33,8 @@
         select company_id from tx_company_info where company_name like CONCAT('%',#{companyName},'%')
     </select>
 
-    <select id="checkNameIsExsit" resultType="java.lang.String">
-        select company_id from tx_company_info where company_name  = #{companyName}
+    <select id="qryCompanyNameList" resultType="org.hero.renche.entity.CompanyInfo">
+        select company_id as companyId,company_name as companyName from tx_company_info where company_name like CONCAT('%',#{companyName},'%')
     </select>
 
 </mapper>
