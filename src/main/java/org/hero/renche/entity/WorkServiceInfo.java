@@ -52,6 +52,14 @@ public class WorkServiceInfo implements Serializable {
     private String fileRelId;
     /*客户电话*/
     private String phone;
+    /*计划结束时间*/
+    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date planOutTime;
+    /*实际结束时间*/
+    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date realityOutTime;
 
 
 

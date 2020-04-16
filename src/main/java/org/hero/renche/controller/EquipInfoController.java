@@ -128,12 +128,16 @@ public class EquipInfoController {
      * @return
      */
     @GetMapping("/exportEquip")
-    public Result<PageInfo<EquipInfo>> exportEquip(EquipInfo equipInfo , HttpServletResponse response){
+    public Result<PageInfo<EquipInfo>> exportEquip(@RequestParam(value = "param") String params, HttpServletResponse response){
         Result<PageInfo<EquipInfo>> result=new Result<>();
         try{
-            Map<String,String> map = new HashMap<String, String>();
-            map.put("equipName",equipInfo.getEquipName());
-            map.put("equipModel",equipInfo.getEquipModel());
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
             List<EquipinfoModel> qryList= equipinfoService.exportEquipInfoList(map);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;

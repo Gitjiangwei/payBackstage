@@ -59,6 +59,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/renche/WorkSerivice/exportWorkService", "anon");
 		filterChainDefinitionMap.put("/renche/workOrder/exportVisit", "anon");
 		filterChainDefinitionMap.put("/renche/tender/exportTender", "anon");
+		filterChainDefinitionMap.put("/renche/equip/exportEquip", "anon");
+		filterChainDefinitionMap.put("/renche/purchase/exportPurchase", "anon");
 
 		//filterChainDefinitionMap.put("/renche/**", "anon");
 

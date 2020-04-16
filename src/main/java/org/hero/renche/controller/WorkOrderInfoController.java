@@ -318,7 +318,6 @@ public class WorkOrderInfoController {
                 list.add(vv.getCreatePerson());
                 list.add(vv.getChargePerson());
                 list.add(vv.getDescribe());
-                list.add(createTime);
                 list.add(completeTime);
                 list.add(vv.getPrjItemName());
                 list.add(vv.getStatus());
@@ -332,8 +331,7 @@ public class WorkOrderInfoController {
             titlesList.add("创建人");
             titlesList.add("负责人");
             titlesList.add("任务描述");
-            titlesList.add("创建时间");
-            titlesList.add("计划完成时间");
+            titlesList.add("预计完成时间");
             titlesList.add("工程点");
             titlesList.add("状态");
             excelData.setTitles(titlesList);

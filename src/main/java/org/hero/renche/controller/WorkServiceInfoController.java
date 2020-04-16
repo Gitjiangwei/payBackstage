@@ -116,6 +116,7 @@ public class WorkServiceInfoController {
      * @return
      */
     @RequestMapping(value = "/exportWorkService" )
+    @ApiOperation(value ="导出工单服务单" , notes = "导出工单服务单列表" , produces = "application/json")
     public Result<CompanyInfo> exportWorkService (@RequestParam(value = "param") String params, HttpServletResponse response) {
         Result<CompanyInfo> result=new Result<>();
         try{
