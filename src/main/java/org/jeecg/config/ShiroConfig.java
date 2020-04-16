@@ -56,6 +56,10 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 		filterChainDefinitionMap.put("/swagger**/**", "anon");
 		filterChainDefinitionMap.put("/webjars/**", "anon");
+		filterChainDefinitionMap.put("/renche/WorkSerivice/exportWorkService", "anon");
+		filterChainDefinitionMap.put("/renche/workOrder/exportVisit", "anon");
+		filterChainDefinitionMap.put("/renche/tender/exportTender", "anon");
+
 		//filterChainDefinitionMap.put("/renche/**", "anon");
 
 		filterChainDefinitionMap.put("/test/jeecgDemo/hello", "anon");//测试helloworld

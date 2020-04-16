@@ -143,6 +143,7 @@ public class VisitInfoController {
             if(companyId==null||companyId==""){
                 result.error500("编辑失败,该公司不存在");
             }
+
             VisitInfo visitInfo=new VisitInfo();
             BeanUtils.copyProperties(voViditInfo,visitInfo);
             visitInfo.setCompanyId(companyId);

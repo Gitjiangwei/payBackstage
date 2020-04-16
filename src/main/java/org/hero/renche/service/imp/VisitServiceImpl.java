@@ -129,4 +129,9 @@ public class VisitServiceImpl implements VisitService {
         List exList=visitInfoMapper.qryViditInfolist(voVidit);
         return exList;
     }
+
+    @Override
+    public int qryVisitInfoByWorkId(String workId) {
+        return 0;
+    }
 }

@@ -25,4 +25,6 @@ public interface VisitService {
     boolean updateFileIds(String ids,String visitId);
 
     List qryViditInfolist(VoViditInfo voVidit);
+
+    int qryVisitInfoByWorkId(String workId);
 }
