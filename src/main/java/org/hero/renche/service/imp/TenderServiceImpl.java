@@ -54,7 +54,7 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public boolean upTenderById(TenderInfo tenderInfo) {
-        int i=tenderInfoMapper.updateById(tenderInfo);
+        int i=tenderInfoMapper.updateTenderInfo(tenderInfo);
         if(i>0){
             return true;
         }else {

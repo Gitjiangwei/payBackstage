@@ -11,6 +11,8 @@
     <select id="qryworkServiceInfo" resultType="org.hero.renche.entity.vo.WorkServiceInfoVo">
         SELECT
         a.work_service_id,
+        a.plan_out_time,
+        a.reality_out_time,
         c.company_name,
         c.phone  ,
         b.work_name,
@@ -34,8 +36,8 @@
 
         FROM
         tx_work_service a
-        JOIN tx_work_order b ON a.work_id = b.work_id
-        JOIN tx_company_info c ON a.company_id = c.company_id
+        left JOIN tx_work_order b ON a.work_id = b.work_id
+        left JOIN tx_company_info c ON a.company_id = c.company_id
         <trim prefix="where" prefixOverrides="and">
             <if test="WorkServiceInfoVo.companyName !=null and WorkServiceInfoVo.companyName != '' ">
                 and  c.company_name like CONCAT('%',#{WorkServiceInfoVo.companyName},'%')
@@ -70,6 +72,12 @@
         <if test="WorkServiceInfo.realityExecuTime != null ">
             reality_execu_time = #{WorkServiceInfo.realityExecuTime},
         </if>
+        <if test="WorkServiceInfo.planOutTime != null">
+            plan_out_time = #{WorkServiceInfo.planOutTime},
+        </if>
+        <if test="WorkServiceInfo.realityOutTime != null ">
+            reality_out_time = #{WorkServiceInfo.realityOutTime},
+        </if>
         <if test="WorkServiceInfo.planPersonNum != null and WorkServiceInfo.planPersonNum != ''">
             plan_person_num = #{WorkServiceInfo.planPersonNum },
         </if>
@@ -101,6 +109,8 @@
     <select id="qryworkServiceInfoList" resultType="org.hero.renche.entity.vo.WorkServiceInfoVo">
         SELECT
         a.work_service_id,
+        a.plan_out_time,
+        a.reality_out_time,
         c.company_name,
         c.phone  ,
         b.work_name,

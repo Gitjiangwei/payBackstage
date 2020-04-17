@@ -7,6 +7,8 @@
         SELECT
         tender_id,
         tender_no,
+        plan_out_time,
+        reality_out_time,
         prj_name,
         tender_company,
         tender_offer,
@@ -20,7 +22,13 @@
         recede_time,
         recede_deposit,
         CASE
+        WHEN is_back = '1' THEN
+        '是'
+        WHEN is_back = '2' THEN
+        '否'
+        END isBack,
 
+        CASE
         WHEN pay_way = '1' THEN
         '自缴'
         WHEN pay_way = '2' THEN
@@ -30,13 +38,13 @@
         tx_tender_info
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
-                and  prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
+                and prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
             </if>
             <if test="TenderInfo.tenderNo != null and TenderInfo.tenderNo != '' ">
-                and  tender_no  like CONCAT('%',#{TenderInfo.tenderNo },'%')
+                and tender_no like CONCAT('%',#{TenderInfo.tenderNo },'%')
             </if>
             <if test="TenderInfo.tenderCompany != null and TenderInfo.tenderCompany!= '' ">
-                and  tender_company  like CONCAT('%',#{TenderInfo.tenderCompany },'%')
+                and tender_company like CONCAT('%',#{TenderInfo.tenderCompany },'%')
             </if>
 
         </trim>
@@ -47,42 +55,111 @@
     <insert id="addTenser" parameterType="org.hero.renche.entity.TenderInfo">
         insert into  tx_tender_info(tender_id , tender_no ,prj_name ,tender_company ,tender_offer ,
          deposit ,is_back ,create_time ,agency ,purchase_person ,service_money ,
-          pay_time ,recede_time , pay_way , recede_deposit)
+          pay_time ,recede_time , pay_way , recede_deposit, plan_out_time , reality_out_time)
         values (#{TenderInfo.tenderId},#{TenderInfo.tenderNo},
         #{TenderInfo.prjName},#{TenderInfo.tenderCompany},
         #{TenderInfo.tenderOffer},#{TenderInfo.deposit},
         #{TenderInfo.isBack},#{TenderInfo.createTime},
         #{TenderInfo.agency},#{TenderInfo.purchasePerson},
-        #{TenderInfo.serviceMoney},#{TenderInfo.payTime},#{TenderInfo.recedeTime},#{TenderInfo.payWay},#{TenderInfo.recedeDeposit})
+        #{TenderInfo.serviceMoney},#{TenderInfo.payTime},
+        #{TenderInfo.recedeTime},#{TenderInfo.payWay},
+        #{TenderInfo.recedeDeposit}, #{TenderInfo.planOutTime}, #{TenderInfo.realityOutTime})
 
     </insert>
 
-    <delete id="deleteBatchTenderInfo" >
+    <delete id="deleteBatchTenderInfo">
 
         delete from tx_tender_info where tender_id in
         <foreach collection="list" item="paramIds" open="(" close=")" separator=",">
-             #{paramIds}
+            #{paramIds}
         </foreach>
     </delete>
 
-    <select id="exportTenderInfoList"  resultType="org.hero.renche.entity.TenderInfo">
-        SELECT *  FROM tx_tender_info
+    <select id="exportTenderInfoList" resultType="org.hero.renche.entity.TenderInfo">
+        SELECT * FROM tx_tender_info
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
-                and  prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
+                and prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
             </if>
             <if test="TenderInfo.tenderNo != null and TenderInfo.tenderNo != '' ">
-                and  tender_no  like CONCAT('%',#{TenderInfo.tenderNo },'%')
+                and tender_no like CONCAT('%',#{TenderInfo.tenderNo },'%')
             </if>
             <if test="TenderInfo.tenderCompany != null and TenderInfo.tenderCompany!= '' ">
-                and  tender_company  like CONCAT('%',#{TenderInfo.tenderCompany },'%')
+                and tender_company like CONCAT('%',#{TenderInfo.tenderCompany },'%')
             </if>
 
         </trim>
         order by create_time desc
     </select>
 
+    <update id="updateTenderInfo" parameterType="org.hero.renche.entity.TenderInfo">
+        UPDATE tx_tender_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="TenderInfo.tenderNo!= null and TenderInfo.tenderNo != ''">
+                tender_no =#{TenderInfo.tenderNo},
+            </if>
+            <if test="TenderInfo.prjName!= null and TenderInfo.prjName != ''">
+                prj_name =#{TenderInfo.prjName},
+            </if>
+            <if test="TenderInfo.tenderCompany!= null and TenderInfo.tenderCompany != ''">
+                tender_company =#{TenderInfo.tenderCompany},
+            </if>
+            <if test="TenderInfo.tenderOffer!= null and TenderInfo.tenderOffer != ''">
+                tender_offer =#{TenderInfo.tenderOffer},
+            </if>
+            <if test="TenderInfo.deposit!= null and TenderInfo.deposit != ''">
+                deposit =#{TenderInfo.deposit},
+            </if>
+            <if test="TenderInfo.isBack!= null and TenderInfo.isBack != ''">
+                is_back =#{TenderInfo.isBack},
+            </if>
+            <if test="TenderInfo.agency!= null and TenderInfo.agency != ''">
+                agency =#{TenderInfo.agency},
+            </if>
+            <if test="TenderInfo.purchasePerson!= null and TenderInfo.purchasePerson != ''">
+                purchase_person =#{TenderInfo.purchasePerson},
+            </if>
+            <if test="TenderInfo.serviceMoney!= null and TenderInfo.serviceMoney != ''">
+                service_money =#{TenderInfo.serviceMoney},
+            </if>
+            <if test="TenderInfo.payWay!= null and TenderInfo.payWay != ''">
+                pay_way =#{TenderInfo.payWay},
+            </if>
+            <if test="TenderInfo.recedeDeposit!= null and TenderInfo.recedeDeposit != ''">
+                recede_deposit =#{TenderInfo.recedeDeposit},
+            </if>
+            <if test="TenderInfo.payTime!= null ">
+                pay_time =#{TenderInfo.payTime},
+            </if>
+            <if test="TenderInfo.planOutTime!= null ">
+                plan_out_time =#{TenderInfo.planOutTime},
+            </if>
+            <if test="TenderInfo.realityOutTime!= null ">
+                reality_out_time =#{TenderInfo.realityOutTime}
+            </if>
+            <if test="TenderInfo.recedeTime!= null ">
+                recede_time=#{TenderInfo.recedeTime}
+            </if>
+            <if test="TenderInfo.payTime== null'">
+                pay_time =null ,
+            </if>
+            <if test="TenderInfo.planOutTime== null '">
+                plan_out_time =null;
+            </if>
+            <if test="TenderInfo.realityOutTime== null '">
+                reality_out_time=null,
+            </if>
+            <if test="TenderInfo.recedeTime== null '">
+                recede_time=null,
+            </if>
 
+        </trim>
+
+
+        WHERE
+                tender_id =#{TenderInfo.tenderId}
+
+    </update>
 
 
 </mapper>

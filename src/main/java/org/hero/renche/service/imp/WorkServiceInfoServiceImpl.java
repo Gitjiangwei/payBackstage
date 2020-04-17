@@ -71,10 +71,12 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
                 vv=wslist.get(i);
                 Date planTime= vv.getPlanExecuTime();
                 Date  realityTime= vv.getRealityExecuTime();
+                Date planOut=vv.getPlanOutTime();
+                Date reaLityOut=vv.getRealityOutTime();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                 list.add(i+1);
-                list.add(vv.getCompanyName());
                 list.add(vv.getWorkName());
+                list.add(vv.getCompanyName());
                 list.add(vv.getPhone());
                 if(planTime!=null){
                     String planExecuTime = formatter.format(planTime);
@@ -87,6 +89,18 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
                     list.add(realityExecuTime);
                 }else {
                     list.add(realityTime);
+                }
+                if(planOut!=null){
+                    String planOutTime = formatter.format(planOut);
+                    list.add(planOutTime);
+                }else {
+                    list.add(planOut);
+                }
+                if(reaLityOut!=null){
+                    String reaLityOutTime=formatter.format(reaLityOut);
+                    list.add(reaLityOutTime);
+                }else {
+                    list.add(reaLityOut);
                 }
                 list.add(vv.getPlanPersonNum());
                 list.add(vv.getRealityPersonNum());
@@ -106,6 +120,8 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
             titlesList.add("客户电话");
             titlesList.add("计划执行时间");
             titlesList.add("实际执行时间");
+            titlesList.add("计划完成时间");
+            titlesList.add("实际完成时间");
             titlesList.add("计划参与人数");
             titlesList.add("实际参与人数");
             titlesList.add("任务内容");

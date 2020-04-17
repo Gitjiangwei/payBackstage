@@ -38,7 +38,7 @@ public class PurchaseInfo implements Serializable {
     private Date purchaseTime;
     /**采购来源*/
     private String whichCompany;
-    /**是否签收*/
+    /**是否到货*/
     private String isarrival;
     /**签收时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
