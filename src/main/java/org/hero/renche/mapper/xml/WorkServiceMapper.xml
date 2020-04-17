@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.WorkServiceInfoMapper">
+
+    <insert id="addWorkServiceInfo" parameterType="org.hero.renche.entity.WorkServiceInfo">
+        insert into  tx_work_service (work_service_id,work_id,visitor)
+         values
+          (#{WorkServiceInfo.workServiceId},#{WorkServiceInfo.workId},#{WorkServiceInfo.visitor})
+
+    </insert>
+    <select id="qryworkServiceInfo" resultType="org.hero.renche.entity.vo.WorkServiceInfoVo">
+        SELECT
+        a.work_service_id,
+        a.plan_out_time,
+        a.reality_out_time,
+        c.company_name,
+        c.phone  ,
+        b.work_name,
+        a.visit_time,
+        a.content,
+        a.result,
+        a.file_rel_id,
+        a.plan_execu_time,
+        a.reality_execu_time,
+        a.plan_person_num,
+        a.reality_person_num,
+        a.remark,
+        case
+        when a.evaluate ='1' then '很满意'
+        when a.evaluate ='2' then '满意'
+        when a.evaluate ='3' then '一般'
+        when a.evaluate ='4' then '较差'
+        when a.evaluate ='5' then '很差'
+        else a.evaluate
+        end evaluate
+
+        FROM
+        tx_work_service a
+        left JOIN tx_work_order b ON a.work_id = b.work_id
+        left JOIN tx_company_info c ON a.company_id = c.company_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="WorkServiceInfoVo.companyName !=null and WorkServiceInfoVo.companyName != '' ">
+                and  c.company_name like CONCAT('%',#{WorkServiceInfoVo.companyName},'%')
+            </if>
+            <if test="WorkServiceInfoVo.workName !=null and WorkServiceInfoVo.workName != '' ">
+                and  b.work_name like CONCAT('%',#{WorkServiceInfoVo.workName},'%')
+            </if>
+            <if test="WorkServiceInfoVo.visitTime != null ">
+                and  a.visit_time  like CONCAT('%',#{WorkServiceInfoVo.visitTime },'%')
+            </if>
+            <if test="WorkServiceInfoVo.visitor != null  ">
+                and  a.visitor  like CONCAT('%',#{WorkServiceInfoVo.visitor },'%')
+            </if>
+
+        </trim>
+        order by b.create_time  desc
+
+
+    </select>
+
+
+    <update id="updateById" parameterType="org.hero.renche.entity.WorkServiceInfo">
+        UPDATE tx_work_service
+
+        <trim prefix="set"  suffixOverrides=",">
+        <if test="WorkServiceInfo.companyId != null and WorkServiceInfo.companyId  != ''">
+            company_id = #{WorkServiceInfo.companyId },
+        </if>
+        <if test="WorkServiceInfo.planExecuTime != null">
+            plan_execu_time = #{WorkServiceInfo.planExecuTime},
+       </if>
+        <if test="WorkServiceInfo.realityExecuTime != null ">
+            reality_execu_time = #{WorkServiceInfo.realityExecuTime},
+        </if>
+        <if test="WorkServiceInfo.planOutTime != null">
+            plan_out_time = #{WorkServiceInfo.planOutTime},
+        </if>
+        <if test="WorkServiceInfo.realityOutTime != null ">
+            reality_out_time = #{WorkServiceInfo.realityOutTime},
+        </if>
+        <if test="WorkServiceInfo.planPersonNum != null and WorkServiceInfo.planPersonNum != ''">
+            plan_person_num = #{WorkServiceInfo.planPersonNum },
+        </if>
+        <if test="WorkServiceInfo.realityPersonNum != null and WorkServiceInfo.realityPersonNum != ''">
+            reality_person_num = #{WorkServiceInfo.realityPersonNum },
+        </if>
+        <if test="WorkServiceInfo.content != null and WorkServiceInfo.content != ''">
+            content = #{WorkServiceInfo.content },
+        </if>
+        <if test="WorkServiceInfo.result != null and WorkServiceInfo.result != ''">
+            result = #{WorkServiceInfo.result },
+        </if>
+        <if test="WorkServiceInfo.evaluate != null and WorkServiceInfo.evaluate != ''">
+            evaluate = #{WorkServiceInfo.evaluate },
+        </if>
+
+        <if test="WorkServiceInfo.remark != null and WorkServiceInfo.remark != ''">
+            remark = #{WorkServiceInfo.remark },
+        </if>
+        <if test="WorkServiceInfo.fileRelId != null and WorkServiceInfo.fileRelId != ''">
+            file_rel_id = #{WorkServiceInfo.fileRelId },
+        </if>
+
+        </trim>
+        where work_service_id=#{WorkServiceInfo.workServiceId }
+    </update>
+
+
+    <select id="qryworkServiceInfoList" resultType="org.hero.renche.entity.vo.WorkServiceInfoVo">
+        SELECT
+        a.work_service_id,
+        a.plan_out_time,
+        a.reality_out_time,
+        c.company_name,
+        c.phone  ,
+        b.work_name,
+        a.visit_time,
+        a.content,
+        a.result,
+        a.file_rel_id,
+        a.plan_execu_time,
+        a.reality_execu_time,
+        a.plan_person_num,
+        a.reality_person_num,
+        a.remark,
+        case
+        when a.evaluate ='1' then '很满意'
+        when a.evaluate ='2' then '满意'
+        when a.evaluate ='3' then '一般'
+        when a.evaluate ='4' then '较差'
+        when a.evaluate ='5' then '很差'
+        else a.evaluate
+        end evaluate
+
+        FROM
+        tx_work_service a
+         LEFT JOIN tx_work_order b ON a.work_id = b.work_id
+         LEFT JOIN tx_company_info c ON a.company_id = c.company_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="WorkServiceInfoVo.companyName !=null and WorkServiceInfoVo.companyName != '' ">
+                and  c.company_name like CONCAT('%',#{WorkServiceInfoVo.companyName},'%')
+            </if>
+            <if test="WorkServiceInfoVo.workName !=null and WorkServiceInfoVo.workName != '' ">
+                and  b.work_name like CONCAT('%',#{WorkServiceInfoVo.workName},'%')
+            </if>
+            <if test="WorkServiceInfoVo.visitTime != null ">
+                and  a.visit_time  like CONCAT('%',#{WorkServiceInfoVo.visitTime },'%')
+            </if>
+            <if test="WorkServiceInfoVo.visitor != null  ">
+                and  a.visitor  like CONCAT('%',#{WorkServiceInfoVo.visitor },'%')
+            </if>
+
+        </trim>
+        order by b.create_time  desc
+
+
+    </select>
+
+</mapper>

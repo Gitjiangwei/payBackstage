@@ -57,6 +57,15 @@ public class TenderInfo implements Serializable {
     private String payWay;
     /*应退保证金*/
     private String recedeDeposit;
+    /*计划结束时间*/
+    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date planOutTime;
+    /*实际结束时间*/
+    @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date realityOutTime;
+
 
 
 

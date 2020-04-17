@@ -63,6 +63,7 @@ public class ContractInfoController {
         contractInfo.setCreateTime(new Date());
         try {
             boolean ok = contractInfoService.save(contractInfo);
+            result.setResult(contractInfo);
             result.success("添加成功！");
         } catch (Exception e) {
             e.printStackTrace();

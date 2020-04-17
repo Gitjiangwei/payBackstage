@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.controller.voentity.VoInvoicInfo;
+import org.hero.renche.controller.voentity.VoWorkOrderInfo;
 import org.hero.renche.entity.TenderInfo;
 import org.hero.renche.service.TenderService;
 import org.hero.renche.util.ExcelData;
@@ -73,6 +74,11 @@ public class TenderInfoController {
         Result<TenderInfo> result=new Result<>();
         try{
             String isBack=tenderInfo.getIsBack();
+
+            if("2".equals(isBack)&&tenderInfo.getRecedeTime()!=null){
+                result.error500("保证金未退回，请勿选择退保证金时间");
+                return result;
+            }
             if("1".equals(isBack)){
                 isBack="是";
             }else if ("2".equals(isBack))
@@ -125,12 +131,25 @@ public class TenderInfoController {
         Result<TenderInfo> result=new Result<>();
         try{
             String isBack=tenderInfo.getIsBack();
-            if("1".equals(isBack)){
-                isBack="是";
-            }else if ("2".equals(isBack))
-                isBack="否";
+
+            if("是".equals(isBack)){
+                isBack="1";
+            }else if ("否".equals(isBack)){
+                isBack="2";
+            }
+            if("2".equals(isBack)||"否".equals(isBack)){
+                if(tenderInfo.getRecedeTime()!=null){
+                    result.error500("保证金未退回，请勿选择退保证金时间");
+                    return result;
+                }
+            }
             tenderInfo.setIsBack(isBack);
             String payWay=tenderInfo.getPayWay();
+            if("自缴".equals(payWay)){
+                isBack="1";
+            }else if ("保证金扣除".equals(payWay)){
+                isBack="2";
+            }
             double deposit= Double.parseDouble(tenderInfo.getDeposit());
             double serviceMoney= Double.parseDouble(tenderInfo.getServiceMoney());
 
@@ -144,13 +163,14 @@ public class TenderInfoController {
             }
             tenderInfo.setRecedeDeposit(recedeDeposit);
 
+
             Boolean bool=tenderService.upTenderById(tenderInfo);
             if(bool==true){
                 result.success("修改成功");
                 result.setSuccess(true);
                 result.setResult(tenderInfo);
             }else {
-                result.error500("添加招标信息失败");
+                result.error500("修改招标信息失败");
                 return result;
             }
 
@@ -158,7 +178,7 @@ public class TenderInfoController {
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("添加招标信息失败");
+            result.error500("修改招标信息失败");
         }
 
         return result;
@@ -238,10 +258,24 @@ public class TenderInfoController {
      */
     @ApiOperation(value = "导出招标信息列表", notes = "导出招标信息列表", produces = "application/json")
     @GetMapping(value = "/exportTender" )
-    public Result<PageInfo<TenderInfo>> exportTender(TenderInfo tenderInfo , HttpServletResponse response){
+    public Result<PageInfo<TenderInfo>> exportTender(@RequestParam(value = "param") String params, HttpServletResponse response){
         Result<PageInfo<TenderInfo>> result=new Result<>();
 
         try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+            TenderInfo tenderInfo=new TenderInfo();
+            String prjName=map.get("prjName")==null?"":map.get("prjName");
+            String tenderNo=map.get("tenderNo")==null?"":map.get("tenderNo");
+            String tenderCompany=map.get("tenderCompany")==null?"":map.get("tenderCompany");
+            tenderInfo.setPrjName(prjName);
+            tenderInfo.setTenderNo(tenderNo);
+            tenderInfo.setTenderCompany(tenderCompany);
             List<TenderInfo> qryList=tenderService.exportTenderInfoList(tenderInfo);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
@@ -250,16 +284,46 @@ public class TenderInfoController {
                 list=new ArrayList();
                 vv=qryList.get(i);
                 Date date1= vv.getCreateTime();
+                Date date2=vv.getPayTime();
+                Date date3=vv.getRecedeTime();
+                Date date4=vv.getPlanOutTime();
+                Date date5=vv.getRealityOutTime();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
-                String createTime = formatter.format(date1);
                 list.add(i+1);
                 list.add(vv.getPrjName());
                 list.add(vv.getTenderNo());
                 list.add(vv.getTenderCompany());
                 list.add(vv.getTenderOffer());
                 list.add(vv.getDeposit());
+                list.add(vv.getRecedeDeposit());
                 list.add(vv.getIsBack());
-                list.add(createTime);
+                if(date4!=null){
+                    String planOutTime = formatter.format(date4);
+                    list.add(planOutTime);
+                }else {
+                    list.add(date4);
+                }
+                if(date5!=null){
+                    String realityOutTime = formatter.format(date5);
+                    list.add(realityOutTime);
+                }else {
+                    list.add(date5);
+                }
+                list.add(vv.getAgency());
+                list.add(vv.getPurchasePerson());
+                list.add(vv.getServiceMoney());
+                if(date2!=null){
+                    String payTime = formatter.format(date2);
+                    list.add(payTime);
+                }else {
+                    list.add(date2);
+                }
+                if(date3!=null){
+                    String recedeTime=formatter.format(date3);
+                    list.add(recedeTime);
+                }else {
+                    list.add(date3);
+                }
                 lists.add(list);
             }
             ExcelData excelData=new ExcelData();
@@ -271,8 +335,15 @@ public class TenderInfoController {
             titlesList.add("投标单位");
             titlesList.add("报价（万元）");
             titlesList.add("保证金（万元");
+            titlesList.add("应退保证金（万元");
             titlesList.add("保证金是否退回");
-            titlesList.add("创建时间");
+            titlesList.add("计划完成时间");
+            titlesList.add("实际完成时间");
+            titlesList.add("招标代理机构");
+            titlesList.add("采购人");
+            titlesList.add("服务费");
+            titlesList.add("交保证金时间");
+            titlesList.add("退保证时间");
             excelData.setTitles(titlesList);
             excelData.setRows(lists);
             ExcelUtils.exportExcel(response , "招标管理.xlsx" , excelData);

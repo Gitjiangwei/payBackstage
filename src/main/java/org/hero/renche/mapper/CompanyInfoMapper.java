@@ -23,11 +23,10 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfo> {
     int upCompanyNameById(@Param(value = "companyName") String companyName, @Param(value = "companyId") String companyId);
 */
 
-    List qryCompanyNames();
     List<Map<String, String>> qryCompanyName();
 
     List<String> getIds(String companyName);
 
-    String checkNameIsExsit(String companyNAme);
+    List<CompanyInfo> qryCompanyNameList(String companyName);
 
 }

@@ -50,14 +50,16 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
     }
 
     @Override
-    public String checkNameIsExsit(String companyName){
-        String id = companyInfoMapper.checkNameIsExsit(companyName);
-        return id;
+    public List<Map<String, String>> qryCompanyName() {
+        return companyInfoMapper.qryCompanyName();
     }
 
     @Override
-    public List<Map<String, String>> qryCompanyName() {
-        return companyInfoMapper.qryCompanyName();
+    public PageInfo<CompanyInfo> qryCompanyNameList(String companyName, Integer page, Integer pageSize) {
+
+        PageHelper.startPage(page,pageSize);
+        List<CompanyInfo> companyNameList = companyInfoMapper.qryCompanyNameList(companyName);
+        return new PageInfo<CompanyInfo>(companyNameList);
     }
 
     @Override

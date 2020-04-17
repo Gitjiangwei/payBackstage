@@ -8,6 +8,7 @@ import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.controller.voentity.VoWorkOrderInfo;
 import org.hero.renche.entity.FileRel;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.TenderInfo;
 import org.hero.renche.service.IFileRelService;
 import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.util.ExcelData;
@@ -21,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -239,10 +237,28 @@ public class PurchaseInfoController {
      * @return
      */
     @GetMapping("/exportPurchase")
-    public Result<PageInfo<PurchaseInfo>> exportPurchase(PurchaseInfo purchaseInfo , HttpServletResponse response){
+    public Result<PageInfo<PurchaseInfo>> exportPurchase(@RequestParam(value = "param") String params, HttpServletResponse response){
         Result<PageInfo<PurchaseInfo>> result=new Result<>();
 
         try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+            PurchaseInfo purchaseInfo=new PurchaseInfo();
+            String purchaseItem=map.get("purchaseItem")==null?"":map.get("purchaseItem");
+            String itemModel=map.get("itemModel")==null?"":map.get("itemModel");
+            String isarrival=map.get("isarrival")==null?"":map.get("isarrival");
+            String isstorage=map.get("isstorage")==null?"":map.get("isstorage");
+
+            purchaseInfo.setPurchaseItem(purchaseItem);
+            purchaseInfo.setItemModel(itemModel);
+            purchaseInfo.setIsarrival(isarrival);
+            purchaseInfo.setIsstorage(isstorage);
+
             List<PurchaseInfo> qryList=IPurchaseService.exportPurchaseInfoList(purchaseInfo);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
@@ -254,8 +270,7 @@ public class PurchaseInfoController {
                 Date date2=vv.getPurchaseTime();
                 Date date3=vv.getArrivalTime();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
-                String createTime = formatter.format(date1);
-                String purchaseTime = formatter.format(date2);
+                 String purchaseTime = formatter.format(date2);
                 String arrivalTime =formatter.format(date3);
                 list.add(i+1);
                 list.add(vv.getPurchaseItem());
