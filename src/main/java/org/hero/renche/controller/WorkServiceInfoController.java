@@ -128,12 +128,12 @@ public class WorkServiceInfoController {
                 map.put(content[0],content[1]);
             }
 
-            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+          /*  SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
             String username="";
             if(sysUser!=null){
                 username=sysUser.getUsername();
             }
-            map.put("username",username);
+            map.put("username",username);*/
             String message = workServiceInfoService.exportWorkServiceInfo(map, response);
             result.setSuccess(true);
             result.setMessage(message);
