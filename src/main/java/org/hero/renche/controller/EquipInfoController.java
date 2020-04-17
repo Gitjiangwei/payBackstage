@@ -2,6 +2,7 @@ package org.hero.renche.controller;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.ss.formula.functions.T;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
 import org.hero.renche.service.IEquipinfoService;
@@ -113,6 +114,23 @@ public class EquipInfoController {
             Boolean resultOk = equipinfoService.updateEquipStatus(equipId);
             if(resultOk){
                 result.success("设备维修完成,可以投入使用！");
+            }else{
+                result.error500("修改失败！");
+            }
+        }
+        return result;
+    }
+
+    @AutoLog("设备报废")
+    @PostMapping(value = "/updateEquipbaof")
+    public Result<T> updateEuipStatusbaof(@RequestParam(name = "equipId") String equipId){
+        Result<T> result = new Result<T>();
+        if(equipId == null || equipId.equals("")){
+            result.error500("参数丢失！");
+        }else{
+            Boolean resultOk = equipinfoService.updateEuipStatusbaof(equipId);
+            if(resultOk){
+                result.success("修改成功");
             }else{
                 result.error500("修改失败！");
             }

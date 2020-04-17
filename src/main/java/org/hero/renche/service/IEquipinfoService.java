@@ -2,6 +2,7 @@ package org.hero.renche.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
 
@@ -47,4 +48,11 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     Boolean updateEquipStatusweix(String equipId);
+
+    /**
+     * 设备报废
+     * @param equipId
+     * @return
+     */
+    Boolean updateEuipStatusbaof(String equipId);
 }
