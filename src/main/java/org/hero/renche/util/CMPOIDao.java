@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
  * @description POI处理文档的一些方法
  * @author  ZhaoZhongbin
  */
-public class CMPOIDao {
+public class   CMPOIDao {
     //文档的最大行数
     public static final int MAX_VALUE = Integer.MAX_VALUE;
     public final static String YYYY_MM_DD = "yyyy-MM-dd";

@@ -13,10 +13,20 @@ import java.util.Map;
  */
 public interface DictMapper extends BaseMapper<Dict> {
 
-    public List<Map<String,String>> queryDictItemsByCode(@Param("code") String code);
+     List<Map<String,String>> queryDictItemsByCode(@Param("code") String code);
 
-    public String queryDictTextByKey(@Param("code") String code,@Param("key") String key);
+     String queryDictTextByKey(@Param("code") String code,@Param("key") String key);
 
-    public int queryDict(@Param("list") List<String> dictItemIds);
+     int queryDict(@Param("list") List<String> dictItemIds);
+
+     List<Dict> queryDictDetail(Dict dict);
+
+     int saveDict(Dict dict);
+
+     int updateDict(Dict dict);
+
+     int delDict(@Param("dictIds") List<String> dictIds);
+
+     int checkOnlyDictDetail(@Param("dictCodeId") String dictCodeId,@Param("dictItemId") String dictItemId);
 
 }
