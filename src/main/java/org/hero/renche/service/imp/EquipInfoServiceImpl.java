@@ -72,4 +72,20 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
         }
         return flag;
     }
+
+    /**
+     * 设备报废
+     *
+     * @param equipId
+     * @return
+     */
+    @Override
+    public Boolean updateEuipStatusbaof(String equipId) {
+        Boolean flag = false;
+        int resultOk = equipInfoMapper.updateEuipStatusbaof(equipId);
+        if (resultOk>0){
+            flag = true;
+        }
+        return flag;
+    }
 }

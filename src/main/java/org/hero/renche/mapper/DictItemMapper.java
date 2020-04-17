@@ -18,4 +18,6 @@ public interface DictItemMapper extends BaseMapper<DictItem> {
     int delDictItem(@Param("list") List<String> dictItemIds);
 
     int checkOnlyDictCode(@Param("dictItemCode") String dictItemCode);
+
+    String qryDictItemCode(@Param("dictItemId")String dictItemId);
 }

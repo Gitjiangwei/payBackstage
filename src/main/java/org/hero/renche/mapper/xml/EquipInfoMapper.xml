@@ -144,4 +144,9 @@
         update tx_equip_info set equip_status = '0bd710ac593811eaab75b4a9fc4b5236'
         where equip_id = #{equipId}
     </update>
+
+    <update id="updateEuipStatusbaof">
+        update tx_equip_info set equip_status = '0bdb37d9593811eaab75b4a9fc4b5236'
+        where equip_id = #{equipId}
+    </update>
 </mapper>

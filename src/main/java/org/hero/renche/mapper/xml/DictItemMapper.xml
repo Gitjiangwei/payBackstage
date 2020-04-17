@@ -43,4 +43,8 @@
     <select id="checkOnlyDictCode" resultType="int">
         select count(1) FROM tx_dict_item where dict_item_code = #{dictItemCode}
     </select>
+
+    <select id="qryDictItemCode" resultType="String">
+        select dict_item_code from tx_dict_item where dict_item_id=#{dictItemId}
+    </select>
 </mapper>
