@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface MoneyBackInfoMapper extends BaseMapper<MoneyBackInfo> {
 
-    List<MoneyBackInfoVo> qryListBackInfo(@Param("MoneyBackInfo") MoneyBackInfo moneyBackInfo);
+   List<MoneyBackInfoVo> qryListBackInfo(@Param("MoneyBackInfo") MoneyBackInfo moneyBackInfo);
 
     int updateFileIds(@Param("MoneyBackInfo") MoneyBackInfo moneyBackInfo);
 

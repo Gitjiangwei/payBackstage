@@ -12,6 +12,7 @@
         SELECT
         a.work_service_id,
         a.plan_out_time,
+        a.visitor,
         a.reality_out_time,
         c.company_name,
         c.phone  ,

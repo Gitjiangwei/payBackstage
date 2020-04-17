@@ -135,22 +135,22 @@
                 plan_out_time =#{TenderInfo.planOutTime},
             </if>
             <if test="TenderInfo.realityOutTime!= null ">
-                reality_out_time =#{TenderInfo.realityOutTime}
+                reality_out_time =#{TenderInfo.realityOutTime},
             </if>
             <if test="TenderInfo.recedeTime!= null ">
-                recede_time=#{TenderInfo.recedeTime}
+                recede_time=#{TenderInfo.recedeTime},
             </if>
-            <if test="TenderInfo.payTime== null'">
-                pay_time =null ,
+            <if test="TenderInfo.payTime== null">
+                pay_time = null ,
             </if>
-            <if test="TenderInfo.planOutTime== null '">
-                plan_out_time =null;
+            <if test="TenderInfo.planOutTime== null ">
+                plan_out_time = null ,
             </if>
-            <if test="TenderInfo.realityOutTime== null '">
-                reality_out_time=null,
+            <if test="TenderInfo.realityOutTime== null ">
+                reality_out_time= null ,
             </if>
-            <if test="TenderInfo.recedeTime== null '">
-                recede_time=null,
+            <if test="TenderInfo.recedeTime== null ">
+                recede_time= null ,
             </if>
 
         </trim>
