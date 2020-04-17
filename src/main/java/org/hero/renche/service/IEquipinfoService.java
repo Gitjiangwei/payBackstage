@@ -14,7 +14,7 @@ public interface IEquipinfoService extends IService<EquipInfo> {
 
     /**
      * 查询库存整体
-     * @param equipInfo
+     * @param
      * @param pageNo
      * @param pageSize
      * @return
@@ -28,6 +28,13 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     PageInfo<EquipInfo> qryEquipListKeyDetail(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
+
+    /**
+     * 根据设备型号id查询详情只查询空闲和维修状态的设备
+     * @param equipInfo
+     * @return
+     */
+    PageInfo<EquipInfo> qryEquipListKey(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
 
 
     /**

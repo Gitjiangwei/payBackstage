@@ -36,6 +36,21 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
         return new PageInfo<EquipInfo>(equipInfoList);
     }
 
+    /**
+     * 根据设备型号id查询详情只查询空闲和维修状态的设备
+     *
+     * @param equipInfo
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageInfo<EquipInfo> qryEquipListKey(EquipInfo equipInfo, Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<EquipInfo> equipInfoList = equipInfoMapper.qryEquipListKeys(equipInfo);
+        return new PageInfo<EquipInfo>(equipInfoList);
+    }
+
     @Override
     public Boolean updateDetailEquipInfo(EquipInfo equipInfo) {
         Boolean flag = false;
