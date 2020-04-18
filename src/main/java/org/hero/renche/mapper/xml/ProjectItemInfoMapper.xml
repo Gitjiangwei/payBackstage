@@ -4,12 +4,14 @@
 
     <select id="qryListProjectItemInfo" resultType="org.hero.renche.entity.vo.ProjectItemVo">
 
-        select prj_item_id as prjItemId,prj_item_name as prjItemName,prj_item_num as prjItemNum,prj_item_type as prjItemType,d.dict_code_name as itemTypeName,
+        select t.prj_item_id as prjItemId,prj_item_name as prjItemName,prj_item_num as prjItemNum,prj_item_type as prjItemType,d.dict_code_name as itemTypeName,
             prj_name as prjName,company_name as companyName,belong_company as belongCompany,person_in_charge as personInCharge,
-            person_tel as personTel,progress_of_item as progressOfItem,entry_time as entryTime,finish_time as finishTime,
-            require_deploy_time as requireDeployTime,prj_item_place as prjItemPlace,prj_item_status as prjItemStatus
+            person_tel as personTel,progress_of_item as progressOfItem,entry_time as entryTime,finish_time as finishTime,i.contract_id as contractId,
+            i.contract_name as contractName,require_deploy_time as requireDeployTime,prj_item_place as prjItemPlace,prj_item_status as prjItemStatus
         from tx_project_item t
         left join tx_company_info c on t.belong_company = c.company_Id
+        left join tx_pro_contract_rel r on r.prj_item_id = t.prj_item_id
+        left join tx_contract_info i on i.contract_id = r.contract_id
         left join tx_dict d on t.prj_item_type = d.dict_code_id and d.dict_code='PROJECTITEMTYPE'
         <trim prefix="where" prefixOverrides="and">
             <if test="ProjectItemInfo.prjItemName != null and ProjectItemInfo.prjItemName != '' ">
@@ -44,6 +46,9 @@
             </if>
             <if test="ProjectItemInfo.requireDeployTime != null ">
                 and  require_deploy_time = #{ProjectItemInfo.requireDeployTime}
+            </if>
+            <if test="ProjectItemInfo.hasConnection != null ">
+                and  ifnull(has_connection,'0') = #{ProjectItemInfo.hasConnection}
             </if>
 
         </trim>
@@ -110,5 +115,9 @@
 
 
     </select>
+
+    <update id="updateConnWithContract" >
+        update tx_project_item set has_connection = #{hasConnection} where prj_item_id = #{prjItemId}
+    </update>
 
 </mapper>

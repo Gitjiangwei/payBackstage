@@ -61,7 +61,12 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/renche/tender/exportTender", "anon");
 		filterChainDefinitionMap.put("/renche/equip/exportEquip", "anon");
 		filterChainDefinitionMap.put("/renche/purchase/exportPurchase", "anon");
-
+		filterChainDefinitionMap.put("/renche/invoci/exportInvoci", "anon");
+		filterChainDefinitionMap.put("/renche/projectItem/exportPrjItem", "anon");
+		filterChainDefinitionMap.put("/renche/projectItem/importPrjItem", "anon");
+		filterChainDefinitionMap.put("/renche/projectItem/exportPrjItemModel", "anon");
+		filterChainDefinitionMap.put("/renche/moneyBack/exportBackInfo", "anon");
+		filterChainDefinitionMap.put("/renche/contractInfo/exportContractInfo", "anon");
 		//filterChainDefinitionMap.put("/renche/**", "anon");
 
 		filterChainDefinitionMap.put("/test/jeecgDemo/hello", "anon");//测试helloworld

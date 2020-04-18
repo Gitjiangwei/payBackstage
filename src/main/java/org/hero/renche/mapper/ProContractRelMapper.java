@@ -12,8 +12,6 @@ import java.util.List;
  */
 public interface ProContractRelMapper {
 
-    List<ProjectItemVo> qryListProjectItemInfo(@Param("ProjectItemInfo") ProjectItemInfo projectItemInfo, @Param("contractId") String contractId);
-
     List<ProjectItemVo> qryProItemByContractId(@Param("contractId") String contractId);
 
     int addProjectItem(@Param("contractId") String contractId, @Param("prjItemId") String prjItemId);

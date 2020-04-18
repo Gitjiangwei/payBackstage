@@ -64,6 +64,7 @@ public class ProjectItemInfoController {
     public Result<ProjectItemInfo> add(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
         ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
+        projectItemInfo.setHasConnection("0");
         projectItemInfo.setCreateTime(new Date());
         try {
             boolean ok = projectItemInfoService.save(projectItemInfo);
@@ -199,8 +200,7 @@ public class ProjectItemInfoController {
      */
     @ApiOperation(value = "下载导入模板", notes = "下载导入模板", produces = "application/json")
     @GetMapping(value = "/exportPrjItemModel" )
-    public Result<ProjectItemInfo> exportPrjItemModel (HttpServletResponse response,HttpServletRequest request){
-        Result<ProjectItemInfo> result=new Result<>();
+    public void exportPrjItemModel (HttpServletResponse response,HttpServletRequest request){
         try{
             String fileName = "prjItemExecl.xls";
             // 设置要下载的文件的名称
@@ -225,9 +225,7 @@ public class ProjectItemInfoController {
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("下载导入模板失败");
         }
-        return result;
     }
 
     /**
@@ -256,27 +254,23 @@ public class ProjectItemInfoController {
      *
      * @return
      */
+    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/vnd.ms-excel")
     @RequestMapping(value = "/exportPrjItem" )
-    public Result<ProjectItemInfo> exportPrjItem (@RequestParam(value = "param") String params, HttpServletResponse response)  {
-        Result<ProjectItemInfo> result=new Result<>();
-        params = params.replace("\"","");
-        String[] paramStrs = params.split(",");
-        Map<String,String> map = new HashMap<>();
-        for (String str : paramStrs){
-            String[] content = str.split(":");
-            map.put(content[0],content[1]);
-        }
-
+    public void exportPrjItem (@RequestParam(value = "param") String params, HttpServletResponse response)  {
         try{
-            String message = projectItemInfoService.exportPrjItem(map, response);
-            result.setSuccess(true);
-            result.setMessage(message);
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+
+            projectItemInfoService.exportPrjItem(map, response);
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.setMessage("导出数据出错");
         }
-        return result;
     }
 
 }

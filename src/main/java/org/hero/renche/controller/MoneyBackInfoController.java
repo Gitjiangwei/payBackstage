@@ -11,8 +11,11 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Title: Controller
@@ -34,10 +37,10 @@ public class MoneyBackInfoController {
      */
     @ApiOperation(value = "获取回款信息列表", notes = "获取回款信息列表", produces = "application/json")
     @GetMapping(value = "/list")
-    public Result<PageInfo<MoneyBackInfoVo>> list(MoneyBackInfo moneyBackInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<MoneyBackInfoVo>> list(MoneyBackInfoVo moneyBackInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                                   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
         Result<PageInfo<MoneyBackInfoVo>> result = new Result<>();
-        PageInfo<MoneyBackInfoVo> pageList = moneyBackInfoService.qryBackInfoByContractId(moneyBackInfo,pageNo,pageSize);
+        PageInfo<MoneyBackInfoVo> pageList = moneyBackInfoService.qryBackInfoList(moneyBackInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(pageList);
         return result;
@@ -145,6 +148,32 @@ public class MoneyBackInfoController {
             }
         }
         return result;
+    }
+
+    /**
+     * 导出回款信息列表
+     *
+     * @param
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导出发票信息列表", notes = "导出发票信息列表", produces = "application/vnd.ms-excel")
+    @GetMapping(value = "/exportBackInfo" )
+    public void exportBackInfo(@RequestParam(value = "param") String params, HttpServletResponse response){
+        try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+
+            moneyBackInfoService.exportBackInfo(map, response);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+        }
     }
 
 }

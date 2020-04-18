@@ -65,7 +65,6 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
     @Override
     public String exportCompanyInfo (Map<String, String> map, HttpServletResponse response){
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
             CompanyInfo companyInfo = new CompanyInfo();
             companyInfo.setCompanyName(map.get("companyName"));
             companyInfo.setShuihao(map.get("shuihao"));

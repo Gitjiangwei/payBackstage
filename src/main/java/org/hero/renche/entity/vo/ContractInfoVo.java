@@ -14,12 +14,42 @@ public class ContractInfoVo extends ContractInfo implements Serializable {
     private String companyNameB;
     /**项目名称**/
     private String prjName;
+    /**发票金额**/
+    private String allInvociMoney;
+    /**发票占比**/
+    private String invociMoneyPercent;
     /**回款金额**/
     private String allReturnMoney;
     /**回款占比**/
     private String returnMoneyPercent;
     /**附件个数**/
     private String fileCount;
+    /**合同类型名称**/
+    private String contractTypeName;
+
+    public String getAllInvociMoney() {
+        return allInvociMoney;
+    }
+
+    public void setAllInvociMoney(String allInvociMoney) {
+        this.allInvociMoney = allInvociMoney;
+    }
+
+    public String getInvociMoneyPercent() {
+        return invociMoneyPercent;
+    }
+
+    public void setInvociMoneyPercent(String invociMoneyPercent) {
+        this.invociMoneyPercent = invociMoneyPercent;
+    }
+
+    public String getContractTypeName() {
+        return contractTypeName;
+    }
+
+    public void setContractTypeName(String contractTypeName) {
+        this.contractTypeName = contractTypeName;
+    }
 
     public String getFileCount() {
         return fileCount;

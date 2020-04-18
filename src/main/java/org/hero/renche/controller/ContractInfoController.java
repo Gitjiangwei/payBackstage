@@ -16,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Title: Controller
@@ -47,6 +50,21 @@ public class ContractInfoController {
         PageInfo<ContractInfoVo> pageList = contractInfoService.qryContractInfo(contractInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(pageList);
+        return result;
+    }
+
+    /**
+     * 根据id查询合同信息
+     * @param contractId
+     * @return
+     */
+    @ApiOperation(value = "根据id查询合同信息", notes = "根据id查询合同信息", produces = "application/json")
+    @GetMapping(value = "/getContractById")
+    public Result<ContractInfoVo> getContractById(@RequestParam(name = "contractId") String contractId) {
+        Result<ContractInfoVo> result = new Result<>();
+        ContractInfoVo info = contractInfoService.qryContractById(contractId);
+        result.setSuccess(true);
+        result.setResult(info);
         return result;
     }
 
@@ -138,20 +156,19 @@ public class ContractInfoController {
     }
 
     /**
-     * 分页列表查询除已选择工程点外的所有工程点
+     * 分页列表查询所有没有与合同关联的工程点
      * @param projectItem
      * @param pageNo
      * @param pageSize
-     * @param contractId
      * @returnp'r
      */
     @ApiOperation(value = "获取工程点信息列表", notes = "获取工程点信息列表", produces = "application/json")
     @GetMapping(value = "/allPrjItemWithoutContractList")
     public Result<PageInfo<ProjectItemVo>> allPrjItemWithoutContractList(ProjectItemInfo projectItem, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-                                                @RequestParam(name = "contractId") String contractId) {
+                                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
         Result<PageInfo<ProjectItemVo>> result = new Result<>();
-        PageInfo<ProjectItemVo> pageList = contractInfoService.qryProjectItemInfo(projectItem,pageNo,pageSize,contractId);
+        projectItem.setHasConnection("0");
+        PageInfo<ProjectItemVo> pageList = contractInfoService.qryProjectItemInfo(projectItem,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(pageList);
         return result;
@@ -239,6 +256,33 @@ public class ContractInfoController {
             }
         }
         return result;
+    }
+
+    /**
+     * 导出合同信息列表
+     *
+     * @param
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导出合同信息列表", notes = "导出合同信息列表", produces = "application/vnd.ms-excel")
+    @GetMapping(value = "/exportContractInfo" )
+    public void exportContractInfo(@RequestParam(value = "param") String params, HttpServletResponse response){
+
+        try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+
+            contractInfoService.exportContractInfo(map, response);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+        }
     }
 
 }

@@ -8,25 +8,30 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 所属公司名称**/
     private String companyName;
-
+    /** 工程点类型名称**/
     private String itemTypeName;
+    /** 关联合同id**/
+    private String contractId;
+    /** 关联合同名称**/
+    private String contractName;
 
-    public String getCompanyName() {
-        return companyName;
-    }
+    public String getContractId() { return contractId; }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+    public void setContractId(String contractId) { this.contractId = contractId; }
 
-    public String getItemTypeName() {
-        return itemTypeName;
-    }
+    public String getContractName() { return contractName; }
 
-    public void setItemTypeName(String itemTypeName) {
-        this.itemTypeName = itemTypeName;
-    }
+    public void setContractName(String contractName) { this.contractName = contractName; }
+
+    public String getCompanyName() { return companyName; }
+
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
+
+    public String getItemTypeName() { return itemTypeName; }
+
+    public void setItemTypeName(String itemTypeName) { this.itemTypeName = itemTypeName; }
 
 
 

@@ -18,22 +18,6 @@
         order by t.create_time desc
     </select>
 
-    <select id="qryListProjectItemInfo" resultType="org.hero.renche.entity.vo.ProjectItemVo">
-
-        select prj_item_id as prjItemId,prj_item_name as prjItemName,prj_item_num as prjItemNum,prj_item_type as prjItemType,
-        prj_name as prjName,company_name as companyName,person_in_charge as personInCharge
-        from tx_project_item t
-        left join tx_company_info c on t.belong_company = c.company_Id
-        where prj_item_id not in (select prj_item_id from tx_pro_contract_rel where contract_id = #{contractId})
-        <if test="ProjectItemInfo.prjItemName != null and ProjectItemInfo.prjItemName != '' ">
-            and  prj_item_name like CONCAT('%',#{ProjectItemInfo.prjItemName},'%')
-        </if>
-        <if test="ProjectItemInfo.prjName != null and ProjectItemInfo.prjName != '' ">
-            and  prj_name  like CONCAT('%',#{ProjectItemInfo.prjName},'%')
-        </if>
-        order by t.create_time desc
-    </select>
-
     <delete id="delProjectItem">
         delete from tx_pro_contract_rel where contract_Id = #{contractId} and prj_item_id = #{prjItemId}
     </delete>
