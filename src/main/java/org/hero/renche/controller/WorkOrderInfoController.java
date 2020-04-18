@@ -249,6 +249,17 @@ public class WorkOrderInfoController {
           String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
           String fileRelId=voWorkOrderInfo.getFileRelId();
           voWorkOrderInfo.setPrjItemId(prjItemId);
+          String sta=voWorkOrderInfo.getStatus();
+          if("实施".equals(sta)){
+              sta="1";
+          }else if("维修".equals(sta)){
+              sta="2";
+          }else if("拜访".equals(sta)){
+              sta="3";
+          }else if("销售".equals(sta)){
+              sta="4";
+          }
+          voWorkOrderInfo.setStatus(sta);
           WorkOrderInfo workOrderInfo=new WorkOrderInfo();
           BeanUtils.copyProperties(voWorkOrderInfo,workOrderInfo);
           workOrderInfo.setPrjItemId(prjItemId);
