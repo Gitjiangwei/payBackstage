@@ -8,7 +8,7 @@
 
     <select id="qryListCompanyInfo" resultType="org.hero.renche.entity.vo.CompanyInfoVo">
 
-        select company_id,company_name,type,shuihao,bank,bank_no,contacts,phone,id_card,hobby,address,email,dict_code_name as typeName
+        select company_id,company_name,type,shuihao,bank,bank_no,contacts,phone,id_card,introduc,address,email,dict_code_name as typeName
         from tx_company_info c
         left join tx_dict d on c.type = d.dict_code_id and d.dict_code='CUSTOMETYPE'
         <trim prefix="where" prefixOverrides="and">

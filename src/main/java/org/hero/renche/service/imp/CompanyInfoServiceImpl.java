@@ -87,7 +87,7 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
                 list.add(vo.getPhone());
                 list.add(vo.getIdCard());
                 list.add(vo.getEmail());
-                list.add(vo.getHobby());
+                list.add(vo.getIntroduc());
                 list.add(vo.getAddress());
                 lists.add(list);
             }
