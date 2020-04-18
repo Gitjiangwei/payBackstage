@@ -3,20 +3,16 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hero.renche.controller.voentity.VoInvoicInfo;
-import org.hero.renche.controller.voentity.VoWorkOrderInfo;
 import org.hero.renche.entity.TenderInfo;
 import org.hero.renche.service.TenderService;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -63,6 +59,21 @@ public class TenderInfoController {
     }
 
     /**
+     * 根据id查询招标信息
+     * @param tenderId
+     * @return
+     */
+    @ApiOperation(value = "根据id查询招标信息", notes = "根据id查询招标信息", produces = "application/json")
+    @GetMapping(value = "/getTenderById")
+    public Result<TenderInfo> getTenderById(@RequestParam(name = "tenderId") String tenderId) {
+        Result<TenderInfo> result = new Result<>();
+        TenderInfo info = tenderService.qryTenderById(tenderId);
+        result.setSuccess(true);
+        result.setResult(info);
+        return result;
+    }
+
+    /**
      * 添加招标信息
      * @param tenderInfo
      * @param request
@@ -73,34 +84,9 @@ public class TenderInfoController {
     public Result<TenderInfo> addTender(@RequestBody TenderInfo tenderInfo,HttpServletRequest request){
         Result<TenderInfo> result=new Result<>();
         try{
-            String isBack=tenderInfo.getIsBack();
-
-            if("2".equals(isBack)&&tenderInfo.getRecedeTime()!=null){
-                result.error500("保证金未退回，请勿选择退保证金时间");
-                return result;
+            if(tenderInfo.getIsBack() == null || "".equals(tenderInfo.getIsBack())){
+                tenderInfo.setIsBack("2");//默认设置为没有退回
             }
-            if("1".equals(isBack)){
-                isBack="是";
-            }else if ("2".equals(isBack))
-                isBack="否";
-            tenderInfo.setIsBack(isBack);
-            String tenderId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
-            tenderInfo.setTenderId(tenderId);
-            tenderInfo.setCreateTime(new Date());
-            String payWay=tenderInfo.getPayWay();
-
-            double deposit= Double.parseDouble(tenderInfo.getDeposit());
-            double serviceMoney= Double.parseDouble(tenderInfo.getServiceMoney());
-
-            String recedeDeposit="";
-
-            if("1".equals(payWay)){
-                recedeDeposit=deposit+"";
-            }else if("2".equals(payWay)){
-                double temp=deposit-serviceMoney;
-                recedeDeposit=temp+"";
-            }
-            tenderInfo.setRecedeDeposit(recedeDeposit);
             Boolean bool=tenderService.addTender(tenderInfo);
             if(bool==true){
                 result.success("添加成功！");
@@ -109,8 +95,6 @@ public class TenderInfoController {
             }else {
                 result.error500("添加招标信息失败");
             }
-
-
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
@@ -130,40 +114,6 @@ public class TenderInfoController {
     public Result<TenderInfo> upTender(@RequestBody TenderInfo tenderInfo,HttpServletRequest request){
         Result<TenderInfo> result=new Result<>();
         try{
-            String isBack=tenderInfo.getIsBack();
-
-            if("是".equals(isBack)){
-                isBack="1";
-            }else if ("否".equals(isBack)){
-                isBack="2";
-            }
-            if("2".equals(isBack)||"否".equals(isBack)){
-                if(tenderInfo.getRecedeTime()!=null){
-                    result.error500("保证金未退回，请勿选择退保证金时间");
-                    return result;
-                }
-            }
-            tenderInfo.setIsBack(isBack);
-            String payWay=tenderInfo.getPayWay();
-            if("自缴".equals(payWay)){
-                isBack="1";
-            }else if ("保证金扣除".equals(payWay)){
-                isBack="2";
-            }
-            double deposit= Double.parseDouble(tenderInfo.getDeposit());
-            double serviceMoney= Double.parseDouble(tenderInfo.getServiceMoney());
-
-            String recedeDeposit="";
-
-            if("1".equals(payWay)){
-                recedeDeposit=deposit+"";
-            }else if("2".equals(payWay)){
-                double temp=deposit-serviceMoney;
-                recedeDeposit=temp+"";
-            }
-            tenderInfo.setRecedeDeposit(recedeDeposit);
-
-
             Boolean bool=tenderService.upTenderById(tenderInfo);
             if(bool==true){
                 result.success("修改成功");
@@ -173,8 +123,6 @@ public class TenderInfoController {
                 result.error500("修改招标信息失败");
                 return result;
             }
-
-
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
@@ -324,6 +272,7 @@ public class TenderInfoController {
                 }else {
                     list.add(date3);
                 }
+                list.add(vv.getRemark());
                 lists.add(list);
             }
             ExcelData excelData=new ExcelData();
@@ -344,6 +293,7 @@ public class TenderInfoController {
             titlesList.add("服务费");
             titlesList.add("交保证金时间");
             titlesList.add("退保证时间");
+            titlesList.add("备注");
             excelData.setTitles(titlesList);
             excelData.setRows(lists);
             ExcelUtils.exportExcel(response , "招标管理.xlsx" , excelData);

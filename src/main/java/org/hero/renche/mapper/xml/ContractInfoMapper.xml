@@ -54,7 +54,7 @@
         select t.contract_id as contractId,contract_name as contractName,party_a as partyA,a.company_name as companyNameA,
         contract_no_a as contractNoA,party_b as partyB,b.company_name as companyNameB,contract_no_b as contractNoB,
         contract_status as contractStatus,contract_money as contractMoney,sign_in_time as signInTime,remind_period_type as remindPeriodType,
-        remind_period as remindPeriod,contract_type as contractType,remark,t.tender_id as tenderId,d.dict_code_name as contractTypeName,
+        remind_period as remindPeriod,contract_type as contractType,t.remark,t.tender_id as tenderId,d.dict_code_name as contractTypeName,
         ti.prj_name as prjName,allReturnMoney,CONCAT(round((allReturnMoney/contract_money)*100,2),'%') as returnMoneyPercent,
         ifnull(file_rel_id,'') as fileRelId,ifnull(elec_file_rel,'') as elecFileRel,t.over_time as overTime,
         allInvociMoney,CONCAT(round((allInvociMoney/contract_money)*100,2),'%') as invociMoneyPercent,

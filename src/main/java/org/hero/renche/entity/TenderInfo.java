@@ -39,34 +39,33 @@ public class TenderInfo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd ")
     private Date createTime;
 
-    /*招标代理机构*/
+    /**招标代理机构*/
     private String agency;
-    /*采购人*/
+    /**采购人*/
     private String purchasePerson;
-    /*服务费*/
+    /**服务费*/
     private String serviceMoney;
-    /*交保证金时间*/
+    /**交保证金时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private  Date payTime;
-    /*退保证金时间*/
+    /**退保证金时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recedeTime ;
-    /*保证金缴费方式*/
+    /**保证金缴费方式*/
     private String payWay;
-    /*应退保证金*/
+    /**应退保证金*/
     private String recedeDeposit;
-    /*计划结束时间*/
+    /**计划结束时间*/
     @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date planOutTime;
-    /*实际结束时间*/
+    /**实际结束时间*/
     @JsonFormat( timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date realityOutTime;
-
-
-
+    /**备注*/
+    private String remark;
 
 }
