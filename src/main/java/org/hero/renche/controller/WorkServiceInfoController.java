@@ -117,8 +117,8 @@ public class WorkServiceInfoController {
      */
     @RequestMapping(value = "/exportWorkService" )
     @ApiOperation(value ="导出工单服务单" , notes = "导出工单服务单列表" , produces = "application/json")
-    public Result<CompanyInfo> exportWorkService (@RequestParam(value = "param") String params, HttpServletResponse response) {
-        Result<CompanyInfo> result=new Result<>();
+    public void exportWorkService (@RequestParam(value = "param") String params, HttpServletResponse response) {
+
         try{
             params = params.replace("\"","");
             String[] paramStrs = params.split(",");
@@ -135,14 +135,13 @@ public class WorkServiceInfoController {
             }
             map.put("username",username);*/
             String message = workServiceInfoService.exportWorkServiceInfo(map, response);
-            result.setSuccess(true);
-            result.setMessage(message);
+
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.setMessage("导出数据出错");
+
         }
-        return result;
+
     }
 
 
