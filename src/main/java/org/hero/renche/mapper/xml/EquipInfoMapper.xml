@@ -62,6 +62,20 @@
         </trim>
     </select>
 
+    <select id="qryEquipListKeys" resultType="org.hero.renche.entity.EquipInfo">
+        select a.equip_id,a.equip_name,a.equip_no,equip_price,a.`condition`,a.use_times,b.dict_code_id as 'equipStatus',a.manufacory_no from tx_equip_info a
+        INNER JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS' AND (b.dict_code_id='FREE' OR b.dict_code_id ='INREPAIR')
+        <trim prefix="where" prefixOverrides="and">
+            a.purchase_id = #{equipInfo.purchaseId}
+            <if test="equipInfo.equipNo!=null and equipInfo.equipNo != '' ">
+                and a.equip_no like CONCAT('%',#{equipInfo.equipNo},'%',)
+            </if>
+            <if test="equipInfo.equipStatus != null and equipInfo.equipStatus != '' ">
+                and b.dict_code_id = #{equipInfo.equipStatus}
+            </if>
+        </trim>
+    </select>
+
 
     <select id="qryEquipKeyCount" resultType="int">
         select count(1) from tx_equip_info
@@ -142,6 +156,11 @@
 
     <update id="updateEuipStatusweix">
         update tx_equip_info set equip_status = '0bd710ac593811eaab75b4a9fc4b5236'
+        where equip_id = #{equipId}
+    </update>
+
+    <update id="updateEuipStatusbaof">
+        update tx_equip_info set equip_status = '0bdb37d9593811eaab75b4a9fc4b5236'
         where equip_id = #{equipId}
     </update>
 </mapper>

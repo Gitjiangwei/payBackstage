@@ -258,8 +258,8 @@ public class TenderInfoController {
      */
     @ApiOperation(value = "导出招标信息列表", notes = "导出招标信息列表", produces = "application/json")
     @GetMapping(value = "/exportTender" )
-    public Result<PageInfo<TenderInfo>> exportTender(@RequestParam(value = "param") String params, HttpServletResponse response){
-        Result<PageInfo<TenderInfo>> result=new Result<>();
+    public void exportTender(@RequestParam(value = "param") String params, HttpServletResponse response){
+
 
         try{
             params = params.replace("\"","");
@@ -347,14 +347,13 @@ public class TenderInfoController {
             excelData.setTitles(titlesList);
             excelData.setRows(lists);
             ExcelUtils.exportExcel(response , "招标管理.xlsx" , excelData);
-            result.setMessage("导出成功");
+
 
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("导出招标信息失败");
         }
-        return result;
+
     }
 
 

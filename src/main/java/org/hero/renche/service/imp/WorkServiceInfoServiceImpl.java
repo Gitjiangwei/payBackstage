@@ -58,10 +58,10 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
             WorkServiceInfoVo workServiceInfoVo=new WorkServiceInfoVo();
             String workName=map.get("workName")==null ?"":map.get("workName");
             String companyName=map.get("companyName")==null ?"":map.get("companyName");
-            String  userName= map.get("userName")==null?"":map.get("userName");
+            String  visitor= map.get("visitor")==null?"":map.get("visitor");
             workServiceInfoVo.setWorkName(workName);
             workServiceInfoVo.setCompanyName(companyName);
-            workServiceInfoVo.setVisitor(userName);
+            workServiceInfoVo.setVisitor(visitor);
             List<WorkServiceInfoVo> wslist=workServiceInfoMapper.qryworkServiceInfoList(workServiceInfoVo);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;

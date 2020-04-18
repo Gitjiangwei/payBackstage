@@ -2,6 +2,7 @@ package org.hero.renche.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
 
@@ -13,7 +14,7 @@ public interface IEquipinfoService extends IService<EquipInfo> {
 
     /**
      * 查询库存整体
-     * @param equipInfo
+     * @param
      * @param pageNo
      * @param pageSize
      * @return
@@ -27,6 +28,13 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     PageInfo<EquipInfo> qryEquipListKeyDetail(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
+
+    /**
+     * 根据设备型号id查询详情只查询空闲和维修状态的设备
+     * @param equipInfo
+     * @return
+     */
+    PageInfo<EquipInfo> qryEquipListKey(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
 
 
     /**
@@ -47,4 +55,11 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     Boolean updateEquipStatusweix(String equipId);
+
+    /**
+     * 设备报废
+     * @param equipId
+     * @return
+     */
+    Boolean updateEuipStatusbaof(String equipId);
 }

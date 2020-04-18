@@ -19,6 +19,8 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
 
     List<EquipInfo> qryEquipListKey(@Param("equipInfo") EquipInfo equipInfo);
 
+    List<EquipInfo> qryEquipListKeys(@Param("equipInfo") EquipInfo equipInfo);
+
     int qryEquipKeyCount(@Param("purchaseId") String purchaseId);
 
 
@@ -28,5 +30,7 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
     List exportEquipInfoList(@Param("equip")Map<String,String> map);
 
     int updateEuipStatusweix(@Param("equipId") String equipId);
+
+    int updateEuipStatusbaof(@Param("equipId") String equipId);
 
 }

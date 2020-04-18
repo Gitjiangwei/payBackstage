@@ -76,7 +76,38 @@
     </delete>
 
     <select id="exportTenderInfoList" resultType="org.hero.renche.entity.TenderInfo">
-        SELECT * FROM tx_tender_info
+        SELECT
+        tender_id,
+        tender_no,
+        plan_out_time,
+        reality_out_time,
+        prj_name,
+        tender_company,
+        tender_offer,
+        deposit,
+        is_back,
+        create_time,
+        agency,
+        purchase_person,
+        service_money,
+        pay_time,
+        recede_time,
+        recede_deposit,
+        CASE
+        WHEN is_back = '1' THEN
+        '是'
+        WHEN is_back = '2' THEN
+        '否'
+        END isBack,
+
+        CASE
+        WHEN pay_way = '1' THEN
+        '自缴'
+        WHEN pay_way = '2' THEN
+        '保证金扣除'
+        END payWay
+        FROM
+        tx_tender_info
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
                 and prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
@@ -135,22 +166,22 @@
                 plan_out_time =#{TenderInfo.planOutTime},
             </if>
             <if test="TenderInfo.realityOutTime!= null ">
-                reality_out_time =#{TenderInfo.realityOutTime}
+                reality_out_time =#{TenderInfo.realityOutTime},
             </if>
             <if test="TenderInfo.recedeTime!= null ">
-                recede_time=#{TenderInfo.recedeTime}
+                recede_time=#{TenderInfo.recedeTime},
             </if>
-            <if test="TenderInfo.payTime== null'">
-                pay_time =null ,
+            <if test="TenderInfo.payTime== null">
+                pay_time = null ,
             </if>
-            <if test="TenderInfo.planOutTime== null '">
-                plan_out_time =null;
+            <if test="TenderInfo.planOutTime== null ">
+                plan_out_time = null ,
             </if>
-            <if test="TenderInfo.realityOutTime== null '">
-                reality_out_time=null,
+            <if test="TenderInfo.realityOutTime== null ">
+                reality_out_time= null ,
             </if>
-            <if test="TenderInfo.recedeTime== null '">
-                recede_time=null,
+            <if test="TenderInfo.recedeTime== null ">
+                recede_time= null ,
             </if>
 
         </trim>

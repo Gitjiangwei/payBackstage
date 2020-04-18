@@ -19,6 +19,8 @@ public class Dict implements Serializable {
     /**ID*/
     @TableId(type = IdType.UUID)
     private String dictId;
+    /**字典类型ID*/
+    private String dictItemId;
     /**字典类型编号*/
     private String dictCode;
     /**字典编号id*/
