@@ -66,6 +66,35 @@ public class EquipInfoController {
         return result;
     }
 
+    /**
+     * 根据型号id查询设备使用情况只查询空闲和维修
+     * @param equipInfo
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation(value = "查询设备使用情况只查询空闲和维修", notes = "获取所有空闲和采购设备信息数据列表", produces = "application/json")
+    @RequestMapping(value = "/equipKey")
+    public Result<PageInfo<EquipInfo>> qryEquipListKey(EquipInfo equipInfo,@RequestParam(name = "pageNo") Integer pageNo,
+                                                             @RequestParam(name = "pageSize") Integer pageSize){
+        Result<PageInfo<EquipInfo>> result = new Result<>();
+        if(equipInfo.getEquipStatus()!=null && !equipInfo.getEquipStatus().equals("")){
+            if(equipInfo.getEquipStatus().equals("1")){
+                equipInfo.setEquipStatus("FREE");
+            }else if(equipInfo.getEquipStatus().equals("2")){
+                equipInfo.setEquipStatus("INREPAIR");
+            }else{
+                result.error500("参数被篡改！");
+                result.setSuccess(false);
+                return result;
+            }
+        }
+        PageInfo<EquipInfo> equipInfoPageInfo = equipinfoService.qryEquipListKey(equipInfo,pageNo,pageSize);
+        result.setSuccess(true);
+        result.setResult(equipInfoPageInfo);
+        return result;
+    }
+
 
     @AutoLog("修改设备库存数据")
     @PostMapping(value = "/equipKeyDetail")
