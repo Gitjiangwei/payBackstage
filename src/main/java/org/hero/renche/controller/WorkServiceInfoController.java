@@ -82,13 +82,14 @@ public class WorkServiceInfoController {
 
         Result<WorkServiceInfoVo> result=new Result<>();
         try{
-          /*  String companyName=workServiceInfoVo.getCompanyName();
+            String companyName=workServiceInfoVo.getCompanyName();
             String companyId=iCompanyInfoService.qryCompanyIdByname(companyName);
             String  workServiceId=workServiceInfoVo.getWorkServiceId();
             if(companyId==null||companyId==""){
                 result.error500("编辑失败,该公司不存在");
-            }*/
-          String companyId=workServiceInfoVo.getCompanyId();
+                return result;
+            }
+          String companyId1=workServiceInfoVo.getCompanyId();
             WorkServiceInfo workServiceInfo=new WorkServiceInfo();
             BeanUtils.copyProperties(workServiceInfoVo,workServiceInfo);
             workServiceInfo.setCompanyId(companyId);
@@ -97,6 +98,7 @@ public class WorkServiceInfoController {
             boolean bo= workServiceInfoService.upWorkSeriviceInfo(workServiceInfo);
             if(bo!=true){
                 result.error500("修改失败");
+                return result;
             }
             result.setResult(workServiceInfoVo);
             result.success("修改成功！");
