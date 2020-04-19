@@ -4,38 +4,10 @@
 
 
     <select id="qryTenderList" resultType="org.hero.renche.entity.TenderInfo">
-        SELECT
-        tender_id,
-        tender_no,
-        plan_out_time,
-        reality_out_time,
-        prj_name,
-        tender_company,
-        tender_offer,
-        deposit,
-        is_back,
-        create_time,
-        agency,
-        purchase_person,
-        service_money,
-        pay_time,
-        recede_time,
-        recede_deposit,
-        CASE
-        WHEN is_back = '1' THEN
-        '是'
-        WHEN is_back = '2' THEN
-        '否'
-        END isBack,
-
-        CASE
-        WHEN pay_way = '1' THEN
-        '自缴'
-        WHEN pay_way = '2' THEN
-        '保证金扣除'
-        END payWay
-        FROM
-        tx_tender_info
+        SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
+            tender_company as tenderCompany,tender_offer as tenderOffer,deposit,is_back as isBack,agency,purchase_person as purchasePerson,
+            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay
+        FROM tx_tender_info
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
                 and prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
@@ -51,11 +23,19 @@
         order by create_time desc
     </select>
 
+    <select id="qryTenderById" resultType="org.hero.renche.entity.TenderInfo">
+        SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
+            tender_company as tenderCompany,tender_offer as tenderOffer,deposit,is_back as isBack,agency,purchase_person as purchasePerson,
+            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay
+        FROM tx_tender_info
+        where tender_id = #{tenderId}
+    </select>
+
 
     <insert id="addTenser" parameterType="org.hero.renche.entity.TenderInfo">
         insert into  tx_tender_info(tender_id , tender_no ,prj_name ,tender_company ,tender_offer ,
          deposit ,is_back ,create_time ,agency ,purchase_person ,service_money ,
-          pay_time ,recede_time , pay_way , recede_deposit, plan_out_time , reality_out_time)
+          pay_time ,recede_time , pay_way , recede_deposit, plan_out_time , reality_out_time, remark)
         values (#{TenderInfo.tenderId},#{TenderInfo.tenderNo},
         #{TenderInfo.prjName},#{TenderInfo.tenderCompany},
         #{TenderInfo.tenderOffer},#{TenderInfo.deposit},
@@ -63,7 +43,7 @@
         #{TenderInfo.agency},#{TenderInfo.purchasePerson},
         #{TenderInfo.serviceMoney},#{TenderInfo.payTime},
         #{TenderInfo.recedeTime},#{TenderInfo.payWay},
-        #{TenderInfo.recedeDeposit}, #{TenderInfo.planOutTime}, #{TenderInfo.realityOutTime})
+        #{TenderInfo.recedeDeposit}, #{TenderInfo.planOutTime}, #{TenderInfo.realityOutTime}),#{TenderInfo.remark})
 
     </insert>
 
@@ -76,7 +56,12 @@
     </delete>
 
     <select id="exportTenderInfoList" resultType="org.hero.renche.entity.TenderInfo">
-        SELECT * FROM tx_tender_info
+        SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
+            tender_company as tenderCompany,tender_offer as tenderOffer,deposit,agency,purchase_person as purchasePerson,
+            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark,
+            (CASE WHEN is_back = '1' THEN '是' WHEN is_back = '2' THEN '否' END) as isBack,
+            (CASE WHEN pay_way = '1' THEN '自缴' WHEN pay_way = '2' THEN '保证金扣除' END) as payWay
+        FROM tx_tender_info
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
                 and prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
@@ -87,7 +72,6 @@
             <if test="TenderInfo.tenderCompany != null and TenderInfo.tenderCompany!= '' ">
                 and tender_company like CONCAT('%',#{TenderInfo.tenderCompany },'%')
             </if>
-
         </trim>
         order by create_time desc
     </select>
@@ -127,6 +111,9 @@
             </if>
             <if test="TenderInfo.recedeDeposit!= null and TenderInfo.recedeDeposit != ''">
                 recede_deposit =#{TenderInfo.recedeDeposit},
+            </if>
+            <if test="TenderInfo.remark!= null and TenderInfo.remark != ''">
+                remark =#{TenderInfo.remark},
             </if>
             <if test="TenderInfo.payTime!= null ">
                 pay_time =#{TenderInfo.payTime},

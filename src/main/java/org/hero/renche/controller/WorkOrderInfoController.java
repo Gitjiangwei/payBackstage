@@ -249,6 +249,17 @@ public class WorkOrderInfoController {
           String prjItemId=workOrderService.qryPrjItemIdByPrjItemName(prjName);
           String fileRelId=voWorkOrderInfo.getFileRelId();
           voWorkOrderInfo.setPrjItemId(prjItemId);
+          String sta=voWorkOrderInfo.getStatus();
+          if("实施".equals(sta)){
+              sta="1";
+          }else if("维修".equals(sta)){
+              sta="2";
+          }else if("拜访".equals(sta)){
+              sta="3";
+          }else if("销售".equals(sta)){
+              sta="4";
+          }
+          voWorkOrderInfo.setStatus(sta);
           WorkOrderInfo workOrderInfo=new WorkOrderInfo();
           BeanUtils.copyProperties(voWorkOrderInfo,workOrderInfo);
           workOrderInfo.setPrjItemId(prjItemId);
@@ -258,7 +269,7 @@ public class WorkOrderInfoController {
               result.error500("工单修改失败");
               return result;
           }
-          result.setMessage("修改成功");
+          result.success("修改成功");
           result.setResult(voWorkOrderInfo);
       }catch (Exception e){
           e.printStackTrace();
@@ -282,8 +293,8 @@ public class WorkOrderInfoController {
      */
     @ApiOperation(value = "导出工单列表", notes = "导出工单列表", produces = "application/json")
     @GetMapping(value = "/exportVisit" )
-    public Result<PageInfo<VoViditInfo>> exportVisit(@RequestParam(value = "param") String params, HttpServletResponse response){
-        Result<PageInfo<VoViditInfo>> result=new Result<>();
+    public void exportVisit(@RequestParam(value = "param") String params, HttpServletResponse response){
+
 
         try{
 
@@ -337,14 +348,14 @@ public class WorkOrderInfoController {
             excelData.setTitles(titlesList);
             excelData.setRows(lists);
             ExcelUtils.exportExcel(response , "工单预览.xlsx" , excelData);
-            result.setMessage("导出成功");
+
 
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("导出客户列表失败");
+
         }
-        return result;
+
     }
 
 

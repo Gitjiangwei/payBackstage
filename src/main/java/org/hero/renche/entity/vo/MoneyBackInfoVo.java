@@ -1,6 +1,5 @@
 package org.hero.renche.entity.vo;
 
-import org.hero.renche.entity.InvociInfo;
 import org.hero.renche.entity.MoneyBackInfo;
 
 import java.io.Serializable;

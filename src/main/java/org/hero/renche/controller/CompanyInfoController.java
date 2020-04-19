@@ -160,26 +160,24 @@ public class CompanyInfoController {
      *
      * @return
      */
+    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/vnd.ms-excel")
     @RequestMapping(value = "/exportCompanyInfo" )
-    public Result<CompanyInfo> exportCompanyInfo (@RequestParam(value = "param") String params, HttpServletResponse response) {
-        Result<CompanyInfo> result=new Result<>();
-        params = params.replace("\"","");
-        String[] paramStrs = params.split(",");
-        Map<String,String> map = new HashMap<>();
-        for (String str : paramStrs){
-            String[] content = str.split(":");
-            map.put(content[0],content[1]);
-        }
+    public void exportCompanyInfo (@RequestParam(value = "param") String params, HttpServletResponse response) {
+
         try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+
             String message = companyInfoService.exportCompanyInfo(map, response);
-            result.setSuccess(true);
-            result.setMessage(message);
         }catch (Exception e){
             e.printStackTrace();
             log.info(e.getMessage());
-            result.setMessage("导出数据出错");
         }
-        return result;
     }
 
 }

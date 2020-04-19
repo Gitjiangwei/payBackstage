@@ -24,5 +24,8 @@ public interface ProjectItemInfoMapper extends BaseMapper<ProjectItemInfo> {
     List<ProjectItemModel> qryProjectEquip(@Param("projectItemId") String projectItemId);
 
     List<projectStatus> qryStatusList();
+
     List<projectStatus> qryStatusList1();
+
+    int updateConnWithContract(@Param("prjItemId") String prjItemId, @Param("hasConnection") String hasConnection);
 }

@@ -26,14 +26,8 @@
         a.plan_person_num,
         a.reality_person_num,
         a.remark,
-        case
-        when a.evaluate ='1' then '很满意'
-        when a.evaluate ='2' then '满意'
-        when a.evaluate ='3' then '一般'
-        when a.evaluate ='4' then '较差'
-        when a.evaluate ='5' then '很差'
-        else a.evaluate
-        end evaluate
+        a.evaluate
+
 
         FROM
         tx_work_service a

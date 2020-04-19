@@ -10,11 +10,11 @@
         from tx_money_back m
         left join tx_contract_info c on c.contract_id = m.contract_id
         <trim prefix="where" prefixOverrides="and">
-            <if test="MoneyBackInfo.contractId != null and MoneyBackInfo.contractId != '' ">
-                and  m.contract_id = #{MoneyBackInfo.contractId}
+            <if test="MoneyBackInfoVo.contractName != null and MoneyBackInfoVo.contractName != '' ">
+                and  c.contract_name like CONCAT('%',#{MoneyBackInfoVo.contractName},'%')
             </if>
-            <if test="MoneyBackInfo.backId != null and MoneyBackInfo.backId != '' ">
-                and  back_id = #{MoneyBackInfo.backId}
+            <if test="MoneyBackInfoVo.backTime != null ">
+                and  back_time = #{MoneyBackInfoVo.backTime}
             </if>
         </trim>
         order by m.create_time desc

@@ -108,8 +108,8 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                     int index=0;
                     info = new ProjectItemInfo();
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//工程编号
-                    if (obj != null && obj.toString().length() > 32){
-                        message = "第" + (rowNum + 1) + "行工程编号超长，最大长度为32，" + "成功导入："+(rowNum-1)+"条数据。";
+                    if (obj != null && obj.toString().length() > 30){
+                        message = "第" + (rowNum + 1) + "行工程编号超长，最大长度为30，" + "成功导入："+(rowNum-1)+"条数据。";
                         break;
                     }else {
                         info.setPrjItemNum(obj.toString().trim());
@@ -119,8 +119,8 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//工程点名称
                     String itemName = obj.toString().trim();
                     if(itemName != null && !"".equals(itemName)){
-                        if (obj != null && obj.toString().length() > 255){
-                            message = "第" + (rowNum + 1) + "行工程点名称超长，最大长度为255，" + "成功导入："+(rowNum-1)+"条数据。";
+                        if (obj != null && obj.toString().length() > 150){
+                            message = "第" + (rowNum + 1) + "行工程点名称超长，最大长度为150，" + "成功导入："+(rowNum-1)+"条数据。";
                             break;
                         }else {
                             info.setPrjItemName(itemName);
@@ -131,8 +131,8 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                     }
 
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//项目名称
-                    if (obj != null && obj.toString().length() > 255){
-                        message = "第" + (rowNum + 1) + "行项目名称超长，最大长度为255，" + "成功导入："+(rowNum-1)+"条数据。";
+                    if (obj != null && obj.toString().length() > 150){
+                        message = "第" + (rowNum + 1) + "行项目名称超长，最大长度为150，" + "成功导入："+(rowNum-1)+"条数据。";
                         break;
                     }else {
                         info.setPrjName(obj.toString().trim());
@@ -155,8 +155,8 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//所属公司
                     String company = obj.toString().trim();
                     if (company != null && !"".equals(company)){
-                        if(obj.toString().length() > 255){
-                            message = "第" + (rowNum + 1) + "行所属公司超长，最大长度为255，" + "成功导入："+(rowNum-1)+"条数据。";
+                        if(obj.toString().length() > 30){
+                            message = "第" + (rowNum + 1) + "行所属公司超长，最大长度为30，" + "成功导入："+(rowNum-1)+"条数据。";
                             break;
                         }else{
                             String companyId = companyInfoMapper.qryCompanyIdByname(company);
@@ -172,8 +172,8 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                     }
 
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//负责人
-                    if (obj != null && obj.toString().length() > 32){
-                        message = "第" + (rowNum + 1) + "行负责人超长，最大长度为32，" + "成功导入："+(rowNum-1)+"条数据。";
+                    if (obj != null && obj.toString().length() > 20){
+                        message = "第" + (rowNum + 1) + "行负责人超长，最大长度为30，" + "成功导入："+(rowNum-1)+"条数据。";
                         break;
                     }else {
                         info.setPersonInCharge(obj.toString().trim());
@@ -236,16 +236,24 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                     }
 
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//工程进度
-                    if (obj != null && obj.toString().length() > 255){
-                        message = "第" + (rowNum + 1) + "行工程进度超长，最大长度为255，" + "成功导入："+(rowNum-1)+"条数据。";
+                    if (obj != null && obj.toString().length() > 250){
+                        message = "第" + (rowNum + 1) + "行工程进度超长，最大长度为250，" + "成功导入："+(rowNum-1)+"条数据。";
                         break;
                     }else {
                         info.setPersonInCharge(obj.toString());
                     }
 
                     obj = CMPOIDao.getValue(sheet, rowNum, index++);//工程地址
-                    if (obj != null && obj.toString().length() > 255){
-                        message = "第" + (rowNum + 1) + "行工程地址超长，最大长度为255，" + "成功导入："+(rowNum-1)+"条数据。";
+                    if (obj != null && obj.toString().length() > 250){
+                        message = "第" + (rowNum + 1) + "行工程地址超长，最大长度为250，" + "成功导入："+(rowNum-1)+"条数据。";
+                        break;
+                    }else {
+                        info.setPersonInCharge(obj.toString());
+                    }
+
+                    obj = CMPOIDao.getValue(sheet, rowNum, index++);//备注
+                    if (obj != null && obj.toString().length() > 1500){
+                        message = "第" + (rowNum + 1) + "行备注超长，最大长度为1500，" + "成功导入："+(rowNum-1)+"条数据。";
                         break;
                     }else {
                         info.setPersonInCharge(obj.toString());
@@ -326,13 +334,14 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
                 }
                 list.add(vo.getProgressOfItem());
                 list.add(vo.getPrjItemPlace());
+                list.add(vo.getRemark());
                 lists.add(list);
 
             }
 
             ExcelData excelData=new ExcelData();
             excelData.setName("工程点信息");
-            String[] titleColumn = {"工程编号","工程点名称","项目名称","工程类型","所属公司","负责人","联系电话","工程状态","进场时间","要求部署时间","完成时间","工程进度","工程地址"};
+            String[] titleColumn = {"工程编号","工程点名称","项目名称","工程类型","所属公司","负责人","联系电话","工程状态","进场时间","要求部署时间","完成时间","工程进度","工程地址","备注"};
             List<String> titlesList = Arrays.asList(titleColumn);
             excelData.setTitles(titlesList);
             excelData.setRows(lists);

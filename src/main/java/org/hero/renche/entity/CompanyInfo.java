@@ -38,8 +38,8 @@ public class CompanyInfo implements Serializable {
     private String address;
     /**邮箱*/
     private String email;
-    /**爱好*/
-    private String hobby;
+    /**公司简介*/
+    private String introduc;
     /**身份证号*/
     private String idCard;
     /**创建时间*/

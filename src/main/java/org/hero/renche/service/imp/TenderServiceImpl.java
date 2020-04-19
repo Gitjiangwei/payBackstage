@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.webresources.WarResource;
 import org.hero.renche.entity.TenderInfo;
+import org.hero.renche.entity.vo.ContractInfoVo;
 import org.hero.renche.mapper.TenderInfoMapper;
 import org.hero.renche.service.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,10 @@ public class TenderServiceImpl implements TenderService {
     public List exportTenderInfoList(TenderInfo tenderInfo) {
         List list=tenderInfoMapper.exportTenderInfoList(tenderInfo);
         return list;
+    }
+
+    @Override
+    public TenderInfo qryTenderById(String tenderId) {
+        return tenderInfoMapper.qryTenderById(tenderId);
     }
 }
