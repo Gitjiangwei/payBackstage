@@ -116,6 +116,9 @@ public class PurchaseInfoController {
             purchaseInfo.setTotalPrice(bigDecimal.multiply(bigDecimal1).toString());
             int purchaseInfoCount = IPurchaseService.qryPurchaseId(purchaseInfo.getPurchaseId());
             //int purchaseInfoCount = 1;
+            if(purchaseInfo.getArrivalTime()!=null && !purchaseInfo.getArrivalTime().equals("")){
+                purchaseInfo.setIsarrival("1");
+            }
             if(purchaseInfoCount == 0){
                 result.error500("未找到对应实体");
             }else {

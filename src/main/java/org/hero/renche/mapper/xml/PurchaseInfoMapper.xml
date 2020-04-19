@@ -40,7 +40,7 @@
     </select>
     
     <update id="updatePurchaseByIds">
-        UPDATE tx_purchase_info set isarrival = '1'
+        UPDATE tx_purchase_info set isarrival = '1',arrival_time = NOW()
         where purchase_id in
         <foreach collection="list" item="purchaseByIds" open="(" close=")" separator=",">
             #{purchaseByIds}
@@ -104,6 +104,9 @@
             </if>
             <if test="purchaseInfo.fileRelId != null and purchaseInfo.fileRelId != '' ">
                 file_rel_id = #{purchaseInfo.fileRelId},
+            </if>
+            <if test="purchaseInfo.isarrival != null and purchaseInfo.isarrival != '' ">
+                isarrival = #{purchaseInfo.isarrival},
             </if>
             <if test="purchaseInfo.remarks != null and purchaseInfo.remarks != '' ">
                 remarks = #{purchaseInfo.remarks},
