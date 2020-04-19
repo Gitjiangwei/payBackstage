@@ -6,7 +6,7 @@
     <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.PurchaseInfo">
 
         select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,b.depart_name as 'whichCompany',
-        isarrival,arrival_time,a.create_time,total_price,remarks,file_rel_id,isstorage
+        isarrival,arrival_time,a.create_time,total_price,remarks,ifnull(file_rel_id,'') as fileRelId,isstorage
         from tx_purchase_info a
         LEFT JOIN sys_depart b on a.which_company = b.id
         <trim prefix="where" prefixOverrides="and">
@@ -34,7 +34,7 @@
 
     <select id="qryListPurchaseInfoId" resultType="org.hero.renche.entity.PurchaseInfo">
          select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,
-        isarrival,arrival_time,create_time,total_price,remarks,file_rel_id,isstorage
+        isarrival,arrival_time,create_time,total_price,remarks,ifnull(file_rel_id,'') as fileRelId,isstorage
         from tx_purchase_info
         where purchase_id = #{purchaseById}
     </select>
@@ -122,7 +122,7 @@
     <select id="exportPurchaseInfoList"  resultType="org.hero.renche.entity.PurchaseInfo">
 
         select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,b.depart_name as 'whichCompany',
-        isarrival,arrival_time,a.create_time,total_price,remarks,file_rel_id,isstorage
+        isarrival,arrival_time,a.create_time,total_price,remarks,ifnull(file_rel_id,'') as fileRelId,isstorage
         from tx_purchase_info a
         LEFT JOIN sys_depart b on a.which_company = b.id
         <trim prefix="where" prefixOverrides="and">

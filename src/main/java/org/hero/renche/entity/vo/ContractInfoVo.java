@@ -23,7 +23,7 @@ public class ContractInfoVo extends ContractInfo implements Serializable {
     /**回款占比**/
     private String returnMoneyPercent;
     /**附件个数**/
-    private String fileCount;
+    private String fileCount = "0";
     /**合同类型名称**/
     private String contractTypeName;
 

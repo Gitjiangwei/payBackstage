@@ -21,4 +21,6 @@ public interface ContractInfoMapper extends BaseMapper<ContractInfo> {
 
     ContractInfoVo qryContractById(@Param("contractId") String contractId);
 
+    List<ContractInfo> qryFileIdById(@Param("contractId") String contractId);
+
 }

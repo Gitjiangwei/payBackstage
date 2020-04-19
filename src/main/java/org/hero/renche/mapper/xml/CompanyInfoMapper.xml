@@ -8,7 +8,9 @@
 
     <select id="qryListCompanyInfo" resultType="org.hero.renche.entity.vo.CompanyInfoVo">
 
-        select company_id,company_name,type,shuihao,bank,bank_no,contacts,phone,id_card,introduc,address,email,dict_code_name as typeName
+        select company_id as companyId,company_name as companyName,type,shuihao,bank,bank_no as bankNo,contacts,phone,id_card as idCard,
+            introduc,address,email,ifnull(file_rel_id,'') as fileRelId,dict_code_name as typeName,
+            length(file_rel_id)-length(replace(file_rel_id,',','')) as fileCount
         from tx_company_info c
         left join tx_dict d on c.type = d.dict_code_id and d.dict_code='CUSTOMETYPE'
         <trim prefix="where" prefixOverrides="and">
@@ -26,7 +28,7 @@
     </select>
 
     <select id="qryCompanyName" resultType="java.util.HashMap">
-        select distinct company_id id , company_name value  from tx_company_info order by company_name desc
+        select distinct company_id as id , company_name as value  from tx_company_info order by company_name desc
     </select>
 
     <select id="getIds" resultType="java.lang.String">
@@ -36,5 +38,13 @@
     <select id="qryCompanyNameList" resultType="org.hero.renche.entity.CompanyInfo">
         select company_id as companyId,company_name as companyName from tx_company_info where company_name like CONCAT('%',#{companyName},'%')
     </select>
+
+    <select id="qryFileIdById" resultType="java.lang.String">
+		select  ifnull(file_rel_id,'') as fileRelId from tx_company_info where company_id = #{companyId}
+	</select>
+
+    <update id="updateFileIds">
+		 update tx_company_info set file_rel_id = #{CompanyInfo.fileRelId} where company_id = #{CompanyInfo.companyId}
+	</update>
 
 </mapper>

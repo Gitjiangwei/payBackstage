@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.InvociInfo;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.vo.CompanyInfoVo;
 import org.hero.renche.entity.vo.ProjectItemVo;
@@ -103,6 +104,27 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
             e.printStackTrace();
         }
         return "导出成功";
+    }
+
+    @Override
+    public boolean updateFileIds(CompanyInfo companyInfo) {
+
+        boolean flag = false;
+        String checkFileIds = companyInfo.getFileRelId();
+        String oldFileRelId = companyInfoMapper.qryFileIdById(companyInfo.getCompanyId());
+        List<String> checkFileIdList = new ArrayList<>(Arrays.asList(checkFileIds.split(",")));
+        for(String checkFile : checkFileIdList){
+            if(oldFileRelId.contains(checkFile)){
+                oldFileRelId = oldFileRelId.replace(checkFile+",","");
+            }
+        }
+
+        companyInfo.setFileRelId(oldFileRelId);
+        int result = companyInfoMapper.updateFileIds(companyInfo);
+        if(result>0){
+            flag = true;
+        }
+        return flag;
     }
 
 }

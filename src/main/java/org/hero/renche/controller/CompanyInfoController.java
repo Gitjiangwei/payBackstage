@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.vo.CompanyInfoVo;
 import org.hero.renche.service.ICompanyInfoService;
@@ -178,6 +179,31 @@ public class CompanyInfoController {
             e.printStackTrace();
             log.info(e.getMessage());
         }
+    }
+
+    /**
+     * 修改关联附件id
+     *
+     * @return
+     */
+    @PostMapping(value = "updateFileIds")
+    public Result<CompanyInfo> updateInvoicFileIds(@RequestParam(name = "companyId") String companyId, @RequestParam(name = "ids") String ids){
+
+        Result<CompanyInfo> result=new Result<>();
+        if(companyId == null || companyId.equals("")){
+            result.error500("公司ID为空，请及时排除！");
+        }else{
+            CompanyInfo companyInfo = new CompanyInfo();
+            companyInfo.setCompanyId(companyId);
+            companyInfo.setFileRelId(ids);
+            Boolean resultOk = companyInfoService.updateFileIds(companyInfo);
+            if(resultOk){
+                result.success("删除成功！");
+            }else {
+                result.error500("遇到未知异常，请及时排除！");
+            }
+        }
+        return result;
     }
 
 }

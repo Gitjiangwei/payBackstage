@@ -15,7 +15,7 @@
         a.DESCRIBE,
         a.create_Time,
         a.complete_time,
-        a.file_rel_id,
+        ifnull(a.file_rel_id,'') as fileRelId,
         a.STATUS
 
         FROM
@@ -103,7 +103,7 @@
     </update>
     <select id="qryFileIdByWorkId" resultType="java.lang.String">
 
-        select file_rel_id from tx_work_order where work_id = #{workId}
+        select ifnull(file_rel_id,'') as fileRelId from tx_work_order where work_id = #{workId}
     </select>
 
     <select id="exportWorkOrderInfoList" resultType="org.hero.renche.controller.voentity.VoWorkOrderInfo" >
@@ -118,7 +118,7 @@
         a.DESCRIBE,
         a.create_Time,
         a.complete_time,
-        a.file_rel_id,
+        ifnull(a.file_rel_id,'') as fileRelId,
         CASE
 
         WHEN a.STATUS = '1' THEN

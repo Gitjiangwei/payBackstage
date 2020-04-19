@@ -4,7 +4,7 @@
 
     <select id="qryListVisitInfo" resultType="org.hero.renche.controller.voentity.VoViditInfo">
 
-        select a.visit_id ,c.company_name  ,b.work_name , a.visit_time , a.way ,a.content , a.result, a.file_rel_id
+        select a.visit_id ,c.company_name  ,b.work_name , a.visit_time , a.way ,a.content , a.result, ifnull(a.file_rel_id,'') as fileRelId
         from  tx_visit_info a join tx_work_order b  on a.work_id=b.work_id  left join tx_company_info c on a.company_id=c.company_id
         <trim prefix="where" prefixOverrides="and">
             <if test="VoViditInfo.companyName !=null and VoViditInfo.companyName != '' ">
@@ -66,13 +66,13 @@
     </update>
 
     <select id="qryFileIdByVisitId"  resultType="java.lang.String">
-        select file_rel_id from tx_visit_info where visit_id =#{visitId}
+        select ifnull(file_rel_id,'') as fileRelId from tx_visit_info where visit_id =#{visitId}
 
     </select>
 
 
     <select id="qryViditInfolist" resultType="org.hero.renche.controller.voentity.VoViditInfo">
-        select a.visit_id ,c.company_name  ,b.work_name , a.visit_time , a.way ,a.content , a.result,a.file_rel_id
+        select a.visit_id ,c.company_name  ,b.work_name , a.visit_time , a.way ,a.content , a.result,ifnull(a.file_rel_id,'') as fileRelId
         from  tx_visit_info a join tx_work_order b  on a.work_id=b.work_id  left join tx_company_info c on a.company_id=c.company_id
         <trim prefix="where" prefixOverrides="and">
             <if test="VoViditInfo.companyName !=null and VoViditInfo.companyName != '' ">

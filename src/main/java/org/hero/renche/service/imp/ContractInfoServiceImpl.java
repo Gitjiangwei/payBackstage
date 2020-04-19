@@ -113,15 +113,14 @@ public class ContractInfoServiceImpl extends ServiceImpl<ContractInfoMapper, Con
     public boolean updateFileIds(ContractInfo contractInfo) {
         boolean flag = false;
         String checkFileIds = contractInfo.getFileRelId();
-        ContractInfo pur = new ContractInfo();
         String oldFileRelId = "";
         String oldElecFileRel = "";
-        pur.setContractId(contractInfo.getContractId());
-        List<ContractInfoVo> contractInfoList = contractInfoMapper.qryListContractInfo(pur);
-        for(ContractInfoVo item : contractInfoList){
-            oldFileRelId = item.getFileRelId();
-            oldElecFileRel = item.getElecFileRel();
+        List<ContractInfo> contractInfoList = contractInfoMapper.qryFileIdById(contractInfo.getContractId());
+        if(contractInfoList != null && contractInfoList.size() != 0){
+            oldFileRelId = contractInfoList.get(0).getFileRelId();
+            oldElecFileRel = contractInfoList.get(0).getElecFileRel();
         }
+
         List<String> checkFileIdList = new ArrayList<>(Arrays.asList(checkFileIds.split(",")));
         for(String checkFile : checkFileIdList){
             if(oldFileRelId.contains(checkFile)){

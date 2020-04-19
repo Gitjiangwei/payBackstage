@@ -3,6 +3,7 @@ package org.hero.renche.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.InvociInfo;
 import org.hero.renche.entity.vo.CompanyInfoVo;
 
 import java.util.List;
@@ -28,5 +29,9 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfo> {
     List<String> getIds(String companyName);
 
     List<CompanyInfo> qryCompanyNameList(String companyName);
+
+    String qryFileIdById(@Param("companyId") String companyId);
+
+    int updateFileIds(@Param("CompanyInfo") CompanyInfo companyInfo);
 
 }

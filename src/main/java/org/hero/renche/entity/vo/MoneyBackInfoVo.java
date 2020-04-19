@@ -11,7 +11,7 @@ public class MoneyBackInfoVo extends MoneyBackInfo implements Serializable {
     /**合同名称**/
     private String contractName;
     /**附件个数**/
-    private String fileCount;
+    private String fileCount = "0";
 
     public String getContractName() {
         return contractName;

@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-import java.util.List;
-
 public interface ICompanyInfoService extends IService<CompanyInfo> {
     String qryCompanyIdByname(String CompanyName);
 
@@ -19,6 +17,8 @@ public interface ICompanyInfoService extends IService<CompanyInfo> {
     List<String> getIds(String companyName);
 
     List<Map<String, String>> qryCompanyName();
+
+    boolean updateFileIds(CompanyInfo companyInfo);
 
     String exportCompanyInfo(Map<String, String> map, HttpServletResponse response);
 

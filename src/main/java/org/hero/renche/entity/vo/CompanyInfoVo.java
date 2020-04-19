@@ -11,6 +11,16 @@ public class CompanyInfoVo extends CompanyInfo implements Serializable {
 
     /**类型名称**/
     private String typeName;
+    /**附件个数**/
+    private String fileCount = "0";
+
+    public String getFileCount() {
+        return fileCount;
+    }
+
+    public void setFileCount(String fileCount) {
+        this.fileCount = fileCount;
+    }
 
     public String getTypeName() {
         return typeName;

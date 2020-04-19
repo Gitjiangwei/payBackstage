@@ -42,6 +42,8 @@ public class CompanyInfo implements Serializable {
     private String introduc;
     /**身份证号*/
     private String idCard;
+    /**关联附件id*/
+    private String fileRelId;
     /**创建时间*/
     private Date createTime;
 

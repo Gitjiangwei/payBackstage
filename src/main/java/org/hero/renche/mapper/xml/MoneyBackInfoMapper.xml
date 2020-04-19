@@ -5,7 +5,7 @@
     <select id="qryListBackInfo" resultType="org.hero.renche.entity.vo.MoneyBackInfoVo">
 
         select back_id as backId,back_time as backTime,back_money as backMoney,m.remark,m.bank,m.bank_no as bankNo,back_person as backPerson,
-            email,c.contract_name as contractName,m.contract_id as contractId,m.file_rel_id,
+            email,c.contract_name as contractName,m.contract_id as contractId,ifnull(m.file_rel_id,'') as fileRelId,
             length(m.file_rel_id)-length(replace(m.file_rel_id,',','')) as fileCount
         from tx_money_back m
         left join tx_contract_info c on c.contract_id = m.contract_id
@@ -21,7 +21,7 @@
     </select>
 
     <select id="qryFileIdsById" resultType="java.lang.String">
-        select  file_rel_id from tx_money_back where back_id = #{backId}
+        select  ifnull(file_rel_id,'') as fileRelId from tx_money_back where back_id = #{backId}
     </select>
 
     <update id="updateFileIds">
