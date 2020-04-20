@@ -53,6 +53,7 @@ public class DictServiceImp extends ServiceImpl<DictMapper, Dict> implements IDi
             if(dictItemCode!=null && !dictItemCode.equals("")){
                 dict.setDictCode(dictItemCode);
                 dict.setDictId(UUID.randomUUID().toString().replace("-",""));
+                dict.setDictCodeId(dict.getDictCodeId().toUpperCase());
                 int result = dictMapper.saveDict(dict);
                 if(result>0){
                     isflag = true;

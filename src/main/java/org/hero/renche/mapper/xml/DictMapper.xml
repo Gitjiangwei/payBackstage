@@ -55,7 +55,7 @@
 	</update>
 
 
-	<update id="delDict">
+	<update id="delDicts">
 		update tx_dict set is_use = '1'
 		where dict_id in
 		<foreach collection="dictIds" item="item" open="(" close=")" separator=",">
@@ -63,6 +63,13 @@
 		</foreach>
 	</update>
 
+	<delete id="delDict">
+		delete from tx_dict
+		where dict_id in
+		<foreach collection="dictIds" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 
 	<select id="checkOnlyDictDetail" resultType="int">
 		select count(1) from tx_dict
