@@ -17,6 +17,19 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
     /** 关联合同名称**/
     private String contractName;
 
+    @Override
+    public String getFileRelId() {
+        return fileRelId;
+    }
+
+    @Override
+    public void setFileRelId(String fileRelId) {
+        this.fileRelId = fileRelId;
+    }
+
+    /*附件ID*/
+    private String fileRelId;
+
     public String getContractId() { return contractId; }
 
     public void setContractId(String contractId) { this.contractId = contractId; }

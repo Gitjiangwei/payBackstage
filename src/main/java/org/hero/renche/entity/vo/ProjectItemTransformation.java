@@ -20,6 +20,7 @@ public class ProjectItemTransformation {
         po.setEntryTime(vo.getEntryTime());
         po.setFinishTime(vo.getFinishTime());
         po.setRequireDeployTime(vo.getRequireDeployTime());
+        po.setFileRelId(vo.getFileRelId());
         return  po;
     }
 

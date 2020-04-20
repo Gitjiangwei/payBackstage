@@ -34,4 +34,6 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfo> {
 
     int updateFileIds(@Param("CompanyInfo") CompanyInfo companyInfo);
 
+    int  qryCompanyById(String companyId) ;
+
 }

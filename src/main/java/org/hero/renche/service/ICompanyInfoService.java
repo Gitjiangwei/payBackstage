@@ -23,6 +23,7 @@ public interface ICompanyInfoService extends IService<CompanyInfo> {
     String exportCompanyInfo(Map<String, String> map, HttpServletResponse response);
 
     PageInfo<CompanyInfo> qryCompanyNameList(String companyName, Integer page, Integer pageSize);
+    int qryCompanynameById(String companyId);
 
 }
 
