@@ -16,6 +16,16 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
     private String contractId;
     /** 关联合同名称**/
     private String contractName;
+    /**附件个数**/
+    private String fileCount = "0";
+
+    public String getFileCount() {
+        return fileCount;
+    }
+
+    public void setFileCount(String fileCount) {
+        this.fileCount = fileCount;
+    }
 
     @Override
     public String getFileRelId() {

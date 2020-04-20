@@ -21,6 +21,8 @@ public class ProjectItemTransformation {
         po.setFinishTime(vo.getFinishTime());
         po.setRequireDeployTime(vo.getRequireDeployTime());
         po.setFileRelId(vo.getFileRelId());
+        po.setHasConnection(vo.getHasConnection());
+        po.setFileRelId(vo.getFileRelId());
         return  po;
     }
 

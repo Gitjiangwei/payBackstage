@@ -9,6 +9,8 @@
             person_tel as personTel,progress_of_item as progressOfItem,entry_time as entryTime,finish_time as finishTime,i.contract_id as contractId,
             i.contract_name as contractName,require_deploy_time as requireDeployTime,prj_item_place as prjItemPlace,prj_item_status as prjItemStatus ,
              ifnull(t.file_rel_id,'') as fileRelId
+            i.contract_name as contractName,require_deploy_time as requireDeployTime,prj_item_place as prjItemPlace,prj_item_status as prjItemStatus,
+            t.file_rel_id as fileRelId,length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
         from tx_project_item t
         left join tx_company_info c on t.belong_company = c.company_Id
         left join tx_pro_contract_rel r on r.prj_item_id = t.prj_item_id

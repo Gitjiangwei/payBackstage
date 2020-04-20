@@ -187,7 +187,7 @@ public class CompanyInfoController {
      * @return
      */
     @PostMapping(value = "updateFileIds")
-    public Result<CompanyInfo> updateInvoicFileIds(@RequestParam(name = "companyId") String companyId, @RequestParam(name = "ids") String ids){
+    public Result<CompanyInfo> updateCompanyFileIds(@RequestParam(name = "companyId") String companyId, @RequestParam(name = "ids") String ids){
 
         Result<CompanyInfo> result=new Result<>();
         if(companyId == null || companyId.equals("")){
