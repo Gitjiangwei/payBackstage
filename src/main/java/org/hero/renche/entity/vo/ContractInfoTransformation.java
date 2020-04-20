@@ -22,6 +22,10 @@ public class ContractInfoTransformation {
         po.setFileRelId(vo.getFileRelId());
         po.setElecFileRel(vo.getElecFileRel());
         po.setTenderId(vo.getTenderId());
+        po.setOperatorA(vo.getOperatorA());
+        po.setOperatorB(vo.getOperatorB());
+        po.setSigningTime(vo.getSigningTime());
+        po.setOverTime(vo.getOverTime());
         return  po;
     }
 
@@ -43,6 +47,10 @@ public class ContractInfoTransformation {
         vo.setFileRelId(po.getFileRelId());
         vo.setElecFileRel(po.getElecFileRel());
         vo.setTenderId(po.getTenderId());
+        vo.setOperatorA(po.getOperatorA());
+        vo.setOperatorB(po.getOperatorB());
+        vo.setSigningTime(po.getSigningTime());
+        vo.setOverTime(po.getOverTime());
         return  vo;
     }
 
