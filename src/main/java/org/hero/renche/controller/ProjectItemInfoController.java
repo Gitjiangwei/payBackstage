@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.controller.voentity.projectStatus;
+import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
@@ -271,6 +272,31 @@ public class ProjectItemInfoController {
             e.printStackTrace();
             log.info(e.getMessage());
         }
+    }
+
+    /**
+     * 修改关联附件id
+     *
+     * @return
+     */
+    @PostMapping(value = "updateFileIds")
+    public Result<ProjectItemInfo> updatePrjItemFileIds(@RequestParam(name = "prjItemId") String prjItemId, @RequestParam(name = "ids") String ids){
+
+        Result<ProjectItemInfo> result=new Result<>();
+        if(prjItemId == null || prjItemId.equals("")){
+            result.error500("工程点ID为空，请及时排除！");
+        }else{
+            ProjectItemInfo projectItemInfo = new ProjectItemInfo();
+            projectItemInfo.setPrjItemId(prjItemId);
+            projectItemInfo.setFileRelId(ids);
+            Boolean resultOk = projectItemInfoService.updateFileIds(projectItemInfo);
+            if(resultOk){
+                result.success("删除成功！");
+            }else {
+                result.error500("遇到未知异常，请及时排除！");
+            }
+        }
+        return result;
     }
 
 }

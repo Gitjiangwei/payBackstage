@@ -10,7 +10,8 @@
     <select id="qryProItemByContractId" resultType="org.hero.renche.entity.vo.ProjectItemVo">
 
         select t.prj_item_id as prjItemId,prj_item_name as prjItemName,prj_item_num as prjItemNum,prj_item_type as prjItemType,
-        prj_name as prjName,company_name as companyName,person_in_charge as personInCharge
+            prj_name as prjName,company_name as companyName,person_in_charge as personInCharge,t.file_rel_id as fileRelId,
+            length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
         from tx_pro_contract_rel p
         left join tx_project_item t on p.prj_item_id = t.prj_item_id
         left join tx_company_info c on t.belong_company = c.company_Id

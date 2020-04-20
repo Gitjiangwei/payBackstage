@@ -7,6 +7,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.hero.renche.controller.voentity.projectStatus;
+import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
@@ -350,6 +351,27 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
             e.printStackTrace();
         }
         return "导出成功";
+    }
+
+    @Override
+    public boolean updateFileIds(ProjectItemInfo projectItemInfo) {
+
+        boolean flag = false;
+        String checkFileIds = projectItemInfo.getFileRelId();
+        String oldFileRelId = projectItemInfoMapper.qryFileIdById(projectItemInfo.getPrjItemId());
+        List<String> checkFileIdList = new ArrayList<>(Arrays.asList(checkFileIds.split(",")));
+        for(String checkFile : checkFileIdList){
+            if(oldFileRelId.contains(checkFile)){
+                oldFileRelId = oldFileRelId.replace(checkFile+",","");
+            }
+        }
+
+        projectItemInfo.setFileRelId(oldFileRelId);
+        int result = projectItemInfoMapper.updateFileIds(projectItemInfo);
+        if(result>0){
+            flag = true;
+        }
+        return flag;
     }
 
 }

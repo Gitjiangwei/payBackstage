@@ -8,7 +8,6 @@ import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 工程点信息 Mapper 接口
@@ -28,4 +27,8 @@ public interface ProjectItemInfoMapper extends BaseMapper<ProjectItemInfo> {
     List<projectStatus> qryStatusList1();
 
     int updateConnWithContract(@Param("prjItemId") String prjItemId, @Param("hasConnection") String hasConnection);
+
+    String qryFileIdById(@Param("prjItemId") String prjItemId);
+
+    int updateFileIds(@Param("ProjectItemInfo") ProjectItemInfo projectItemInfo);
 }

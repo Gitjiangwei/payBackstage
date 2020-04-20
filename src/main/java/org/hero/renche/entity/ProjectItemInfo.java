@@ -58,6 +58,8 @@ public class ProjectItemInfo implements Serializable {
     private String hasConnection;
     /**备注*/
     private String remark;
+    /**附件id*/
+    private String fileRelId;
     /**创建时间*/
     private Date createTime;
 
