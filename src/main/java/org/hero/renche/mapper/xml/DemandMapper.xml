@@ -33,7 +33,7 @@
                 reasons = #{reasons},
             </if>
         </trim>
-        where demand_id = #{demand_id}
+        where demand_id = #{demandId}
     </update>
 
     <update id="updateDemandStatus">
@@ -58,9 +58,9 @@
         SELECT demand_id,equipment_name,equipment_model,equipment_number,create_name,update_time,is_send,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
                 <if test="equipmentName!=null and equipmentName != '' ">
-                    and equipment_name like CONCAT('%',#{equipmentName},'%'),
+                    and equipment_name like CONCAT('%',#{equipmentName},'%')
                 </if>
-                and (is_send = '2' OR is_send = '3'),
+                and (is_send = '1' OR is_send = '2')
         </trim>
         order by update_time desc ,create_time desc
     </select>
@@ -71,4 +71,9 @@
             #{item}
         </foreach>
     </delete>
+
+    <update id="updateWhetherTime">
+        update tx_demand set whether_time = NOW()
+        where demand_id = #{demandId}
+    </update>
 </mapper>
