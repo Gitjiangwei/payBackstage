@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.DemandMapper">
+    
+    <insert id="saveDemand">
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,is_send,remarks)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{isSend},#{remarks})
+    </insert>
+
+    <update id="updateDemand">
+        update tx_demand
+        <trim prefix="SET" suffixOverrides=",">
+            update_time = NOW(),
+            <if test="equipmentName!=null and equipmentName != '' ">
+                equipment_name = #{equipmentName},
+            </if>
+            <if test="equipmentModel != null and equipmentModel != '' ">
+                equipment_model = #{equipmentModel},
+            </if>
+            <if test="equipmentNumber != null and equipmentNumber != ''">
+                equipment_number = #{equipmentNumber},
+            </if>
+            <if test="createName != null and createName != '' ">
+                create_name = #{createName},
+            </if>
+            <if test="isSend != null and isSend != '' ">
+                is_send = #{isSend},
+            </if>
+            <if test="remarks != null and remarks != '' ">
+                remarks = #{remarks},
+            </if>
+            <if test="reasons != null and reasons != ''">
+                reasons = #{reasons},
+            </if>
+        </trim>
+        where demand_id = #{demand_id}
+    </update>
+
+    <update id="updateDemandStatus">
+        update tx_demand SET whether_time = NOW,is_send="3",reasons = #{reasons}
+        where demand_id = #{demand_id}
+    </update>
+
+    <select id="queryDemand" resultType="org.hero.renche.entity.Demand">
+        SELECT demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,is_send,whether_time,remarks,reasons from tx_demand
+        <trim prefix="where" prefixOverrides="and">
+            <if test="equipmentName!=null and equipmentName != '' ">
+               and equipment_name like CONCAT('%',#{equipmentName},'%'),
+            </if>
+            <if test="isSend != null and isSend != '' ">
+               and is_send = #{isSend},
+            </if>
+        </trim>
+        order by update_time desc ,create_time desc
+    </select>
+
+    <select id="queryDemandStatus" resultType="org.hero.renche.entity.Demand">
+        SELECT demand_id,equipment_name,equipment_model,equipment_number,create_name,update_time,is_send,whether_time,remarks,reasons from tx_demand
+        <trim prefix="where" prefixOverrides="and">
+                <if test="equipmentName!=null and equipmentName != '' ">
+                    and equipment_name like CONCAT('%',#{equipmentName},'%'),
+                </if>
+                and (is_send = '2' OR is_send = '3'),
+        </trim>
+        order by update_time desc ,create_time desc
+    </select>
+
+    <delete id="delDemand">
+        delete from tx_demand where demand_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>
