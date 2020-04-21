@@ -25,4 +25,5 @@ public interface WorkOrderInfoMapper extends BaseMapper<WorkOrderInfo> {
     String qryFileIdByWorkId(@Param("workId") String workId);
     List exportWorkOrderInfoList(@Param("VoWorkOrderInfo") VoWorkOrderInfo voWorkOrderInfo);
     List qryWorkIdListByWorkName(String workName);
+    int upWorkOrderInfo1(String state ,String workId );
 }

@@ -154,4 +154,10 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         List<ProjectItemInfo> pageInfo=projectItemInfoMapper.qryProjectItemInfoList(name);
         return new PageInfo<ProjectItemInfo>(pageInfo);
     }
+
+    @Override
+    public int upWorkOrderInfo1(String state, String workId) {
+        int num=workOrderInfoMapper.upWorkOrderInfo1(state , workId);
+        return num;
+    }
 }

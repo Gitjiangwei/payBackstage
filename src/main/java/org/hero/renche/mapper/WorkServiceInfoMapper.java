@@ -20,6 +20,7 @@ public interface WorkServiceInfoMapper extends BaseMapper<WorkOrderInfo> {
     List qryworkServiceInfo(@Param("WorkServiceInfoVo") WorkServiceInfoVo workServiceInfoVo);
     int updateById(@Param("WorkServiceInfo") WorkServiceInfo workServiceInfo);
     List qryworkServiceInfoList(@Param("WorkServiceInfoVo") WorkServiceInfoVo workServiceInfoVo);
+    String qryWorkIdByWorkServiceId(String workServiceId);
 
 
 }

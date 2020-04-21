@@ -25,4 +25,5 @@ public interface WorkOrderService {
     List<String> qryWorkIdListByWorkName(String workName);
     PageInfo<SysUser>  qrySysUserList(String name, Integer pageNo, Integer pageSize);
     PageInfo<ProjectItemInfo>  qryProjectItemInfoList(String name, Integer pageNo, Integer pageSize);
+    int upWorkOrderInfo1(String state ,String workId );
 }

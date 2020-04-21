@@ -64,6 +64,9 @@ public class WorkServiceInfoVo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date realityOutTime;
 
+    /*状态*/
+    private String state;
+
 
 
 

@@ -17,5 +17,6 @@ public interface WorkServiceInfoService {
    PageInfo<WorkServiceInfoVo> qryworkServiceInfo(WorkServiceInfoVo workServiceInfoVo, Integer pageNo,Integer pageSize);
    boolean upWorkSeriviceInfo( WorkServiceInfo workServiceInfo);
    String exportWorkServiceInfo(Map<String, String>  map, HttpServletResponse response);
+   String qryWorkIdByWorkServiceId(String workServiceId);
 
 }
