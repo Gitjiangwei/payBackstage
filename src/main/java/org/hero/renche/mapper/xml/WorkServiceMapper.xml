@@ -29,13 +29,14 @@
         a.remark,
         a.evaluate
 
-
         FROM
         tx_work_service a
         right JOIN tx_work_order b ON a.work_id = b.work_id
         left JOIN tx_company_info c ON a.company_id = c.company_id
-        <trim prefix="where" prefixOverrides="and">
-            <if test="WorkServiceInfoVo.companyName !=null and WorkServiceInfoVo.companyName != '' ">
+        where
+
+        a.visitor =#{WorkServiceInfoVo.visitor }
+        <if test="WorkServiceInfoVo.companyName !=null and WorkServiceInfoVo.companyName != '' ">
                 and  c.company_name like CONCAT('%',#{WorkServiceInfoVo.companyName},'%')
             </if>
             <if test="WorkServiceInfoVo.workName !=null and WorkServiceInfoVo.workName != '' ">
@@ -44,15 +45,13 @@
             <if test="WorkServiceInfoVo.visitTime != null ">
                 and  a.visit_time  like CONCAT('%',#{WorkServiceInfoVo.visitTime },'%')
             </if>
-            <if test="WorkServiceInfoVo.visitor != null  ">
-                and  a.visitor  like CONCAT('%',#{WorkServiceInfoVo.visitor },'%')
-            </if>
 
             <if test="WorkServiceInfoVo.workId != null and WorkServiceInfoVo.workId != '' ">
                 and  a.workId  = #{WorkServiceInfoVo.workId}
             </if>
 
-        </trim>
+
+
         order by b.create_time  desc
 
 
