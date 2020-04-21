@@ -7,4 +7,8 @@
 		select * from  sys_user  where username = #{username}
 	</select>
 
+	<select id="qrySysUserList" resultType="org.jeecg.modules.system.entity.SysUser">
+		 select id as id,username as username from  sys_user  where username  like CONCAT('%',#{username},'%')
+	</select>
+
 </mapper>

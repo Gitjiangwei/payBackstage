@@ -3,10 +3,13 @@ package org.hero.renche.service.imp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.controller.voentity.VoWorkOrderInfo;
+import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.WorkOrderInfo;
 import org.hero.renche.mapper.ProjectItemInfoMapper;
 import org.hero.renche.mapper.WorkOrderInfoMapper;
 import org.hero.renche.service.WorkOrderService;
+import org.jeecg.modules.system.entity.SysUser;
+import org.jeecg.modules.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,9 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     private WorkOrderInfoMapper workOrderInfoMapper;
     @Autowired
     private ProjectItemInfoMapper projectItemInfoMapper;
+    @Autowired
+    private SysUserMapper sysUserMapper;
+
     @Override
     public PageInfo<VoWorkOrderInfo> qryWorkOrderInfoList(VoWorkOrderInfo voWorkOrderInfo, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
@@ -133,5 +139,19 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     public List qryWorkIdListByWorkName(String workName) {
        List list= workOrderInfoMapper.qryWorkIdListByWorkName(workName);
         return list;
+    }
+
+    @Override
+    public PageInfo<SysUser> qrySysUserList(String name, Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<SysUser> pageInfo=sysUserMapper.qrySysUserList(name);
+        return new PageInfo<SysUser>(pageInfo);
+    }
+
+    @Override
+    public PageInfo<ProjectItemInfo> qryProjectItemInfoList(String name, Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<ProjectItemInfo> pageInfo=projectItemInfoMapper.qryProjectItemInfoList(name);
+        return new PageInfo<ProjectItemInfo>(pageInfo);
     }
 }

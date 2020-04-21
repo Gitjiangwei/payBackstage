@@ -8,7 +8,7 @@
         SELECT
         a.work_id,
         a.prj_item_id,
-        b.prj_item_name,
+        b.prj_item_name as prjItemName,
         a.work_name,
         a.create_person,
         a.charge_person,
@@ -16,7 +16,7 @@
         a.create_Time,
         a.complete_time,
         ifnull(a.file_rel_id,'') as fileRelId,
-        a.STATUS
+        a.STATUS as status
 
         FROM
         tx_work_order a
@@ -151,6 +151,7 @@
         select work_id from tx_work_order where work_name like CONCAT('%',#{workName},'%')
 
     </select>
+
 
 
 
