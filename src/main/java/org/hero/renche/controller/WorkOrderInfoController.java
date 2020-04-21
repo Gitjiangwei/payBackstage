@@ -98,7 +98,7 @@ public class WorkOrderInfoController {
              }
              String status=voWorkOrderInfo.getStatus();
              String workId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
-
+             voWorkOrderInfo.setState("1");
              voWorkOrderInfo.setWorkId(workId);
              voWorkOrderInfo.setCreateTime(new Date());
              String prjName= voWorkOrderInfo.getPrjItemName();
