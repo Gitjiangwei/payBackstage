@@ -1,5 +1,6 @@
 package org.hero.renche.mapper;
 
+import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.Demand;
@@ -51,5 +52,12 @@ public interface DemandMapper extends BaseMapper<Demand> {
      * @return
      */
     int delDemand(@Param("list") List<String> demand);
+
+    /***
+     * 修改设备需求单处理时间
+     * @param demandId
+     * @return
+     */
+    int updateWhetherTime(@Param("demandId")String demandId);
 
 }

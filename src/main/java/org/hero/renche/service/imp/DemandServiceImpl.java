@@ -94,7 +94,14 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             demand.setDemandId(demandId);
             int result = demandMapper.updateDemand(demand);
             if (result > 0){
-                isFlag = true;
+                if(IsSendKey.equals("2")){
+                    int resultTime = demandMapper.updateWhetherTime(demandId);
+                    if(resultTime>0){
+                        isFlag = true;
+                    }
+                }else {
+                    isFlag = true;
+                }
             }
         }
         return isFlag;
