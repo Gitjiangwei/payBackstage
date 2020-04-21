@@ -44,5 +44,7 @@ public class WorkOrderInfo implements Serializable {
     private String status;
     /**附件关联id*/
     private String fileRelId;
+    /*状态*/
+    private String state;
 
 }

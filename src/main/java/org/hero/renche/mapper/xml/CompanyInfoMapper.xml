@@ -47,4 +47,8 @@
 		 update tx_company_info set file_rel_id = #{CompanyInfo.fileRelId} where company_id = #{CompanyInfo.companyId}
 	</update>
 
+    <select id="qryCompanyById">
+        select company_name from tx_company_info where company_id = #{companyId}
+    </select>
+
 </mapper>

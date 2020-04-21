@@ -2,6 +2,7 @@ package org.hero.renche.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.controller.voentity.VoWorkOrderInfo;
+import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.VisitInfo;
 import org.hero.renche.entity.WorkOrderInfo;
 import org.hero.renche.entity.WorkServiceInfo;
@@ -48,7 +50,7 @@ public class WorkOrderInfoController {
      * @param
      * @param pageNo
      * @param pageSize
-     * @param request
+     *
      *
      * @return
      */
@@ -56,9 +58,8 @@ public class WorkOrderInfoController {
     @ApiOperation( value = "获取工单信息列表" , notes = "获取工单信息列表" , produces = "application/json")
     @GetMapping("/qryWorkOrderInfo")
     public Result<PageInfo<VoWorkOrderInfo>> qryWorkOrderInfo(VoWorkOrderInfo voWorkOrderInfo ,
-                                                              @RequestParam(name = "pageNo" , defaultValue = "1") Integer pageNo ,
-                                                              @RequestParam(name = "pageSize" ,defaultValue = "10") Integer pageSize,
-                                                              HttpServletRequest request){
+                                                              @RequestParam(name = "pageNo" , defaultValue = "1"  ) Integer pageNo ,
+                                                              @RequestParam(name = "pageSize" ,defaultValue = "10" ) Integer pageSize){
         Result<PageInfo<VoWorkOrderInfo>> result=new Result<>();
        try {
            PageInfo<VoWorkOrderInfo> pageInfo=workOrderService.qryWorkOrderInfoList(voWorkOrderInfo,pageNo,pageSize);
@@ -97,7 +98,7 @@ public class WorkOrderInfoController {
              }
              String status=voWorkOrderInfo.getStatus();
              String workId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
-
+             voWorkOrderInfo.setState("1");
              voWorkOrderInfo.setWorkId(workId);
              voWorkOrderInfo.setCreateTime(new Date());
              String prjName= voWorkOrderInfo.getPrjItemName();
@@ -214,17 +215,17 @@ public class WorkOrderInfoController {
      */
     @ApiOperation(value ="获取工程点名称" , produces = "application/json")
     @GetMapping(value = "getn")
-    public Result<List<Map<String, String>>> getCompanyName(HttpServletRequest request) {
+    public Result<PageInfo<ProjectItemInfo>> getCompanyName(@RequestParam(name = "name", required = true) String name, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
 
-        Result<List<Map<String, String>>> result = new Result<>();
-
+        Result<PageInfo<ProjectItemInfo>> result=new Result<>();
         try {
-            List<Map<String, String>> companyN = workOrderService.prjItemName();
-            result.setSuccess(true);
-            result.setResult(companyN);
-        } catch (Exception e) {
-            e.printStackTrace();
+            PageInfo<ProjectItemInfo> pageInfo=workOrderService.qryProjectItemInfoList(name,pageNo,pageSize);
 
+            result.setSuccess(true);
+            result.setResult(pageInfo);
+        }catch (Exception e){
+            e.printStackTrace();
             log.info(e.getMessage());
             result.error500("工程点名称失败");
         }
@@ -358,6 +359,36 @@ public class WorkOrderInfoController {
 
     }
 
+
+
+    /**
+     * 获取用户信息列表
+     * @param
+     * @param pageNo
+     * @param pageSize
+     * @param request
+     *
+     * @return
+     */
+
+    @ApiOperation( value = "获取用户信息列表" , notes = "获取用户信息列表" , produces = "application/json")
+    @GetMapping("/userList")
+    public Result<PageInfo<SysUser>> qryUserList(@RequestParam(name = "name", required = true) String name,@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                 @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
+        Result<PageInfo<SysUser>> result=new Result<>();
+        try {
+            PageInfo<SysUser> pageInfo=workOrderService.qrySysUserList(name,pageNo,pageSize);
+
+            result.setSuccess(true);
+            result.setResult(pageInfo);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("获取用户列表失败");
+        }
+
+        return  result;
+    }
 
 
 

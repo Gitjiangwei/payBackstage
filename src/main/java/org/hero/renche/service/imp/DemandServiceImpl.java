@@ -25,6 +25,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     @Autowired
     private DemandMapper demandMapper;
 
+   // private SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
     /***
      * 添加设备需求
      * @param demandVo
@@ -32,11 +33,12 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      */
     @Override
     public Boolean saveDemand(DemandVo demandVo) {
+
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         Boolean isFlag = false;
         Demand demand = new Demand();
         demandVo.setDemandId(UUID.randomUUID().toString().replace("-",""));
         BeanUtils.copyProperties(demandVo,demand);
-        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         if(sysUser!=null){
             demand.setCreateName(sysUser.getUsername());
         }else{
@@ -59,11 +61,11 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      */
     @Override
     public Boolean updateDemand(DemandVo demandVo) {
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         Boolean isFlag = false;
         if(demandVo.getDemandId()!=null && !demandVo.getDemandId().equals("")){
             Demand demand = new Demand();
             BeanUtils.copyProperties(demandVo,demand);
-            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
             if(sysUser!=null){
                 demand.setCreateName(sysUser.getUsername());
             }else{

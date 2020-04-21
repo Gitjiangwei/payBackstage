@@ -20,6 +20,7 @@ public class ProjectItemTransformation {
         po.setEntryTime(vo.getEntryTime());
         po.setFinishTime(vo.getFinishTime());
         po.setRequireDeployTime(vo.getRequireDeployTime());
+        po.setFileRelId(vo.getFileRelId());
         po.setHasConnection(vo.getHasConnection());
         po.setFileRelId(vo.getFileRelId());
         return  po;
@@ -41,8 +42,6 @@ public class ProjectItemTransformation {
         vo.setEntryTime(po.getEntryTime());
         vo.setFinishTime(po.getFinishTime());
         vo.setRequireDeployTime(po.getRequireDeployTime());
-        vo.setHasConnection(po.getHasConnection());
-        vo.setFileRelId(po.getFileRelId());
         return  vo;
     }
 

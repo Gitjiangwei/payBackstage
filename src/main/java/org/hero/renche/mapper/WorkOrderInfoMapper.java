@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface WorkOrderInfoMapper extends BaseMapper<WorkOrderInfo> {
 
-    List<VoWorkOrderInfo> qryWorkOrderInfoList(@Param("VoWorkOrderInfo") VoWorkOrderInfo V);
+    List<VoWorkOrderInfo> qryWorkOrderInfoList(@Param("VoWorkOrderInfo") VoWorkOrderInfo voWorkOrderInfo);
 
     int addWorkOrderInfo(@Param("WorkOrderInfo") WorkOrderInfo workOrderInfo);
     int removeWorkOrderByIds( List<String> workIds);
@@ -25,4 +25,5 @@ public interface WorkOrderInfoMapper extends BaseMapper<WorkOrderInfo> {
     String qryFileIdByWorkId(@Param("workId") String workId);
     List exportWorkOrderInfoList(@Param("VoWorkOrderInfo") VoWorkOrderInfo voWorkOrderInfo);
     List qryWorkIdListByWorkName(String workName);
+    int upWorkOrderInfo1(String state ,String workId );
 }

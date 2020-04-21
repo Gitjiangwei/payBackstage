@@ -64,6 +64,12 @@ public class CompanyInfoServiceImpl extends ServiceImpl<CompanyInfoMapper, Compa
     }
 
     @Override
+    public int qryCompanynameById(String companyId) {
+        int num=companyInfoMapper.qryCompanyById(companyId);
+        return  num;
+    }
+
+    @Override
     public String exportCompanyInfo (Map<String, String> map, HttpServletResponse response){
         try {
             CompanyInfo companyInfo = new CompanyInfo();

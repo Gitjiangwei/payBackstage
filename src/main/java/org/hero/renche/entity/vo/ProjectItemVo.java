@@ -27,6 +27,19 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
         this.fileCount = fileCount;
     }
 
+    @Override
+    public String getFileRelId() {
+        return fileRelId;
+    }
+
+    @Override
+    public void setFileRelId(String fileRelId) {
+        this.fileRelId = fileRelId;
+    }
+
+    /*附件ID*/
+    private String fileRelId;
+
     public String getContractId() { return contractId; }
 
     public void setContractId(String contractId) { this.contractId = contractId; }

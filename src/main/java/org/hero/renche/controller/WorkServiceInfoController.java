@@ -10,9 +10,11 @@ import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.VoViditInfo;
 import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.VisitInfo;
+import org.hero.renche.entity.WorkOrderInfo;
 import org.hero.renche.entity.WorkServiceInfo;
 import org.hero.renche.entity.vo.WorkServiceInfoVo;
 import org.hero.renche.service.ICompanyInfoService;
+import org.hero.renche.service.WorkOrderService;
 import org.hero.renche.service.WorkServiceInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.modules.system.entity.SysUser;
@@ -37,6 +39,8 @@ public class WorkServiceInfoController {
     private WorkServiceInfoService workServiceInfoService;
     @Autowired
     private ICompanyInfoService iCompanyInfoService;
+    @Autowired
+    private WorkOrderService workOrderService;
 
     /**
      * 分页列表查询
@@ -89,6 +93,27 @@ public class WorkServiceInfoController {
                 result.error500("编辑失败,该公司不存在");
                 return result;
             }
+            String state=workServiceInfoVo.getState();
+            String wrkServiceId=  workServiceInfoVo.getWorkServiceId();
+
+            String workId=workServiceInfoService.qryWorkIdByWorkServiceId(wrkServiceId);
+            WorkOrderInfo workOrderInfo=new WorkOrderInfo();
+
+            if(state !=null || ! "".equals(state)){
+                if(workId !=null || !"".equals(workId)){
+                   /* workOrderInfo.setWorkId(workId);
+                    workOrderInfo.setState(state);*/
+                int num = workOrderService.upWorkOrderInfo1(state , workId );
+                if(num<=0){
+                    result.error500("修改失败");
+                    return result;
+                }
+                }else {
+                    result.error500("workId为空");
+                    return result;
+                }
+            }
+
           String companyId1=workServiceInfoVo.getCompanyId();
             WorkServiceInfo workServiceInfo=new WorkServiceInfo();
             BeanUtils.copyProperties(workServiceInfoVo,workServiceInfo);

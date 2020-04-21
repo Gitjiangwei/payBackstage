@@ -6,30 +6,50 @@
 
 
         SELECT
-        a.work_id,
-        a.prj_item_id,
-        b.prj_item_name,
-        a.work_name,
-        a.create_person,
-        a.charge_person,
-        a.DESCRIBE,
-        a.create_Time,
-        a.complete_time,
-        ifnull(a.file_rel_id,'') as fileRelId,
-        a.STATUS
+        b.work_name,
+        b.state,
+        b.charge_person,
+        b.create_person,
+        b.`status`,
+        b.complete_time,
+        b.DESCRIBE,
+        b.work_id,
+        b.prj_item_id,
+        a.work_service_id,
+        a.plan_out_time,
+        a.visitor,
+        a.reality_out_time,
+        c.company_name,
+        c.phone  ,
+        a.visit_time,
+        a.content,
+        a.result,
+        ifnull(b.file_rel_id,'') as fileRelId,
+        ifnull(a.file_rel_id,'') as fileRelId1,
+        a.plan_execu_time,
+        a.reality_execu_time,
+        a.plan_person_num,
+        a.reality_person_num,
+        a.remark,
+        a.evaluate,
+        d.prj_name,
+        d.prj_item_name as prjItemName
+
 
         FROM
-        tx_work_order a
-        LEFT JOIN tx_project_item b ON a.prj_item_id = b.prj_item_id
+        tx_work_service a
+        right JOIN tx_work_order b ON a.work_id = b.work_id
+        left JOIN tx_company_info c ON a.company_id = c.company_id
+        left JOIN tx_project_item d ON b.prj_item_id = d.prj_item_id
         <trim prefix="where" prefixOverrides="and">
             <if test="VoWorkOrderInfo.workName != null and VoWorkOrderInfo.workName != '' ">
-           and a.work_name like CONCAT('%',#{VoWorkOrderInfo.workName},'%')
+           and b.work_name like CONCAT('%',#{VoWorkOrderInfo.workName},'%')
            </if>
            <if test="VoWorkOrderInfo.chargePerson != null and VoWorkOrderInfo.chargePerson != ''">
-              and  a.charge_person like CONCAT('%',#{VoWorkOrderInfo.chargePerson},'%')
+              and  b.charge_person like CONCAT('%',#{VoWorkOrderInfo.chargePerson},'%')
            </if>
         </trim>
-        order by a.create_time desc
+        order by b.create_time desc
 
 
     </select>
@@ -151,6 +171,11 @@
         select work_id from tx_work_order where work_name like CONCAT('%',#{workName},'%')
 
     </select>
+
+    <update id="upWorkOrderInfo1">
+        update tx_work_order set  state =#{state} where work_id=#{workId}
+    </update>
+
 
 
 

@@ -140,4 +140,10 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
 
         return "导出成功";
     }
+
+    @Override
+    public String qryWorkIdByWorkServiceId(String workServiceId) {
+        String ID=workServiceInfoMapper.qryWorkIdByWorkServiceId(workServiceId);
+        return ID;
+    }
 }
