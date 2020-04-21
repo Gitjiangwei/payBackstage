@@ -98,7 +98,6 @@ public class WorkOrderInfoController {
              }
              String status=voWorkOrderInfo.getStatus();
              String workId= UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
-             voWorkOrderInfo.setState("1");
              voWorkOrderInfo.setWorkId(workId);
              voWorkOrderInfo.setCreateTime(new Date());
              String prjName= voWorkOrderInfo.getPrjItemName();
@@ -107,6 +106,7 @@ public class WorkOrderInfoController {
              BeanUtils.copyProperties(voWorkOrderInfo,workOrderInfo);
              workOrderInfo.setCreateTime(new Date());
              workOrderInfo.setFileRelId(fileRelId);
+             workOrderInfo.setState("1");
              if(prjName==null ||"".equals(prjName)){
                  result.setMessage("工程点不存在");
                  return result ;
