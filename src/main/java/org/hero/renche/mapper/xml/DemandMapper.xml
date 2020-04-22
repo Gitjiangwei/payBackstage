@@ -37,8 +37,8 @@
     </update>
 
     <update id="updateDemandStatus">
-        update tx_demand SET whether_time = NOW,is_send="3",reasons = #{reasons}
-        where demand_id = #{demand_id}
+        update tx_demand SET whether_time = NOW(),is_send="3",reasons = #{reasons}
+        where demand_id = #{demandId}
     </update>
 
     <select id="queryDemand" resultType="org.hero.renche.entity.Demand">
