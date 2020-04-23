@@ -9,8 +9,8 @@
     <select id="qryListCompanyInfo" resultType="org.hero.renche.entity.vo.CompanyInfoVo">
 
         select company_id as companyId,company_name as companyName,type,shuihao,bank,bank_no as bankNo,contacts,phone,id_card as idCard,
-            introduc,address,email,ifnull(file_rel_id,'') as fileRelId,dict_code_name as typeName,
-            length(file_rel_id)-length(replace(file_rel_id,',','')) as fileCount
+            introduc,address,email,ifnull(c.file_rel_id,'') as fileRelId,dict_code_name as typeName,
+            length(c.file_rel_id)-length(replace(c.file_rel_id,',','')) as fileCount
         from tx_company_info c
         left join tx_dict d on c.type = d.dict_code_id and d.dict_code='CUSTOMETYPE'
         <trim prefix="where" prefixOverrides="and">
