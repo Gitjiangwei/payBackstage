@@ -210,12 +210,11 @@ public class WorkOrderInfoController {
 
     /**
      * 获取工程点名称
-     * @param request
      * @return
      */
     @ApiOperation(value ="获取工程点名称" , produces = "application/json")
     @GetMapping(value = "getn")
-    public Result<PageInfo<ProjectItemInfo>> getCompanyName(@RequestParam(name = "name", required = true) String name, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<ProjectItemInfo>> getCompanyName(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                                             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
 
         Result<PageInfo<ProjectItemInfo>> result=new Result<>();
