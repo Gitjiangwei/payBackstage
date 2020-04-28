@@ -62,8 +62,9 @@ public class ProjectItemInfo implements Serializable {
     private String fileRelId;
     /**创建时间*/
     private Date createTime;
-
-
-
+    /**建设方式*/
+    private String buildType;
+    /**设备拥有方式（0租赁 1购买）*/
+    private String havaWay;
 
 }

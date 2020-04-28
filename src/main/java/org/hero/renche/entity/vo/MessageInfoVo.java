@@ -1,12 +1,14 @@
 package org.hero.renche.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.hero.renche.entity.MessageInfo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 public class MessageInfoVo extends MessageInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,21 +21,5 @@ public class MessageInfoVo extends MessageInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date endDate;
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
 }

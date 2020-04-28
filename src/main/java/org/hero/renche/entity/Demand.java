@@ -57,4 +57,7 @@ public class Demand implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    /**设备拥有方式（0租赁 1购买）*/
+    private String haveWay;
 }

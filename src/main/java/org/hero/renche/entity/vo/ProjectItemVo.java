@@ -1,9 +1,11 @@
 package org.hero.renche.entity.vo;
 
+import lombok.Data;
 import org.hero.renche.entity.ProjectItemInfo;
 
 import java.io.Serializable;
 
+@Data
 public class ProjectItemVo extends ProjectItemInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,44 +20,5 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
     private String contractName;
     /**附件个数**/
     private String fileCount = "0";
-
-    public String getFileCount() {
-        return fileCount;
-    }
-
-    public void setFileCount(String fileCount) {
-        this.fileCount = fileCount;
-    }
-
-    @Override
-    public String getFileRelId() {
-        return fileRelId;
-    }
-
-    @Override
-    public void setFileRelId(String fileRelId) {
-        this.fileRelId = fileRelId;
-    }
-
-    /*附件ID*/
-    private String fileRelId;
-
-    public String getContractId() { return contractId; }
-
-    public void setContractId(String contractId) { this.contractId = contractId; }
-
-    public String getContractName() { return contractName; }
-
-    public void setContractName(String contractName) { this.contractName = contractName; }
-
-    public String getCompanyName() { return companyName; }
-
-    public void setCompanyName(String companyName) { this.companyName = companyName; }
-
-    public String getItemTypeName() { return itemTypeName; }
-
-    public void setItemTypeName(String itemTypeName) { this.itemTypeName = itemTypeName; }
-
-
 
 }
