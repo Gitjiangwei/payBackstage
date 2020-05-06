@@ -68,6 +68,8 @@ public class InvociInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
+    /**附件关联id*/
+    private String fileRelId1;
 
 
 }

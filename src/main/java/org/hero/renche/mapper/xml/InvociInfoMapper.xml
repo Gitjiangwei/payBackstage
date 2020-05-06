@@ -7,7 +7,7 @@
 		select invoci_id as invociId,invoci_name as invociName,invoci_time as invociTime,content,shuihao,company_name as companyName,
 			i.address,i.tel,i.bank,i.bank_no as bankNo,i.price,shui_percent as shuiPercent,shui_money as shuiMoney,total_money as totalMoney,
 			invoci_code as invociCode,invoci_number as invociNumber,signatory,i.sign_for_time as signForTime,i.contract_id as contractId,
-			ifnull(i.file_rel_id,'') as fileRelId,contract_name as contractName,
+			ifnull(i.file_rel_id,'') as fileRelId, ifnull(i.file_rel_id1,'') as fileRelId1,contract_name as contractName,
 			length(i.file_rel_id)-length(replace(i.file_rel_id,',','')) as fileCount
 		from tx_invoci_info i
 		left join tx_contract_info c on i.contract_id = c.contract_id
