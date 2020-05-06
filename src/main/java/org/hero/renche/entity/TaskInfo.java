@@ -28,7 +28,7 @@ public class TaskInfo implements Serializable {
     private String prjItemName;
     /**任务名称*/
     private String taskName;
-    /**任务内容*/
+    /**任务详情*/
     private String taskContent;
     /**负责人*/
     private String receiveUser;
@@ -52,7 +52,7 @@ public class TaskInfo implements Serializable {
     private String contactPerson;
     /**联系电话*/
     private String contactTel;
-    /**任务状态*/
+    /**任务状态(1进行中 0已结束)*/
     private String status;
     /**关联附件id*/
     private String fileRelId;
