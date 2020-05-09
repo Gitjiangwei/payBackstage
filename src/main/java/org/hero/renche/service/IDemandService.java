@@ -33,6 +33,14 @@ public interface IDemandService extends IService<Demand> {
      */
     Boolean updateIsSendKey(String demandId, String IsSendKey);
 
+    /**
+     * 修改通知工程人员领料状态
+     * @param demandId
+     * @param adviceStatus
+     * @return
+     */
+    Boolean AdviceStatus(String demandId, String adviceStatus , String status);
+
 
     /***
      * 设备需求退回

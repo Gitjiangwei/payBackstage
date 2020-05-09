@@ -36,7 +36,7 @@ public interface DemandMapper extends BaseMapper<Demand> {
      * @param demand
      * @return
      */
-    List<Demand> queryDemand(Demand demand);
+    List<Demand> queryDemand(@Param("Demand")  Demand demand);
 
     /***
      * 设备需求查询(只查处理或者未处理)

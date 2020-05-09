@@ -3,8 +3,8 @@
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
     
     <insert id="saveDemand">
-        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,is_send,remarks)
-        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{isSend},#{remarks})
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,advice_status)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{adviceStatus})
     </insert>
 
     <update id="updateDemand">
@@ -23,8 +23,8 @@
             <if test="createName != null and createName != '' ">
                 create_name = #{createName},
             </if>
-            <if test="isSend != null and isSend != '' ">
-                is_send = #{isSend},
+            <if test="status != null and status != '' ">
+                status = #{status},
             </if>
             <if test="remarks != null and remarks != '' ">
                 remarks = #{remarks},
@@ -32,35 +32,39 @@
             <if test="reasons != null and reasons != ''">
                 reasons = #{reasons},
             </if>
+            <if test="adviceStatus != null and adviceStatus != ''">
+                advice_status = #{adviceStatus},
+            </if>
         </trim>
         where demand_id = #{demandId}
     </update>
 
     <update id="updateDemandStatus">
-        update tx_demand SET whether_time = NOW(),is_send="3",reasons = #{reasons}
+        update tx_demand SET whether_time = NOW(),status="3",reasons = #{reasons}
         where demand_id = #{demandId}
     </update>
 
-    <select id="queryDemand" resultType="org.hero.renche.entity.Demand">
-        SELECT demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,is_send,whether_time,remarks,reasons from tx_demand
+    <select id="queryDemand"  resultType="org.hero.renche.entity.Demand">
+        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,status,whether_time,remarks,reasons , advice_status from tx_demand
         <trim prefix="where" prefixOverrides="and">
-            <if test="equipmentName!=null and equipmentName != '' ">
-               and equipment_name like CONCAT('%',#{equipmentName},'%'),
+
+            <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">
+                and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
             </if>
-            <if test="isSend != null and isSend != '' ">
-               and is_send = #{isSend},
+            <if test="Demand.status != null and Demand.status != '' ">
+               and status = #{Demand.status},
             </if>
         </trim>
         order by update_time desc ,create_time desc
     </select>
 
     <select id="queryDemandStatus" resultType="org.hero.renche.entity.Demand">
-        SELECT demand_id,equipment_name,equipment_model,equipment_number,create_name,update_time,is_send,whether_time,remarks,reasons from tx_demand
+        SELECT demand_id,equipment_name,equipment_model,equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
                 <if test="equipmentName!=null and equipmentName != '' ">
                     and equipment_name like CONCAT('%',#{equipmentName},'%')
                 </if>
-                and (is_send = '1' OR is_send = '2')
+
         </trim>
         order by update_time desc ,create_time desc
     </select>

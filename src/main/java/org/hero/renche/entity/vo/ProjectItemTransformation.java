@@ -23,6 +23,8 @@ public class ProjectItemTransformation {
         po.setFileRelId(vo.getFileRelId());
         po.setHasConnection(vo.getHasConnection());
         po.setFileRelId(vo.getFileRelId());
+        po.setBuildType(vo.getBuildType());
+        po.setHaveWay(vo.getHaveWay());
         return  po;
     }
 

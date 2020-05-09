@@ -44,8 +44,11 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         }else{
             demand.setCreateName("");
         }
-        if(!demand.getIsSend().equals("1")){
+        /*if(!demand.getIsSend().equals("1")){
             demand.setIsSend("0");
+        }*/
+        if(demand.getAdviceStatus()!=null&&!demand.getAdviceStatus().equals("1")){
+            demand.setAdviceStatus("0");
         }
         int result = demandMapper.saveDemand(demand);
         if(result>0){
@@ -90,7 +93,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         Boolean isFlag = false;
         if(demandId!=null && !demandId.equals("")){
             Demand demand = new Demand();
-            demand.setIsSend(IsSendKey);
+          //  demand.setIsSend(IsSendKey);
             demand.setDemandId(demandId);
             int result = demandMapper.updateDemand(demand);
             if (result > 0){
@@ -102,6 +105,22 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 }else {
                     isFlag = true;
                 }
+            }
+        }
+        return isFlag;
+    }
+
+    @Override
+    public Boolean AdviceStatus(String demandId, String adviceStatus , String status) {
+        Boolean isFlag = false;
+        if(demandId!=null && !demandId.equals("")){
+            Demand demand = new Demand();
+            demand.setAdviceStatus(adviceStatus);
+            demand.setStatus(status);
+            demand.setDemandId(demandId);
+            int result = demandMapper.updateDemand(demand);
+            if (result > 0){
+                    isFlag = true;
             }
         }
         return isFlag;

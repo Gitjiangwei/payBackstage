@@ -145,12 +145,13 @@ public class ProjectItemInfoController {
 
 
     @AutoLog("查询工程点使用的设备")
-    @RequestMapping(value = "/projectIdList")
+    @GetMapping (value = "/projectIdList")
     public Result<PageInfo<ProjectItemModel>> qryProjectItemEquip(@RequestParam(name = "projectId") String projectId,
                                                                   @RequestParam(name = "pageNo") Integer pageNo,
                                                                   @RequestParam(name = "pageSize") Integer pageSize){
         Result<PageInfo<ProjectItemModel>> result = new Result<>();
-        PageInfo<ProjectItemModel> projectItemModelPageInfo = projectItemInfoService.qryProjectItemEquip(projectId,pageNo,pageSize);
+        String projectItemId = projectId==null?"":projectId;
+        PageInfo<ProjectItemModel> projectItemModelPageInfo = projectItemInfoService.qryProjectItemEquip(projectItemId,pageNo,pageSize);
         result.setResult(projectItemModelPageInfo);
         result.setSuccess(true);
         return result;
