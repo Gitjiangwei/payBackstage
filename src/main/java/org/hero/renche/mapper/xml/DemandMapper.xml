@@ -3,8 +3,8 @@
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
     
     <insert id="saveDemand">
-        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,advice_status)
-        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{adviceStatus})
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks})
     </insert>
 
     <update id="updateDemand">
@@ -32,9 +32,7 @@
             <if test="reasons != null and reasons != ''">
                 reasons = #{reasons},
             </if>
-            <if test="adviceStatus != null and adviceStatus != ''">
-                advice_status = #{adviceStatus},
-            </if>
+
         </trim>
         where demand_id = #{demandId}
     </update>
@@ -45,7 +43,7 @@
     </update>
 
     <select id="queryDemand"  resultType="org.hero.renche.entity.Demand">
-        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,status,whether_time,remarks,reasons , advice_status from tx_demand
+        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
 
             <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">

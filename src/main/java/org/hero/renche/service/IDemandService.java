@@ -39,7 +39,7 @@ public interface IDemandService extends IService<Demand> {
      * @param adviceStatus
      * @return
      */
-    Boolean AdviceStatus(String demandId, String adviceStatus , String status);
+    Boolean AdviceStatus(String demandId,  String status);
 
 
     /***

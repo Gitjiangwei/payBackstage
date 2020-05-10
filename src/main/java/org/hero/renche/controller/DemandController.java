@@ -89,18 +89,14 @@ public class DemandController {
     @AutoLog("通知工程人员领料")
     @PostMapping(value = "/advice")
     public Result<T> adviceStatus(@RequestParam(name = "demandId") String demandId,
-                                  @RequestParam(name = "AdviceStatus") String adviceStatus,
                                   @RequestParam(name = "status") String status){
         Result<T> result = new Result<T>();
         if(demandId==null || demandId.equals("")){
             result.error500("参数丢失！");
         }else{
-            Boolean resultOk = demandService.AdviceStatus(demandId,adviceStatus,status);
+            Boolean resultOk = demandService.AdviceStatus(demandId,status);
             if(resultOk){
-
-                if(adviceStatus.equals("1")){
                     result.success("通知成功");
-                }
             }else {
                 result.error500("通知失败！");
             }

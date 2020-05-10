@@ -60,8 +60,7 @@ public class Demand implements Serializable {
 
     /**设备拥有方式（0租赁 1购买）*/
     private String haveWay;
-    /*对否通知领料（0已通知 1未通知）*/
-    private String adviceStatus;
+
     /*状态 0：未处理  1：已处理  2：已通知*/
     private String status;
     /*工程点ID*/

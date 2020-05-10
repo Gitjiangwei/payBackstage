@@ -47,9 +47,6 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         /*if(!demand.getIsSend().equals("1")){
             demand.setIsSend("0");
         }*/
-        if(demand.getAdviceStatus()!=null&&!demand.getAdviceStatus().equals("1")){
-            demand.setAdviceStatus("0");
-        }
         int result = demandMapper.saveDemand(demand);
         if(result>0){
             isFlag = true;
@@ -111,11 +108,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     }
 
     @Override
-    public Boolean AdviceStatus(String demandId, String adviceStatus , String status) {
+    public Boolean AdviceStatus(String demandId,  String status) {
         Boolean isFlag = false;
         if(demandId!=null && !demandId.equals("")){
             Demand demand = new Demand();
-            demand.setAdviceStatus(adviceStatus);
             demand.setStatus(status);
             demand.setDemandId(demandId);
             int result = demandMapper.updateDemand(demand);
