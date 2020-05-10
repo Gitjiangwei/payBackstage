@@ -25,4 +25,7 @@ public class DemandVo implements Serializable {
 
     /**备注*/
     private String remarks;
+
+    /*拥有方式*/
+    private String haveWay;
 }

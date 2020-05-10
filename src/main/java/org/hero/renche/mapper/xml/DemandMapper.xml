@@ -3,8 +3,8 @@
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
     
     <insert id="saveDemand">
-        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks)
-        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks})
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,have_way)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{haveWay})
     </insert>
 
     <update id="updateDemand">
@@ -32,6 +32,9 @@
             <if test="reasons != null and reasons != ''">
                 reasons = #{reasons},
             </if>
+            <if test="haveWay != null and haveWay != ''">
+                have_way = #{haveWay},
+            </if>
 
         </trim>
         where demand_id = #{demandId}
@@ -43,7 +46,7 @@
     </update>
 
     <select id="queryDemand"  resultType="org.hero.renche.entity.Demand">
-        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
+        SELECT prj_item_id, demand_id,equipment_name,have_way,equipment_model,equipment_number,create_time,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
 
             <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">
@@ -57,7 +60,7 @@
     </select>
 
     <select id="queryDemandStatus" resultType="org.hero.renche.entity.Demand">
-        SELECT demand_id,equipment_name,equipment_model,equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
+        SELECT demand_id,equipment_name,equipment_model,have_way，equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
                 <if test="equipmentName!=null and equipmentName != '' ">
                     and equipment_name like CONCAT('%',#{equipmentName},'%')

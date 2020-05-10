@@ -50,11 +50,8 @@ public class DemandController {
         }else {
             Boolean resultOk = demandService.updateDemand(demandVo);
             if(resultOk){
-                if(demandVo.getIsSend().equals("1")){
-                    result.success("修改并发送成功");
-                }else {
                     result.success("修改成功");
-                }
+
             }else {
                 result.error500("修改失败！");
             }
