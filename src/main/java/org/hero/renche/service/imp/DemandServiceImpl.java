@@ -6,22 +6,30 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.MessageInfo;
+import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.mapper.DemandMapper;
+import org.hero.renche.mapper.ProjectItemInfoMapper;
+import org.hero.renche.service.ICompanyInfoService;
 import org.hero.renche.service.IDemandService;
+import org.hero.renche.service.IMessageInfoService;
 import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> implements IDemandService {
 
     @Autowired
     private DemandMapper demandMapper;
+    @Autowired
+    private ProjectItemInfoMapper projectItemInfoMapper;
+    @Autowired
+    private IMessageInfoService iMessageInfoService;
+
+
 
    // private SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
     /***
@@ -37,9 +45,13 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         demand.setDemandId(UUID.randomUUID().toString().replace("-",""));
         if(sysUser!=null){
             demand.setCreateName(sysUser.getUsername());
+            demand.setCreateUserId(sysUser.getId());
+
         }else{
             demand.setCreateName("");
         }
+
+
         int result = demandMapper.saveDemand(demand);
         if(result>0){
             isFlag = true;
@@ -78,6 +90,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      */
     @Override
     public Boolean updateIsSendKey(String demandId,String IsSendKey) {
+
         Boolean isFlag = false;
         if(demandId!=null && !demandId.equals("")){
             Demand demand = new Demand();
@@ -98,15 +111,51 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return isFlag;
     }
 
+        /**
+         * 通知工程人员领料
+         * */
     @Override
     public Boolean AdviceStatus(String demandId,  String status) {
         Boolean isFlag = false;
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        String userName="";
+        if(sysUser!=null){
+            userName=sysUser.getUsername();
+        }
         if(demandId!=null && !demandId.equals("")){
             Demand demand = new Demand();
             demand.setStatus(status);
             demand.setDemandId(demandId);
+            Demand demand1=demandMapper.selectById(demandId);
+            ProjectItemInfo projectItemInfo=null;
+            String createName=null;
+            String mesFrom="";
+            if(demand1!=null){
+                String prjItemId=demand1.getPrjItemId();
+                createName=demand1.getCreateName()==null?"":demand1.getCreateName();
+                if(prjItemId!=null){
+                    projectItemInfo=  projectItemInfoMapper.selectById(prjItemId);
+                    mesFrom="任务管理";
+                }else{
+                    mesFrom="设备需求";
+                }
+            }
+            String prjItemName=  projectItemInfo.getPrjItemName();
+            String mesCon="工程点“（"+prjItemName+"）”的设备需求已处理，请及时领料！";
+            MessageInfo messageInfo=new MessageInfo();
+            messageInfo.setMessageId(UUID.randomUUID().toString().replace("-",""));
+            messageInfo.setCreateTime(new Date());
+            messageInfo.setMessageContent(mesCon);
+            messageInfo.setMessageFrom(mesFrom);
+            messageInfo.setMessageStatus("1");
+            messageInfo.setMessageType("2");
+            messageInfo.setReciveUser(createName);
+            messageInfo.setCreateUser(userName);
+            Boolean isOk=  iMessageInfoService.save(messageInfo);
+
+
             int result = demandMapper.updateDemand(demand);
-            if (result > 0){
+            if (result > 0 && isOk==true){
                     isFlag = true;
             }
         }
@@ -268,6 +317,13 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             isFlag = true;
         }
         return isFlag;
+    }
+
+    @Override
+    public Demand getDemandByPrjItenId(String prjItemId) {
+
+        Demand demand= demandMapper.getDemandByPrjItenId(prjItemId);
+        return demand;
     }
 
 }

@@ -100,4 +100,6 @@ public interface IDemandService extends IService<Demand> {
      * @return
      */
     boolean toMakeDemand(String taskId);
+
+    Demand getDemandByPrjItenId(String prjItemId);
 }

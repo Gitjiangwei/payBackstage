@@ -81,4 +81,6 @@ public interface DemandMapper extends BaseMapper<Demand> {
      */
     int toMakeDemand(@Param("list") List<String> taskIds);
 
+    Demand getDemandByPrjItenId(String prjItemId);
+
 }

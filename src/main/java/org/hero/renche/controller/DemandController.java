@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.MessageInfo;
 import org.hero.renche.service.IDemandService;
+import org.hero.renche.service.IMessageInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.util.PasswordUtil;
@@ -29,6 +31,9 @@ public class DemandController {
 
     @Autowired
     private IDemandService demandService;
+
+    @Autowired
+    private IMessageInfoService messageInfoService;
 
 
     @AutoLog("添加设备需求")
@@ -95,6 +100,8 @@ public class DemandController {
         if(demandId==null || demandId.equals("")){
             result.error500("参数丢失！");
         }else{
+            MessageInfo messageInfo=new MessageInfo();
+
             Boolean resultOk = demandService.AdviceStatus(demandId,status);
             if(resultOk){
                     result.success("通知成功");

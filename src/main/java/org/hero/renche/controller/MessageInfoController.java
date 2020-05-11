@@ -8,6 +8,7 @@ import org.hero.renche.entity.vo.MessageInfoVo;
 import org.hero.renche.service.IMessageInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,6 +79,7 @@ public class MessageInfoController {
     public Result<MessageInfo> add(@RequestBody MessageInfo messageInfo) {
         Result<MessageInfo> result = new Result<>();
         messageInfo.setCreateTime(new Date());
+
         try {
             boolean ok = messageInfoService.save(messageInfo);
             result.success("添加成功！");
