@@ -3,8 +3,8 @@
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
     
     <insert id="saveDemand">
-        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,task_id,prj_item_id,make_demand,have_way)
-        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{taskId},#{prjItemId},#{makeDemand},#{haveWay})
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,have_way)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{haveWay})
     </insert>
 
     <update id="updateDemand">
@@ -71,7 +71,7 @@
                 and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
             </if>
             <if test="Demand.status != null and Demand.status != '' ">
-                and status = #{Demand.status}
+               and status = #{Demand.status}
             </if>
         </trim>
         order by update_time desc ,create_time desc
@@ -84,7 +84,7 @@
     </select>
 
     <select id="queryDemandStatus" resultType="org.hero.renche.entity.Demand">
-        SELECT demand_id,equipment_name,equipment_model,have_way，equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
+        SELECT demand_id,equipment_name,equipment_model,have_way,equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
             <if test="equipmentName!=null and equipmentName != '' ">
                 and equipment_name like CONCAT('%',#{equipmentName},'%')
