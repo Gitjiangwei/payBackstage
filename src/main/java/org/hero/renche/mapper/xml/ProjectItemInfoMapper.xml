@@ -123,11 +123,7 @@
 
 
     <select id="qryProjectItemInfoList"  resultType="org.hero.renche.entity.ProjectItemInfo">
-
-
         select prj_item_id  prjItemId ,prj_item_name prjItemName from tx_project_item  where  prj_item_name  like CONCAT('%',#{name},'%') order by prj_item_name  desc
-
-
     </select>
 
 </mapper>

@@ -15,7 +15,13 @@ public interface TaskInfoMapper extends BaseMapper<TaskInfo> {
 
     List<TaskInfoVo> qryTaskInfoList(@Param("TaskInfo") TaskInfo taskInfo);
 
+    List<TaskInfoVo> qryMyTaskInfoList(@Param("TaskInfo") TaskInfo taskInfo);
+
     int updateFileIds(@Param("TaskInfo") TaskInfo taskInfo);
 
     String qryFileIdByTaskId(@Param("taskId") String taskId);
+
+    int editTaskStatus(@Param("taskId") String taskId, @Param("status") String status);
+
+    int makeSureToMakeDemand(@Param("list") List<String> taskIds);
 }

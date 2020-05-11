@@ -20,9 +20,6 @@ public class DemandVo implements Serializable {
     /**设备数量*/
     private String equipmentNumber;
 
-    /**状态  0：未发送 1：已发送 2：未处理 3：已处理*/
-    private String isSend;
-
     /**备注*/
     private String remarks;
 

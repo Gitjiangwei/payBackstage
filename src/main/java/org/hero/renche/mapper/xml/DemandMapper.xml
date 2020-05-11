@@ -3,8 +3,8 @@
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
     
     <insert id="saveDemand">
-        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,have_way)
-        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{haveWay})
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,task_id,prj_item_id,make_demand,have_way)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{taskId},#{prjItemId},#{makeDemand},#{haveWay})
     </insert>
 
     <update id="updateDemand">
@@ -32,10 +32,18 @@
             <if test="reasons != null and reasons != ''">
                 reasons = #{reasons},
             </if>
+            <if test="taskId != null and taskId != ''">,,,
+                task_id = #{taskId},
+            </if>
+            <if test="prjItemId != null and prjItemId != ''">
+                prj_item_id = #{prjItemId},
+            </if>
+            <if test="makeDemand != null and makeDemand != ''">
+                make_demand = #{makeDemand},
+            </if>
             <if test="haveWay != null and haveWay != ''">
                 have_way = #{haveWay},
             </if>
-
         </trim>
         where demand_id = #{demandId}
     </update>
@@ -46,25 +54,41 @@
     </update>
 
     <select id="queryDemand"  resultType="org.hero.renche.entity.Demand">
-        SELECT prj_item_id, demand_id,equipment_name,have_way,equipment_model,equipment_number,create_time,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
+        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
+            status,whether_time,remarks,reasons , have_way from tx_demand where ifnull(task_id,'') = ''
+        <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">
+            and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
+        </if>
+        <if test="Demand.status != null and Demand.status != '' ">
+           and status = #{Demand.status}
+        </if>
+        union
+        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
+        status,whether_time,remarks,reasons , have_way from tx_demand where ifnull(task_id,'') != '' and make_demand = '1'
         <trim prefix="where" prefixOverrides="and">
 
             <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">
                 and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
             </if>
             <if test="Demand.status != null and Demand.status != '' ">
-               and status = #{Demand.status},
+                and status = #{Demand.status}
             </if>
         </trim>
+        order by update_time desc ,create_time desc
+    </select>
+
+    <select id="queryTaskDemand"  resultType="org.hero.renche.entity.Demand">
+        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
+        status,whether_time,remarks,reasons , have_way from tx_demand where task_id = #{taskId}
         order by update_time desc ,create_time desc
     </select>
 
     <select id="queryDemandStatus" resultType="org.hero.renche.entity.Demand">
         SELECT demand_id,equipment_name,equipment_model,have_way，equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">
-                <if test="equipmentName!=null and equipmentName != '' ">
-                    and equipment_name like CONCAT('%',#{equipmentName},'%')
-                </if>
+            <if test="equipmentName!=null and equipmentName != '' ">
+                and equipment_name like CONCAT('%',#{equipmentName},'%')
+            </if>
 
         </trim>
         order by update_time desc ,create_time desc
@@ -77,8 +101,22 @@
         </foreach>
     </delete>
 
+    <delete id="delDemandByTaskId">
+        delete from tx_demand where task_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
     <update id="updateWhetherTime">
         update tx_demand set whether_time = NOW()
         where demand_id = #{demandId}
+    </update>
+
+    <update id="toMakeDemand">
+        update tx_demand set make_demand='1' where task_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
     </update>
 </mapper>

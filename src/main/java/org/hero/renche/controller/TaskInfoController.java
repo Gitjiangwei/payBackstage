@@ -1,19 +1,26 @@
 package org.hero.renche.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.hero.renche.entity.Demand;
 import org.hero.renche.entity.TaskInfo;
 import org.hero.renche.entity.vo.TaskInfoVo;
+import org.hero.renche.service.IDemandService;
 import org.hero.renche.service.ITaskInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * @Title: Controller
@@ -26,6 +33,8 @@ public class TaskInfoController {
 
     @Autowired
     private ITaskInfoService taskInfoService;
+    @Autowired
+    private IDemandService demandService;
 
     /**
      * 分页列表查询
@@ -40,7 +49,8 @@ public class TaskInfoController {
     public Result<PageInfo<TaskInfoVo>> list(TaskInfo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<TaskInfoVo>> result = new Result<>();
-
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        taskInfo.setCreateUser(sysUser.getId());
         PageInfo<TaskInfoVo> taskInfoPageInfo = taskInfoService.qryTaskInfoList(taskInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(taskInfoPageInfo);
@@ -48,18 +58,67 @@ public class TaskInfoController {
     }
 
     /**
-     * 添加
+     * 分页列表查询
      * @param taskInfo
+     * @param pageNo
+     * @param pageSize
+     * @param req
+     * @return
+     */
+    @ApiOperation(value = "获取我的任务列表", notes = "获取我的任务列表", produces = "application/json")
+    @GetMapping(value = "/qryMyTaskInfoList")
+    public Result<PageInfo<TaskInfoVo>> qryMyTaskInfoList(TaskInfo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
+        Result<PageInfo<TaskInfoVo>> result = new Result<>();
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        taskInfo.setReceiveUser(sysUser.getId());
+
+        PageInfo<TaskInfoVo> taskInfoPageInfo = taskInfoService.qryMyTaskInfoList(taskInfo,pageNo,pageSize);
+        result.setSuccess(true);
+        result.setResult(taskInfoPageInfo);
+        return result;
+    }
+
+    /**
+     * 添加
+     * @param jsonObject
      * @return
      */
     @PostMapping(value = "/add")
-    @AutoLog(value = "添加客户信息")
-    public Result<TaskInfo> add(@RequestBody TaskInfo taskInfo) {
+    public Result<TaskInfo> add(@RequestBody JSONObject jsonObject) {
         Result<TaskInfo> result = new Result<TaskInfo>();
-        taskInfo.setStatus("1");//进行中
-        taskInfo.setCreateTime(new Date());
         try {
-            boolean ok = taskInfoService.save(taskInfo);
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            TaskInfo taskInfo = JSON.parseObject(jsonObject.toJSONString(), TaskInfo.class);
+            List<Demand> demandList = new ArrayList<>();
+            JSONArray demandArray = jsonObject.getJSONArray("demandList");
+
+            //保存任务
+            taskInfo.setCreateTime(new Date());
+            taskInfo.setCreateUser(sysUser.getId());
+            //获取选择的负责人
+            String selectUser = jsonObject.getString("selectUser");
+            String selectUserName = jsonObject.getString("selectUserName");
+            selectUser = selectUser.substring(1, selectUser.length()-1);
+            selectUserName = selectUserName.substring(1, selectUserName.length()-1);
+            taskInfo.setReceiveUser(selectUser);
+            taskInfo.setReceiveUserName(selectUserName);
+            if(demandArray != null && demandArray.size() != 0){
+                taskInfo.setIsMakeDemand("0");//默认否
+            }
+
+            taskInfoService.save(taskInfo);
+            //保存需要设备
+            if(demandArray != null){
+                demandList = demandArray.toJavaList(Demand.class);
+                for(Demand demand : demandList){
+                    demand.setTaskId(taskInfo.getTaskId());
+                    demand.setPrjItemId(taskInfo.getPrjItemId());
+                    demand.setMakeDemand("0");//未生成需求
+                    demandService.saveDemand(demand);
+                }
+            }
+
             result.success("添加成功！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,23 +130,61 @@ public class TaskInfoController {
 
     /**
      * 编辑
-     * @param taskInfo
+     * @param jsonObject
      * @return
      */
     @PutMapping(value = "/edit")
-    public Result<TaskInfo> eidt(@RequestBody TaskInfo taskInfo) {
+    public Result<TaskInfo> eidt(@RequestBody JSONObject jsonObject) {
         Result<TaskInfo> result = new Result<TaskInfo>();
-        TaskInfo taskInfoEntity = taskInfoService.getById(taskInfo.getTaskId());
-        if (taskInfoEntity == null) {
-            result.error500("未找到对应实体");
-        } else {
-            boolean ok = taskInfoService.updateById(taskInfo);
-            // TODO 返回false说明什么？
-            if (ok) {
+        try {
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            TaskInfo taskInfo = JSON.parseObject(jsonObject.toJSONString(), TaskInfo.class);
+
+            String taskId = taskInfo.getTaskId();
+            String prjItemId = taskInfo.getPrjItemId();
+            TaskInfo taskInfoEntity = taskInfoService.getById(taskId);
+            if (taskInfoEntity == null) {
+                result.error500("未找到对应实体");
+            } else {
+                List<Demand> demandList = new ArrayList<>();
+                JSONArray demandArray = jsonObject.getJSONArray("demandList");
+
+                //获取选择的负责人
+                String selectUser = jsonObject.getString("selectUser");
+                String selectUserName = jsonObject.getString("selectUserName");
+                selectUser = selectUser.substring(1, selectUser.length()-1);
+                selectUserName = selectUserName.substring(1, selectUserName.length()-1);
+                taskInfo.setReceiveUser(selectUser);
+                taskInfo.setReceiveUserName(selectUserName);
+                if(demandArray != null && demandArray.size() != 0){
+                    if(taskInfo.getIsMakeDemand() == null || "".equals(taskInfo.getIsMakeDemand())){
+
+                        taskInfo.setIsMakeDemand("0");//默认否
+                    }
+                }
+                taskInfoService.updateById(taskInfo);
+
+                //先删除已添加的设备
+                demandService.delDemandByTaskId(taskId);
+                //保存需要设备
+                if(demandArray != null){
+                    demandList = demandArray.toJavaList(Demand.class);
+                    for(Demand demand : demandList){
+                        demand.setTaskId(taskId);
+                        demand.setPrjItemId(prjItemId);
+                        demand.setMakeDemand("0");//未生成需求
+                        demandService.saveDemand(demand);
+                    }
+                }
+
                 result.success("修改成功!");
             }
-        }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("操作失败");
+        }
         return result;
     }
 
@@ -107,6 +204,8 @@ public class TaskInfoController {
         } else {
             boolean ok = taskInfoService.removeById(id);
             if (ok) {
+                //删除已添加的设备
+                demandService.delDemandByTaskId(id);
                 result.success("删除成功!");
             }
         }
@@ -126,36 +225,39 @@ public class TaskInfoController {
         if (ids == null || "".equals(ids.trim())) {
             result.error500("参数不识别！");
         } else {
+            //删除已添加的设备
+            demandService.delDemandByTaskId(ids);
             this.taskInfoService.removeByIds(Arrays.asList(ids.split(",")));
             result.success("删除成功!");
         }
         return result;
     }
 
-//    /**
-//     * 导出数据
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/vnd.ms-excel")
-//    @RequestMapping(value = "/exportCompanyInfo" )
-//    public void exportCompanyInfo (@RequestParam(value = "param") String params, HttpServletResponse response) {
-//
-//        try{
-//            params = params.replace("\"","");
-//            String[] paramStrs = params.split(",");
-//            Map<String,String> map = new HashMap<>();
-//            for (String str : paramStrs){
-//                String[] content = str.split(":");
-//                map.put(content[0],content[1]);
-//            }
-//
-//            String message = taskInfoService.exportCompanyInfo(map, response);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            log.info(e.getMessage());
-//        }
-//    }
+    /**
+     * 导出数据
+     *
+     * @param
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/vnd.ms-excel")
+    @GetMapping(value = "/exportTaskInfo" )
+    public void exportTaskInfo(@RequestParam(value = "param") String params, HttpServletResponse response){
+        try{
+            params = params.replace("\"","");
+            String[] paramStrs = params.split(",");
+            Map<String,String> map = new HashMap<>();
+            for (String str : paramStrs){
+                String[] content = str.split(":");
+                map.put(content[0],content[1]);
+            }
+
+            taskInfoService.exportTaskInfo(map, response);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+        }
+    }
 
     /**
      * 修改关联附件id
@@ -178,6 +280,61 @@ public class TaskInfoController {
             }else {
                 result.error500("遇到未知异常，请及时排除！");
             }
+        }
+        return result;
+    }
+
+    /**
+     * 修改是否发起/结束任务
+     *
+     * @return
+     */
+    @PostMapping(value = "editTaskStatus")
+    public Result<TaskInfo> editTaskStatus(@RequestParam(name = "taskId") String taskId, @RequestParam(name = "status") String status){
+
+        Result<TaskInfo> result=new Result<>();
+        if(taskId == null || taskId.equals("")){
+            result.error500("任务ID为空，请及时排除！");
+        }else{
+            Boolean resultOk = taskInfoService.editTaskStatus(taskId, status);
+            if(resultOk){
+                if(status.equals("1")){
+                    result.success("发起任务成功！");
+                }else{
+                    result.success("成功结束任务！");
+                }
+            }else {
+                result.error500("遇到未知异常，请及时排除！");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 生成设备需求
+     *
+     * @return
+     */
+    @PostMapping(value = "makeDemandList")
+    public Result<TaskInfo> makeDemandList(@RequestParam(name = "taskIds") String taskIds){
+
+        Result<TaskInfo> result=new Result<>();
+        if(taskIds == null || taskIds.equals("")){
+            result.error500("任务ID为空，请及时排除！");
+        }else{
+
+            boolean isOk = demandService.toMakeDemand(taskIds);
+            if(isOk){
+                Boolean resultOk = taskInfoService.makeSureToMakeDemand(taskIds);
+                if(resultOk){
+                    result.success("成功生成设备需求！");
+                }else {
+                    result.error500("遇到未知异常，请及时排除！");
+                }
+            }else{
+                result.error500("遇到未知异常，请及时排除！");
+            }
+
         }
         return result;
     }

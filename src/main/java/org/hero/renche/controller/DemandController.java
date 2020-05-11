@@ -1,18 +1,26 @@
 package org.hero.renche.controller;
 
-import com.github.pagehelper.Page;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.hero.renche.entity.Demand;
-import org.hero.renche.entity.vo.DemandVo;
 import org.hero.renche.service.IDemandService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
-import org.springframework.beans.BeanUtils;
+import org.jeecg.common.util.PasswordUtil;
+import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -25,15 +33,12 @@ public class DemandController {
 
     @AutoLog("添加设备需求")
     @PostMapping(value = "/saveDemand")
-    public Result<T>  saveDemand(@RequestBody DemandVo demandVo){
-        Result<T> result = new Result<T>();
-        Boolean resultOk = demandService.saveDemand(demandVo);
+    public Result<Demand>  saveDemand(@RequestBody Demand demand){
+        Result<Demand> result = new Result<>();
+        Boolean resultOk = demandService.saveDemand(demand);
         if(resultOk){
-            if(demandVo.getIsSend().equals("1")){
-                result.success("添加并发送成功");
-            }else {
-                result.success("添加成功");
-            }
+            result.success("添加成功");
+            result.setResult(demand);
         }else {
             result.error500("添加失败！");
         }
@@ -43,15 +48,14 @@ public class DemandController {
 
     @AutoLog("修改设备需求")
     @PostMapping(value = "/updateDemand")
-    public Result<T>  updateDemand(@RequestBody DemandVo demandVo){
+    public Result<T>  updateDemand(@RequestBody Demand demand){
         Result<T> result = new Result<T>();
-        if(demandVo.getDemandId()==null || demandVo.getDemandId().equals("")){
+        if(demand.getDemandId()==null || demand.getDemandId().equals("")){
             result.error500("参数丢失！");
         }else {
-            Boolean resultOk = demandService.updateDemand(demandVo);
+            Boolean resultOk = demandService.updateDemand(demand);
             if(resultOk){
-                    result.success("修改成功");
-
+                result.success("修改成功");
             }else {
                 result.error500("修改失败！");
             }
@@ -136,6 +140,16 @@ public class DemandController {
         return result;
     }
 
+    @AutoLog("查询任务需要设备")
+    @GetMapping(value = "/queryDemandList")
+    public Result<List<Demand>> queryDemandList(@RequestParam(name = "taskId",required = false) String taskId){
+        Result<List<Demand>> result = new Result<>();
+        List<Demand> demandPageInfo = demandService.queryTaskDemandList(taskId);
+        result.setResult(demandPageInfo);
+        result.setSuccess(true);
+        return result;
+    }
+
     @AutoLog("查询已处理和未处理的设备需求")
     @GetMapping(value = "/queryDemandStatus")
     public Result<PageInfo<Demand>> queryDemandStatus(Demand demand,@RequestParam(name = "pageNo") Integer pageNo,
@@ -178,6 +192,40 @@ public class DemandController {
             }else {
                 result.error500("批量删除失败！");
             }
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/getSessionDemand", method = RequestMethod.POST)
+    public Result<List<Demand>> getSessionDemand(@RequestBody JSONObject jsonObject) {
+        Result<List<Demand>> result = new Result<>();
+        try {
+            List<Demand> demandList = new ArrayList<>();
+            JSONArray demandArray = jsonObject.getJSONArray("demandList");
+            if(demandArray != null){
+                demandList = demandArray.toJavaList(Demand.class);
+            }
+
+            Demand demand = JSON.parseObject(jsonObject.toJSONString(), Demand.class);
+            String demandId = demand.getDemandId();
+            if(demandId != null && !"".equals(demandId)){
+                for(int i = 0; i < demandList.size(); i++){
+                    if(demandList.get(i).getDemandId().equals(demandId)){
+                        demandList.set(i, demand);
+                        break;
+                    }
+                }
+                result.success("修改成功！");
+            }else{
+                demand.setDemandId(UUID.randomUUID().toString().replace("-",""));
+                demandList.add(demand);
+                result.success("添加成功！");
+            }
+            result.setResult(demandList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("操作失败");
         }
         return result;
     }

@@ -1,16 +1,14 @@
 package org.hero.renche.service.imp;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.Demand;
-import org.hero.renche.entity.vo.DemandVo;
 import org.hero.renche.mapper.DemandMapper;
 import org.hero.renche.service.IDemandService;
 import org.jeecg.modules.system.entity.SysUser;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,25 +26,20 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
    // private SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
     /***
      * 添加设备需求
-     * @param demandVo
+     * @param demand
      * @return
      */
     @Override
-    public Boolean saveDemand(DemandVo demandVo) {
+    public Boolean saveDemand(Demand demand) {
 
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         Boolean isFlag = false;
-        Demand demand = new Demand();
-        demandVo.setDemandId(UUID.randomUUID().toString().replace("-",""));
-        BeanUtils.copyProperties(demandVo,demand);
+        demand.setDemandId(UUID.randomUUID().toString().replace("-",""));
         if(sysUser!=null){
             demand.setCreateName(sysUser.getUsername());
         }else{
             demand.setCreateName("");
         }
-        /*if(!demand.getIsSend().equals("1")){
-            demand.setIsSend("0");
-        }*/
         int result = demandMapper.saveDemand(demand);
         if(result>0){
             isFlag = true;
@@ -56,16 +49,14 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     /***
      * 修改设备需求
-     * @param demandVo
+     * @param demand
      * @return
      */
     @Override
-    public Boolean updateDemand(DemandVo demandVo) {
+    public Boolean updateDemand(Demand demand) {
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         Boolean isFlag = false;
-        if(demandVo.getDemandId()!=null && !demandVo.getDemandId().equals("")){
-            Demand demand = new Demand();
-            BeanUtils.copyProperties(demandVo,demand);
+        if(demand.getDemandId()!=null && !demand.getDemandId().equals("")){
             if(sysUser!=null){
                 demand.setCreateName(sysUser.getUsername());
             }else{
@@ -154,8 +145,19 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     @Override
     public PageInfo<Demand> queryDemand(Demand demand, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
+        demand.setMakeDemand("1");
         List<Demand> demandList = demandMapper.queryDemand(demand);
         return new PageInfo<Demand>(demandList);
+    }
+
+    /**
+     * 查询任务设备需求
+     * @param taskId
+     * @return
+     */
+    @Override
+    public List<Demand> queryTaskDemandList(String taskId){
+        return demandMapper.queryTaskDemand(taskId);
     }
 
     /**
@@ -206,6 +208,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             if(a == ','){
                 demandIds = demandIds.substring(0,demandIds.length()-1);
             }
+
             if(demandIds!=null && !demandIds.equals("")){
                 if(demandIds.contains(",")){
                     list = new ArrayList<String>(Arrays.asList(demandIds.split(",")));
@@ -220,4 +223,51 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         }
         return isFlag;
     }
+
+    /***
+     * 根据任务id删除设备需求
+     * @param taskId
+     * @return
+     */
+    @Override
+    public Boolean delDemandByTaskId(String taskId) {
+        Boolean isFlag = false;
+        if(taskId!=null && !taskId.equals("")){
+            List<String> ids = new ArrayList<>();
+            if(taskId.contains(",")){
+                ids = new ArrayList<String>(Arrays.asList(taskId.split(",")));
+            }else {
+                ids.add(taskId);
+            }
+
+            int result = demandMapper.delDemandByTaskId(ids);
+            if(result>0){
+                isFlag = true;
+            }
+        }
+        return isFlag;
+    }
+
+    /**
+     * 根据任务id将任务需要设备生成设备需求
+     * @param taskId
+     * @return
+     */
+    @Override
+    public boolean toMakeDemand(String taskId){
+        Boolean isFlag = false;
+        List<String> ids = new ArrayList<>();
+        if(taskId.contains(",")){
+            ids = new ArrayList<String>(Arrays.asList(taskId.split(",")));
+        }else {
+            ids.add(taskId);
+        }
+
+        int result = demandMapper.toMakeDemand(ids);
+        if(result>0){
+            isFlag = true;
+        }
+        return isFlag;
+    }
+
 }

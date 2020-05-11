@@ -374,4 +374,11 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
         return flag;
     }
 
+    @Override
+    public PageInfo<ProjectItemInfo> queryItemList(String itemName,Integer pageNo,Integer pageSize){
+        PageHelper.startPage(pageNo,pageSize);
+        List<ProjectItemInfo> projectItemInfoList = projectItemInfoMapper.qryProjectItemInfoList(itemName);
+        return new PageInfo<ProjectItemInfo>(projectItemInfoList);
+    }
+
 }

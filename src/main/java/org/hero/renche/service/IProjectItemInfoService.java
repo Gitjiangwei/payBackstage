@@ -39,4 +39,6 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
 
     boolean updateFileIds(ProjectItemInfo projectItemInfo);
 
+    PageInfo<ProjectItemInfo> queryItemList(String itemName,Integer pageNo,Integer pageSize);
+
 }

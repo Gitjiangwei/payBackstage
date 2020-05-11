@@ -39,11 +39,25 @@ public interface DemandMapper extends BaseMapper<Demand> {
     List<Demand> queryDemand(@Param("Demand")  Demand demand);
 
     /***
+     * 查询任务需要设备
+     * @param taskId
+     * @return
+     */
+    List<Demand> queryTaskDemand(@Param("taskId")  String taskId);
+
+    /***
      * 设备需求查询(只查处理或者未处理)
      * @param demand
      * @return
      */
     List<Demand> queryDemandStatus(Demand demand);
+
+    /***
+     * 根据任务id删除设备需求
+     * @param taskIds
+     * @return
+     */
+    int delDemandByTaskId(@Param("list") List<String> taskIds);
 
 
     /***
@@ -59,5 +73,12 @@ public interface DemandMapper extends BaseMapper<Demand> {
      * @return
      */
     int updateWhetherTime(@Param("demandId")String demandId);
+
+    /***
+     * 根据任务id将需要设备生成设备需求
+     * @param taskIds
+     * @return
+     */
+    int toMakeDemand(@Param("list") List<String> taskIds);
 
 }

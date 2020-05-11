@@ -5,9 +5,9 @@
 
     <select id="qryTaskInfoList" resultType="org.hero.renche.entity.vo.TaskInfoVo">
 		select task_id as taskId,prj_item_id as prjItemId,prj_item_name as prjItemName,task_name as taskName,task_content as taskContent,
-			receive_user as receiveUser,plan_start_time as planStartTime,plan_end_time as planEndTime,start_time as startTime,
-			end_time as endTime,contact_person as contactPerson,contact_tel as contactTel,status,t.file_rel_id as fileRelId,
-			create_user as createUser,t.create_time as createTime,
+			receive_user as receiveUser,receive_user_name as receiveUserName,plan_start_time as planStartTime,plan_end_time as planEndTime,
+			start_time as startTime,end_time as endTime,contact_person as contactPerson,contact_tel as contactTel,status,t.file_rel_id as fileRelId,
+			create_user_name as createUserName,t.create_time as createTime,is_make_demand as isMakeDemand,
 			length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
 		from tx_task_info t
 	<trim prefix="where" prefixOverrides="and">
@@ -17,16 +17,54 @@
         <if test="TaskInfo.taskName !=null and TaskInfo.taskName != '' "  >
             and task_name like CONCAT('%',#{TaskInfo.taskName},'%')
         </if>
-		<if test="TaskInfo.createWay !=null and TaskInfo.createWay != '' "  >
-			and t.create_way = #{TaskInfo.createWay}
+		<if test="TaskInfo.status !=null and TaskInfo.status != '' "  >
+			and status = #{TaskInfo.status}
+		</if>
+		<if test="TaskInfo.receiveUser !=null and TaskInfo.receiveUser != '' ">
+			and  receive_user like CONCAT('%',#{TaskInfo.receiveUser},'%')
+		</if>
+		<if test="TaskInfo.startTime != null">
+			and date_format(start_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfo.startTime},'%Y-%m-%d')
+		</if>
+		<if test="TaskInfo.endTime != null">
+			and date_format(start_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfo.endTime},'%Y-%m-%d')
 		</if>
 		<if test="TaskInfo.createUser !=null and TaskInfo.createUser != '' "  >
 			and t.create_user = #{TaskInfo.createUser}
 		</if>
     </trim>
 		order by t.create_time desc
-
     </select>
+	<select id="qryMyTaskInfoList" resultType="org.hero.renche.entity.vo.TaskInfoVo">
+		select task_id as taskId,prj_item_id as prjItemId,prj_item_name as prjItemName,task_name as taskName,task_content as taskContent,
+		receive_user as receiveUser,receive_user_name as receiveUserName,plan_start_time as planStartTime,plan_end_time as planEndTime,
+		start_time as startTime,end_time as endTime,contact_person as contactPerson,contact_tel as contactTel,status,t.file_rel_id as fileRelId,
+		create_user_name as createUserName,t.create_time as createTime,is_make_demand as isMakeDemand,
+		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
+		from tx_task_info t where t.status != '0'
+        <if test="TaskInfo.prjItemName !=null and TaskInfo.prjItemName != '' ">
+            and  prj_item_name like CONCAT('%',#{TaskInfo.prjItemName},'%')
+        </if>
+        <if test="TaskInfo.taskName !=null and TaskInfo.taskName != '' "  >
+            and task_name like CONCAT('%',#{TaskInfo.taskName},'%')
+        </if>
+        <if test="TaskInfo.status !=null and TaskInfo.status != '' "  >
+            and status = #{TaskInfo.status}
+        </if>
+        <if test="TaskInfo.receiveUser !=null and TaskInfo.receiveUser != '' ">
+            and  receive_user like CONCAT('%',#{TaskInfo.receiveUser},'%')
+        </if>
+        <if test="TaskInfo.startTime != null">
+            and date_format(start_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfo.startTime},'%Y-%m-%d')
+        </if>
+        <if test="TaskInfo.endTime != null">
+            and date_format(start_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfo.endTime},'%Y-%m-%d')
+        </if>
+        <if test="TaskInfo.createUser !=null and TaskInfo.createUser != '' "  >
+            and t.create_user = #{TaskInfo.createUser}
+        </if>
+		order by t.create_time desc
+	</select>
 
 	<select id="qryFileIdByTaskId" resultType="java.lang.String">
 		select  ifnull(file_rel_id,'') as fileRelId from tx_task_info where task_id = #{taskId}
@@ -34,6 +72,17 @@
 
 	<update id="updateFileIds">
 		 update tx_task_info set file_rel_id = #{TaskInfo.fileRelId} where task_id = #{TaskInfo.taskId}
+	</update>
+
+	<update id="editTaskStatus">
+		update tx_task_info set status = #{status} where task_id = #{taskId}
+	</update>
+
+    <update id="makeSureToMakeDemand">
+		update tx_task_info set is_make_demand = '1' where task_id in
+		<foreach collection="list" separator="," close=")" open="(" item="taskId">
+            #{taskId}
+        </foreach>
 	</update>
 
 </mapper>

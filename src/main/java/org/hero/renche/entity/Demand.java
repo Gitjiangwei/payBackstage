@@ -39,9 +39,6 @@ public class Demand implements Serializable {
     /**创建人*/
     private String createName;
 
-/*    *//**状态  0：未发送 1：已发送 2：未处理 3：已处理*//*
-    private String isSend;*/
-
     /**处理时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -65,4 +62,10 @@ public class Demand implements Serializable {
     private String status;
     /*工程点ID*/
     private String prjItemId;
+
+    /**是否生成需求（0否  1是）*/
+    private String makeDemand;
+
+    /**关联任务*/
+    private String taskId;
 }

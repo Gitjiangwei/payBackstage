@@ -11,4 +11,8 @@
 		 select id as id,username as username from  sys_user  where username  like CONCAT('%',#{username},'%')
 	</select>
 
+	<select id="queryNaList" resultType="org.jeecg.modules.system.entity.SysUser">
+		 select id as id,realname as realname from  sys_user  where status = '1'
+	</select>
+
 </mapper>

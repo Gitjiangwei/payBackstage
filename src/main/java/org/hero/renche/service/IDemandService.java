@@ -1,30 +1,27 @@
 package org.hero.renche.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.Demand;
-import org.hero.renche.entity.vo.DemandVo;
-import org.springframework.beans.BeanUtils;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 public interface IDemandService extends IService<Demand> {
 
 
     /***
      * 添加设备需求
-     * @param demandVo
+     * @param demand
      * @return
      */
-    Boolean saveDemand(DemandVo demandVo);
+    Boolean saveDemand(Demand demand);
 
     /***
      * 修改设备需求
-     * @param demandVo
+     * @param demand
      * @return
      */
-    Boolean updateDemand(DemandVo demandVo);
+    Boolean updateDemand(Demand demand);
 
     /**
      * 修改设备需求状态
@@ -59,6 +56,13 @@ public interface IDemandService extends IService<Demand> {
      */
     PageInfo<Demand> queryDemand(Demand demand, Integer pageNo, Integer pageSize);
 
+    /**
+     * 查询任务设备需求
+     * @param taskId
+     * @return
+     */
+    List<Demand> queryTaskDemandList(String taskId);
+
 
     /**
      * 查询全部设备需求(只查询)
@@ -69,6 +73,12 @@ public interface IDemandService extends IService<Demand> {
      */
     PageInfo<Demand> queryDemandStatus(Demand demand, Integer pageNo, Integer pageSize);
 
+    /***
+     * 删除设备需求
+     * @param taskId
+     * @return
+     */
+    Boolean delDemandByTaskId(String taskId);
 
     /***
      * 删除设备需求
@@ -83,4 +93,11 @@ public interface IDemandService extends IService<Demand> {
      * @return
      */
     Boolean delDemands(String demandIds);
+
+    /**
+     * 任务需要设备生成设备需求
+     * @param taskId
+     * @return
+     */
+    boolean toMakeDemand(String taskId);
 }

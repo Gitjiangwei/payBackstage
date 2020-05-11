@@ -70,4 +70,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return sysUserRoleMapper.getRoleByUserName(username);
 	}
 
+	@Override
+	public List<SysUser> queryNaList() { return userMapper.queryNaList();}
+
 }

@@ -12,6 +12,7 @@ import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IProjectItemInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +48,7 @@ public class ProjectItemInfoController {
     @ApiOperation(value = "获取工程点信息列表", notes = "获取工程点信息列表", produces = "application/json")
     @GetMapping(value = "/list")
     public Result<PageInfo<ProjectItemVo>> list(ProjectItemInfo projectItem, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                  @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
+                                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<ProjectItemVo>> result = new Result<>();
         PageInfo<ProjectItemVo> pageList = projectItemInfoService.qryProjectItemInfo(projectItem,pageNo,pageSize);
         result.setSuccess(true);
@@ -70,6 +71,7 @@ public class ProjectItemInfoController {
         try {
             boolean ok = projectItemInfoService.save(projectItemInfo);
             result.success("添加成功！");
+            result.setResult(projectItemInfo);
         } catch (Exception e) {
             e.printStackTrace();
             log.info(e.getMessage());
@@ -297,6 +299,19 @@ public class ProjectItemInfoController {
                 result.error500("遇到未知异常，请及时排除！");
             }
         }
+        return result;
+    }
+
+    /**
+     * 根据工程点名称模糊查询工程点
+     */
+    @RequestMapping(value = "/queryItemList")
+    public Result<PageInfo<ProjectItemInfo>> queryItemList(@RequestParam(name = "prjItemName") String prjItemName, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                           @RequestParam(name = "pageSize", defaultValue = "30") Integer pageSize) {
+        Result<PageInfo<ProjectItemInfo>> result = new Result<>();
+        PageInfo<ProjectItemInfo> naList = projectItemInfoService.queryItemList(prjItemName,pageNo,pageSize);
+        result.setResult(naList);
+        result.setSuccess(true);
         return result;
     }
 

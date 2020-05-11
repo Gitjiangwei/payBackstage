@@ -37,4 +37,10 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @return
 	 */
 	public List<String> getRole(String username);
+
+	/**
+	 * 查询状态为正常的用户名称列表
+	 * @return
+	 */
+	List<SysUser> queryNaList();
 }

@@ -7,13 +7,17 @@ import org.hero.renche.entity.TaskInfo;
 import org.hero.renche.entity.vo.TaskInfoVo;
 import org.hero.renche.mapper.TaskInfoMapper;
 import org.hero.renche.service.ITaskInfoService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -28,6 +32,14 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
 
         PageHelper.startPage(page,pageSize);
         List<TaskInfoVo> taskInfoList = taskInfoMapper.qryTaskInfoList(taskInfo);
+        return new PageInfo<TaskInfoVo>(taskInfoList);
+    }
+
+    @Override
+    public PageInfo<TaskInfoVo> qryMyTaskInfoList(TaskInfo taskInfo, Integer page, Integer pageSize) {
+
+        PageHelper.startPage(page,pageSize);
+        List<TaskInfoVo> taskInfoList = taskInfoMapper.qryMyTaskInfoList(taskInfo);
         return new PageInfo<TaskInfoVo>(taskInfoList);
     }
 
@@ -52,16 +64,42 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
         return flag;
     }
 
-//    @Override
-//    public String exporttaskInfo (Map<String, String> map, HttpServletResponse response){
-//        try {
-//            taskInfo taskInfo = new taskInfo();
+    @Override
+    public boolean editTaskStatus(String taskId, String status){
+        int result = taskInfoMapper.editTaskStatus(taskId, status);
+        if(result>0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean makeSureToMakeDemand(String taskIds){
+        Boolean isFlag = false;
+        List<String> ids = new ArrayList<>();
+        if(taskIds.contains(",")){
+            ids = new ArrayList<String>(Arrays.asList(taskIds.split(",")));
+        }else {
+            ids.add(taskIds);
+        }
+
+        int result = taskInfoMapper.makeSureToMakeDemand(ids);
+        if(result>0){
+            isFlag = true;
+        }
+        return isFlag;
+    }
+
+    @Override
+    public void exportTaskInfo (Map<String, String> map, HttpServletResponse response){
+        try {
+            TaskInfo taskInfo = new TaskInfo();
 //            taskInfo.setCompanyName(map.get("companyName"));
 //            taskInfo.setShuihao(map.get("shuihao"));
 //            taskInfo.setType(map.get("type"));
 //
 //            List<taskInfoVo> taskInfoList = taskInfoMapper.qryListtaskInfo(taskInfo);
-//            List<List<Object>> lists=new ArrayList<>();
+            List<List<Object>> lists=new ArrayList<>();
 //            List<Object> list=null;
 //            taskInfoVo vo = null;
 //            for(int i = 0; i < taskInfoList.size(); i++){
@@ -81,18 +119,17 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
 //                list.add(vo.getAddress());
 //                lists.add(list);
 //            }
-//
-//            ExcelData excelData=new ExcelData();
-//            excelData.setName("客户信息");
-//            String[] titleColumn = {"公司名称","公司类型","税号","开户银行","银行账号","联系人","联系电话","身份证号","邮箱","公司简介","公司地址"};
-//            List<String> titlesList = Arrays.asList(titleColumn);
-//            excelData.setTitles(titlesList);
-//            excelData.setRows(lists);
-//            ExcelUtils.exportExcel(response , "客户信息.xlsx" , excelData);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return "导出成功";
-//    }
+
+            ExcelData excelData=new ExcelData();
+            excelData.setName("客户信息");
+            String[] titleColumn = {"公司名称","公司类型","税号","开户银行","银行账号","联系人","联系电话","身份证号","邮箱","公司简介","公司地址"};
+            List<String> titlesList = Arrays.asList(titleColumn);
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "客户信息.xlsx" , excelData);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

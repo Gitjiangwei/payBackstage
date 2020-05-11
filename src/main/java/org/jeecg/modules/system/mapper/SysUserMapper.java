@@ -23,4 +23,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	public SysUser getUserByName(@Param("username") String username);
 
 	List<SysUser>  qrySysUserList(@Param("username") String username);
+
+	List<SysUser> queryNaList();
 }

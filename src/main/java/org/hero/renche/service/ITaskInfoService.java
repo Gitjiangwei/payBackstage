@@ -14,8 +14,14 @@ public interface ITaskInfoService extends IService<TaskInfo> {
 
     PageInfo<TaskInfoVo> qryTaskInfoList(TaskInfo taskInfo, Integer page, Integer pageSize);
 
+    PageInfo<TaskInfoVo> qryMyTaskInfoList(TaskInfo taskInfo, Integer page, Integer pageSize);
+
     boolean updateFileIds(TaskInfo taskInfo);
 
-//    void exportBackInfo(Map<String, String> map, HttpServletResponse response);
+    void exportTaskInfo(Map<String, String> map, HttpServletResponse response);
+
+    boolean editTaskStatus(String taskId, String status);
+
+    boolean makeSureToMakeDemand(String taskIds);
 
 }

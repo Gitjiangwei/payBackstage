@@ -280,5 +280,17 @@ public class SysUserController {
 		return result;
 	}
 
+	/**
+	 * 查询状态为正常的用户名称列表
+	 */
+	@RequestMapping(value = "/queryNaList", method = RequestMethod.GET)
+	public Result<List<SysUser>> queryNaList() {
+		Result<List<SysUser>> result = new Result<>();
+		List<SysUser> naList = sysUserService.queryNaList();
+		result.setResult(naList);
+		result.setSuccess(true);
+		return result;
+	}
+
 
 }
