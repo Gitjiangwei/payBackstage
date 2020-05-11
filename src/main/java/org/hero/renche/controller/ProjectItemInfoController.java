@@ -3,8 +3,10 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.projectStatus;
 import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.ProProgressRecord;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemTransformation;
@@ -65,11 +67,24 @@ public class ProjectItemInfoController {
     @AutoLog(value = "添加工程点信息")
     public Result<ProjectItemInfo> add(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
         projectItemInfo.setHasConnection("0");
         projectItemInfo.setCreateTime(new Date());
+        projectItemInfo.setCreateUser(sysUser.getId());
+        projectItemInfo.setCreateUserName(sysUser.getRealname());
         try {
             boolean ok = projectItemInfoService.save(projectItemInfo);
+            String progressOfItem = projectItemInfo.getProgressOfItem();
+            if(progressOfItem != null && !"".equals(progressOfItem)){
+                ProProgressRecord proProgressRecord = new ProProgressRecord();
+                proProgressRecord.setPrjItemId(projectItemInfo.getPrjItemId());
+                proProgressRecord.setProgressOfItem(progressOfItem);
+                proProgressRecord.setIsUse("1");//默认使用
+                proProgressRecord.setCreateUser(sysUser.getId());
+                proProgressRecord.setCreateUserName(sysUser.getRealname());
+                projectItemInfoService.addProgressRecord(proProgressRecord);
+            }
             result.success("添加成功！");
             result.setResult(projectItemInfo);
         } catch (Exception e) {
@@ -94,7 +109,18 @@ public class ProjectItemInfoController {
             result.error500("未找到对应实体");
         } else {
             boolean ok = projectItemInfoService.updateById(projectItemInfo);
-            // TODO 返回false说明什么？
+
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            String progressOfItem = projectItemInfo.getProgressOfItem();
+            if(progressOfItem != null && !"".equals(progressOfItem)){
+                ProProgressRecord proProgressRecord = new ProProgressRecord();
+                proProgressRecord.setPrjItemId(projectItemInfo.getPrjItemId());
+                proProgressRecord.setProgressOfItem(progressOfItem);
+                proProgressRecord.setIsUse("1");//默认使用
+                proProgressRecord.setCreateUser(sysUser.getId());
+                proProgressRecord.setCreateUserName(sysUser.getRealname());
+                projectItemInfoService.addProgressRecord(proProgressRecord);
+            }
             if (ok) {
                 result.success("修改成功!");
             }

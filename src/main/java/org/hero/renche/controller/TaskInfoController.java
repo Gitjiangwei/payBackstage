@@ -5,16 +5,20 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import javafx.concurrent.Task;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.ProProgressRecord;
 import org.hero.renche.entity.TaskInfo;
 import org.hero.renche.entity.vo.TaskInfoVo;
 import org.hero.renche.service.IDemandService;
+import org.hero.renche.service.IProjectItemInfoService;
 import org.hero.renche.service.ITaskInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.modules.system.entity.SysUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +39,8 @@ public class TaskInfoController {
     private ITaskInfoService taskInfoService;
     @Autowired
     private IDemandService demandService;
+    @Autowired
+    private IProjectItemInfoService projectItemInfoService;
 
     /**
      * 分页列表查询
@@ -52,7 +58,7 @@ public class TaskInfoController {
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         taskInfo.setCreateUser(sysUser.getId());
         PageInfo<TaskInfoVo> taskInfoPageInfo = taskInfoService.qryTaskInfoList(taskInfo,pageNo,pageSize);
-        result.setSuccess(true);
+        result.success(sysUser.getId());
         result.setResult(taskInfoPageInfo);
         return result;
     }
@@ -74,7 +80,7 @@ public class TaskInfoController {
         taskInfo.setReceiveUser(sysUser.getId());
 
         PageInfo<TaskInfoVo> taskInfoPageInfo = taskInfoService.qryMyTaskInfoList(taskInfo,pageNo,pageSize);
-        result.setSuccess(true);
+        result.success(sysUser.getId());
         result.setResult(taskInfoPageInfo);
         return result;
     }
@@ -89,13 +95,18 @@ public class TaskInfoController {
         Result<TaskInfo> result = new Result<TaskInfo>();
         try {
             SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-            TaskInfo taskInfo = JSON.parseObject(jsonObject.toJSONString(), TaskInfo.class);
+            TaskInfoVo taskInfoVo = JSON.parseObject(jsonObject.toJSONString(), TaskInfoVo.class);
+            String progressOfItem = taskInfoVo.getProgressOfItem();
+
+            TaskInfo taskInfo = new TaskInfo();
+            BeanUtils.copyProperties(taskInfoVo, taskInfo);
             List<Demand> demandList = new ArrayList<>();
             JSONArray demandArray = jsonObject.getJSONArray("demandList");
 
             //保存任务
             taskInfo.setCreateTime(new Date());
             taskInfo.setCreateUser(sysUser.getId());
+            taskInfo.setCreateUserName(sysUser.getRealname());
             //获取选择的负责人
             String selectUser = jsonObject.getString("selectUser");
             String selectUserName = jsonObject.getString("selectUserName");
@@ -106,8 +117,8 @@ public class TaskInfoController {
             if(demandArray != null && demandArray.size() != 0){
                 taskInfo.setIsMakeDemand("0");//默认否
             }
-
             taskInfoService.save(taskInfo);
+
             //保存需要设备
             if(demandArray != null){
                 demandList = demandArray.toJavaList(Demand.class);
@@ -119,11 +130,23 @@ public class TaskInfoController {
                 }
             }
 
+            //保存工程进度并记录
+            if(progressOfItem != null && !"".equals(progressOfItem)){
+                projectItemInfoService.updatePrjProgress(taskInfo.getPrjItemId(),progressOfItem);
+                ProProgressRecord proProgressRecord = new ProProgressRecord();
+                proProgressRecord.setPrjItemId(taskInfo.getPrjItemId());
+                proProgressRecord.setProgressOfItem(progressOfItem);
+                proProgressRecord.setIsUse("1");//默认使用
+                proProgressRecord.setCreateUser(sysUser.getId());
+                proProgressRecord.setCreateUserName(sysUser.getRealname());
+                projectItemInfoService.addProgressRecord(proProgressRecord);
+            }
+
             result.success("添加成功！");
         } catch (Exception e) {
             e.printStackTrace();
             log.info(e.getMessage());
-            result.error500("操作失败");
+            result.error500("出现异常，操作失败");
         }
         return result;
     }
@@ -138,7 +161,11 @@ public class TaskInfoController {
         Result<TaskInfo> result = new Result<TaskInfo>();
         try {
             SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-            TaskInfo taskInfo = JSON.parseObject(jsonObject.toJSONString(), TaskInfo.class);
+            TaskInfoVo taskInfoVo = JSON.parseObject(jsonObject.toJSONString(), TaskInfoVo.class);
+            String progressOfItem = taskInfoVo.getProgressOfItem();
+
+            TaskInfo taskInfo = new TaskInfo();
+            BeanUtils.copyProperties(taskInfoVo, taskInfo);
 
             String taskId = taskInfo.getTaskId();
             String prjItemId = taskInfo.getPrjItemId();
@@ -175,6 +202,18 @@ public class TaskInfoController {
                         demand.setMakeDemand("0");//未生成需求
                         demandService.saveDemand(demand);
                     }
+                }
+
+                //保存工程进度并记录
+                if(progressOfItem != null && !"".equals(progressOfItem)){
+                    projectItemInfoService.updatePrjProgress(taskInfo.getPrjItemId(),progressOfItem);
+                    ProProgressRecord proProgressRecord = new ProProgressRecord();
+                    proProgressRecord.setPrjItemId(taskInfo.getPrjItemId());
+                    proProgressRecord.setProgressOfItem(progressOfItem);
+                    proProgressRecord.setIsUse("1");//默认使用
+                    proProgressRecord.setCreateUser(sysUser.getId());
+                    proProgressRecord.setCreateUserName(sysUser.getRealname());
+                    projectItemInfoService.addProgressRecord(proProgressRecord);
                 }
 
                 result.success("修改成功!");

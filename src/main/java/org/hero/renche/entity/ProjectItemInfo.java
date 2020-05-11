@@ -66,5 +66,9 @@ public class ProjectItemInfo implements Serializable {
     private String buildType;
     /**设备拥有方式（0租赁 1购买）*/
     private String haveWay;
+    /**创建人*/
+    private String createUserName;
+    /**创建人*/
+    private String createUser;
 
 }

@@ -66,5 +66,9 @@ public class ContractInfo implements Serializable {
     private String fileRelId;
     /**创建时间*/
     private Date createTime;
+    /**创建人*/
+    private String createUserName;
+    /**创建人*/
+    private String createUser;
 
 }
