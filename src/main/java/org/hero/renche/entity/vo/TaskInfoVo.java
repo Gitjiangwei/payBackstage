@@ -1,7 +1,6 @@
 package org.hero.renche.entity.vo;
 
 import lombok.Data;
-import org.apache.poi.ss.formula.functions.T;
 import org.hero.renche.entity.TaskInfo;
 
 import java.io.Serializable;
@@ -13,5 +12,7 @@ public class TaskInfoVo extends TaskInfo implements Serializable {
 
     /**附件个数**/
     private String fileCount = "0";
+    /**工程进度**/
+    private String progressOfItem;
 
 }

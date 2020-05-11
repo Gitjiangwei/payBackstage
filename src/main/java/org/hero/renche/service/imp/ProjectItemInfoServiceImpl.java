@@ -6,29 +6,30 @@ import com.github.pagehelper.PageInfo;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.projectStatus;
-import org.hero.renche.entity.CompanyInfo;
+import org.hero.renche.entity.ProProgressRecord;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.mapper.CompanyInfoMapper;
 import org.hero.renche.mapper.DictMapper;
+import org.hero.renche.mapper.ProProgressRecordMapper;
 import org.hero.renche.mapper.ProjectItemInfoMapper;
 import org.hero.renche.service.IProjectItemInfoService;
 import org.hero.renche.util.CMPOIDao;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.hero.renche.utils.ContactUtils;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.SimpleFormatter;
 
 @Service
 @Transactional
@@ -40,6 +41,8 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
     private CompanyInfoMapper companyInfoMapper;
     @Autowired
     private DictMapper dictMapper;
+    @Autowired
+    private ProProgressRecordMapper proProgressRecordMapper;
 
     @Override
     public PageInfo<ProjectItemVo> qryProjectItemInfo(ProjectItemInfo projectItemInfo, Integer page, Integer pageSize) {
@@ -379,6 +382,25 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
         PageHelper.startPage(pageNo,pageSize);
         List<ProjectItemInfo> projectItemInfoList = projectItemInfoMapper.qryProjectItemInfoList(itemName);
         return new PageInfo<ProjectItemInfo>(projectItemInfoList);
+    }
+
+    @Override
+    public boolean updatePrjProgress(String prjItemId, String progress){
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        int ok = projectItemInfoMapper.updatePrjProgress(prjItemId, progress);
+        if(ok > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addProgressRecord(ProProgressRecord proProgressRecord){
+        int num = proProgressRecordMapper.addProgressRecord(proProgressRecord);
+        if(num > 0){
+            return true;
+        }
+        return false;
     }
 
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.ContractInfo;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.vo.ContractInfoTransformation;
@@ -12,6 +13,7 @@ import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IContractInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,8 +79,11 @@ public class ContractInfoController {
     @AutoLog(value = "添加合同信息")
     public Result<ContractInfo> add(@RequestBody ContractInfoVo contractInfoVo) {
         Result<ContractInfo> result = new Result<>();
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         ContractInfo contractInfo = ContractInfoTransformation.toPo(contractInfoVo);
         contractInfo.setCreateTime(new Date());
+        contractInfo.setCreateUser(sysUser.getId());
+        contractInfo.setCreateUserName(sysUser.getRealname());
         try {
             boolean ok = contractInfoService.save(contractInfo);
             result.setResult(contractInfo);

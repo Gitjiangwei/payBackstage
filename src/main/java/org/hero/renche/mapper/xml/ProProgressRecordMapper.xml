@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.ProProgressRecordMapper">
+
+
+    <insert id="addProgressRecord">
+        insert into tx_pro_progress_record(prj_item_id,progress_of_item,create_time,create_user,create_user_name,is_use)
+        values(#{prjItemId},#{progressOfItem},now(),#{createUser},#{createUserName},#{isUse});
+    </insert>
+
+    <select id="qryProgressRecord" resultType="org.hero.renche.entity.ProProgressRecord">
+        select prj_item_id as prjItemId,progress_of_item as progressOfItem, create_time as createTime,create_user_name as createUserName
+        from tx_pro_progress_record p
+        where prj_item_id = #{prjItemId}
+        order by p.create_time desc
+    </select>
+
+</mapper>

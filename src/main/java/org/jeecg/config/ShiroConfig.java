@@ -67,6 +67,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/renche/projectItem/exportPrjItemModel", "anon");
 		filterChainDefinitionMap.put("/renche/moneyBack/exportBackInfo", "anon");
 		filterChainDefinitionMap.put("/renche/contractInfo/exportContractInfo", "anon");
+		filterChainDefinitionMap.put("/renche/taskInfo/exportTaskInfo", "anon");
 		//filterChainDefinitionMap.put("/renche/**", "anon");
 
 		filterChainDefinitionMap.put("/test/jeecgDemo/hello", "anon");//测试helloworld

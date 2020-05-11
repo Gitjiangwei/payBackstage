@@ -3,6 +3,7 @@ package org.hero.renche.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.controller.voentity.projectStatus;
+import org.hero.renche.entity.ProProgressRecord;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
 import org.hero.renche.entity.vo.ProjectItemVo;
@@ -40,5 +41,9 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
     boolean updateFileIds(ProjectItemInfo projectItemInfo);
 
     PageInfo<ProjectItemInfo> queryItemList(String itemName,Integer pageNo,Integer pageSize);
+
+    boolean updatePrjProgress(String prjItemId, String progress);
+
+    boolean addProgressRecord(ProProgressRecord proProgressRecord);
 
 }

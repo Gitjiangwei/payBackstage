@@ -33,4 +33,6 @@ public interface ProjectItemInfoMapper extends BaseMapper<ProjectItemInfo> {
     int updateFileIds(@Param("ProjectItemInfo") ProjectItemInfo projectItemInfo);
 
     List<ProjectItemInfo> qryProjectItemInfoList(String name);
+
+    int updatePrjProgress(@Param("prjItemId") String prjItemId,@Param("progress") String progress);
 }
