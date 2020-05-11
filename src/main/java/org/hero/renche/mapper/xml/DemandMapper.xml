@@ -12,28 +12,28 @@
         <trim prefix="SET" suffixOverrides=",">
             update_time = NOW(),
             <if test="equipmentName!=null and equipmentName != '' ">
-                equipment_name = #{equipmentName},
+                equipment_name = #{equipmentName}
             </if>
             <if test="equipmentModel != null and equipmentModel != '' ">
-                equipment_model = #{equipmentModel},
+                equipment_model = #{equipmentModel}
             </if>
             <if test="equipmentNumber != null and equipmentNumber != ''">
-                equipment_number = #{equipmentNumber},
+                equipment_number = #{equipmentNumber}
             </if>
             <if test="createName != null and createName != '' ">
-                create_name = #{createName},
+                create_name = #{createName}
             </if>
             <if test="status != null and status != '' ">
-                status = #{status},
+                status = #{status}
             </if>
             <if test="remarks != null and remarks != '' ">
-                remarks = #{remarks},
+                remarks = #{remarks}
             </if>
             <if test="reasons != null and reasons != ''">
-                reasons = #{reasons},
+                reasons = #{reasons}
             </if>
             <if test="haveWay != null and haveWay != ''">
-                have_way = #{haveWay},
+                have_way = #{haveWay}
             </if>
 
         </trim>
@@ -53,7 +53,7 @@
                 and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
             </if>
             <if test="Demand.status != null and Demand.status != '' ">
-               and status = #{Demand.status},
+               and status = #{Demand.status}
             </if>
         </trim>
         order by update_time desc ,create_time desc
