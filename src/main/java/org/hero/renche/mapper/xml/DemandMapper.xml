@@ -3,8 +3,8 @@
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
     
     <insert id="saveDemand">
-        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,have_way)
-        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{haveWay})
+        insert into tx_demand(demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,status,remarks,have_way,create_user_id)
+        values (#{demandId},#{equipmentName},#{equipmentModel},#{equipmentNumber},NOW(),#{createName},#{status},#{remarks},#{haveWay},#{createUserId})
     </insert>
 
     <update id="updateDemand">
@@ -64,9 +64,9 @@
         </if>
         union
         SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
-        status,whether_time,remarks,reasons , have_way from tx_demand where ifnull(task_id,'') != '' and make_demand = '1'
+        status,whether_time,remarks,reasons , have_way from tx_demand
         <trim prefix="where" prefixOverrides="and">
-
+            ifnull(task_id,'') != '' and make_demand = '1'
             <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">
                 and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
             </if>
@@ -119,4 +119,9 @@
             #{item}
         </foreach>
     </update>
+
+
+    <select id="getDemandByPrjItenId" resultType="org.hero.renche.entity.Demand">
+        select * from tx_demand where  prj_item_id = #{prjItemId}
+    </select>
 </mapper>

@@ -1,8 +1,10 @@
 package org.hero.renche.service.imp;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.hero.renche.entity.Demand;
 import org.hero.renche.entity.OutEquipInfo;
 import org.hero.renche.mapper.OutEquipInfoMapper;
+import org.hero.renche.service.IDemandService;
 import org.hero.renche.service.IOutEquipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,23 @@ public class OutEquipServiceImpl extends ServiceImpl<OutEquipInfoMapper, OutEqui
     @Autowired
     private OutEquipInfoMapper outEquipInfoMapper;
 
+    @Autowired
+    private IDemandService demandService;
+
     @Override
     public Boolean equipInfoOut(String equipIds, String prjItemId) {
         Boolean flag = false;
         List<OutEquipInfo> outEquipInfoList = new ArrayList<OutEquipInfo>();
         List<String> stringList = new ArrayList<String>(Arrays.asList(equipIds.split(",")));
+        Demand demand=demandService.getDemandByPrjItenId(prjItemId);
+        if(demand!=null){
+            String demandId=demand.getDemandId();
+            String status="1";
+            Boolean isOk= demandService.AdviceStatus(demandId,status);
+        }
+
+
+
         for (int i = 0; i<stringList.size(); i++){
             OutEquipInfo outEquipInfo = new OutEquipInfo();
             outEquipInfo.setOutId(UUID.randomUUID().toString().replace("-",""));

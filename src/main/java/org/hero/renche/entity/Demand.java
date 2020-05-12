@@ -68,4 +68,7 @@ public class Demand implements Serializable {
 
     /**关联任务*/
     private String taskId;
+
+    /*创建人ID*/
+    private  String createUserId;
 }
