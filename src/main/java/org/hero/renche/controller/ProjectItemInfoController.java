@@ -59,6 +59,21 @@ public class ProjectItemInfoController {
     }
 
     /**
+     * 根据id查询工程点信息
+     * @param prjItemId
+     * @return
+     */
+    @ApiOperation(value = "根据id查询招标信息", notes = "根据id查询招标信息", produces = "application/json")
+    @GetMapping(value = "/qryPrjItemById")
+    public Result<ProjectItemVo> qryPrjItemById(@RequestParam(name = "prjItemId") String prjItemId) {
+        Result<ProjectItemVo> result = new Result<>();
+        ProjectItemVo info = projectItemInfoService.qryPrjItemById(prjItemId);
+        result.setSuccess(true);
+        result.setResult(info);
+        return result;
+    }
+
+    /**
      * 添加
      * @param projectItemVo
      * @return
