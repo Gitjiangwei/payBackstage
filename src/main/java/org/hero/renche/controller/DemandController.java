@@ -93,16 +93,17 @@ public class DemandController {
 
 
     @AutoLog("通知工程人员领料")
-    @PostMapping(value = "/advice")
+    @PostMapping(value = "/advice1")
     public Result<T> adviceStatus(@RequestParam(name = "demandId") String demandId,
-                                  @RequestParam(name = "status") String status){
+                                  @RequestParam(name = "status") String status,
+                                  @RequestParam(name = "taskId") String taskId){
         Result<T> result = new Result<T>();
         if(demandId==null || demandId.equals("")){
             result.error500("参数丢失！");
         }else{
             MessageInfo messageInfo=new MessageInfo();
 
-            Boolean resultOk = demandService.AdviceStatus(demandId,status);
+            Boolean resultOk = demandService.AdviceStatus(demandId,status,taskId);
             if(resultOk){
                     result.success("通知成功");
             }else {
@@ -113,7 +114,25 @@ public class DemandController {
     }
 
 
+    @AutoLog("修改处理状态")
+    @PostMapping(value = "/updateStatus1")
+    public Result<T> updateStatus1(@RequestParam(name = "demandId") String demandId,
+                                  @RequestParam(name = "status") String status
+                                  ){
+        Result<T> result = new Result<T>();
+        if(demandId==null || demandId.equals("")){
+            result.error500("参数丢失！");
+        }else{
 
+            Boolean resultOk = demandService.updateDemandStatus(demandId,status);
+            if(resultOk){
+                result.setSuccess(true);
+            }else {
+                result.error500("处理失败！");
+            }
+        }
+        return result;
+    }
 
 
 
