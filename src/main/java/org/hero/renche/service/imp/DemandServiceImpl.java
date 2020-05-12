@@ -14,6 +14,7 @@ import org.hero.renche.service.ICompanyInfoService;
 import org.hero.renche.service.IDemandService;
 import org.hero.renche.service.IMessageInfoService;
 import org.jeecg.modules.system.entity.SysUser;
+import org.jeecg.modules.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,9 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     private ProjectItemInfoMapper projectItemInfoMapper;
     @Autowired
     private IMessageInfoService iMessageInfoService;
+
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
 
 
@@ -128,11 +132,18 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             demand.setDemandId(demandId);
             Demand demand1=demandMapper.selectById(demandId);
             ProjectItemInfo projectItemInfo=null;
-            String createName=null;
+            String createName="";
+            String createNameId="";
             String mesFrom="";
+            SysUser sysUser1=null;
             if(demand1!=null){
                 String prjItemId=demand1.getPrjItemId();
                 createName=demand1.getCreateName()==null?"":demand1.getCreateName();
+                sysUser1=sysUserMapper.getUserByName(createName);
+                if(sysUser1!=null){
+                    createNameId=sysUser1.getId();
+                }
+
                 if(prjItemId!=null){
                     projectItemInfo=  projectItemInfoMapper.selectById(prjItemId);
                     mesFrom="任务管理";
@@ -149,7 +160,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             messageInfo.setMessageFrom(mesFrom);
             messageInfo.setMessageStatus("1");
             messageInfo.setMessageType("2");
-            messageInfo.setReciveUser(createName);
+            messageInfo.setReciveUser(createNameId);
             messageInfo.setCreateUser(userName);
             Boolean isOk=  iMessageInfoService.save(messageInfo);
 
