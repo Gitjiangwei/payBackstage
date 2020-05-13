@@ -119,7 +119,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
          * 通知工程人员领料
          * */
     @Override
-    public Boolean AdviceStatus(String demandId,  String status) {
+    public Boolean AdviceStatus(String demandId,  String status , String taskId) {
         Boolean isFlag = false;
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         String userName="";
@@ -152,7 +152,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 }
             }
             String prjItemName=  projectItemInfo.getPrjItemName();
-            String mesCon="工程点“（"+prjItemName+"）”的设备需求已处理，请及时领料！";
+            String mesCon="工程点: "+prjItemName+"  的设备已到货，请领料！";
             MessageInfo messageInfo=new MessageInfo();
             messageInfo.setMessageId(UUID.randomUUID().toString().replace("-",""));
             messageInfo.setCreateTime(new Date());
@@ -162,10 +162,11 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             messageInfo.setMessageType("2");
             messageInfo.setReciveUser(createNameId);
             messageInfo.setCreateUser(userName);
+            messageInfo.setRelId(taskId==null?"":taskId);
             Boolean isOk=  iMessageInfoService.save(messageInfo);
 
 
-            int result = demandMapper.updateDemand(demand);
+            int result = demandMapper.updateDemandStatus(demand);
             if (result > 0 && isOk==true){
                     isFlag = true;
             }
@@ -180,12 +181,12 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      * @return
      */
     @Override
-    public Boolean updateDemandStatus(String demandId, String reasons) {
+    public Boolean updateDemandStatus(String demandId, String status) {
         Boolean isFlag = false;
         if(demandId!=null&& !demandId.equals("")){
             Demand demand = new Demand();
             demand.setDemandId(demandId);
-            demand.setReasons(reasons);
+            demand.setStatus(status);
             int result = demandMapper.updateDemandStatus(demand);
             if(result > 0){
                 isFlag = true;

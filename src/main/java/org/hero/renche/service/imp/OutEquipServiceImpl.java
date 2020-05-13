@@ -30,11 +30,11 @@ public class OutEquipServiceImpl extends ServiceImpl<OutEquipInfoMapper, OutEqui
         List<OutEquipInfo> outEquipInfoList = new ArrayList<OutEquipInfo>();
         List<String> stringList = new ArrayList<String>(Arrays.asList(equipIds.split(",")));
         Demand demand=demandService.getDemandByPrjItenId(prjItemId);
-        if(demand!=null){
+       /* if(demand!=null){
             String demandId=demand.getDemandId();
             String status="1";
-            Boolean isOk= demandService.AdviceStatus(demandId,status);
-        }
+            Boolean isOk= demandService.updateDemandStatus(demandId,status);
+        }*/
 
 
 

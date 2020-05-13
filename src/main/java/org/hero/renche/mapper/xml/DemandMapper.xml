@@ -11,51 +11,48 @@
         update tx_demand
         <trim prefix="SET" suffixOverrides=",">
             update_time = NOW(),
-            <if test="equipmentName!=null and equipmentName != '' ">
-                equipment_name = #{equipmentName},
+            <if test="Demand.equipmentName!=null and Demand.equipmentName != '' ">
+                equipment_name = #{Demand.equipmentName},
             </if>
-            <if test="equipmentModel != null and equipmentModel != '' ">
-                equipment_model = #{equipmentModel},
+            <if test="Demand.equipmentModel != null and Demand.equipmentModel != '' ">
+                equipment_model = #{Demand.equipmentModel},
             </if>
-            <if test="equipmentNumber != null and equipmentNumber != ''">
-                equipment_number = #{equipmentNumber},
+            <if test="Demand.equipmentNumber != null and Demand.equipmentNumber != ''">
+                equipment_number = #{Demand.equipmentNumber},
             </if>
-            <if test="createName != null and createName != '' ">
-                create_name = #{createName},
+            <if test="Demand.createName != null and Demand.createName != '' ">
+                create_name = #{Demand.createName},
             </if>
-            <if test="status != null and status != '' ">
-                status = #{status},
+            <if test="Demand.status != null and Demand.status != '' ">
+                status = #{Demand.status},
             </if>
-            <if test="remarks != null and remarks != '' ">
-                remarks = #{remarks},
+            <if test="Demand.remarks != null and Demand.remarks != '' ">
+                remarks = #{Demand.remarks},
             </if>
-            <if test="reasons != null and reasons != ''">
-                reasons = #{reasons},
+            <if test="Demand.taskId != null and Demand.taskId != ''">,,,
+                task_id = #{Demand.taskId},
             </if>
-            <if test="taskId != null and taskId != ''">,,,
-                task_id = #{taskId},
+            <if test="Demand.prjItemId != null and Demand.prjItemId != ''">
+                prj_item_id = #{Demand.prjItemId},
             </if>
-            <if test="prjItemId != null and prjItemId != ''">
-                prj_item_id = #{prjItemId},
+            <if test="Demand.makeDemand != null and Demand.makeDemand != ''">
+                make_demand = #{Demand.makeDemand},
             </if>
-            <if test="makeDemand != null and makeDemand != ''">
-                make_demand = #{makeDemand},
-            </if>
-            <if test="haveWay != null and haveWay != ''">
-                have_way = #{haveWay},
+            <if test="Demand.haveWay != null and Demand.haveWay != ''">
+                have_way = #{Demand.haveWay},
             </if>
         </trim>
         where demand_id = #{demandId}
     </update>
 
     <update id="updateDemandStatus">
-        update tx_demand SET whether_time = NOW(),status="3",reasons = #{reasons}
+        update tx_demand SET status=#{status}
         where demand_id = #{demandId}
     </update>
 
     <select id="queryDemand"  resultType="org.hero.renche.entity.Demand">
         SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
-            status,whether_time,remarks,reasons , have_way from tx_demand where ifnull(task_id,'') = ''
+            status,whether_time,remarks,reasons , have_way ,task_id from tx_demand where ifnull(task_id,'') = ''
         <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">
             and equipment_name like CONCAT('%',#{Demand.equipmentName},'%')
         </if>
@@ -64,7 +61,7 @@
         </if>
         union
         SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
-        status,whether_time,remarks,reasons , have_way from tx_demand
+        status,whether_time,remarks,reasons , have_way , task_id from tx_demand
         <trim prefix="where" prefixOverrides="and">
             ifnull(task_id,'') != '' and make_demand = '1'
             <if test="Demand.equipmentName != null and Demand.equipmentName != '' ">

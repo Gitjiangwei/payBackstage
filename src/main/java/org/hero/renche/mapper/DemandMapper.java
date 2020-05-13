@@ -20,7 +20,7 @@ public interface DemandMapper extends BaseMapper<Demand> {
      * @param demand
      * @return
      */
-    int updateDemand(Demand demand);
+    int updateDemand(@Param("Demand")  Demand demand);
 
     /***
      * 设备需求退回

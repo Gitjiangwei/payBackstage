@@ -36,16 +36,16 @@ public interface IDemandService extends IService<Demand> {
      * @param adviceStatus
      * @return
      */
-    Boolean AdviceStatus(String demandId,  String status);
+    Boolean AdviceStatus(String demandId,  String status , String taskId);
 
 
     /***
-     * 设备需求退回
+     * 修改设备需求状态
      * @param demandId
      * @param reasons
      * @return
      */
-    Boolean updateDemandStatus(String demandId,String reasons);
+    Boolean updateDemandStatus(String demandId,String status);
 
     /**
      * 查询全部设备需求
