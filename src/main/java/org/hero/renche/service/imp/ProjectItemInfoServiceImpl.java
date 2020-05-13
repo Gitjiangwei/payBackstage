@@ -403,4 +403,7 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
         return false;
     }
 
+    @Override
+    public ProjectItemVo qryPrjItemById(String prjItemId){  return projectItemInfoMapper.qryPrjItemById(prjItemId);}
+
 }

@@ -46,4 +46,6 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
 
     boolean addProgressRecord(ProProgressRecord proProgressRecord);
 
+    ProjectItemVo qryPrjItemById(String prjItemId);
+
 }
