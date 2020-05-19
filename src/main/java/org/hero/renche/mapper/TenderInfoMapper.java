@@ -3,7 +3,7 @@ package org.hero.renche.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.TenderInfo;
-import org.hero.renche.entity.vo.ContractInfoVo;
+import org.hero.renche.entity.vo.TenderInfoVo;
 
 import java.util.List;
 
@@ -13,11 +13,13 @@ import java.util.List;
  */
 public interface TenderInfoMapper extends BaseMapper<TenderInfo> {
 
-    List<TenderInfo> qryTenderList(@Param("TenderInfo") TenderInfo tenderInfo);
-    int addTenser(@Param("TenderInfo") TenderInfo tenderInfo);
-    int deleteBatchTenderInfo(List<String> paramIds);
+    List<TenderInfoVo> qryTenderList(@Param("TenderInfo") TenderInfo tenderInfo);
+
     List exportTenderInfoList(@Param("TenderInfo") TenderInfo tenderInfo);
-    int updateTenderInfo(@Param("TenderInfo") TenderInfo tenderInfo);
 
     TenderInfo qryTenderById(@Param("tenderId") String tenderId);
+
+    int updateFileIds(@Param("TenderInfo") TenderInfo tenderInfo);
+
+    String qryFileIdsById(String tenderId);
 }

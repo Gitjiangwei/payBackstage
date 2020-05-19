@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface TaskInfoMapper extends BaseMapper<TaskInfo> {
 
-    List<TaskInfoVo> qryTaskInfoList(@Param("TaskInfo") TaskInfo taskInfo);
+    List<TaskInfoVo> qryTaskInfoList(@Param("TaskInfoVo") TaskInfoVo taskInfoVo);
 
-    List<TaskInfoVo> qryMyTaskInfoList(@Param("TaskInfo") TaskInfo taskInfo);
+    List<TaskInfoVo> qryMyTaskInfoList(@Param("TaskInfoVo") TaskInfoVo taskInfoVo);
 
     int updateFileIds(@Param("TaskInfo") TaskInfo taskInfo);
 

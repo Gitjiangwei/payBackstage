@@ -178,6 +178,7 @@ public class EquipInfoController {
     public Result<PageInfo<EquipInfo>> exportEquip(@RequestParam(value = "param") String params, HttpServletResponse response){
         Result<PageInfo<EquipInfo>> result=new Result<>();
         try{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             params = params.replace("\"","");
             String[] paramStrs = params.split(",");
             Map<String,String> map = new HashMap<>();
@@ -193,7 +194,6 @@ public class EquipInfoController {
                 list=new ArrayList();
                 vv=qryList.get(i);
                 Date date1= vv.getCreateTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                 String createTime = formatter.format(date1);
                 list.add(i+1);
                 list.add(vv.getEquipName());

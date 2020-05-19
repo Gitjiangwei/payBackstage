@@ -297,7 +297,7 @@ public class WorkOrderInfoController {
 
 
         try{
-
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             params = params.replace("\"","");
             String[] paramStrs = params.split(",");
             Map<String,String> map = new HashMap<>();
@@ -321,7 +321,6 @@ public class WorkOrderInfoController {
                 vv=qryList.get(i);
                 Date date1= vv.getCreateTime();
                 Date date2=vv.getCompleteTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                 String createTime = formatter.format(date1);
                 String completeTime = formatter.format(date2);
                 list.add(i+1);

@@ -55,6 +55,7 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
     @Override
     public String exportWorkServiceInfo(Map<String, String> map, HttpServletResponse response) {
         try{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             WorkServiceInfoVo workServiceInfoVo=new WorkServiceInfoVo();
             String workName=map.get("workName")==null ?"":map.get("workName");
             String companyName=map.get("companyName")==null ?"":map.get("companyName");
@@ -73,7 +74,6 @@ public class WorkServiceInfoServiceImpl implements WorkServiceInfoService {
                 Date  realityTime= vv.getRealityExecuTime();
                 Date planOut=vv.getPlanOutTime();
                 Date reaLityOut=vv.getRealityOutTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                 list.add(i+1);
                 list.add(vv.getWorkName());
                 list.add(vv.getCompanyName());

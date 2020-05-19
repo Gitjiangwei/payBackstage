@@ -31,7 +31,7 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
 
 
     @Override
-    public PageInfo<TaskInfoVo> qryTaskInfoList(TaskInfo taskInfo, Integer page, Integer pageSize) {
+    public PageInfo<TaskInfoVo> qryTaskInfoList(TaskInfoVo taskInfo, Integer page, Integer pageSize) {
 
         PageHelper.startPage(page,pageSize);
         List<TaskInfoVo> taskInfoList = taskInfoMapper.qryTaskInfoList(taskInfo);
@@ -39,7 +39,7 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
     }
 
     @Override
-    public PageInfo<TaskInfoVo> qryMyTaskInfoList(TaskInfo taskInfo, Integer page, Integer pageSize) {
+    public PageInfo<TaskInfoVo> qryMyTaskInfoList(TaskInfoVo taskInfo, Integer page, Integer pageSize) {
 
         PageHelper.startPage(page,pageSize);
         List<TaskInfoVo> taskInfoList = taskInfoMapper.qryMyTaskInfoList(taskInfo);
@@ -98,7 +98,7 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
             String mark = map.get("mark");
-            TaskInfo taskInfo = new TaskInfo();
+            TaskInfoVo taskInfo = new TaskInfoVo();
             taskInfo.setPrjItemName(map.get("prjItemName"));
             taskInfo.setTaskName(map.get("taskName"));
             taskInfo.setStatus(map.get("status"));

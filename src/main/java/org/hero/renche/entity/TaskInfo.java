@@ -24,8 +24,6 @@ public class TaskInfo implements Serializable {
     private String taskId;
     /**关联工程点id*/
     private String prjItemId;
-    /**工程点名称*/
-    private String prjItemName;
     /**任务名称*/
     private String taskName;
     /**任务详情*/

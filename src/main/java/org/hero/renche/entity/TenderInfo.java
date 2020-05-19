@@ -67,5 +67,7 @@ public class TenderInfo implements Serializable {
     private Date realityOutTime;
     /**备注*/
     private String remark;
+    /**关联附件id*/
+    private String fileRelId;
 
 }

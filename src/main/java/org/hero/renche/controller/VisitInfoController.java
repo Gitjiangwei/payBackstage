@@ -287,6 +287,7 @@ public class VisitInfoController {
                 username=sysUser.getUsername();
             }
             voViditInfo.setVisitor(username);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             List<VoViditInfo> qryList=visitService.qryViditInfolist(voViditInfo);
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
@@ -295,7 +296,6 @@ public class VisitInfoController {
                 list=new ArrayList();
                 vv=qryList.get(i);
                 Date date= vv.getVisitTime();
-               SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
                String dateString = formatter.format(date);
                list.add(i+1);
                list.add(vv.getCompanyName());

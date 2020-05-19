@@ -52,7 +52,7 @@ public class TaskInfoController {
      */
     @ApiOperation(value = "获取任务信息列表", notes = "获取任务信息列表", produces = "application/json")
     @GetMapping(value = "/list")
-    public Result<PageInfo<TaskInfoVo>> list(TaskInfo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<TaskInfoVo>> list(TaskInfoVo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<TaskInfoVo>> result = new Result<>();
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
@@ -73,7 +73,7 @@ public class TaskInfoController {
      */
     @ApiOperation(value = "获取我的任务列表", notes = "获取我的任务列表", produces = "application/json")
     @GetMapping(value = "/qryMyTaskInfoList")
-    public Result<PageInfo<TaskInfoVo>> qryMyTaskInfoList(TaskInfo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public Result<PageInfo<TaskInfoVo>> qryMyTaskInfoList(TaskInfoVo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<TaskInfoVo>> result = new Result<>();
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();

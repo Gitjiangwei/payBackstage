@@ -3,11 +3,12 @@
 <mapper namespace="org.hero.renche.mapper.TenderInfoMapper">
 
 
-    <select id="qryTenderList" resultType="org.hero.renche.entity.TenderInfo">
+    <select id="qryTenderList" resultType="org.hero.renche.entity.vo.TenderInfoVo">
         SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
             tender_company as tenderCompany,tender_offer as tenderOffer,deposit,is_back as isBack,agency,purchase_person as purchasePerson,
-            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay
-        FROM tx_tender_info
+            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay,
+            ifnull(t.file_rel_id,'') as fileRelId ,length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
+        FROM tx_tender_info t
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">
                 and prj_name like CONCAT('%',#{TenderInfo.prjName},'%')
@@ -26,34 +27,11 @@
     <select id="qryTenderById" resultType="org.hero.renche.entity.TenderInfo">
         SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
             tender_company as tenderCompany,tender_offer as tenderOffer,deposit,is_back as isBack,agency,purchase_person as purchasePerson,
-            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay
-        FROM tx_tender_info
+            service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay,
+            ifnull(t.file_rel_id,'') as fileRelId
+        FROM tx_tender_info t
         where tender_id = #{tenderId}
     </select>
-
-
-    <insert id="addTenser" parameterType="org.hero.renche.entity.TenderInfo">
-        insert into  tx_tender_info(tender_id , tender_no ,prj_name ,tender_company ,tender_offer ,
-         deposit ,is_back ,create_time ,agency ,purchase_person ,service_money ,
-          pay_time ,recede_time , pay_way , recede_deposit, plan_out_time , reality_out_time, remark)
-        values (#{TenderInfo.tenderId},#{TenderInfo.tenderNo},
-        #{TenderInfo.prjName},#{TenderInfo.tenderCompany},
-        #{TenderInfo.tenderOffer},#{TenderInfo.deposit},
-        #{TenderInfo.isBack},#{TenderInfo.createTime},
-        #{TenderInfo.agency},#{TenderInfo.purchasePerson},
-        #{TenderInfo.serviceMoney},#{TenderInfo.payTime},
-        #{TenderInfo.recedeTime},#{TenderInfo.payWay},
-        #{TenderInfo.recedeDeposit}, #{TenderInfo.planOutTime}, #{TenderInfo.realityOutTime}),#{TenderInfo.remark})
-
-    </insert>
-
-    <delete id="deleteBatchTenderInfo">
-
-        delete from tx_tender_info where tender_id in
-        <foreach collection="list" item="paramIds" open="(" close=")" separator=",">
-            #{paramIds}
-        </foreach>
-    </delete>
 
     <select id="exportTenderInfoList" resultType="org.hero.renche.entity.TenderInfo">
         SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
@@ -76,77 +54,13 @@
         order by create_time desc
     </select>
 
-    <update id="updateTenderInfo" parameterType="org.hero.renche.entity.TenderInfo">
-        UPDATE tx_tender_info
-        <trim prefix="set" suffixOverrides=",">
-            <if test="TenderInfo.tenderNo!= null and TenderInfo.tenderNo != ''">
-                tender_no =#{TenderInfo.tenderNo},
-            </if>
-            <if test="TenderInfo.prjName!= null and TenderInfo.prjName != ''">
-                prj_name =#{TenderInfo.prjName},
-            </if>
-            <if test="TenderInfo.tenderCompany!= null and TenderInfo.tenderCompany != ''">
-                tender_company =#{TenderInfo.tenderCompany},
-            </if>
-            <if test="TenderInfo.tenderOffer!= null and TenderInfo.tenderOffer != ''">
-                tender_offer =#{TenderInfo.tenderOffer},
-            </if>
-            <if test="TenderInfo.deposit!= null and TenderInfo.deposit != ''">
-                deposit =#{TenderInfo.deposit},
-            </if>
-            <if test="TenderInfo.isBack!= null and TenderInfo.isBack != ''">
-                is_back =#{TenderInfo.isBack},
-            </if>
-            <if test="TenderInfo.agency!= null and TenderInfo.agency != ''">
-                agency =#{TenderInfo.agency},
-            </if>
-            <if test="TenderInfo.purchasePerson!= null and TenderInfo.purchasePerson != ''">
-                purchase_person =#{TenderInfo.purchasePerson},
-            </if>
-            <if test="TenderInfo.serviceMoney!= null and TenderInfo.serviceMoney != ''">
-                service_money =#{TenderInfo.serviceMoney},
-            </if>
-            <if test="TenderInfo.payWay!= null and TenderInfo.payWay != ''">
-                pay_way =#{TenderInfo.payWay},
-            </if>
-            <if test="TenderInfo.recedeDeposit!= null and TenderInfo.recedeDeposit != ''">
-                recede_deposit =#{TenderInfo.recedeDeposit},
-            </if>
-            <if test="TenderInfo.remark!= null and TenderInfo.remark != ''">
-                remark =#{TenderInfo.remark},
-            </if>
-            <if test="TenderInfo.payTime!= null ">
-                pay_time =#{TenderInfo.payTime},
-            </if>
-            <if test="TenderInfo.planOutTime!= null ">
-                plan_out_time =#{TenderInfo.planOutTime},
-            </if>
-            <if test="TenderInfo.realityOutTime!= null ">
-                reality_out_time =#{TenderInfo.realityOutTime},
-            </if>
-            <if test="TenderInfo.recedeTime!= null ">
-                recede_time=#{TenderInfo.recedeTime},
-            </if>
-            <if test="TenderInfo.payTime== null">
-                pay_time = null ,
-            </if>
-            <if test="TenderInfo.planOutTime== null ">
-                plan_out_time = null ,
-            </if>
-            <if test="TenderInfo.realityOutTime== null ">
-                reality_out_time= null ,
-            </if>
-            <if test="TenderInfo.recedeTime== null ">
-                recede_time= null ,
-            </if>
+    <select id="qryFileIdsById" resultType="java.lang.String">
+        select  ifnull(file_rel_id,'') as fileRelId from tx_tender_info where tender_id = #{tenderId}
+    </select>
 
-        </trim>
-
-
-        WHERE
-                tender_id =#{TenderInfo.tenderId}
-
+    <update id="updateFileIds">
+           update tx_tender_info set  file_rel_id = #{TenderInfo.fileRelId}
+            where tender_id = #{TenderInfo.tenderId}
     </update>
-
 
 </mapper>

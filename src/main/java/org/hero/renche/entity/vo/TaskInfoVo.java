@@ -14,5 +14,7 @@ public class TaskInfoVo extends TaskInfo implements Serializable {
     private String fileCount = "0";
     /**工程进度**/
     private String progressOfItem;
+    /**工程点名称*/
+    private String prjItemName;
 
 }

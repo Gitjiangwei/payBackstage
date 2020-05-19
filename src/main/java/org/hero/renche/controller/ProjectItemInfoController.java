@@ -5,16 +5,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.hero.renche.controller.voentity.projectStatus;
-import org.hero.renche.entity.CompanyInfo;
 import org.hero.renche.entity.ProProgressRecord;
 import org.hero.renche.entity.ProjectItemInfo;
 import org.hero.renche.entity.modelData.ProjectItemModel;
-import org.hero.renche.entity.vo.ProjectItemTransformation;
 import org.hero.renche.entity.vo.ProjectItemVo;
 import org.hero.renche.service.IProjectItemInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.modules.system.entity.SysUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,7 +71,6 @@ public class ProjectItemInfoController {
         result.setResult(info);
         return result;
     }
-
     /**
      * 添加
      * @param projectItemVo
@@ -83,7 +81,8 @@ public class ProjectItemInfoController {
     public Result<ProjectItemInfo> add(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
+        ProjectItemInfo projectItemInfo = new ProjectItemInfo();
+        BeanUtils.copyProperties(projectItemVo, projectItemInfo);
         projectItemInfo.setHasConnection("0");
         projectItemInfo.setCreateTime(new Date());
         projectItemInfo.setCreateUser(sysUser.getId());
@@ -118,7 +117,8 @@ public class ProjectItemInfoController {
     @PutMapping(value = "/edit")
     public Result<ProjectItemInfo> eidt(@RequestBody ProjectItemVo projectItemVo) {
         Result<ProjectItemInfo> result = new Result<>();
-        ProjectItemInfo projectItemInfo = ProjectItemTransformation.toPo(projectItemVo);
+        ProjectItemInfo projectItemInfo = new ProjectItemInfo();
+        BeanUtils.copyProperties(projectItemVo, projectItemInfo);
         ProjectItemInfo projectItemInfoEntity = projectItemInfoService.getById(projectItemInfo.getPrjItemId());
         if (projectItemInfoEntity == null) {
             result.error500("未找到对应实体");

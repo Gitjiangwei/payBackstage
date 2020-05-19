@@ -244,6 +244,7 @@ public class PurchaseInfoController {
         Result<PageInfo<PurchaseInfo>> result=new Result<>();
 
         try{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             params = params.replace("\"","");
             String[] paramStrs = params.split(",");
             Map<String,String> map = new HashMap<>();
@@ -272,8 +273,7 @@ public class PurchaseInfoController {
                 Date date1= vv.getCreateTime();
                 Date date2=vv.getPurchaseTime();
                 Date date3=vv.getArrivalTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
-                 String purchaseTime = formatter.format(date2);
+                String purchaseTime = formatter.format(date2);
                 String arrivalTime =formatter.format(date3);
                 list.add(i+1);
                 list.add(vv.getPurchaseItem());
