@@ -67,6 +67,7 @@ public class CompanyInfoController {
         try {
             boolean ok = companyInfoService.save(companyInfo);
             result.success("添加成功！");
+            result.setResult(companyInfo);
         } catch (Exception e) {
             e.printStackTrace();
             log.info(e.getMessage());

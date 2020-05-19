@@ -78,7 +78,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             }else{
                 demand.setCreateName("");
             }
-            int result = demandMapper.updateDemand(demand);
+            int result = demandMapper.updateById(demand);
             if(result>0){
                 isFlag = true;
             }

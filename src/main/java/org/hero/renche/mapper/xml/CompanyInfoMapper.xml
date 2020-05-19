@@ -8,7 +8,7 @@
 
     <select id="qryListCompanyInfo" resultType="org.hero.renche.entity.vo.CompanyInfoVo">
 
-        select company_id as companyId,company_name as companyName,type,shuihao,bank,bank_no as bankNo,contacts,phone,id_card as idCard,
+        select company_id as companyId ,company_name as companyName,type,shuihao,bank,bank_no as bankNo,contacts,phone,id_card as idCard,
             introduc,address,email,ifnull(c.file_rel_id,'') as fileRelId,dict_code_name as typeName,
             length(c.file_rel_id)-length(replace(c.file_rel_id,',','')) as fileCount
         from tx_company_info c
