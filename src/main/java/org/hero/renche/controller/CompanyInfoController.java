@@ -64,6 +64,7 @@ public class CompanyInfoController {
     public Result<CompanyInfo> add(@RequestBody CompanyInfo companyInfo) {
         Result<CompanyInfo> result = new Result<CompanyInfo>();
         companyInfo.setCreateTime(new Date());
+
         try {
             boolean ok = companyInfoService.save(companyInfo);
             result.success("添加成功！");
