@@ -2,70 +2,107 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.TaskInfoMapper">
 
-
     <select id="qryTaskInfoList" resultType="org.hero.renche.entity.vo.TaskInfoVo">
 		select t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
-			t.receive_user as receiveUser,t.receive_user_name as receiveUserName,t.plan_start_time as planStartTime,t.plan_end_time as planEndTime,
-			t.start_time as startTime,t.end_time as endTime,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
-			t.file_rel_id as fileRelId,t.create_user_name as createUserName,t.is_make_demand as isMakeDemand,
-			length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount,p.progress_of_item as progressOfItem
+		t.receive_user as receiveUser,s.realname as receiveUserName,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
+		t.file_rel_id as fileRelId,u.realname as createUserName,t.is_make_demand as isMakeDemand,t.create_time as createTime,
+		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
 		from tx_task_info t
 		left join tx_project_item p on p.prj_item_id = t.prj_item_id
-	<trim prefix="where" prefixOverrides="and">
-        <if test="TaskInfoVo.prjItemName !=null and TaskInfoVo.prjItemName != '' ">
-            and  t.prj_item_name like CONCAT('%',#{TaskInfoVo.prjItemName},'%')
-        </if>
-        <if test="TaskInfoVo.taskName !=null and TaskInfoVo.taskName != '' "  >
-            and t.task_name like CONCAT('%',#{TaskInfoVo.taskName},'%')
-        </if>
-		<if test="TaskInfoVo.status !=null and TaskInfoVo.status != '' "  >
-			and t.status = #{TaskInfoVo.status}
+		left join sys_user s on s.id = t.receive_user
+		left join sys_user u on u.id = t.create_user
+		where t.status != '1'
+		<if test="TaskInfoVo.prjItemName != null and TaskInfoVo.prjItemName != '' ">
+			and  p.prj_item_name like CONCAT('%',#{TaskInfoVo.prjItemName},'%')
 		</if>
-		<if test="TaskInfoVo.receiveUser !=null and TaskInfoVo.receiveUser != '' ">
-			and t.receive_user like CONCAT('%',#{TaskInfoVo.receiveUser},'%')
+		<if test="TaskInfoVo.taskName != null and TaskInfoVo.taskName != '' "  >
+			and task_name like CONCAT('%',#{TaskInfoVo.taskName},'%')
+		</if>
+		<if test="TaskInfoVo.status != null and TaskInfoVo.status != '' "  >
+			and status = #{TaskInfoVo.status}
+		</if>
+		<if test="TaskInfoVo.receiveUserName != null and TaskInfoVo.receiveUserName != '' ">
+			and  s.realname like CONCAT('%',#{TaskInfoVo.receiveUserName},'%')
+		</if>
+		<if test="TaskInfoVo.createUserName != null and TaskInfoVo.createUserName != '' ">
+			and  u.realname like CONCAT('%',#{TaskInfoVo.createUserName},'%')
 		</if>
 		<if test="TaskInfoVo.startTime != null">
-			and date_format(t.start_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfoVo.startTime},'%Y-%m-%d')
+			and date_format(create_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfoVo.startTime},'%Y-%m-%d')
 		</if>
 		<if test="TaskInfoVo.endTime != null">
-			and date_format(t.start_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfoVo.endTime},'%Y-%m-%d')
+			and date_format(create_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfoVo.endTime},'%Y-%m-%d')
 		</if>
-		<if test="TaskInfoVo.createUser !=null and TaskInfoVo.createUser != '' "  >
-			and t.create_user = #{TaskInfoVo.createUser}
-		</if>
-    </trim>
-		order by t.create_time desc
-    </select>
-	<select id="qryMyTaskInfoList" resultType="org.hero.renche.entity.vo.TaskInfoVo">
+		union
 		select t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
-		t.receive_user as receiveUser,t.receive_user_name as receiveUserName,t.plan_start_time as planStartTime,t.plan_end_time as planEndTime,
-		t.start_time as startTime,t.end_time as endTime,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
-		t.file_rel_id as fileRelId,t.create_user_name as createUserName,t.is_make_demand as isMakeDemand,
-		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount,p.progress_of_item as progressOfItem
+		t.receive_user as receiveUser,s.realname as receiveUserName,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
+		t.file_rel_id as fileRelId,u.realname as createUserName,t.is_make_demand as isMakeDemand,t.create_time as createTime,
+		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
 		from tx_task_info t
 		left join tx_project_item p on p.prj_item_id = t.prj_item_id
-		where t.status != '0'
-        <if test="TaskInfoVo.prjItemName !=null and TaskInfoVo.prjItemName != '' ">
-            and  prj_item_name like CONCAT('%',#{TaskInfoVo.prjItemName},'%')
-        </if>
-        <if test="TaskInfoVo.taskName !=null and TaskInfoVo.taskName != '' "  >
-            and task_name like CONCAT('%',#{TaskInfoVo.taskName},'%')
-        </if>
-        <if test="TaskInfoVo.status !=null and TaskInfoVo.status != '' "  >
-            and status = #{TaskInfoVo.status}
-        </if>
-        <if test="TaskInfoVo.receiveUser !=null and TaskInfoVo.receiveUser != '' ">
-            and  receive_user like CONCAT('%',#{TaskInfoVo.receiveUser},'%')
-        </if>
-        <if test="TaskInfoVo.startTime != null">
-            and date_format(start_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfoVo.startTime},'%Y-%m-%d')
-        </if>
-        <if test="TaskInfoVo.endTime != null">
-            and date_format(start_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfoVo.endTime},'%Y-%m-%d')
-        </if>
-        <if test="TaskInfoVo.createUser !=null and TaskInfoVo.createUser != '' "  >
-            and t.create_user = #{TaskInfoVo.createUser}
-        </if>
+		left join sys_user s on s.id = t.receive_user
+		left join sys_user u on u.id = t.create_user
+		where t.status = '1'
+		<if test="TaskInfoVo.prjItemName != null and TaskInfoVo.prjItemName != '' ">
+			and  p.prj_item_name like CONCAT('%',#{TaskInfoVo.prjItemName},'%')
+		</if>
+		<if test="TaskInfoVo.taskName != null and TaskInfoVo.taskName != '' "  >
+			and task_name like CONCAT('%',#{TaskInfoVo.taskName},'%')
+		</if>
+		<if test="TaskInfoVo.status != null and TaskInfoVo.status != '' "  >
+			and status = #{TaskInfoVo.status}
+		</if>
+		<if test="TaskInfoVo.receiveUserName != null and TaskInfoVo.receiveUserName != '' ">
+			and  s.realname like CONCAT('%',#{TaskInfoVo.receiveUserName},'%')
+		</if>
+		<if test="TaskInfoVo.createUserName != null and TaskInfoVo.createUserName != '' ">
+			and  u.realname like CONCAT('%',#{TaskInfoVo.createUserName},'%')
+		</if>
+		<if test="TaskInfoVo.createUser != null and TaskInfoVo.createUser != '' ">
+			and  t.create_user = #{TaskInfoVo.createUser}
+		</if>
+		<if test="TaskInfoVo.startTime != null">
+			and date_format(create_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfoVo.startTime},'%Y-%m-%d')
+		</if>
+		<if test="TaskInfoVo.endTime != null">
+			and date_format(create_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfoVo.endTime},'%Y-%m-%d')
+		</if>
+		order by createTime desc
+    </select>
+
+	<select id="qryMyTaskInfoList" resultType="org.hero.renche.entity.vo.TaskInfoVo">
+		select t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
+		t.receive_user as receiveUser,s.realname as receiveUserName,t.plan_start_time as planStartTime,t.plan_end_time as planEndTime,
+		t.start_time as startTime,t.end_time as endTime,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
+		t.file_rel_id as fileRelId,u.realname as createUserName,t.is_make_demand as isMakeDemand,
+		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
+		from tx_task_info t
+		left join tx_project_item p on p.prj_item_id = t.prj_item_id
+		left join sys_user s on s.id = t.receive_user
+		left join sys_user u on u.id = t.create_user
+		<trim prefix="where" prefixOverrides="and">
+			<if test="TaskInfoVo.prjItemName != null and TaskInfoVo.prjItemName != '' ">
+				and  p.prj_item_name like CONCAT('%',#{TaskInfoVo.prjItemName},'%')
+			</if>
+			<if test="TaskInfoVo.taskName != null and TaskInfoVo.taskName != '' "  >
+				and task_name like CONCAT('%',#{TaskInfoVo.taskName},'%')
+			</if>
+			<if test="TaskInfoVo.status != null and TaskInfoVo.status != '' "  >
+				and status = #{TaskInfoVo.status}
+			</if>
+			<if test="TaskInfoVo.receiveUser != null and TaskInfoVo.receiveUser != '' ">
+				and  s.realname like CONCAT('%',#{TaskInfoVo.receiveUser},'%')
+			</if>
+			<if test="TaskInfoVo.createUser != null and TaskInfoVo.createUser != '' ">
+				and  u.realname like CONCAT('%',#{TaskInfoVo.createUser},'%')
+			</if>
+			<if test="TaskInfoVo.startTime != null">
+				and date_format(start_time,'%Y-%m-%d')  <![CDATA[ >= ]]> date_format(#{TaskInfoVo.startTime},'%Y-%m-%d')
+			</if>
+			<if test="TaskInfoVo.endTime != null">
+				and date_format(start_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  date_format(#{TaskInfoVo.endTime},'%Y-%m-%d')
+			</if>
+		</trim>
 		order by t.create_time desc
 	</select>
 

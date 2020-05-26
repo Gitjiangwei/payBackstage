@@ -30,8 +30,6 @@ public class TaskInfo implements Serializable {
     private String taskContent;
     /**负责人*/
     private String receiveUser;
-    /**负责人*/
-    private String receiveUserName;
     /**计划开始时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -52,17 +50,15 @@ public class TaskInfo implements Serializable {
     private String contactPerson;
     /**联系电话*/
     private String contactTel;
-    /**任务状态(0新建 1进行中 2已结束)*/
+    /**任务状态(0已结束 1待提交 2待采购确认 3待执行)*/
     private String status;
     /**关联附件id*/
     private String fileRelId;
     /**创建人*/
     private String createUser;
-    /**创建人*/
-    private String createUserName;
     /**创建时间*/
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
     /**是否生成需求设备(空为没有设备 0否 1是)*/
     private String isMakeDemand;

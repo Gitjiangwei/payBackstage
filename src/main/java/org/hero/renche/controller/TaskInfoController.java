@@ -55,10 +55,12 @@ public class TaskInfoController {
     public Result<PageInfo<TaskInfoVo>> list(TaskInfoVo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<TaskInfoVo>> result = new Result<>();
-        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        taskInfo.setCreateUser(sysUser.getId());
+        if(taskInfo.getCreateUserName() == null || "".equals(taskInfo.getCreateUserName())){
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            taskInfo.setCreateUser(sysUser.getId());
+        }
         PageInfo<TaskInfoVo> taskInfoPageInfo = taskInfoService.qryTaskInfoList(taskInfo,pageNo,pageSize);
-        result.success(sysUser.getId());
+        result.setSuccess(true);
         result.setResult(taskInfoPageInfo);
         return result;
     }
@@ -76,11 +78,12 @@ public class TaskInfoController {
     public Result<PageInfo<TaskInfoVo>> qryMyTaskInfoList(TaskInfoVo taskInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
         Result<PageInfo<TaskInfoVo>> result = new Result<>();
-        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        taskInfo.setReceiveUser(sysUser.getId());
+//        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+//        taskInfo.setReceiveUser(sysUser.getId());
 
         PageInfo<TaskInfoVo> taskInfoPageInfo = taskInfoService.qryMyTaskInfoList(taskInfo,pageNo,pageSize);
-        result.success(sysUser.getId());
+//        result.success(sysUser.getId());
+        result.setSuccess(true);
         result.setResult(taskInfoPageInfo);
         return result;
     }
@@ -96,7 +99,6 @@ public class TaskInfoController {
         try {
             SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
             TaskInfoVo taskInfoVo = JSON.parseObject(jsonObject.toJSONString(), TaskInfoVo.class);
-            String progressOfItem = taskInfoVo.getProgressOfItem();
 
             TaskInfo taskInfo = new TaskInfo();
             BeanUtils.copyProperties(taskInfoVo, taskInfo);
@@ -106,14 +108,9 @@ public class TaskInfoController {
             //保存任务
             taskInfo.setCreateTime(new Date());
             taskInfo.setCreateUser(sysUser.getId());
-            taskInfo.setCreateUserName(sysUser.getRealname());
             //获取选择的负责人
             String selectUser = jsonObject.getString("selectUser");
-            String selectUserName = jsonObject.getString("selectUserName");
-            selectUser = selectUser.substring(1, selectUser.length()-1);
-            selectUserName = selectUserName.substring(1, selectUserName.length()-1);
             taskInfo.setReceiveUser(selectUser);
-            taskInfo.setReceiveUserName(selectUserName);
             if(demandArray != null && demandArray.size() != 0){
                 taskInfo.setIsMakeDemand("0");//默认否
             }
@@ -128,18 +125,6 @@ public class TaskInfoController {
                     demand.setMakeDemand("0");//未生成需求
                     demandService.saveDemand(demand);
                 }
-            }
-
-            //保存工程进度并记录
-            if(progressOfItem != null && !"".equals(progressOfItem)){
-                projectItemInfoService.updatePrjProgress(taskInfo.getPrjItemId(),progressOfItem);
-                ProProgressRecord proProgressRecord = new ProProgressRecord();
-                proProgressRecord.setPrjItemId(taskInfo.getPrjItemId());
-                proProgressRecord.setProgressOfItem(progressOfItem);
-                proProgressRecord.setIsUse("1");//默认使用
-                proProgressRecord.setCreateUser(sysUser.getId());
-                proProgressRecord.setCreateUserName(sysUser.getRealname());
-                projectItemInfoService.addProgressRecord(proProgressRecord);
             }
 
             result.success("添加成功！");
@@ -162,7 +147,6 @@ public class TaskInfoController {
         try {
             SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
             TaskInfoVo taskInfoVo = JSON.parseObject(jsonObject.toJSONString(), TaskInfoVo.class);
-            String progressOfItem = taskInfoVo.getProgressOfItem();
 
             TaskInfo taskInfo = new TaskInfo();
             BeanUtils.copyProperties(taskInfoVo, taskInfo);
@@ -173,19 +157,15 @@ public class TaskInfoController {
             if (taskInfoEntity == null) {
                 result.error500("未找到对应实体");
             } else {
+                taskInfo.setCreateTime(taskInfoEntity.getCreateTime());
                 List<Demand> demandList = new ArrayList<>();
                 JSONArray demandArray = jsonObject.getJSONArray("demandList");
 
                 //获取选择的负责人
                 String selectUser = jsonObject.getString("selectUser");
-                String selectUserName = jsonObject.getString("selectUserName");
-                selectUser = selectUser.substring(1, selectUser.length()-1);
-                selectUserName = selectUserName.substring(1, selectUserName.length()-1);
                 taskInfo.setReceiveUser(selectUser);
-                taskInfo.setReceiveUserName(selectUserName);
                 if(demandArray != null && demandArray.size() != 0){
                     if(taskInfo.getIsMakeDemand() == null || "".equals(taskInfo.getIsMakeDemand())){
-
                         taskInfo.setIsMakeDemand("0");//默认否
                     }
                 }
@@ -202,18 +182,6 @@ public class TaskInfoController {
                         demand.setMakeDemand("0");//未生成需求
                         demandService.saveDemand(demand);
                     }
-                }
-
-                //保存工程进度并记录
-                if(progressOfItem != null && !"".equals(progressOfItem)){
-                    projectItemInfoService.updatePrjProgress(taskInfo.getPrjItemId(),progressOfItem);
-                    ProProgressRecord proProgressRecord = new ProProgressRecord();
-                    proProgressRecord.setPrjItemId(taskInfo.getPrjItemId());
-                    proProgressRecord.setProgressOfItem(progressOfItem);
-                    proProgressRecord.setIsUse("1");//默认使用
-                    proProgressRecord.setCreateUser(sysUser.getId());
-                    proProgressRecord.setCreateUserName(sysUser.getRealname());
-                    projectItemInfoService.addProgressRecord(proProgressRecord);
                 }
 
                 result.success("修改成功!");

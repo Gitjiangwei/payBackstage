@@ -97,7 +97,6 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
     public void exportTaskInfo (Map<String, String> map, HttpServletResponse response){
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-            String mark = map.get("mark");
             TaskInfoVo taskInfo = new TaskInfoVo();
             taskInfo.setPrjItemName(map.get("prjItemName"));
             taskInfo.setTaskName(map.get("taskName"));
@@ -108,16 +107,9 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
             if(map.get("endTime") != null){
                 taskInfo.setEndTime(sdf.parse(map.get("endTime")));
             }
-            List<TaskInfoVo> taskInfoList = null;
-            if(mark.equals("create")){
-                taskInfo.setCreateUser(map.get("createUser"));
-                taskInfo.setReceiveUserName(map.get("receiveUserName"));
-                taskInfoList = taskInfoMapper.qryTaskInfoList(taskInfo);
-            }else if(mark.equals("query")){
-                taskInfo.setReceiveUser(map.get("receiveUser"));
-                taskInfo.setCreateUserName(map.get("createUserName"));
-                taskInfoList = taskInfoMapper.qryMyTaskInfoList(taskInfo);
-            }
+            taskInfo.setCreateUser(map.get("createUser"));
+            taskInfo.setReceiveUserName(map.get("receiveUser"));
+            List<TaskInfoVo> taskInfoList = taskInfoMapper.qryTaskInfoList(taskInfo);
 
             List<List<Object>> lists=new ArrayList<>();
             List<Object> list=null;
@@ -128,33 +120,31 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
                     vo=taskInfoList.get(i);
 
                     list.add(vo.getTaskName());
-                    list.add(vo.getTaskContent());
                     list.add(vo.getPrjItemName());
                     list.add(vo.getContactPerson());
                     list.add(vo.getContactTel());
                     list.add(vo.getReceiveUserName());
-                    if(vo.getPlanStartTime() != null){
-                        list.add(sdf.format(vo.getPlanStartTime()));
-                    }else{
-                        list.add("");
-                    }
-                    if(vo.getPlanEndTime() != null){
-                        list.add(sdf.format(vo.getPlanEndTime()));
-                    }else{
-                        list.add("");
-                    }
-                    if(vo.getStartTime() != null){
-                        list.add(sdf.format(vo.getStartTime()));
-                    }else{
-                        list.add("");
-                    }
-                    if(vo.getEndTime() != null){
-                        list.add(sdf.format(vo.getEndTime()));
-                    }else{
-                        list.add("");
-                    }
-
-                    list.add(vo.getProgressOfItem());
+//                    if(vo.getPlanStartTime() != null){
+//                        list.add(sdf.format(vo.getPlanStartTime()));
+//                    }else{
+//                        list.add("");
+//                    }
+//                    if(vo.getPlanEndTime() != null){
+//                        list.add(sdf.format(vo.getPlanEndTime()));
+//                    }else{
+//                        list.add("");
+//                    }
+//                    if(vo.getStartTime() != null){
+//                        list.add(sdf.format(vo.getStartTime()));
+//                    }else{
+//                        list.add("");
+//                    }
+//                    if(vo.getEndTime() != null){
+//                        list.add(sdf.format(vo.getEndTime()));
+//                    }else{
+//                        list.add("");
+//                    }
+                    list.add(vo.getTaskContent());
                     if("0".equals(vo.getStatus())){
                         list.add("新建");
                     }else if("1".equals(vo.getStatus())){
@@ -169,7 +159,8 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
 
             ExcelData excelData=new ExcelData();
             excelData.setName("任务信息");
-            String[] titleColumn = {"任务名称","任务内容","工程点名称","联系人","联系电话","负责人","计划开始时间","计划结束时间","实际开始时间","实际结束时间","任务进度","任务状态","创建人"};
+//            String[] titleColumn = {"任务名称","任务内容","工程点名称","联系人","联系电话","负责人","计划开始时间","计划结束时间","实际开始时间","实际结束时间","任务进度","任务状态","创建人"};
+            String[] titleColumn = {"任务名称","工程点名称","联系人","联系电话","负责人","任务内容","任务状态","创建人"};
             List<String> titlesList = Arrays.asList(titleColumn);
             excelData.setTitles(titlesList);
             excelData.setRows(lists);

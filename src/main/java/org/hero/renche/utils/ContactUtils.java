@@ -4,32 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ContactUtils {
-
-    public static  final String telRegex = "^\\(0[0-9]{2,3}\\-\\)?\\([2-9][0-9]{6,7}\\)+\\(\\-[0-9]{1,4}\\)?$|^[1][3-9]\\d{9}$";
-
-    /** 客户类型**/
-    public static  final String  CUSTOMERTYPE = "CUSTOMETYPE";
-    public static  final String  CUSTOMERTYPE_PERSONAL = "PERSONAL";//个人
-    public static  final String  CUSTOMERTYPE_MIDDLEMAN = "MIDDLEMAN";//中间商
-    public static  final String  CUSTOMERTYPE_MANUFACTURER = "MANUFACTURER";//制造商
-    public static  final String  CUSTOMERTYPE_GOVERNMENT = "GOVERNMENT";//政府
-
-    /** 设备状态**/
-    public static  final String  ELECTSTATUS = "ELECTSTATUS";
-    public static  final String  ELECTSTATUS_FREE_ = "FREE";//空闲
-    public static  final String  ELECTSTATUS_INREPAIR = "INREPAIR";//维修中
-    public static  final String  ELECTSTATUS_INUSE = "INUSE";//使用中
-    public static  final String  ELECTSTATUS_SCRAP = "SCRAP";//报废
-
-    /** 工程类型**/
-    public static  final String  PROJECTITEMTYPE = "PROJECTITEMTYPE";
-    public static  final String  PROJECTITEMTYPE_PERSONORCAR = "PERSONORCAR";//人车
-    public static  final String  PROJECTITEMTYPE_FOURG = "FOURG";//4G
-
-    /** 提醒周期类型 **/
-    public static  final String  REMINDPERIODTYPE = "REMINDPERIODTYPE";
-    public static  final String  REMINDPERIODTYPE_WEEK = "WEEK";//按周
-    public static  final String  REMINDPERIODTYPE_MONTH = "MONTH";//按月
+    public static final String telRegex = "^\\(0[0-9]{2,3}\\-\\)?\\([2-9][0-9]{6,7}\\)+\\(\\-[0-9]{1,4}\\)?$|^[1][3-9]\\d{9}$";
 
     //电话验证
     public static boolean checkTel(String tel)

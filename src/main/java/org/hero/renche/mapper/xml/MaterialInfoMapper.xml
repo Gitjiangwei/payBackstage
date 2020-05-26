@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.MaterialInfoMapper">
+
+    <select id="qryMaterialInfoList" resultType="org.hero.renche.entity.MaterialInfo">
+        select material_id as materialId,material_no as materialNo,material_name as materialName,py_name as py_name,
+            material_type as materialType,material_unit as materialUnit
+        from tx_material_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="MaterialInfo.materialNo != null and MaterialInfo.materialNo != '' ">
+                and  material_no like CONCAT('%',#{MaterialInfo.materialNo},'%')
+            </if>
+            <if test="MaterialInfo.materialName != null and MaterialInfo.materialName != '' ">
+                and  material_name like CONCAT('%',#{MaterialInfo.materialName},'%')
+            </if>
+            <if test="MaterialInfo.materialType != null and MaterialInfo.materialType != '' ">
+                and  material_type = #{MaterialInfo.materialType}
+            </if>
+        </trim>
+        ORDER BY py_name asc,material_no asc
+    </select>
+
+    <select id="getMaterialNo" resultType="java.lang.String">
+        SELECT max(material_no) from tx_material_info where py_name=#{pyName}
+    </select>
+
+</mapper>

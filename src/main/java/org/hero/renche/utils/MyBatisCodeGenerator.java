@@ -33,7 +33,7 @@ public class MyBatisCodeGenerator {
 
         //2.设置数据源
         DataSourceConfig dsc=new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://127.0.0.1:4306/renche?characterEncoding=UTF-8&useUnicode=true&useSSL=false");
+        dsc.setUrl("jdbc:mysql://192.168.2.25:3306/renche?characterEncoding=UTF-8&useUnicode=true&useSSL=false");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("bid");
         dsc.setPassword("AT3oPjgUfDnkQe=B");
