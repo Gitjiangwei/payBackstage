@@ -63,4 +63,14 @@
     <select id="getDemandByPrjItenId" resultType="org.hero.renche.entity.vo.DemandVo">
         select * from tx_demand where  prj_item_id = #{prjItemId}
     </select>
+
+    <delete id="deleteByPriItemId">
+        delete from tx_demand where prj_item_id =#{prjItemId}
+    </delete>
+    <delete id="deleteByPriItemIds">
+       delete from tx_demand where prj_item_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

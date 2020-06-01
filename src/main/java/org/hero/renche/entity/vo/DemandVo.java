@@ -20,4 +20,7 @@ public class DemandVo extends Demand implements Serializable {
     private String materialUnit;
     /**创建人姓名*/
     private String createUserName;
+
+    /*工程点ID*/
+    private String prjItemId;
 }

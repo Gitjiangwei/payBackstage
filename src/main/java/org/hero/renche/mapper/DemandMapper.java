@@ -54,4 +54,15 @@ public interface DemandMapper extends BaseMapper<Demand> {
 
     DemandVo getDemandByPrjItenId(String prjItemId);
 
+    /**
+     * 根据prjItemId删除设备需求
+     */
+    int deleteByPriItemId(String prjItemId);
+
+
+    /**
+     * 根据prjItemId批量删除设备需求
+     */
+    int deleteByPriItemIds(@Param("list") List<String> priItrmIdList);
+
 }
