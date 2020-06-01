@@ -1,12 +1,12 @@
 package org.hero.renche.entity.vo;
 
 import lombok.Data;
-import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.PurchaseInfo;
 
 import java.io.Serializable;
 
 @Data
-public class DemandVo extends Demand implements Serializable {
+public class PurchaseInfoVo extends PurchaseInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,4 +20,6 @@ public class DemandVo extends Demand implements Serializable {
     private String materialUnit;
     /**创建人姓名*/
     private String createUserName;
+    /**采购来源名称*/
+    private String companyName;
 }

@@ -3,19 +3,14 @@ package org.hero.renche.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hero.renche.entity.MoneyBackInfo;
 import org.hero.renche.entity.TenderInfo;
-import org.hero.renche.entity.vo.TenderInfoVo;
 import org.hero.renche.service.ITenderInfoService;
-import org.hero.renche.util.ExcelData;
-import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController()
@@ -38,14 +33,14 @@ public class TenderInfoController {
      */
     @ApiOperation(value = "获取招标信息列表", notes = "获取所有客户招标信息列表", produces = "application/json")
     @GetMapping(value = "/qrytenderList")
-    public Result<PageInfo<TenderInfoVo>> qrytenderList(TenderInfo tenderInfo ,
+    public Result<PageInfo<TenderInfo>> qrytenderList(TenderInfo tenderInfo ,
                                           @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                           @RequestParam(name = "pageSize", defaultValue = "10")Integer pageSize,
                                           HttpServletRequest request){
 
-        Result<PageInfo<TenderInfoVo>> result=new Result<>();
+        Result<PageInfo<TenderInfo>> result=new Result<>();
         try{
-            PageInfo<TenderInfoVo> pageInfo= tenderInfoService.qryTenderList(tenderInfo,pageNo,pageSize);
+            PageInfo<TenderInfo> pageInfo= tenderInfoService.qryTenderList(tenderInfo,pageNo,pageSize);
 
             result.setSuccess(true);
             result.setResult(pageInfo);

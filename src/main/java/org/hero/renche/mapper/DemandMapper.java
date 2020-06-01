@@ -3,24 +3,11 @@ package org.hero.renche.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.vo.DemandVo;
 
 import java.util.List;
 
 public interface DemandMapper extends BaseMapper<Demand> {
-
-    /**
-     * 添加设备需求
-     * @param demand
-     * @return
-     */
-    int saveDemand(Demand demand);
-
-    /***
-     * 修改设备需求
-     * @param demand
-     * @return
-     */
-    int updateDemand(@Param("Demand")  Demand demand);
 
     /***
      * 设备需求退回
@@ -35,21 +22,21 @@ public interface DemandMapper extends BaseMapper<Demand> {
      * @param demand
      * @return
      */
-    List<Demand> queryDemand(@Param("Demand")  Demand demand);
+    List<DemandVo> queryDemand(@Param("DemandVo") DemandVo demand);
 
     /***
      * 查询任务需要设备
      * @param taskId
      * @return
      */
-    List<Demand> queryTaskDemand(@Param("taskId")  String taskId);
+    List<DemandVo> queryTaskDemand(@Param("taskId")  String taskId);
 
     /***
      * 设备需求查询(只查处理或者未处理)
      * @param demand
      * @return
      */
-    List<Demand> queryDemandStatus(Demand demand);
+    List<DemandVo> queryDemandStatus(DemandVo demand);
 
     /***
      * 根据任务id删除设备需求
@@ -58,14 +45,6 @@ public interface DemandMapper extends BaseMapper<Demand> {
      */
     int delDemandByTaskId(@Param("list") List<String> taskIds);
 
-
-    /***
-     * 删除设备需求
-     * @param demand
-     * @return
-     */
-    int delDemand(@Param("list") List<String> demand);
-
     /***
      * 修改设备需求单处理时间
      * @param demandId
@@ -73,13 +52,6 @@ public interface DemandMapper extends BaseMapper<Demand> {
      */
     int updateWhetherTime(@Param("demandId")String demandId);
 
-    /***
-     * 根据任务id将需要设备生成设备需求
-     * @param taskIds
-     * @return
-     */
-    int toMakeDemand(@Param("list") List<String> taskIds);
-
-    Demand getDemandByPrjItenId(String prjItemId);
+    DemandVo getDemandByPrjItenId(String prjItemId);
 
 }

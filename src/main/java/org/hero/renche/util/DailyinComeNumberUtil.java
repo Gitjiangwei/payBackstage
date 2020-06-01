@@ -40,14 +40,14 @@ public class DailyinComeNumberUtil {
             for(int i = 0;i< num; i++){
                 numberCount = "0" + numberCount;
             }
-            number = "HEROSB-"+pinyinName+purchaseModel+"-"+date+numberCount+thisEquipCount;
+            number = "KC-"+pinyinName+purchaseModel+"-"+date+numberCount+thisEquipCount;
         }else{
             thisEquipCount =  String.valueOf(a+1);
             int num = 6 - purchaseNumber.length();
             for(int i = 0;i< num; i++){
                 numberCount = "0" + numberCount;
             }
-            number = "HEROSB-"+pinyinName+purchaseModel+"-"+date+numberCount+thisEquipCount;
+            number = "KC-"+pinyinName+purchaseModel+"-"+date+numberCount+thisEquipCount;
         }
         map.put("thisEquipCount",thisEquipCount);
         map.put("num",number);

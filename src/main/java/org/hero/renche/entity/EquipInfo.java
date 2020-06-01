@@ -22,10 +22,8 @@ public class EquipInfo implements Serializable {
     /**ID*/
     @TableId(type = IdType.UUID)
     private String equipId;
-    /**设备名称*/
-    private String equipName;
-    /**型号*/
-    private String equipModel;
+    /**关联物料id*/
+    private String materialId;
     /**编号*/
     private String equipNo;
     /**价格*/
@@ -50,6 +48,6 @@ public class EquipInfo implements Serializable {
     /**租赁到期日期*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String haveEndTime;
+    private Date expirationDate;
 
 }

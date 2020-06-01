@@ -122,8 +122,7 @@ public class TaskInfoController {
                 for(Demand demand : demandList){
                     demand.setTaskId(taskInfo.getTaskId());
                     demand.setPrjItemId(taskInfo.getPrjItemId());
-                    demand.setMakeDemand("0");//未生成需求
-                    demandService.saveDemand(demand);
+                    demandService.save(demand);
                 }
             }
 
@@ -179,8 +178,7 @@ public class TaskInfoController {
                     for(Demand demand : demandList){
                         demand.setTaskId(taskId);
                         demand.setPrjItemId(prjItemId);
-                        demand.setMakeDemand("0");//未生成需求
-                        demandService.saveDemand(demand);
+                        demandService.save(demand);
                     }
                 }
 
@@ -313,35 +311,6 @@ public class TaskInfoController {
             }else {
                 result.error500("遇到未知异常，请及时排除！");
             }
-        }
-        return result;
-    }
-
-    /**
-     * 生成设备需求
-     *
-     * @return
-     */
-    @PostMapping(value = "makeDemandList")
-    public Result<TaskInfo> makeDemandList(@RequestParam(name = "taskIds") String taskIds){
-
-        Result<TaskInfo> result=new Result<>();
-        if(taskIds == null || taskIds.equals("")){
-            result.error500("任务ID为空，请及时排除！");
-        }else{
-
-            boolean isOk = demandService.toMakeDemand(taskIds);
-            if(isOk){
-                Boolean resultOk = taskInfoService.makeSureToMakeDemand(taskIds);
-                if(resultOk){
-                    result.success("成功生成设备需求！");
-                }else {
-                    result.error500("遇到未知异常，请及时排除！");
-                }
-            }else{
-                result.error500("遇到未知异常，请及时排除！");
-            }
-
         }
         return result;
     }

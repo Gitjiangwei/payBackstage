@@ -7,11 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.hero.renche.entity.MaterialInfo;
 import org.hero.renche.entity.MessageInfo;
 import org.hero.renche.service.IMaterialInfoService;
+import org.hero.renche.util.PinyinUtil;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -54,22 +56,31 @@ public class MaterialInfoController {
     public Result<MaterialInfo> add(@RequestBody MaterialInfo materialInfo) {
         Result<MaterialInfo> result = new Result<>();
         materialInfo.setCreateTime(new Date());
-        String pyName = materialInfo.getPyName().toUpperCase();
-        materialInfo.setPyName(pyName);
-
-        //编号
-        String maxMaterialNo = materialInfoService.getMaterialNo(pyName);
-        Integer number = 0;
-        if(maxMaterialNo != null && !"".equals(maxMaterialNo)){
-            maxMaterialNo = maxMaterialNo.substring(maxMaterialNo.lastIndexOf("_")+1, maxMaterialNo.length());
-            number = Integer.parseInt(maxMaterialNo) + 1;
+        String materialName = materialInfo.getMaterialName();
+        String pyName = "";
+        int length = materialName.length();
+        if(length > 3){
+            String quanPin = PinyinUtil.getPinYin(materialName.substring(0, 3),true);
+            String shouZiMu = PinyinUtil.getPinYinHeadChar(materialName.substring(3, length),true);
+            pyName = quanPin + shouZiMu;
         }else{
-            number = 10001;
+            pyName = PinyinUtil.getPinYin(materialName,true);
         }
-        materialInfo.setMaterialNo("WL_"+pyName+"_"+number);
+        materialInfo.setPyName(pyName);
+        //编号
+        //每个设备最大数为6位数
+        String numberCount = "";
+        String maxMaterialNo = materialInfoService.getMaterialNo(pyName);//物料库同类型物料已有数量
+        for(int i = 0;i< 6 - maxMaterialNo.length(); i++){
+            numberCount = "0" + numberCount;
+        }
+        maxMaterialNo = String.valueOf(Integer.valueOf(maxMaterialNo)+1);
+        String number = "WL-"+pyName+"-"+numberCount+maxMaterialNo;
+        materialInfo.setMaterialNo(number);
 
         try {
             boolean ok = materialInfoService.save(materialInfo);
+            result.setResult(materialInfo);
             result.success("添加成功！");
         } catch (Exception e) {
             e.printStackTrace();

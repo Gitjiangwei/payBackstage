@@ -5,7 +5,7 @@
     <!-- 通过字典code获取字典数据 -->
     <select id="queryDictItemsByCode" parameterType="String"  resultType="java.util.HashMap">
 		   select s.dict_code_id value,s.dict_code_name text from tx_dict s
-		   where s.dict_code = #{code} order by s.order_no asc
+		   where s.dict_code = #{code} and is_use = '0' order by s.order_no asc
 	</select>
 
     <!-- 通过字典code获取字典数据 -->
@@ -28,6 +28,9 @@
 			is_use = '0'
 			<if test="dictItemId != null and dictItemId != '' ">
 				and 	dict_item_id = #{dictItemId}
+			</if>
+			<if test="dictCode != null and dictCode != '' ">
+				and 	dict_code = #{dictCode}
 			</if>
 			<if test="dictCodeName != null and dictCodeName != ''">
 				and dict_code_name like CONCAT('%',#{dictCodeName},'%')

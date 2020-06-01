@@ -1,12 +1,13 @@
 package org.hero.renche.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
-import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.vo.PurchaseInfoVo;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 采购设备接口
@@ -21,14 +22,7 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
      * @param pageSize
      * @return
      */
-    PageInfo<PurchaseInfo> qryPurchaseInfo(PurchaseInfo purchaseInfo, Integer page, Integer pageSize);
-
-    /**
-     * 根据设备id查询设备数量
-     * @param purchaseId
-     * @return
-     */
-    int qryPurchaseId(String purchaseId);
+    PageInfo<PurchaseInfoVo> qryPurchaseInfo(PurchaseInfoVo purchaseInfo, Integer page, Integer pageSize);
 
     /**
      * 批量修改采购设备
@@ -42,7 +36,7 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
      * @param purchaseInfo
      * @return
      */
-    boolean insertReceiving(PurchaseInfo purchaseInfo);
+    boolean insertReceiving(PurchaseInfoVo purchaseInfo);
 
     /**
      * 监听设备入库情况
@@ -51,17 +45,7 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
      */
     Boolean qryPurchaseInfoKey(String purchaseId);
 
-    /**
-     * 采购设备信息修改
-     * @param purchaseInfo
-     * @return
-     */
-    boolean updatePurchaseKeys(PurchaseInfo purchaseInfo);
-
-
-    String qryePurchaseId(String purchaseId);
-
     boolean updateFileIds(PurchaseInfo purchaseInfo);
 
-    List exportPurchaseInfoList(PurchaseInfo purchaseInfo);
+    void exportPurchaseInfo(Map<String, String> map, HttpServletResponse response);
 }

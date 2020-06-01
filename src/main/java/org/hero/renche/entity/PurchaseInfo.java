@@ -22,10 +22,8 @@ public class PurchaseInfo implements Serializable {
     /**ID*/
     @TableId(type = IdType.UUID)
     private  String purchaseId;
-    /**采购物品名称*/
-    private String purchaseItem;
-    /**采购物品型号*/
-    private String itemModel;
+    /**关联物料id*/
+    private String materialId;
     /**采购物品单价*/
     private String price;
     /**采购物品数量*/
@@ -50,10 +48,12 @@ public class PurchaseInfo implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
+    /**创建人*/
+    private String createUser;
     /**总价格*/
     private String totalPrice;
     /**备注*/
-    private String remarks;
+    private String remark;
     /**是否入库*/
     private String isstorage;
     /**设备拥有方式（0租赁 1购买）*/
@@ -61,7 +61,7 @@ public class PurchaseInfo implements Serializable {
     /**租赁到期日期*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String haveEndTime;
+    private String expirationDate;
 
 
 }

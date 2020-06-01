@@ -1,27 +1,22 @@
 package org.hero.renche.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hero.renche.controller.voentity.VoViditInfo;
-import org.hero.renche.controller.voentity.VoWorkOrderInfo;
+import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.FileRel;
 import org.hero.renche.entity.PurchaseInfo;
-import org.hero.renche.entity.TenderInfo;
+import org.hero.renche.entity.vo.PurchaseInfoVo;
 import org.hero.renche.service.IFileRelService;
 import org.hero.renche.service.IPurchaseService;
-import org.hero.renche.util.ExcelData;
-import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -46,29 +41,13 @@ public class PurchaseInfoController {
      */
     @ApiOperation(value = "获取采购设备数据列表", notes = "获取所有采购设备信息数据列表", produces = "application/json")
     @RequestMapping(value = "/qryPurchase")
-    public Result<PageInfo<PurchaseInfo>> qryPurchase(PurchaseInfo purchaseInfo,@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest request){
+    public Result<PageInfo<PurchaseInfoVo>> qryPurchase(PurchaseInfoVo purchaseInfo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                        @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest request){
 
-       Result<PageInfo<PurchaseInfo>> result = new Result<>();
-        PageInfo<PurchaseInfo> purchaseInfoPageInfo = IPurchaseService.qryPurchaseInfo(purchaseInfo,pageNo,pageSize);
-        // 手工转换实体驼峰字段为下划线分隔表字段
+       Result<PageInfo<PurchaseInfoVo>> result = new Result<>();
+        PageInfo<PurchaseInfoVo> purchaseInfoPageInfo = IPurchaseService.qryPurchaseInfo(purchaseInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(purchaseInfoPageInfo);
-        return result;
-    }
-
-    /**
-     * 根据设备ID查询设备来源商
-     * @param purchaseId
-     * @return
-     */
-    @RequestMapping(value = "/qryPurchaseId")
-    public Result<String> qryPurchaseKeys(@RequestParam(name = "purchaseId") String purchaseId){
-        Result<String> result = new Result<>();
-        String whichCompany = IPurchaseService.qryePurchaseId(purchaseId);
-        if(!whichCompany.equals("")){
-            result.success(whichCompany);
-        }
         return result;
     }
 
@@ -82,12 +61,11 @@ public class PurchaseInfoController {
     public Result<PurchaseInfo> savePurchase(@RequestBody PurchaseInfo purchaseInfo){
         Result<PurchaseInfo> result = new Result<PurchaseInfo>();
         try {
-            String price = purchaseInfo.getPrice();
-            String num = purchaseInfo.getQuantity();
-            BigDecimal bigDecimal = new BigDecimal(price);
-            BigDecimal bigDecimal1 = new BigDecimal(num);
-            BigDecimal total = bigDecimal.multiply(bigDecimal1);
-            purchaseInfo.setTotalPrice(total.toString());
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            purchaseInfo.setCreateUser(sysUser.getId());
+            if(purchaseInfo.getArrivalTime()!=null && !purchaseInfo.getArrivalTime().equals("")){
+                purchaseInfo.setIsarrival("1");
+            }
             purchaseInfo.setCreateTime(new Date());
             IPurchaseService.save(purchaseInfo);
             result.success("添加成功");
@@ -109,20 +87,16 @@ public class PurchaseInfoController {
     public Result<PurchaseInfo> editPurchase(@RequestBody PurchaseInfo purchaseInfo){
         Result<PurchaseInfo> result = new Result<PurchaseInfo>();
         try {
-            String price = purchaseInfo.getPrice();
-            String num = purchaseInfo.getQuantity();
-            BigDecimal bigDecimal = new BigDecimal(price);
-            BigDecimal bigDecimal1 = new BigDecimal(num);
-            purchaseInfo.setTotalPrice(bigDecimal.multiply(bigDecimal1).toString());
-            int purchaseInfoCount = IPurchaseService.qryPurchaseId(purchaseInfo.getPurchaseId());
-            //int purchaseInfoCount = 1;
+            PurchaseInfo purchaseInfoEntity = IPurchaseService.getById(purchaseInfo.getPurchaseId());
             if(purchaseInfo.getArrivalTime()!=null && !purchaseInfo.getArrivalTime().equals("")){
                 purchaseInfo.setIsarrival("1");
+            }else{
+                purchaseInfo.setIsarrival("2");
             }
-            if(purchaseInfoCount == 0){
+            if(purchaseInfoEntity == null){
                 result.error500("未找到对应实体");
             }else {
-                boolean results = IPurchaseService.updatePurchaseKeys(purchaseInfo);
+                boolean results = IPurchaseService.updateById(purchaseInfo);
                 if (results){
                     result.success("修改成功");
                 }
@@ -134,7 +108,6 @@ public class PurchaseInfoController {
         }
         return result;
     }
-
 
     @AutoLog("批量删除采购的设备")
     @PostMapping(value = "/deleteBatch")
@@ -155,15 +128,15 @@ public class PurchaseInfoController {
     @PostMapping(value = "/delete")
     public Result<PurchaseInfo> deleteById(@RequestParam(name = "id") String id){
         Result<PurchaseInfo> result = new Result<PurchaseInfo>();
-        int purchaseInfoCount = IPurchaseService.qryPurchaseId(id);
-        if(id==null||"".equals(id.trim())){
-            result.error500("参数丢失！");
-        }else if (purchaseInfoCount == 0){
-            result.error500("未找到对应实体！");
-        }else{
+        PurchaseInfo purchaseInfoEntity = IPurchaseService.getById(id);
+        if(purchaseInfoEntity == null){
+            result.error500("未找到对应实体");
+        }else {
             boolean resultOk = IPurchaseService.removeById(id);
             if (resultOk){
                 result.success("删除成功！");
+            }else {
+                result.error500("删除失败！");
             }
         }
         return result;
@@ -187,18 +160,28 @@ public class PurchaseInfoController {
         return result;
     }
 
-
+//    @AutoLog("设备入库")
+//    @PostMapping(value = "/insertReceiving")
+//    public Result<PurchaseInfo> insertReceiving(@RequestBody JSONObject jsonParam){
+//        Result<PurchaseInfo> result = new Result<PurchaseInfo>();
+//        PurchaseInfo purchaseInfo = new PurchaseInfo();
+//        purchaseInfo.setMaterialId(jsonParam.get("materialId").toString());
+//        purchaseInfo.setPrice(jsonParam.get("price").toString());
+//        purchaseInfo.setQuantity(jsonParam.get("quantity").toString());
+//        purchaseInfo.setPurchaseId(jsonParam.get("purchaseId").toString());
+//        Boolean resultCount =IPurchaseService.insertReceiving(purchaseInfo);
+//        if(resultCount){
+//            result.success("程序自动将设备入库，请等待！");
+//        }else{
+//            result.error500("入库失败");
+//        }
+//        return result;
+//    }
 
     @AutoLog("设备入库")
     @PostMapping(value = "/insertReceiving")
-    public Result<PurchaseInfo> insertReceiving(@RequestBody JSONObject jsonParam){
-        Result<PurchaseInfo> result = new Result<PurchaseInfo>();
-        PurchaseInfo purchaseInfo = new PurchaseInfo();
-        purchaseInfo.setPurchaseItem(jsonParam.get("purchaseItem").toString());
-        purchaseInfo.setItemModel(jsonParam.get("itemModel").toString());
-        purchaseInfo.setPrice(jsonParam.get("price").toString());
-        purchaseInfo.setQuantity(jsonParam.get("quantity").toString());
-        purchaseInfo.setPurchaseId(jsonParam.get("purchaseId").toString());
+    public Result<PurchaseInfoVo> insertReceiving(@RequestBody PurchaseInfoVo purchaseInfo){
+        Result<PurchaseInfoVo> result = new Result<>();
         Boolean resultCount =IPurchaseService.insertReceiving(purchaseInfo);
         if(resultCount){
             result.success("程序自动将设备入库，请等待！");
@@ -207,7 +190,6 @@ public class PurchaseInfoController {
         }
         return result;
     }
-
 
     @GetMapping(value = "/qryPurchaseKey")
     public Result<PurchaseInfo> qryPurchaseKey(@RequestParam(name = "purchaseId") String purchaseId){
@@ -239,12 +221,12 @@ public class PurchaseInfoController {
      * @param response
      * @return
      */
+    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/vnd.ms-excel")
     @GetMapping("/exportPurchase")
     public Result<PageInfo<PurchaseInfo>> exportPurchase(@RequestParam(value = "param") String params, HttpServletResponse response){
         Result<PageInfo<PurchaseInfo>> result=new Result<>();
 
         try{
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             params = params.replace("\"","");
             String[] paramStrs = params.split(",");
             Map<String,String> map = new HashMap<>();
@@ -252,61 +234,8 @@ public class PurchaseInfoController {
                 String[] content = str.split(":");
                 map.put(content[0],content[1]);
             }
-            PurchaseInfo purchaseInfo=new PurchaseInfo();
-            String purchaseItem=map.get("purchaseItem")==null?"":map.get("purchaseItem");
-            String itemModel=map.get("itemModel")==null?"":map.get("itemModel");
-            String isarrival=map.get("isarrival")==null?"":map.get("isarrival");
-            String isstorage=map.get("isstorage")==null?"":map.get("isstorage");
 
-            purchaseInfo.setPurchaseItem(purchaseItem);
-            purchaseInfo.setItemModel(itemModel);
-            purchaseInfo.setIsarrival(isarrival);
-            purchaseInfo.setIsstorage(isstorage);
-
-            List<PurchaseInfo> qryList=IPurchaseService.exportPurchaseInfoList(purchaseInfo);
-            List<List<Object>> lists=new ArrayList<>();
-            List<Object> list=null;
-            PurchaseInfo vv=null;
-            for(int i=0;i<qryList.size();i++){
-                list=new ArrayList();
-                vv=qryList.get(i);
-                Date date1= vv.getCreateTime();
-                Date date2=vv.getPurchaseTime();
-                Date date3=vv.getArrivalTime();
-                String purchaseTime = formatter.format(date2);
-                String arrivalTime =formatter.format(date3);
-                list.add(i+1);
-                list.add(vv.getPurchaseItem());
-                list.add(vv.getItemModel());
-                list.add(vv.getPrice());
-                list.add(vv.getQuantity());
-                list.add(vv.getTotalPrice());
-                list.add(vv.getPurchaser());
-                list.add(purchaseTime);
-                list.add(vv.getWhichCompany());
-                list.add(arrivalTime);
-                list.add(vv.getIsarrival().equals("1")?"是":"否");
-                list.add(vv.getIsstorage().equals("1")?"已入库":"未入库");
-                lists.add(list);
-            }
-            ExcelData excelData=new ExcelData();
-            excelData.setName("设备采购");
-            List titlesList=new ArrayList();
-            titlesList.add("序号");
-            titlesList.add("物品名称");
-            titlesList.add("设备型号");
-            titlesList.add("单价");
-            titlesList.add("数量");
-            titlesList.add("总价");
-            titlesList.add("采购人员");
-            titlesList.add("采购时间");
-            titlesList.add("采购来源");
-            titlesList.add("到货日期");
-            titlesList.add("是否到货");
-            titlesList.add("是否入库");
-            excelData.setTitles(titlesList);
-            excelData.setRows(lists);
-            ExcelUtils.exportExcel(response , "设备采购.xlsx" , excelData);
+            IPurchaseService.exportPurchaseInfo(map, response);
             result.setMessage("导出成功");
 
         }catch (Exception e){

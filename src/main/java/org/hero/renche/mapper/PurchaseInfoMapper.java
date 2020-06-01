@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.vo.PurchaseInfoVo;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface PurchaseInfoMapper extends BaseMapper<PurchaseInfo> {
 
 
-    List<PurchaseInfo> qryListPurchaseInfo(@Param("PurchaseInfo") PurchaseInfo purchaseInfo);
+    List<PurchaseInfoVo> qryListPurchaseInfo(@Param("PurchaseInfoVo") PurchaseInfoVo purchaseInfo);
 
 
     int updatePurchaseByIds(List<String> purchaseByIds);
@@ -29,13 +30,6 @@ public interface PurchaseInfoMapper extends BaseMapper<PurchaseInfo> {
 
     int updatePurchaseKey(@Param("purchaseById") String purchaseById);
 
-
-    int updatePurchaseByKey(@Param("purchaseInfo") PurchaseInfo purchaseInfo);
-
-    List<PurchaseInfo> qryListPurchaseInfoId(@Param("purchaseById")  String purchaseById);
-
-
     int updateFileIds(@Param("purchaseInfo") PurchaseInfo purchaseInfo);
-    List exportPurchaseInfoList(@Param("PurchaseInfo") PurchaseInfo purchaseInfo);
 
 }

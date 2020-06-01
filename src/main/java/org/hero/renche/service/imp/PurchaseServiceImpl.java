@@ -3,21 +3,21 @@ package org.hero.renche.service.imp;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.vo.PurchaseInfoVo;
 import org.hero.renche.mapper.EquipInfoMapper;
 import org.hero.renche.mapper.PurchaseInfoMapper;
 import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.thread.AsynTask;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @Service
 public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,PurchaseInfo> implements IPurchaseService {
@@ -31,47 +31,36 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
 
     @Transactional
     @Override
-    public PageInfo<PurchaseInfo> qryPurchaseInfo(PurchaseInfo purchaseInfo, Integer page, Integer pageSize) {
+    public PageInfo<PurchaseInfoVo> qryPurchaseInfo(PurchaseInfoVo purchaseInfo, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(purchaseInfo);
-        return new PageInfo<PurchaseInfo>(purchaseInfoList);
-    }
-
-    @Override
-    public int qryPurchaseId(String purchaseId) {
-        PurchaseInfo purchaseInfo = new PurchaseInfo();
-        purchaseInfo.setPurchaseId(purchaseId);
-        return purchaseInfoMapper.qryListPurchaseInfo(purchaseInfo).size();
+        List<PurchaseInfoVo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(purchaseInfo);
+        return new PageInfo<PurchaseInfoVo>(purchaseInfoList);
     }
 
     @Override
     public boolean updatePurchaseIds(String ids) {
-        boolean flag = false;
         if (ids==null||"".equals(ids.trim())){
             return false;
         }
         List<String> purchaseIds = Arrays.asList(ids.split(","));
-        int updateCount = purchaseInfoMapper.updatePurchaseByIds(purchaseIds);
-        if (updateCount > 0){
-            flag = true;
-        }else {
-            flag = false;
-        }
-        return flag;
+        purchaseInfoMapper.updatePurchaseByIds(purchaseIds);
+        return true;
     }
 
     @Override
-    public boolean insertReceiving(PurchaseInfo purchaseInfo) {
+    public boolean insertReceiving(PurchaseInfoVo purchaseInfo) {
         Boolean flag = false;
         Map<String,Object> receivingMap = new HashMap<String, Object>();
         receivingMap.put("equipCount",purchaseInfo.getQuantity());
         receivingMap.put("equipPrice",purchaseInfo.getPrice());
-        receivingMap.put("equipModel",purchaseInfo.getItemModel());
-        receivingMap.put("equipName",purchaseInfo.getPurchaseItem());
         receivingMap.put("purchaseId",purchaseInfo.getPurchaseId());
+        receivingMap.put("materialId",purchaseInfo.getMaterialId());
+        receivingMap.put("materialName",purchaseInfo.getMaterialName());
+        receivingMap.put("materialType",purchaseInfo.getMaterialType());
+        receivingMap.put("haveWay",purchaseInfo.getHaveWay());
+        receivingMap.put("expirationDate",purchaseInfo.getExpirationDate());
         //查询当前库存的设备数量
-        int thisEquipCounts = equipInfoMapper.qryEquipKeyCount(purchaseInfo.getPurchaseId());
-        //List<EquipInfo> equipInfoList = equipInfoMapper.qryEquipListKey(equipInfo);
+        int thisEquipCounts = equipInfoMapper.qryEquipKeyCount(purchaseInfo.getMaterialId());
         receivingMap.put("thisEquipCounts",String.valueOf(thisEquipCounts));
         //注入mapper
         receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
@@ -98,34 +87,13 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
     }
 
     @Override
-    public boolean updatePurchaseKeys(PurchaseInfo purchaseInfo) {
-
-        int result = purchaseInfoMapper.updatePurchaseByKey(purchaseInfo);
-        if(result>0){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    @Override
-    public String qryePurchaseId(String purchaseId) {
-        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfoId(purchaseId);
-        String whichCompany = "";
-        for(PurchaseInfo item:purchaseInfoList){
-            whichCompany = item.getWhichCompany();
-        }
-        return whichCompany;
-    }
-
-    @Override
     public boolean updateFileIds(PurchaseInfo purchaseInfo) {
         boolean flag = false;
-        PurchaseInfo pur = new PurchaseInfo();
+        PurchaseInfoVo pur = new PurchaseInfoVo();
         String oldFileRelId = "";
         String newFileRelId = "";
         pur.setPurchaseId(purchaseInfo.getPurchaseId());
-        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(pur);
+        List<PurchaseInfoVo> purchaseInfoList = purchaseInfoMapper.qryListPurchaseInfo(pur);
         for(PurchaseInfo item : purchaseInfoList){
             oldFileRelId = item.getFileRelId();
         }
@@ -161,9 +129,65 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
     }
 
     @Override
-    public List exportPurchaseInfoList(PurchaseInfo purchaseInfo) {
-        List list=purchaseInfoMapper.exportPurchaseInfoList(purchaseInfo);
-        return list;
+    public void exportPurchaseInfo (Map<String, String> map, HttpServletResponse response){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+            PurchaseInfoVo purchaseInfo=new PurchaseInfoVo();
+            purchaseInfo.setMaterialName(map.get("materialName"));
+            purchaseInfo.setMaterialType(map.get("materialType"));
+            purchaseInfo.setPurchaser(map.get("purchaser"));
+            purchaseInfo.setIsarrival(map.get("isarrival"));
+            purchaseInfo.setIsstorage(map.get("isstorage"));
+            purchaseInfo.setHaveWay(map.get("haveWay"));
+            if(map.get("purchaseTime") != null){
+                purchaseInfo.setPurchaseTime(sdf.parse(map.get("purchaseTime")));
+            }
+            List<PurchaseInfoVo> qryList=purchaseInfoMapper.qryListPurchaseInfo(purchaseInfo);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            PurchaseInfoVo vo=null;
+            for(int i=0;i<qryList.size();i++){
+                list=new ArrayList();
+                vo=qryList.get(i);
+                list.add(vo.getMaterialNo());
+                list.add(vo.getMaterialName());
+                list.add(vo.getMaterialType());
+                list.add(vo.getPrice());
+                list.add(vo.getQuantity());
+                list.add(vo.getTotalPrice());
+                list.add(vo.getPurchaser());
+                if(vo.getPurchaseTime() != null){
+                    list.add(sdf.format(vo.getPurchaseTime()));
+                }else{
+                    list.add("");
+                }
+                list.add(vo.getCompanyName());
+                list.add(vo.getHaveWay().equals('0')?"租赁":"购买");
+                if(vo.getExpirationDate() != null){
+                    list.add(sdf.format(vo.getExpirationDate()));
+                }else{
+                    list.add("");
+                }
+                if(vo.getArrivalTime() != null){
+                    list.add(sdf.format(vo.getArrivalTime()));
+                }else{
+                    list.add("");
+                }
+                list.add(vo.getIsarrival().equals("1")?"是":"否");
+                list.add(vo.getIsstorage().equals("1")?"已入库":"未入库");
+                list.add(vo.getRemark());
+                lists.add(list);
+            }
+            ExcelData excelData=new ExcelData();
+            excelData.setName("设备采购");
+            String[] titleColumn = {"物料编号","物料名称","物料型号","单价","数量","总价","采购人员","采购日期","采购来源","拥有方式","租赁到期日期","是否到货","到货日期","是否入库","备注"};
+            List<String> titlesList = Arrays.asList(titleColumn);
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "设备采购.xlsx" , excelData);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

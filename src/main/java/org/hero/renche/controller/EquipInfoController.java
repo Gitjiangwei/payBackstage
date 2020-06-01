@@ -2,23 +2,22 @@ package org.hero.renche.controller;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
 import org.hero.renche.entity.EquipInfo;
-import org.hero.renche.entity.modelData.EquipinfoModel;
+import org.hero.renche.entity.vo.EquipInfoVo;
 import org.hero.renche.service.IEquipinfoService;
-import org.hero.renche.util.ExcelData;
-import org.hero.renche.util.ExcelUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
 @RequestMapping(value = "/renche/equip")
+@Slf4j
 public class EquipInfoController {
 
     @Autowired
@@ -33,17 +32,14 @@ public class EquipInfoController {
      */
     @ApiOperation(value = "获取设备库存基本信息", notes = "获取所有采购设备信息数据列表", produces = "application/json")
     @RequestMapping(value = "/equipList")
-    public Result<PageInfo<EquipinfoModel>> qryEquipList(EquipInfo equipInfo, @RequestParam(name = "pageNo") Integer pageNo,
+    public Result<PageInfo<EquipInfoVo>> qryEquipList(EquipInfoVo equipInfo, @RequestParam(name = "pageNo") Integer pageNo,
                                                          @RequestParam(name = "pageSize") Integer pageSize){
-        Result<PageInfo<EquipinfoModel>> result = new Result<>();
+        Result<PageInfo<EquipInfoVo>> result = new Result<>();
         Map<String,String> map = new HashMap<String, String>();
-        map.put("equipName",equipInfo.getEquipName());
-        map.put("equipModel",equipInfo.getEquipModel());
-        System.out.println(equipInfo);
-        System.out.println(map);;
-        PageInfo<EquipinfoModel> modelPageInfo = equipinfoService.qryEqipCountList(map,pageNo,pageSize);
+        PageInfo<EquipInfoVo> modelPageInfo = equipinfoService.qryEqipCountList(equipInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(modelPageInfo);
+
         return result;
     }
 
@@ -57,10 +53,10 @@ public class EquipInfoController {
      */
     @ApiOperation(value = "查询设备使用情况", notes = "获取所有采购设备信息数据列表", produces = "application/json")
     @RequestMapping(value = "/equipKeyDetail")
-    public Result<PageInfo<EquipInfo>> qryEquipListKeyDetail(EquipInfo equipInfo,@RequestParam(name = "pageNo") Integer pageNo,
+    public Result<PageInfo<EquipInfoVo>> qryEquipListKeyDetail(EquipInfo equipInfo,@RequestParam(name = "pageNo") Integer pageNo,
                                                              @RequestParam(name = "pageSize") Integer pageSize){
-        Result<PageInfo<EquipInfo>> result = new Result<>();
-        PageInfo<EquipInfo> equipInfoPageInfo = equipinfoService.qryEquipListKeyDetail(equipInfo,pageNo,pageSize);
+        Result<PageInfo<EquipInfoVo>> result = new Result<>();
+        PageInfo<EquipInfoVo> equipInfoPageInfo = equipinfoService.qryEquipListKeyDetail(equipInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(equipInfoPageInfo);
         return result;
@@ -75,9 +71,9 @@ public class EquipInfoController {
      */
     @ApiOperation(value = "查询设备使用情况只查询空闲和维修", notes = "获取所有空闲和采购设备信息数据列表", produces = "application/json")
     @RequestMapping(value = "/equipKey")
-    public Result<PageInfo<EquipInfo>> qryEquipListKey(EquipInfo equipInfo,@RequestParam(name = "pageNo") Integer pageNo,
+    public Result<PageInfo<EquipInfoVo>> qryEquipListKey(EquipInfo equipInfo,@RequestParam(name = "pageNo") Integer pageNo,
                                                              @RequestParam(name = "pageSize") Integer pageSize){
-        Result<PageInfo<EquipInfo>> result = new Result<>();
+        Result<PageInfo<EquipInfoVo>> result = new Result<>();
         if(equipInfo.getEquipStatus()!=null && !equipInfo.getEquipStatus().equals("")){
             if(equipInfo.getEquipStatus().equals("1")){
                 equipInfo.setEquipStatus("FREE");
@@ -89,7 +85,7 @@ public class EquipInfoController {
                 return result;
             }
         }
-        PageInfo<EquipInfo> equipInfoPageInfo = equipinfoService.qryEquipListKey(equipInfo,pageNo,pageSize);
+        PageInfo<EquipInfoVo> equipInfoPageInfo = equipinfoService.qryEquipListKey(equipInfo,pageNo,pageSize);
         result.setSuccess(true);
         result.setResult(equipInfoPageInfo);
         return result;
@@ -97,7 +93,7 @@ public class EquipInfoController {
 
 
     @AutoLog("修改设备库存数据")
-    @PostMapping(value = "/equipKeyDetail")
+    @PostMapping(value = "/updateDetailEquipInfo")
     public Result<EquipInfo> updateDetailEquipInfo(@RequestBody EquipInfo equipInfo){
         Result<EquipInfo> result = new Result<>();
         if(equipInfo.getEquipId()==null || equipInfo.getEquipId().equals("")){
@@ -174,11 +170,10 @@ public class EquipInfoController {
      * @param response
      * @return
      */
+    @ApiOperation(value = "导出数据", notes = "导出数据", produces = "application/vnd.ms-excel")
     @GetMapping("/exportEquip")
-    public Result<PageInfo<EquipInfo>> exportEquip(@RequestParam(value = "param") String params, HttpServletResponse response){
-        Result<PageInfo<EquipInfo>> result=new Result<>();
+    public void exportEquip(@RequestParam(value = "param") String params, HttpServletResponse response){
         try{
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd ");
             params = params.replace("\"","");
             String[] paramStrs = params.split(",");
             Map<String,String> map = new HashMap<>();
@@ -186,48 +181,10 @@ public class EquipInfoController {
                 String[] content = str.split(":");
                 map.put(content[0],content[1]);
             }
-            List<EquipinfoModel> qryList= equipinfoService.exportEquipInfoList(map);
-            List<List<Object>> lists=new ArrayList<>();
-            List<Object> list=null;
-            EquipinfoModel vv=null;
-            for(int i=0;i<qryList.size();i++){
-                list=new ArrayList();
-                vv=qryList.get(i);
-                Date date1= vv.getCreateTime();
-                String createTime = formatter.format(date1);
-                list.add(i+1);
-                list.add(vv.getEquipName());
-                list.add(vv.getEquipModel());
-                list.add(vv.getCount());
-                list.add(vv.getInuseCount());
-                list.add(vv.getFreeCount());
-                list.add(vv.getScripCount());
-                list.add(vv.getMaintenonceCount());
-                list.add(createTime);
-                lists.add(list);
-            }
-            ExcelData excelData=new ExcelData();
-            excelData.setName("设备库存");
-            List titlesList=new ArrayList();
-            titlesList.add("序号");
-            titlesList.add("设备名称");
-            titlesList.add("设备型号");
-            titlesList.add("数量");
-            titlesList.add("使用中");
-            titlesList.add("空闲");
-            titlesList.add("报废");
-            titlesList.add("维修中");
-            titlesList.add("入库时间");
-            excelData.setTitles(titlesList);
-            excelData.setRows(lists);
-            ExcelUtils.exportExcel(response , "设备库存.xlsx" , excelData);
-            result.setMessage("导出成功");
-
+            equipinfoService.exportEquipInfoList(map, response);
         }catch (Exception e){
             e.printStackTrace();
-
-            result.error500("导出失败");
+            log.info(e.getMessage());
         }
-        return result;
     }
 }

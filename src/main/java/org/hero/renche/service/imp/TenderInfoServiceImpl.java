@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.TenderInfo;
-import org.hero.renche.entity.vo.TenderInfoVo;
 import org.hero.renche.mapper.TenderInfoMapper;
 import org.hero.renche.service.ITenderInfoService;
 import org.hero.renche.util.ExcelData;
@@ -25,10 +24,10 @@ public class TenderInfoServiceImpl extends ServiceImpl<TenderInfoMapper, TenderI
 
 
     @Override
-    public PageInfo<TenderInfoVo> qryTenderList(TenderInfo tenderInfo, Integer pageNo, Integer pageSize) {
+    public PageInfo<TenderInfo> qryTenderList(TenderInfo tenderInfo, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<TenderInfoVo> tenderlist=tenderInfoMapper.qryTenderList(tenderInfo);
-        PageInfo<TenderInfoVo> pageInfo=new PageInfo<TenderInfoVo>(tenderlist);
+        List<TenderInfo> tenderlist=tenderInfoMapper.qryTenderList(tenderInfo);
+        PageInfo<TenderInfo> pageInfo=new PageInfo<TenderInfo>(tenderlist);
 
         return pageInfo;
     }

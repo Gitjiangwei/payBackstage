@@ -1,6 +1,5 @@
 package org.hero.renche.service.imp;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -8,9 +7,9 @@ import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.Demand;
 import org.hero.renche.entity.MessageInfo;
 import org.hero.renche.entity.ProjectItemInfo;
+import org.hero.renche.entity.vo.DemandVo;
 import org.hero.renche.mapper.DemandMapper;
 import org.hero.renche.mapper.ProjectItemInfoMapper;
-import org.hero.renche.service.ICompanyInfoService;
 import org.hero.renche.service.IDemandService;
 import org.hero.renche.service.IMessageInfoService;
 import org.jeecg.modules.system.entity.SysUser;
@@ -36,55 +35,6 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
 
    // private SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-    /***
-     * 添加设备需求
-     * @param demand
-     * @return
-     */
-    @Override
-    public Boolean saveDemand(Demand demand) {
-
-        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        Boolean isFlag = false;
-        demand.setDemandId(UUID.randomUUID().toString().replace("-",""));
-        if(sysUser!=null){
-            demand.setCreateName(sysUser.getUsername());
-            demand.setCreateUserId(sysUser.getId());
-
-        }else{
-            demand.setCreateName("");
-        }
-
-
-        int result = demandMapper.saveDemand(demand);
-        if(result>0){
-            isFlag = true;
-        }
-        return isFlag;
-    }
-
-    /***
-     * 修改设备需求
-     * @param demand
-     * @return
-     */
-    @Override
-    public Boolean updateDemand(Demand demand) {
-        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        Boolean isFlag = false;
-        if(demand.getDemandId()!=null && !demand.getDemandId().equals("")){
-            if(sysUser!=null){
-                demand.setCreateName(sysUser.getUsername());
-            }else{
-                demand.setCreateName("");
-            }
-            int result = demandMapper.updateById(demand);
-            if(result>0){
-                isFlag = true;
-            }
-        }
-        return isFlag;
-    }
 
     /**
      * 修改设备需求状态
@@ -98,10 +48,9 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         Boolean isFlag = false;
         if(demandId!=null && !demandId.equals("")){
             Demand demand = new Demand();
-          //  demand.setIsSend(IsSendKey);
             demand.setDemandId(demandId);
-            int result = demandMapper.updateDemand(demand);
-            if (result > 0){
+//            int result = demandMapper.updateDemand(demand);
+//            if (result > 0){
                 if(IsSendKey.equals("2")){
                     int resultTime = demandMapper.updateWhetherTime(demandId);
                     if(resultTime>0){
@@ -110,14 +59,14 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 }else {
                     isFlag = true;
                 }
-            }
+//            }
         }
         return isFlag;
     }
 
-        /**
-         * 通知工程人员领料
-         * */
+    /**
+     * 通知工程人员领料
+     * */
     @Override
     public Boolean AdviceStatus(String demandId,  String status , String taskId) {
         Boolean isFlag = false;
@@ -138,11 +87,11 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             SysUser sysUser1=null;
             if(demand1!=null){
                 String prjItemId=demand1.getPrjItemId();
-                createName=demand1.getCreateName()==null?"":demand1.getCreateName();
-                sysUser1=sysUserMapper.getUserByName(createName);
-                if(sysUser1!=null){
-                    createNameId=sysUser1.getId();
-                }
+//                createName=demand1.getCreateName()==null?"":demand1.getCreateName();
+//                sysUser1=sysUserMapper.getUserByName(createName);
+//                if(sysUser1!=null){
+//                    createNameId=sysUser1.getId();
+//                }
 
                 if(prjItemId!=null){
                     projectItemInfo=  projectItemInfoMapper.selectById(prjItemId);
@@ -177,7 +126,6 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     /***
      * 设备需求退回
      * @param demandId
-     * @param reasons
      * @return
      */
     @Override
@@ -204,11 +152,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      * @return
      */
     @Override
-    public PageInfo<Demand> queryDemand(Demand demand, Integer pageNo, Integer pageSize) {
+    public PageInfo<DemandVo> queryDemand(DemandVo demand, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        demand.setMakeDemand("1");
-        List<Demand> demandList = demandMapper.queryDemand(demand);
-        return new PageInfo<Demand>(demandList);
+        List<DemandVo> demandList = demandMapper.queryDemand(demand);
+        return new PageInfo<DemandVo>(demandList);
     }
 
     /**
@@ -217,7 +164,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      * @return
      */
     @Override
-    public List<Demand> queryTaskDemandList(String taskId){
+    public List<DemandVo> queryTaskDemandList(String taskId){
         return demandMapper.queryTaskDemand(taskId);
     }
 
@@ -229,60 +176,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
      * @return
      */
     @Override
-    public PageInfo<Demand> queryDemandStatus(Demand demand, Integer pageNo, Integer pageSize) {
+    public PageInfo<DemandVo> queryDemandStatus(DemandVo demand, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<Demand> demandList = demandMapper.queryDemandStatus(demand);
-        return new PageInfo<Demand>(demandList);
-    }
-
-    /***
-     * 删除设备需求
-     * @param demandId
-     * @return
-     */
-    @Override
-    public Boolean delDemand(String demandId) {
-        Boolean isFlag = false;
-        if(demandId!=null && !demandId.equals("")){
-            List<String> list = new ArrayList<String>();
-            list.add(demandId);
-            int result = demandMapper.delDemand(list);
-            if(result>0){
-                isFlag = true;
-            }
-        }
-        return isFlag;
-    }
-
-    /**
-     * 批量删除设备需求
-     *
-     * @param demandIds
-     * @return
-     */
-    @Override
-    public Boolean delDemands(String demandIds) {
-        Boolean isFlag = false;
-        if(demandIds != null && !demandIds.equals("")){
-            List<String> list = new ArrayList<String>();
-            char a = demandIds.charAt(demandIds.length()-1);
-            if(a == ','){
-                demandIds = demandIds.substring(0,demandIds.length()-1);
-            }
-
-            if(demandIds!=null && !demandIds.equals("")){
-                if(demandIds.contains(",")){
-                    list = new ArrayList<String>(Arrays.asList(demandIds.split(",")));
-                }else {
-                    list.add(demandIds);
-                }
-                int result = demandMapper.delDemand(list);
-                if(result>0){
-                    isFlag = true;
-                }
-            }
-        }
-        return isFlag;
+        List<DemandVo> demandList = demandMapper.queryDemandStatus(demand);
+        return new PageInfo<DemandVo>(demandList);
     }
 
     /***
@@ -309,32 +206,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return isFlag;
     }
 
-    /**
-     * 根据任务id将任务需要设备生成设备需求
-     * @param taskId
-     * @return
-     */
     @Override
-    public boolean toMakeDemand(String taskId){
-        Boolean isFlag = false;
-        List<String> ids = new ArrayList<>();
-        if(taskId.contains(",")){
-            ids = new ArrayList<String>(Arrays.asList(taskId.split(",")));
-        }else {
-            ids.add(taskId);
-        }
+    public DemandVo getDemandByPrjItenId(String prjItemId) {
 
-        int result = demandMapper.toMakeDemand(ids);
-        if(result>0){
-            isFlag = true;
-        }
-        return isFlag;
-    }
-
-    @Override
-    public Demand getDemandByPrjItenId(String prjItemId) {
-
-        Demand demand= demandMapper.getDemandByPrjItenId(prjItemId);
+        DemandVo demand= demandMapper.getDemandByPrjItenId(prjItemId);
         return demand;
     }
 

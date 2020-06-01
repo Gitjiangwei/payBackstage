@@ -3,65 +3,61 @@
 <mapper namespace="org.hero.renche.mapper.PurchaseInfoMapper">
 
     
-    <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.PurchaseInfo">
+    <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.vo.PurchaseInfoVo">
 
-        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,b.depart_name as 'whichCompany',
-        isarrival,arrival_time,a.create_time,total_price,remarks,ifnull(file_rel_id,'') as fileRelId,isstorage
+        select purchase_id as purchaseId,a.material_id as materialId,material_name as materialName,material_no as materialNo,material_type as materialType,
+        material_unit as materialUnit,price,quantity,purchaser,purchase_time as purchaseTime,which_company as whichCompany,c.company_name as companyName,
+        isarrival,isarrival,arrival_time as arrivalTime,s.realname as createUserName,total_price as totalPrice,ifnull(a.file_rel_id,'') as fileRelId,
+        have_way as haveWay,expiration_date as expirationDate,isstorage,a.remark
         from tx_purchase_info a
-        LEFT JOIN sys_depart b on a.which_company = b.id
+        left join tx_material_info m on m.material_id = a.material_id
+        left join tx_company_info c on c.company_id = a.which_company
+        left join sys_user s on s.id = a.create_user
         <trim prefix="where" prefixOverrides="and">
-            <if test="PurchaseInfo.purchaseItem != null and PurchaseInfo.purchaseItem != '' ">
-              and  purchase_item like CONCAT('%',#{PurchaseInfo.purchaseItem},'%')
+            <if test="PurchaseInfoVo.haveWay != null and PurchaseInfoVo.haveWay != '' ">
+                and have_way = #{PurchaseInfoVo.haveWay}
             </if>
-            <if test="PurchaseInfo.purchaser != null and PurchaseInfo.purchaser != '' ">
-                and  purchaser  like CONCAT('%',#{PurchaseInfo.purchaser},'%')
+            <if test="PurchaseInfoVo.materialName != null and PurchaseInfoVo.materialName != '' ">
+                and m.material_name like CONCAT('%',#{PurchaseInfoVo.materialName},'%')
             </if>
-            <if test="PurchaseInfo.isarrival != null and PurchaseInfo.isarrival != '' ">
-                and  isarrival = #{PurchaseInfo.isarrival}
+            <if test="PurchaseInfoVo.materialType != null and PurchaseInfoVo.materialType != '' ">
+                and m.material_type like CONCAT('%',#{PurchaseInfoVo.materialType},'%')
             </if>
-            <if test="PurchaseInfo.isstorage != null and PurchaseInfo.isstorage != '' ">
-                and  isstorage = #{PurchaseInfo.isstorage}
+            <if test="PurchaseInfoVo.purchaser != null and PurchaseInfoVo.purchaser != '' ">
+                and  purchaser  like CONCAT('%',#{PurchaseInfoVo.purchaser},'%')
             </if>
-            <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
-                and  purchase_time = #{PurchaseInfo.purchaseTime}
+            <if test="PurchaseInfoVo.isarrival != null and PurchaseInfoVo.isarrival != '' ">
+                and  isarrival = #{PurchaseInfoVo.isarrival}
             </if>
-            <if test="PurchaseInfo.purchaseId != null and PurchaseInfo.purchaseId != '' ">
+            <if test="PurchaseInfoVo.isstorage != null and PurchaseInfoVo.isstorage != '' ">
+                and  isstorage = #{PurchaseInfoVo.isstorage}
+            </if>
+            <if test="PurchaseInfoVo.purchaseTime != null and PurchaseInfoVo.purchaseTime != '' ">
+                and  purchase_time = #{PurchaseInfoVo.purchaseTime}
+            </if>
+            <if test="PurchaseInfoVo.purchaseId != null and PurchaseInfoVo.purchaseId != '' ">
                 and  purchase_id = #{PurchaseInfo.purchaseId}
             </if>
         </trim>
-        order by create_time desc
+        order by a.create_time desc
     </select>
 
-    <select id="qryListPurchaseInfoId" resultType="org.hero.renche.entity.PurchaseInfo">
-         select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,which_company,
-        isarrival,arrival_time,create_time,total_price,remarks,ifnull(file_rel_id,'') as fileRelId,isstorage
-        from tx_purchase_info
-        where purchase_id = #{purchaseById}
-    </select>
-    
     <update id="updatePurchaseByIds">
         UPDATE tx_purchase_info set isarrival = '1',arrival_time = NOW()
         where purchase_id in
         <foreach collection="list" item="purchaseByIds" open="(" close=")" separator=",">
             #{purchaseByIds}
-        </foreach>
+        </foreach> and isarrival != '1'
     </update>
-
-
 
     <insert id="insertReceiving">
 
-        insert into tx_equip_info(equip_id,equip_name,equip_model,equip_no,equip_price,purchase_id,create_time)
+        insert into tx_equip_info(equip_id,material_id,have_way,expiration_date,equip_no,equip_price,purchase_id,create_time)
         VALUES
         <foreach collection="list" item="equipList"  separator=")," >
-            (#{equipList.equipId},#{equipList.equipName},#{equipList.equipModel},#{equipList.equipNo},#{equipList.equipPrice},#{equipList.purchaseId},sysdate()
-        </foreach>
-
-
-)
-
+            (#{equipList.equipId},#{equipList.materialId},#{equipList.haveWay},#{equipList.expirationDate},#{equipList.equipNo},#{equipList.equipPrice},#{equipList.purchaseId},sysdate()
+        </foreach> )
     </insert>
-
 
     <select id="qryPurchaseInfoKey" resultType="String">
         select isstorage from tx_purchase_info where purchase_Id=#{purchaseId}
@@ -72,82 +68,9 @@
          where purchase_id=#{purchaseById}
     </update>
 
-    <update id="updatePurchaseByKey">
-        update tx_purchase_info
-        <trim prefix="set" suffixOverrides=",">
-            <if test="purchaseInfo.purchaseItem != null and purchaseInfo.purchaseItem != '' ">
-                purchase_item = #{purchaseInfo.purchaseItem},
-            </if>
-            <if test="purchaseInfo.itemModel != null and purchaseInfo.itemModel != '' ">
-                item_model = #{purchaseInfo.itemModel},
-            </if>
-            <if test="purchaseInfo.price != null and purchaseInfo.price != '' ">
-                price = #{purchaseInfo.price},
-            </if>
-            <if test="purchaseInfo.quantity != null and purchaseInfo.quantity != '' ">
-                quantity = #{purchaseInfo.quantity},
-            </if>
-            <if test="purchaseInfo.totalPrice != null and purchaseInfo.totalPrice != '' ">
-                total_price = #{purchaseInfo.totalPrice},
-            </if>
-            <if test="purchaseInfo.purchaser != null and purchaseInfo.purchaser != '' ">
-                purchaser = #{purchaseInfo.purchaser},
-            </if>
-            <if test="purchaseInfo.purchaseTime != null ">
-                purchase_time = #{purchaseInfo.purchaseTime},
-            </if>
-            <if test="purchaseInfo.whichCompany != null and purchaseInfo.whichCompany != '' ">
-                which_company = #{purchaseInfo.whichCompany},
-            </if>
-            <if test="purchaseInfo.arrivalTime != null ">
-                arrival_time = #{purchaseInfo.arrivalTime},
-            </if>
-            <if test="purchaseInfo.fileRelId != null and purchaseInfo.fileRelId != '' ">
-                file_rel_id = #{purchaseInfo.fileRelId},
-            </if>
-            <if test="purchaseInfo.isarrival != null and purchaseInfo.isarrival != '' ">
-                isarrival = #{purchaseInfo.isarrival},
-            </if>
-            <if test="purchaseInfo.remarks != null and purchaseInfo.remarks != '' ">
-                remarks = #{purchaseInfo.remarks},
-            </if>
-        </trim>
-        where purchase_id = #{purchaseInfo.purchaseId}
-
-    </update>
-
-
     <update id="updateFileIds">
            update tx_purchase_info set  file_rel_id = #{purchaseInfo.fileRelId}
             where purchase_id = #{purchaseInfo.purchaseId}
     </update>
 
-    <select id="exportPurchaseInfoList"  resultType="org.hero.renche.entity.PurchaseInfo">
-
-        select purchase_id,purchase_item,item_model,price,quantity,purchaser,purchase_time,b.depart_name as 'whichCompany',
-        isarrival,arrival_time,a.create_time,total_price,remarks,ifnull(file_rel_id,'') as fileRelId,isstorage
-        from tx_purchase_info a
-        LEFT JOIN sys_depart b on a.which_company = b.id
-        <trim prefix="where" prefixOverrides="and">
-            <if test="PurchaseInfo.purchaseItem != null and PurchaseInfo.purchaseItem != '' ">
-                and  purchase_item like CONCAT('%',#{PurchaseInfo.purchaseItem},'%')
-            </if>
-            <if test="PurchaseInfo.purchaser != null and PurchaseInfo.purchaser != '' ">
-                and  purchaser  like CONCAT('%',#{PurchaseInfo.purchaser},'%')
-            </if>
-            <if test="PurchaseInfo.isarrival != null and PurchaseInfo.isarrival != '' ">
-                and  isarrival = #{PurchaseInfo.isarrival}
-            </if>
-            <if test="PurchaseInfo.isstorage != null and PurchaseInfo.isstorage != '' ">
-                and  isstorage = #{PurchaseInfo.isstorage}
-            </if>
-            <if test="PurchaseInfo.purchaseTime != null and PurchaseInfo.purchaseTime != '' ">
-                and  purchase_time = #{PurchaseInfo.purchaseTime}
-            </if>
-            <if test="PurchaseInfo.purchaseId != null and PurchaseInfo.purchaseId != '' ">
-                and  purchase_id = #{PurchaseInfo.purchaseId}
-            </if>
-        </trim>
-        order by create_time desc
-    </select>
 </mapper>

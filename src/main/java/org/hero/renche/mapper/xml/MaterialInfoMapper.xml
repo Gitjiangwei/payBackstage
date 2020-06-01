@@ -21,7 +21,7 @@
     </select>
 
     <select id="getMaterialNo" resultType="java.lang.String">
-        SELECT max(material_no) from tx_material_info where py_name=#{pyName}
+        SELECT count(1) from tx_material_info where py_name=#{pyName}
     </select>
 
 </mapper>

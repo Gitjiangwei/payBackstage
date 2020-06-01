@@ -2,8 +2,10 @@ package org.hero.renche.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.hero.renche.entity.Dict;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
+import org.hero.renche.entity.vo.EquipInfoVo;
 
 import java.util.List;
 import java.util.Map;
@@ -15,11 +17,11 @@ import java.util.Map;
 public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
 
 
-    List<EquipinfoModel> qryEquipList(@Param("equip")Map<String,String> map);
+    List<EquipInfoVo> qryEquipList(@Param("EquipInfoVo") EquipInfoVo equipInfoVo);
 
-    List<EquipInfo> qryEquipListKey(@Param("equipInfo") EquipInfo equipInfo);
+    List<EquipInfoVo> qryEquipListKey(@Param("EquipInfo") EquipInfo equipInfo);
 
-    List<EquipInfo> qryEquipListKeys(@Param("equipInfo") EquipInfo equipInfo);
+    List<EquipInfoVo> qryEquipListKeys(@Param("EquipInfo") EquipInfo equipInfo);
 
     int qryEquipKeyCount(@Param("purchaseId") String purchaseId);
 
@@ -27,7 +29,6 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
     int updateDetailEquipInfo(@Param("equipInfo") EquipInfo equipInfo);
 
     int updateEquipStatus(@Param("equipId") String equipId);
-    List exportEquipInfoList(@Param("equip")Map<String,String> map);
 
     int updateEuipStatusweix(@Param("equipId") String equipId);
 

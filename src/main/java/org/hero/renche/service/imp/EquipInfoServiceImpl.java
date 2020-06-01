@@ -4,15 +4,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.EquipInfo;
-import org.hero.renche.entity.modelData.EquipinfoModel;
+import org.hero.renche.entity.vo.EquipInfoVo;
 import org.hero.renche.mapper.EquipInfoMapper;
 import org.hero.renche.service.IEquipinfoService;
+import org.hero.renche.util.ExcelData;
+import org.hero.renche.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Service
 public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo> implements IEquipinfoService {
@@ -20,20 +21,18 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
     @Autowired
     private EquipInfoMapper equipInfoMapper;
 
-
-
     @Override
-    public PageInfo<EquipinfoModel> qryEqipCountList(Map<String,String> map, Integer pageNo, Integer pageSize) {
+    public PageInfo<EquipInfoVo> qryEqipCountList(EquipInfoVo equipInfoVo, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<EquipinfoModel> equipList = equipInfoMapper.qryEquipList(map);
-        return new PageInfo<EquipinfoModel>(equipList);
+        List<EquipInfoVo> equipList = equipInfoMapper.qryEquipList(equipInfoVo);
+        return new PageInfo<EquipInfoVo>(equipList);
     }
 
     @Override
-    public PageInfo<EquipInfo> qryEquipListKeyDetail(EquipInfo equipInfo, Integer pageNo, Integer pageSize) {
+    public PageInfo<EquipInfoVo> qryEquipListKeyDetail(EquipInfo equipInfo, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<EquipInfo> equipInfoList = equipInfoMapper.qryEquipListKey(equipInfo);
-        return new PageInfo<EquipInfo>(equipInfoList);
+        List<EquipInfoVo> equipInfoList = equipInfoMapper.qryEquipListKey(equipInfo);
+        return new PageInfo<EquipInfoVo>(equipInfoList);
     }
 
     /**
@@ -45,10 +44,10 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
      * @return
      */
     @Override
-    public PageInfo<EquipInfo> qryEquipListKey(EquipInfo equipInfo, Integer pageNo, Integer pageSize) {
+    public PageInfo<EquipInfoVo> qryEquipListKey(EquipInfo equipInfo, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<EquipInfo> equipInfoList = equipInfoMapper.qryEquipListKeys(equipInfo);
-        return new PageInfo<EquipInfo>(equipInfoList);
+        List<EquipInfoVo> equipInfoList = equipInfoMapper.qryEquipListKeys(equipInfo);
+        return new PageInfo<EquipInfoVo>(equipInfoList);
     }
 
     @Override
@@ -73,9 +72,38 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
     }
 
     @Override
-    public List exportEquipInfoList(Map<String, String> map) {
-        List list=equipInfoMapper.exportEquipInfoList(map);
-        return list;
+    public void exportEquipInfoList(Map<String, String> map, HttpServletResponse response) {
+        try {
+            EquipInfoVo equipInfoVo=new EquipInfoVo();
+            equipInfoVo.setMaterialName(map.get("materialName"));
+            equipInfoVo.setMaterialType(map.get("materialType"));
+            List<EquipInfoVo> qryList=equipInfoMapper.qryEquipList(equipInfoVo);
+            List<List<Object>> lists=new ArrayList<>();
+            List<Object> list=null;
+            EquipInfoVo vo=null;
+            for(int i=0;i<qryList.size();i++){
+                list=new ArrayList();
+                vo=qryList.get(i);
+                list.add(vo.getMaterialNo());
+                list.add(vo.getMaterialName());
+                list.add(vo.getMaterialType());
+                list.add(vo.getCount());
+                list.add(vo.getInuseCount());
+                list.add(vo.getFreeCount());
+                list.add(vo.getScripCount());
+                list.add(vo.getMaintenonceCount());
+                lists.add(list);
+            }
+            ExcelData excelData=new ExcelData();
+            excelData.setName("设备库存");
+            String[] titleColumn = {"物料编号","物料名称","物料型号","数量","使用中","空闲","报废","维修中"};
+            List<String> titlesList = Arrays.asList(titleColumn);
+            excelData.setTitles(titlesList);
+            excelData.setRows(lists);
+            ExcelUtils.exportExcel(response , "设备库存.xlsx" , excelData);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -22,14 +22,11 @@ public class Demand implements Serializable {
     @TableId(type = IdType.UUID)
     private String demandId;
 
-    /**设备名称*/
-    private String equipmentName;
+    /**关联物料id*/
+    private String materialId;
 
-    /**设备型号*/
-    private String equipmentModel;
-
-    /**设备数量*/
-    private String equipmentNumber;
+    /**需求数量*/
+    private String needNumber;
 
     /**创建时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
@@ -37,7 +34,7 @@ public class Demand implements Serializable {
     private Date createTime;
 
     /**创建人*/
-    private String createName;
+    private String createUser;
 
     /**处理时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
@@ -63,12 +60,11 @@ public class Demand implements Serializable {
     /*工程点ID*/
     private String prjItemId;
 
-    /**是否生成需求（0否  1是）*/
-    private String makeDemand;
-
     /**关联任务*/
     private String taskId;
 
-    /*创建人ID*/
-    private  String createUserId;
+    /**租赁到期日期*/
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date expirationDate;
 }

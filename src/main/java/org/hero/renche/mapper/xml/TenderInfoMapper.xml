@@ -3,11 +3,11 @@
 <mapper namespace="org.hero.renche.mapper.TenderInfoMapper">
 
 
-    <select id="qryTenderList" resultType="org.hero.renche.entity.vo.TenderInfoVo">
+    <select id="qryTenderList" resultType="org.hero.renche.entity.TenderInfo">
         SELECT tender_id as tenderId,tender_no as tenderNo,plan_out_time as planOutTime, reality_out_time as realityOutTime,prj_name as prjName,
             tender_company as tenderCompany,tender_offer as tenderOffer,deposit,is_back as isBack,agency,purchase_person as purchasePerson,
             service_money as serviceMoney,pay_time as payTime,recede_time as recedeTime,recede_deposit as recedeDeposit,remark, pay_way as payWay,
-            ifnull(t.file_rel_id,'') as fileRelId ,length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
+            ifnull(t.file_rel_id,'') as fileRelId
         FROM tx_tender_info t
         <trim prefix="where" prefixOverrides="and">
             <if test="TenderInfo.prjName !=null and TenderInfo.prjName != '' ">

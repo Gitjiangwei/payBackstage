@@ -3,25 +3,13 @@ package org.hero.renche.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.vo.DemandVo;
 
 import java.util.List;
 
 public interface IDemandService extends IService<Demand> {
 
 
-    /***
-     * 添加设备需求
-     * @param demand
-     * @return
-     */
-    Boolean saveDemand(Demand demand);
-
-    /***
-     * 修改设备需求
-     * @param demand
-     * @return
-     */
-    Boolean updateDemand(Demand demand);
 
     /**
      * 修改设备需求状态
@@ -33,7 +21,6 @@ public interface IDemandService extends IService<Demand> {
     /**
      * 修改通知工程人员领料状态
      * @param demandId
-     * @param adviceStatus
      * @return
      */
     Boolean AdviceStatus(String demandId,  String status , String taskId);
@@ -42,7 +29,6 @@ public interface IDemandService extends IService<Demand> {
     /***
      * 修改设备需求状态
      * @param demandId
-     * @param reasons
      * @return
      */
     Boolean updateDemandStatus(String demandId,String status);
@@ -54,14 +40,14 @@ public interface IDemandService extends IService<Demand> {
      * @param pageSize
      * @return
      */
-    PageInfo<Demand> queryDemand(Demand demand, Integer pageNo, Integer pageSize);
+    PageInfo<DemandVo> queryDemand(DemandVo demand, Integer pageNo, Integer pageSize);
 
     /**
      * 查询任务设备需求
      * @param taskId
      * @return
      */
-    List<Demand> queryTaskDemandList(String taskId);
+    List<DemandVo> queryTaskDemandList(String taskId);
 
 
     /**
@@ -71,7 +57,7 @@ public interface IDemandService extends IService<Demand> {
      * @param pageSize
      * @return
      */
-    PageInfo<Demand> queryDemandStatus(Demand demand, Integer pageNo, Integer pageSize);
+    PageInfo<DemandVo> queryDemandStatus(DemandVo demand, Integer pageNo, Integer pageSize);
 
     /***
      * 删除设备需求
@@ -80,26 +66,5 @@ public interface IDemandService extends IService<Demand> {
      */
     Boolean delDemandByTaskId(String taskId);
 
-    /***
-     * 删除设备需求
-     * @param demandId
-     * @return
-     */
-    Boolean delDemand(String demandId);
-
-    /**
-     * 批量删除设备需求
-     * @param demandIds
-     * @return
-     */
-    Boolean delDemands(String demandIds);
-
-    /**
-     * 任务需要设备生成设备需求
-     * @param taskId
-     * @return
-     */
-    boolean toMakeDemand(String taskId);
-
-    Demand getDemandByPrjItenId(String prjItemId);
+    DemandVo getDemandByPrjItenId(String prjItemId);
 }

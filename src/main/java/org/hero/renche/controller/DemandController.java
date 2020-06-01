@@ -6,23 +6,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.SecurityUtils;
 import org.hero.renche.entity.Demand;
-import org.hero.renche.entity.MessageInfo;
+import org.hero.renche.entity.vo.DemandVo;
 import org.hero.renche.service.IDemandService;
-import org.hero.renche.service.IMessageInfoService;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
-import org.jeecg.common.util.PasswordUtil;
-import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -32,20 +26,21 @@ public class DemandController {
     @Autowired
     private IDemandService demandService;
 
-    @Autowired
-    private IMessageInfoService messageInfoService;
-
-
     @AutoLog("添加设备需求")
     @PostMapping(value = "/saveDemand")
     public Result<Demand>  saveDemand(@RequestBody Demand demand){
         Result<Demand> result = new Result<>();
-        Boolean resultOk = demandService.saveDemand(demand);
-        if(resultOk){
-            result.success("添加成功");
+        demand.setCreateTime(new Date());
+        try {
+            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            demand.setCreateUser(sysUser.getId());
+            boolean ok = demandService.save(demand);
+            result.success("添加成功！");
             result.setResult(demand);
-        }else {
-            result.error500("添加失败！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("操作失败");
         }
         return result;
     }
@@ -53,14 +48,15 @@ public class DemandController {
 
     @AutoLog("修改设备需求")
     @PostMapping(value = "/updateDemand")
-    public Result<T>  updateDemand(@RequestBody Demand demand){
-        Result<T> result = new Result<T>();
-        if(demand.getDemandId()==null || demand.getDemandId().equals("")){
-            result.error500("参数丢失！");
-        }else {
-            Boolean resultOk = demandService.updateDemand(demand);
-            if(resultOk){
-                result.success("修改成功");
+    public Result<Demand>  updateDemand(@RequestBody Demand demand){
+        Result<Demand> result = new Result<>();
+        Demand demandEntity = demandService.getById(demand.getDemandId());
+        if (demandEntity == null) {
+            result.error500("未找到对应实体");
+        } else {
+            boolean ok = demandService.updateById(demand);
+            if (ok) {
+                result.success("修改成功!");
             }else {
                 result.error500("修改失败！");
             }
@@ -101,8 +97,6 @@ public class DemandController {
         if(demandId==null || demandId.equals("")){
             result.error500("参数丢失！");
         }else{
-            MessageInfo messageInfo=new MessageInfo();
-
             Boolean resultOk = demandService.AdviceStatus(demandId,status,taskId);
             if(resultOk){
                     result.success("通知成功");
@@ -157,10 +151,10 @@ public class DemandController {
 
     @AutoLog("查询全部设备需求")
     @GetMapping(value = "/queryDemand")
-    public Result<PageInfo<Demand>> queryDemand(Demand demand,@RequestParam(name = "pageNo") Integer pageNo,
+    public Result<PageInfo<DemandVo>> queryDemand(DemandVo demand, @RequestParam(name = "pageNo") Integer pageNo,
                                                 @RequestParam(name = "pageSize") Integer pageSize){
-        Result<PageInfo<Demand>> result = new Result<>();
-        PageInfo<Demand> demandPageInfo = demandService.queryDemand(demand,pageNo,pageSize);
+        Result<PageInfo<DemandVo>> result = new Result<>();
+        PageInfo<DemandVo> demandPageInfo = demandService.queryDemand(demand,pageNo,pageSize);
         result.setResult(demandPageInfo);
         result.setSuccess(true);
         return result;
@@ -168,9 +162,9 @@ public class DemandController {
 
     @AutoLog("查询任务需要设备")
     @GetMapping(value = "/queryDemandList")
-    public Result<List<Demand>> queryDemandList(@RequestParam(name = "taskId",required = false) String taskId){
-        Result<List<Demand>> result = new Result<>();
-        List<Demand> demandPageInfo = demandService.queryTaskDemandList(taskId);
+    public Result<List<DemandVo>> queryDemandList(@RequestParam(name = "taskId",required = false) String taskId){
+        Result<List<DemandVo>> result = new Result<>();
+        List<DemandVo> demandPageInfo = demandService.queryTaskDemandList(taskId);
         result.setResult(demandPageInfo);
         result.setSuccess(true);
         return result;
@@ -178,10 +172,10 @@ public class DemandController {
 
     @AutoLog("查询已处理和未处理的设备需求")
     @GetMapping(value = "/queryDemandStatus")
-    public Result<PageInfo<Demand>> queryDemandStatus(Demand demand,@RequestParam(name = "pageNo") Integer pageNo,
+    public Result<PageInfo<DemandVo>> queryDemandStatus(DemandVo demand,@RequestParam(name = "pageNo") Integer pageNo,
                                                 @RequestParam(name = "pageSize") Integer pageSize){
-        Result<PageInfo<Demand>> result = new Result<>();
-        PageInfo<Demand> queryDemandStatus = demandService.queryDemandStatus(demand,pageNo,pageSize);
+        Result<PageInfo<DemandVo>> result = new Result<>();
+        PageInfo<DemandVo> queryDemandStatus = demandService.queryDemandStatus(demand,pageNo,pageSize);
         result.setResult(queryDemandStatus);
         result.setSuccess(true);
         return result;
@@ -190,14 +184,15 @@ public class DemandController {
 
     @AutoLog("删除设备需求")
     @PostMapping(value = "/delDemand")
-    public Result<T> delDemand(@RequestParam(name = "demandId") String demandId){
-        Result<T> result = new Result<T>();
-        if(demandId==null || demandId.equals("")){
-            result.error500("参数丢失！");
-        }else {
-            Boolean resultOk = demandService.delDemand(demandId);
-            if(resultOk){
-                result.success("删除成功");
+    public Result<Demand> delDemand(@RequestParam(name = "demandId") String demandId){
+        Result<Demand> result = new Result<>();
+        Demand demand = demandService.getById(demandId);
+        if (demand == null) {
+            result.error500("未找到对应实体");
+        } else {
+            boolean ok = demandService.removeById(demandId);
+            if (ok) {
+                result.success("删除成功!");
             }else {
                 result.error500("删除失败！");
             }
@@ -207,12 +202,12 @@ public class DemandController {
 
     @AutoLog("批量删除设备需求")
     @PostMapping(value = "/delDemands")
-    public Result<T> delDemands(@RequestParam(name = "demandIds") String demandIds){
-        Result<T> result = new Result<T>();
-        if(demandIds==null || demandIds.equals("")){
-            result.error500("参数丢失！");
+    public Result<Demand> delDemands(@RequestParam(name = "demandIds") String demandIds){
+        Result<Demand> result = new Result<>();
+        if (demandIds == null || "".equals(demandIds.trim())) {
+            result.error500("参数不识别！");
         }else {
-            Boolean resultOk = demandService.delDemands(demandIds);
+            Boolean resultOk = demandService.removeByIds(Arrays.asList(demandIds.split(",")));
             if(resultOk){
                 result.success("批量删除成功");
             }else {

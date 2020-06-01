@@ -3,75 +3,62 @@
 <mapper namespace="org.hero.renche.mapper.EquipInfoMapper">
 
 
-    <select id="qryEquipList" parameterType="Map" resultType="org.hero.renche.entity.modelData.EquipinfoModel">
-
-
-        select b.purchase_id, b.equip_name,b.create_time,b.equip_model,count(1) as 'count',count(c.couns) as 'inuse_count',count(d.couns) as 'free_count',count(e.couns) as 'maintenonce_count',
-        count(g.couns) as 'scrip_count'
-        from tx_equip_info b
-        LEFT JOIN (
-            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-          where b.dict_code_name = '使用中'
-            GROUP BY a.equip_status,equip_id
-        )c  ON  b.equip_id  = c.equip_id
-        LEFT JOIN (
-            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-          where b.dict_code_name = '空闲'
-            GROUP BY a.equip_status,equip_id
-        )d  ON  b.equip_id  = d.equip_id
-        LEFT JOIN (
-            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-          where b.dict_code_name = '维修中'
-            GROUP BY a.equip_status,equip_id
-        )e  ON  b.equip_id  = e.equip_id
-        LEFT JOIN (
-            SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-            LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-            where b.dict_code_name = '报废'
-            GROUP BY a.equip_status,equip_id
-        )g  ON  b.equip_id  = g.equip_id
+    <select id="qryEquipList" parameterType="Map" resultType="org.hero.renche.entity.vo.EquipInfoVo">
+        select c.material_name,c.material_type,count,b.* from (
+            select e.material_id,material_name,py_name,material_type,count(1) as count from tx_equip_info e
+            left join tx_material_info m on m.material_id = e.material_id group by e.material_id) c
+        left join (
+            select material_id,
+                ifnull(sum(case dict_code_id when 'FREE' then count end),0) freeCount,
+                ifnull(sum(case dict_code_id when 'INUSE' then count end),0) inuseCount,
+                ifnull(sum(case dict_code_id when 'INREPAIR' then count end),0) maintenonceCount,
+                ifnull(sum(case dict_code_id when 'SCRAP' then count end),0) scripCount
+            from (SELECT e.material_id,dict_code_id,COUNT(1) count from tx_equip_info e
+                left join tx_dict d on e.equip_status = d.dict_id
+                left join tx_material_info m on m.material_id = e.material_id GROUP BY equip_status,e.material_id) a
+            GROUP BY material_id) b on c.material_id=b.material_id
         <trim prefix="where" prefixOverrides="and">
-            <if test="equip.equipName != null and equip.equipName != '' ">
-                and b.equip_name like CONCAT('%',#{equip.equipName},'%')
+            <if test="EquipInfoVo.materialName != null and EquipInfoVo.materialName != '' ">
+                and material_name like CONCAT('%',#{EquipInfoVo.materialName},'%')
             </if>
-            <if test="equip.equipModel != null and equip.equipModel != '' ">
-                and b.equip_model like CONCAT('%',#{equip.equipModel},'%')
-        </if>
+            <if test="EquipInfoVo.materialType != null and EquipInfoVo.materialType != '' ">
+                and material_type like CONCAT('%',#{EquipInfoVo.equipModel},'%')
+            </if>
         </trim>
-
-
-        GROUP BY b.purchase_id ORDER BY b.create_time
-
+        ORDER BY c.py_name asc
     </select>
 
 
-    <select id="qryEquipListKey" resultType="org.hero.renche.entity.EquipInfo">
-        select a.equip_id,a.equip_name,a.equip_no,equip_price,a.`condition`,a.use_times,b.dict_code_id as 'equipStatus',a.manufacory_no from tx_equip_info a
-        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
+    <select id="qryEquipListKey" resultType="org.hero.renche.entity.vo.EquipInfoVo">
+        select e.equip_id as equipId,e.material_id as materialId,m.material_name as materialName,equip_no as equipNo,manufacory_no as manufacoryNo,
+            use_times as useTimes,have_way as haveWay,expiration_date as expirationDate,`condition`,purchase_id as purchaseId,b.dict_code_id as equipStatus
+        from tx_equip_info e
+        left join tx_material_info m on e.material_id = m.material_id
+        LEFT JOIN tx_dict b on e.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
         <trim prefix="where" prefixOverrides="and">
-            a.purchase_id = #{equipInfo.purchaseId}
-            <if test="equipInfo.equipNo!=null and equipInfo.equipNo != '' ">
-                and a.equip_no like CONCAT('%',#{equipInfo.equipNo},'%',)
+            e.material_id = #{EquipInfo.materialId}
+            <if test="EquipInfo.equipNo != null and EquipInfo.equipNo != '' ">
+                and e.equip_no like CONCAT('%',#{EquipInfo.equipNo},'%')
             </if>
-            <if test="equipInfo.equipStatus != null and equipInfo.equipStatus != '' ">
-                and b.dict_code_id = #{equipInfo.equipStatus}
+            <if test="EquipInfo.equipStatus != null and EquipInfo.equipStatus != '' ">
+                and b.dict_code_id = #{EquipInfo.equipStatus}
             </if>
         </trim>
     </select>
 
-    <select id="qryEquipListKeys" resultType="org.hero.renche.entity.EquipInfo">
-        select a.equip_id,a.equip_name,a.equip_no,equip_price,a.`condition`,a.use_times,b.dict_code_id as 'equipStatus',a.manufacory_no from tx_equip_info a
-        INNER JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS' AND (b.dict_code_id='FREE' OR b.dict_code_id ='INREPAIR')
+    <select id="qryEquipListKeys" resultType="org.hero.renche.entity.vo.EquipInfoVo">
+        select e.equip_id as equipId,e.material_id as materialId,m.material_name as materialName,equip_no as equipNo,manufacory_no as manufacoryNo,
+        use_times as useTimes,have_way as haveWay,expiration_date as expirationDate,`condition`,purchase_id as purchaseId,b.dict_code_id as equipStatus
+        from tx_equip_info e
+        left join tx_material_info m on e.material_id = m.material_id
+        INNER JOIN tx_dict b on e.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS' AND (b.dict_code_id='FREE' OR b.dict_code_id ='INREPAIR')
         <trim prefix="where" prefixOverrides="and">
-            a.purchase_id = #{equipInfo.purchaseId}
-            <if test="equipInfo.equipNo!=null and equipInfo.equipNo != '' ">
-                and a.equip_no like CONCAT('%',#{equipInfo.equipNo},'%',)
+            e.material_id = #{EquipInfo.materialId}
+            <if test="EquipInfo.equipNo != null and EquipInfo.equipNo != '' ">
+                and e.equip_no like CONCAT('%',#{EquipInfo.equipNo},'%')
             </if>
-            <if test="equipInfo.equipStatus != null and equipInfo.equipStatus != '' ">
-                and b.dict_code_id = #{equipInfo.equipStatus}
+            <if test="EquipInfo.equipStatus != null and EquipInfo.equipStatus != '' ">
+                and b.dict_code_id = #{EquipInfo.equipStatus}
             </if>
         </trim>
     </select>
@@ -79,7 +66,7 @@
 
     <select id="qryEquipKeyCount" resultType="int">
         select count(1) from tx_equip_info
-        where purchase_id = #{purchaseId}
+        where material_id = #{materialId}
     </select>
 
 
@@ -107,52 +94,6 @@
         update tx_equip_info set equip_status = '0bd5a7bb593811eaab75b4a9fc4b5236'
         where equip_id = #{equipId}
     </update>
-
-
-    <select id="exportEquipInfoList" parameterType="Map" resultType="org.hero.renche.entity.modelData.EquipinfoModel">
-
-
-        select b.purchase_id, b.equip_name,b.create_time,b.equip_model,count(1) as 'count',count(c.couns) as 'inuse_count',count(d.couns) as 'free_count',count(e.couns) as 'maintenonce_count',
-        count(g.couns) as 'scrip_count'
-        from tx_equip_info b
-        LEFT JOIN (
-        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-        where b.dict_code_name = '使用中'
-        GROUP BY a.equip_status,equip_id
-        )c  ON  b.equip_id  = c.equip_id
-        LEFT JOIN (
-        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-        where b.dict_code_name = '空闲'
-        GROUP BY a.equip_status,equip_id
-        )d  ON  b.equip_id  = d.equip_id
-        LEFT JOIN (
-        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-        where b.dict_code_name = '维修中'
-        GROUP BY a.equip_status,equip_id
-        )e  ON  b.equip_id  = e.equip_id
-        LEFT JOIN (
-        SELECT a.equip_id,b.dict_code_name,a.equip_name, count(1) as 'couns' from tx_equip_info a
-        LEFT JOIN tx_dict b on a.equip_status = b.dict_id and b.dict_code ='ELECTSTATUS'
-        where b.dict_code_name = '报废'
-        GROUP BY a.equip_status,equip_id
-        )g  ON  b.equip_id  = g.equip_id
-        <trim prefix="where" prefixOverrides="and">
-            <if test="equip.equipName != null and equip.equipName != '' ">
-                and b.equip_name like CONCAT('%',#{equip.equipName},'%')
-            </if>
-            <if test="equip.equipModel != null and equip.equipModel != '' ">
-                and b.equip_model like CONCAT('%',#{equip.equipModel},'%')
-            </if>
-        </trim>
-
-
-        GROUP BY b.purchase_id ORDER BY b.create_time
-
-    </select>
-
 
     <update id="updateEuipStatusweix">
         update tx_equip_info set equip_status = '0bd710ac593811eaab75b4a9fc4b5236'

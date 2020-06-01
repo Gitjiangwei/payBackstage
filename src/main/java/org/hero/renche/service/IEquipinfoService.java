@@ -5,7 +5,9 @@ import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.modelData.EquipinfoModel;
+import org.hero.renche.entity.vo.EquipInfoVo;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @param pageSize
      * @return
      */
-    PageInfo<EquipinfoModel> qryEqipCountList(Map<String,String> map, Integer pageNo, Integer pageSize);
+    PageInfo<EquipInfoVo> qryEqipCountList(EquipInfoVo equipInfoVo, Integer pageNo, Integer pageSize);
 
 
     /**
@@ -27,14 +29,14 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @param equipInfo
      * @return
      */
-    PageInfo<EquipInfo> qryEquipListKeyDetail(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
+    PageInfo<EquipInfoVo> qryEquipListKeyDetail(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
 
     /**
      * 根据设备型号id查询详情只查询空闲和维修状态的设备
      * @param equipInfo
      * @return
      */
-    PageInfo<EquipInfo> qryEquipListKey(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
+    PageInfo<EquipInfoVo> qryEquipListKey(EquipInfo equipInfo,Integer pageNo,Integer pageSize);
 
 
     /**
@@ -47,7 +49,7 @@ public interface IEquipinfoService extends IService<EquipInfo> {
 
     Boolean updateEquipStatus(String equipId);
 
-    List exportEquipInfoList(Map<String,String> map);
+    void exportEquipInfoList(Map<String, String> map, HttpServletResponse response);
 
     /**
      * 设备进入维修
