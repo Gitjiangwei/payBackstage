@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.ArrivalListMapper">
+
+
+    <resultMap id="demandMap" type="org.hero.renche.entity.vo.ArrivalListVo" autoMapping="true">
+        <id column="arrival_id" property="arrivalId"></id>
+        <collection property="demandList"  ofType="org.hero.renche.entity.vo.DemandVo" javaType="java.util.ArrayList" autoMapping="true">
+            <id column="demand_id" property="demandId"></id>
+        </collection>
+    </resultMap>
+
+    <select id="qryListArrivalListVo"  resultMap="demandMap">
+        SELECT
+        a.arrival_id,
+        p.prj_item_name,
+        a.prj_item_id,
+        a.receiver,
+        a.recipient,
+        a.receipt_date,
+        a.phone_number,
+        d.remarks,
+        d.need_number,
+        m.material_name,
+        m.material_no,
+        m.material_unit
+        FROM
+        tx_arrival_list a
+        JOIN tx_demand d ON a.prj_item_id = d.prj_item_id
+        JOIN tx_material_info m ON d.material_id = m.material_id
+        JOIN tx_project_item p ON a.prj_item_id = p.prj_item_id
+
+        <where>
+            <if test="ArrivalListVo.prjItemId != null and ArrivalListVo.prjItemId  != '' ">
+                a.prj_item_id = #{ArrivalListVo.prjItemId}
+            </if>
+            <if test="ArrivalListVo.prjItemName != null and ArrivalListVo.prjItemName  != '' ">
+               and p.prj_item_name like CONCAT('%',#{ArrivalListVo.prjItemName},'%')
+            </if>
+            <if test="ArrivalListVo.receiver != null and ArrivalListVo.receiver  != '' ">
+             and   a.receiver  like CONCAT('%',#{ArrivalListVo.receiver},'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrjItemId">
+        select * from tx_arrival_list where  prj_item_id = #{prjItemId}
+    </delete>
+
+    <delete id="deleteByPrjItemIds">
+        delete from tx_arrival_list where prj_item_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+
+
+</mapper>
