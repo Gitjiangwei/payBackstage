@@ -128,9 +128,6 @@ public class DemandController {
         return result;
     }
 
-
-
-
     @AutoLog("设备需求退回")
     @PostMapping(value = "/updateTuihui")
     public Result<T> updateDemandStatus(@RequestParam(name = "demandId") String demandId,
@@ -155,16 +152,6 @@ public class DemandController {
                                                 @RequestParam(name = "pageSize") Integer pageSize){
         Result<PageInfo<DemandVo>> result = new Result<>();
         PageInfo<DemandVo> demandPageInfo = demandService.queryDemand(demand,pageNo,pageSize);
-        result.setResult(demandPageInfo);
-        result.setSuccess(true);
-        return result;
-    }
-
-    @AutoLog("查询任务需要设备")
-    @GetMapping(value = "/queryDemandList")
-    public Result<List<DemandVo>> queryDemandList(@RequestParam(name = "taskId",required = false) String taskId){
-        Result<List<DemandVo>> result = new Result<>();
-        List<DemandVo> demandPageInfo = demandService.queryTaskDemandList(taskId);
         result.setResult(demandPageInfo);
         result.setSuccess(true);
         return result;
@@ -217,37 +204,4 @@ public class DemandController {
         return result;
     }
 
-    @RequestMapping(value = "/getSessionDemand", method = RequestMethod.POST)
-    public Result<List<Demand>> getSessionDemand(@RequestBody JSONObject jsonObject) {
-        Result<List<Demand>> result = new Result<>();
-        try {
-            List<Demand> demandList = new ArrayList<>();
-            JSONArray demandArray = jsonObject.getJSONArray("demandList");
-            if(demandArray != null){
-                demandList = demandArray.toJavaList(Demand.class);
-            }
-
-            Demand demand = JSON.parseObject(jsonObject.toJSONString(), Demand.class);
-            String demandId = demand.getDemandId();
-            if(demandId != null && !"".equals(demandId)){
-                for(int i = 0; i < demandList.size(); i++){
-                    if(demandList.get(i).getDemandId().equals(demandId)){
-                        demandList.set(i, demand);
-                        break;
-                    }
-                }
-                result.success("修改成功！");
-            }else{
-                demand.setDemandId(UUID.randomUUID().toString().replace("-",""));
-                demandList.add(demand);
-                result.success("添加成功！");
-            }
-            result.setResult(demandList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.info(e.getMessage());
-            result.error500("操作失败");
-        }
-        return result;
-    }
 }

@@ -31,12 +31,6 @@
         order by d.create_time desc
     </select>
 
-    <select id="queryTaskDemand"  resultType="org.hero.renche.entity.vo.DemandVo">
-        SELECT prj_item_id, demand_id,equipment_name,equipment_model,equipment_number,create_time,create_name,update_time,
-        status,whether_time,remarks,reasons , have_way from tx_demand where task_id = #{taskId}
-        order by update_time desc ,create_time desc
-    </select>
-
     <select id="queryDemandStatus" resultType="org.hero.renche.entity.vo.DemandVo">
         SELECT demand_id,equipment_name,equipment_model,have_way,equipment_number,create_name,update_time,status,whether_time,remarks,reasons from tx_demand
         <trim prefix="where" prefixOverrides="and">

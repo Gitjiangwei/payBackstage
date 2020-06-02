@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface IDemandService extends IService<Demand> {
 
-
-
     /**
      * 修改设备需求状态
      * @param demandId,IsSendKey
@@ -41,14 +39,6 @@ public interface IDemandService extends IService<Demand> {
      * @return
      */
     PageInfo<DemandVo> queryDemand(DemandVo demand, Integer pageNo, Integer pageSize);
-
-    /**
-     * 查询任务设备需求
-     * @param taskId
-     * @return
-     */
-    List<DemandVo> queryTaskDemandList(String taskId);
-
 
     /**
      * 查询全部设备需求(只查询)

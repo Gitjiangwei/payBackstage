@@ -25,13 +25,6 @@ public interface DemandMapper extends BaseMapper<Demand> {
     List<DemandVo> queryDemand(@Param("DemandVo") DemandVo demand);
 
     /***
-     * 查询任务需要设备
-     * @param taskId
-     * @return
-     */
-    List<DemandVo> queryTaskDemand(@Param("taskId")  String taskId);
-
-    /***
      * 设备需求查询(只查处理或者未处理)
      * @param demand
      * @return

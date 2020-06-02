@@ -159,16 +159,6 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     }
 
     /**
-     * 查询任务设备需求
-     * @param taskId
-     * @return
-     */
-    @Override
-    public List<DemandVo> queryTaskDemandList(String taskId){
-        return demandMapper.queryTaskDemand(taskId);
-    }
-
-    /**
      * 查询全部设备需求(只查询)
      * @param demand
      * @param pageNo

@@ -1,15 +1,11 @@
 package org.hero.renche.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
-import javafx.concurrent.Task;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.hero.renche.entity.Demand;
-import org.hero.renche.entity.ProProgressRecord;
 import org.hero.renche.entity.TaskInfo;
 import org.hero.renche.entity.vo.TaskInfoVo;
 import org.hero.renche.service.IDemandService;
@@ -39,8 +35,8 @@ public class TaskInfoController {
     private ITaskInfoService taskInfoService;
     @Autowired
     private IDemandService demandService;
-    @Autowired
-    private IProjectItemInfoService projectItemInfoService;
+//    @Autowired
+//    private IProjectItemInfoService projectItemInfoService;
 
     /**
      * 分页列表查询
@@ -90,42 +86,19 @@ public class TaskInfoController {
 
     /**
      * 添加
-     * @param jsonObject
+     * @param taskInfo
      * @return
      */
     @PostMapping(value = "/add")
-    public Result<TaskInfo> add(@RequestBody JSONObject jsonObject) {
+    public Result<TaskInfo> add(@RequestBody TaskInfo taskInfo) {
         Result<TaskInfo> result = new Result<TaskInfo>();
         try {
             SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-            TaskInfoVo taskInfoVo = JSON.parseObject(jsonObject.toJSONString(), TaskInfoVo.class);
-
-            TaskInfo taskInfo = new TaskInfo();
-            BeanUtils.copyProperties(taskInfoVo, taskInfo);
-            List<Demand> demandList = new ArrayList<>();
-            JSONArray demandArray = jsonObject.getJSONArray("demandList");
-
             //保存任务
             taskInfo.setCreateTime(new Date());
             taskInfo.setCreateUser(sysUser.getId());
-            //获取选择的负责人
-            String selectUser = jsonObject.getString("selectUser");
-            taskInfo.setReceiveUser(selectUser);
-            if(demandArray != null && demandArray.size() != 0){
-                taskInfo.setIsMakeDemand("0");//默认否
-            }
             taskInfoService.save(taskInfo);
-
-            //保存需要设备
-            if(demandArray != null){
-                demandList = demandArray.toJavaList(Demand.class);
-                for(Demand demand : demandList){
-                    demand.setTaskId(taskInfo.getTaskId());
-                    demand.setPrjItemId(taskInfo.getPrjItemId());
-                    demandService.save(demand);
-                }
-            }
-
+            result.setResult(taskInfo);
             result.success("添加成功！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,52 +110,22 @@ public class TaskInfoController {
 
     /**
      * 编辑
-     * @param jsonObject
+     * @param taskInfo
      * @return
      */
     @PutMapping(value = "/edit")
-    public Result<TaskInfo> eidt(@RequestBody JSONObject jsonObject) {
+    public Result<TaskInfo> eidt(@RequestBody TaskInfo taskInfo) {
         Result<TaskInfo> result = new Result<TaskInfo>();
         try {
-            SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-            TaskInfoVo taskInfoVo = JSON.parseObject(jsonObject.toJSONString(), TaskInfoVo.class);
-
-            TaskInfo taskInfo = new TaskInfo();
-            BeanUtils.copyProperties(taskInfoVo, taskInfo);
-
             String taskId = taskInfo.getTaskId();
-            String prjItemId = taskInfo.getPrjItemId();
             TaskInfo taskInfoEntity = taskInfoService.getById(taskId);
             if (taskInfoEntity == null) {
                 result.error500("未找到对应实体");
             } else {
                 taskInfo.setCreateTime(taskInfoEntity.getCreateTime());
-                List<Demand> demandList = new ArrayList<>();
-                JSONArray demandArray = jsonObject.getJSONArray("demandList");
-
-                //获取选择的负责人
-                String selectUser = jsonObject.getString("selectUser");
-                taskInfo.setReceiveUser(selectUser);
-                if(demandArray != null && demandArray.size() != 0){
-                    if(taskInfo.getIsMakeDemand() == null || "".equals(taskInfo.getIsMakeDemand())){
-                        taskInfo.setIsMakeDemand("0");//默认否
-                    }
-                }
                 taskInfoService.updateById(taskInfo);
-
-                //先删除已添加的设备
-                demandService.delDemandByTaskId(taskId);
-                //保存需要设备
-                if(demandArray != null){
-                    demandList = demandArray.toJavaList(Demand.class);
-                    for(Demand demand : demandList){
-                        demand.setTaskId(taskId);
-                        demand.setPrjItemId(prjItemId);
-                        demandService.save(demand);
-                    }
-                }
-
                 result.success("修改成功!");
+                result.setResult(taskInfo);
             }
 
         } catch (Exception e) {
