@@ -33,4 +33,6 @@ public interface ArrivalListMapper extends BaseMapper<ArrivalList> {
      */
     int deleteByPrjItemIds(@Param("list") List<String> priItrmIdList);
 
+    int qryArrivalByPrjId(String prjItemId);
+
 }

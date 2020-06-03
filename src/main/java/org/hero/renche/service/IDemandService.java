@@ -57,4 +57,6 @@ public interface IDemandService extends IService<Demand> {
     Boolean delDemandByTaskId(String taskId);
 
     DemandVo getDemandByPrjItenId(String prjItemId);
+    List<Demand> queryDemandList(String prjItemId);
+    List<Demand> queryDemandList1(String prjItemId);
 }

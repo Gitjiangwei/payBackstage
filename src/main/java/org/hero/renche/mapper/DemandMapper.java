@@ -58,4 +58,7 @@ public interface DemandMapper extends BaseMapper<Demand> {
      */
     int deleteByPriItemIds(@Param("list") List<String> priItrmIdList);
 
+    List<Demand> queryDemandList(String prjItemId);
+    List<Demand> queryDemandList1(String prjItemId);
+
 }

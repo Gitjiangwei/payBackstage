@@ -23,6 +23,7 @@ public class EquipInfoController {
     @Autowired
     private IEquipinfoService equipinfoService;
 
+
     /**
      * 查询设备库存信息
      * @param equipInfo

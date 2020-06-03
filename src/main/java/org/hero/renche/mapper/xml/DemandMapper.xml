@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.hero.renche.mapper.DemandMapper">
-    
+
     <update id="updateDemandStatus">
         update tx_demand SET status=#{status}
         where demand_id = #{demandId}
@@ -67,4 +67,27 @@
             #{item}
         </foreach>
     </delete>
+
+    <select id="queryDemandList" resultType="org.hero.renche.entity.vo.DemandVo">
+   SELECT
+        m.material_name,
+        m.material_unit,
+        d.need_number,
+        d.remarks
+    FROM
+        tx_demand d
+    JOIN tx_material_info m ON d.material_id = m.material_id
+    where  prj_item_id = #{prjItemId} and d.have_way='0'
+    </select>
+    <select id="queryDemandList1" resultType="org.hero.renche.entity.vo.DemandVo">
+   SELECT
+        m.material_name,
+        m.material_unit,
+        d.need_number,
+        d.remarks
+    FROM
+        tx_demand d
+    JOIN tx_material_info m ON d.material_id = m.material_id
+    where  prj_item_id = #{prjItemId}
+    </select>
 </mapper>

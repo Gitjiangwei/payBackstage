@@ -39,5 +39,7 @@ public interface ArrivalListService extends IService<ArrivalList> {
      */
     Boolean delelteByIds(List idlist);
 
+    int qryArrivalByPrjId(String prjItemId);
+
 
 }

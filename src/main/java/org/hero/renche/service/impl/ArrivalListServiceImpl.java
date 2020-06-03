@@ -63,4 +63,11 @@ public class ArrivalListServiceImpl extends ServiceImpl<ArrivalListMapper, Arriv
         }
 
     }
+
+    @Override
+    public int qryArrivalByPrjId(String prjItemId) {
+
+        int num=arrivalListMapper.qryArrivalByPrjId(prjItemId);
+        return num;
+    }
 }

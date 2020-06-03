@@ -8,11 +8,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -46,11 +48,18 @@ public class ArrivalList implements Serializable {
     @ApiModelProperty(value = "接收人")
     private String recipient;
 
-    @ApiModelProperty(value = "接受日期")
+    @ApiModelProperty(value = "接收日期")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date receiptDate;
 
     @ApiModelProperty(value = "接收人手机号")
     private String phoneNumber;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
+
 
 
 

@@ -203,4 +203,18 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return demand;
     }
 
+    @Override
+    public List<Demand> queryDemandList(String prjItemId) {
+
+        List<Demand> list=demandMapper.queryDemandList(prjItemId);
+        return list;
+    }
+
+    @Override
+    public List<Demand> queryDemandList1(String prjItemId) {
+
+        List<Demand> list=demandMapper.queryDemandList1(prjItemId);
+        return list;
+    }
+
 }

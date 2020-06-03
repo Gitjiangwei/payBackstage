@@ -406,4 +406,11 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
     @Override
     public ProjectItemVo qryPrjItemById(String prjItemId){  return projectItemInfoMapper.qryPrjItemById(prjItemId);}
 
+    @Override
+    public String qryPrjItemIdByName(String prjItemName) {
+
+        String prjId=projectItemInfoMapper.qryPrjItemIdByPrjItemName(prjItemName);
+        return prjId;
+    }
+
 }

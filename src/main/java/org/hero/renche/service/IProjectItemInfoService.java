@@ -48,4 +48,6 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
 
     ProjectItemVo qryPrjItemById(String prjItemId);
 
+    String qryPrjItemIdByName(String prjItemName);
+
 }
