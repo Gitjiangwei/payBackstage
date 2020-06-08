@@ -104,4 +104,22 @@
         update tx_equip_info set equip_status = '0bdb37d9593811eaab75b4a9fc4b5236'
         where equip_id = #{equipId}
     </update>
+
+
+    <select id="getEquipinfo" resultType="org.hero.renche.entity.EquipInfo">
+
+        SELECT
+                e.*
+            FROM
+                tx_equip_info e
+            JOIN tx_dict d ON e.equip_status = d.dict_id
+            AND d.dict_code = 'ELECTSTATUS'
+            AND d.dict_code_id = 'FREE'
+        WHERE
+            material_id = #{materialId}
+        AND have_way = '1'
+
+
+
+    </select>
 </mapper>

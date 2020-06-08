@@ -18,6 +18,9 @@ public interface IProjectItemInfoService extends IService<ProjectItemInfo> {
     PageInfo<ProjectItemVo> qryProjectItemInfo(ProjectItemInfo projectItemInfo, Integer page, Integer pageSize);
 
 
+    PageInfo<ProjectItemVo> qryProjectItemInfo1(ProjectItemInfo projectItemInfo, Integer page, Integer pageSize);
+
+
     /**
      * 查询工程点所使用的设备
      * @param projectItemId

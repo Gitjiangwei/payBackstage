@@ -90,4 +90,8 @@
     JOIN tx_material_info m ON d.material_id = m.material_id
     where  prj_item_id = #{prjItemId}
     </select>
+
+    <select id="getDemangNumByTaskId" resultType="org.hero.renche.entity.Demand">
+      select * from tx_demand where task_id = #{taskId}
+    </select>
 </mapper>

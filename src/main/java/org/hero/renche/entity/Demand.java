@@ -26,7 +26,7 @@ public class Demand implements Serializable {
     private String materialId;
 
     /**需求数量*/
-    private String needNumber;
+    private Integer needNumber;
 
     /**创建时间*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
@@ -53,7 +53,7 @@ public class Demand implements Serializable {
     private Date updateTime;
 
     /**设备拥有方式（0租赁 1购买）*/
-    private String haveWay;
+    private Integer haveWay;
 
     /*状态 0：未处理  1：已处理  2：已通知*/
     private String status;

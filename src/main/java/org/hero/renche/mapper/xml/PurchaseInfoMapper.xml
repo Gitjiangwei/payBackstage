@@ -5,7 +5,7 @@
     
     <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.vo.PurchaseInfoVo">
 
-        select purchase_id as purchaseId,a.material_id as materialId,material_name as materialName,material_no as materialNo,material_type as materialType,
+        select a.task_id,t.task_name, purchase_id as purchaseId,a.material_id as materialId,material_name as materialName,material_no as materialNo,material_type as materialType,
         material_unit as materialUnit,price,quantity,purchaser,purchase_time as purchaseTime,which_company as whichCompany,c.company_name as companyName,
         isarrival,isarrival,arrival_time as arrivalTime,s.realname as createUserName,total_price as totalPrice,ifnull(a.file_rel_id,'') as fileRelId,
         have_way as haveWay,expiration_date as expirationDate,isstorage,a.remark
@@ -13,6 +13,7 @@
         left join tx_material_info m on m.material_id = a.material_id
         left join tx_company_info c on c.company_id = a.which_company
         left join sys_user s on s.id = a.create_user
+        left join tx_task_info t on t.task_id = a.task_id
         <trim prefix="where" prefixOverrides="and">
             <if test="PurchaseInfoVo.haveWay != null and PurchaseInfoVo.haveWay != '' ">
                 and have_way = #{PurchaseInfoVo.haveWay}

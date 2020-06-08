@@ -217,4 +217,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return list;
     }
 
+    @Override
+    public List<Demand> getDemangNumByTaskId(String taskId) {
+        List<Demand> list=demandMapper.getDemangNumByTaskId(taskId);
+        return list;
+    }
+
 }

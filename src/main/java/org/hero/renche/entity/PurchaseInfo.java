@@ -24,10 +24,12 @@ public class PurchaseInfo implements Serializable {
     private  String purchaseId;
     /**关联物料id*/
     private String materialId;
+    /**任务ID*/
+    private String taskId;
     /**采购物品单价*/
     private String price;
     /**采购物品数量*/
-    private String quantity;
+    private Integer quantity;
     /**采购人*/
     private String purchaser;
     /**采购时间*/
@@ -57,7 +59,7 @@ public class PurchaseInfo implements Serializable {
     /**是否入库*/
     private String isstorage;
     /**设备拥有方式（0租赁 1购买）*/
-    private String haveWay;
+    private Integer haveWay;
     /**租赁到期日期*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

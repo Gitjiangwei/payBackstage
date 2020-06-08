@@ -59,4 +59,10 @@ public interface IDemandService extends IService<Demand> {
     DemandVo getDemandByPrjItenId(String prjItemId);
     List<Demand> queryDemandList(String prjItemId);
     List<Demand> queryDemandList1(String prjItemId);
+
+    /**
+     * 根据任务ID查询设备
+     * @return
+     */
+    List<Demand> getDemangNumByTaskId(String taskId);
 }

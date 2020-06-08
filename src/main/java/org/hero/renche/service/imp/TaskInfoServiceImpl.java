@@ -94,6 +94,22 @@ public class TaskInfoServiceImpl extends ServiceImpl<TaskInfoMapper, TaskInfo> i
     }
 
     @Override
+    public TaskInfo getTaskById(String taskId) {
+        TaskInfo taskInfo = taskInfoMapper.getTaskById(taskId);
+        return taskInfo;
+    }
+
+    @Override
+    public Boolean updateEquipStatus(String taskId, Integer EquStatus) {
+
+        int i= taskInfoMapper.updateEquipStatus(taskId,EquStatus);
+        if(i>0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void exportTaskInfo (Map<String, String> map, HttpServletResponse response){
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");

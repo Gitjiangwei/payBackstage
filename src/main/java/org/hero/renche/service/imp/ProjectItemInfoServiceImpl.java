@@ -53,6 +53,15 @@ public class ProjectItemInfoServiceImpl extends ServiceImpl<ProjectItemInfoMappe
     }
 
     @Override
+    public PageInfo<ProjectItemVo> qryProjectItemInfo1(ProjectItemInfo projectItemInfo, Integer page, Integer pageSize) {
+
+        PageHelper.startPage(page,pageSize);
+        List<ProjectItemVo> projectItemInfoList = projectItemInfoMapper.qryListProjectItemInfo1(projectItemInfo);
+        return new PageInfo<ProjectItemVo>(projectItemInfoList);
+    }
+
+
+    @Override
     public PageInfo<ProjectItemModel> qryProjectItemEquip(String projectItemId, Integer pageNo, Integer pageSize) {
 
         PageHelper.startPage(pageNo,pageSize);

@@ -43,6 +43,7 @@ public class ResourceCheckFilter extends AccessControlFilter {
         String url = getPathWithinApplication(servletRequest);
         log.info("当前用户正在访问的 url => " + url);
         return subject.isPermitted(url);
+        
     }
 
 

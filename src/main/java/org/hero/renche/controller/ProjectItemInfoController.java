@@ -57,6 +57,27 @@ public class ProjectItemInfoController {
         return result;
     }
 
+
+    /**
+     * 分页列表查询
+     * @param projectItem
+     * @param pageNo
+     * @param pageSize
+     * @param req
+     * @return
+     */
+    @ApiOperation(value = "获取工程点信息列表", notes = "获取工程点信息列表", produces = "application/json")
+    @GetMapping(value = "/list1")
+    public Result<PageInfo<ProjectItemVo>> list1(ProjectItemInfo projectItem, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, HttpServletRequest req) {
+        Result<PageInfo<ProjectItemVo>> result = new Result<>();
+        PageInfo<ProjectItemVo> pageList = projectItemInfoService.qryProjectItemInfo1(projectItem,pageNo,pageSize);
+        result.setSuccess(true);
+        result.setResult(pageList);
+        return result;
+    }
+
+
     /**
      * 根据id查询工程点信息
      * @param prjItemId

@@ -6,11 +6,12 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.hero.renche.entity.Demand;
+import org.hero.renche.entity.EquipInfo;
+import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.TaskInfo;
 import org.hero.renche.entity.vo.TaskInfoVo;
-import org.hero.renche.service.IDemandService;
-import org.hero.renche.service.IProjectItemInfoService;
-import org.hero.renche.service.ITaskInfoService;
+import org.hero.renche.service.*;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.modules.system.entity.SysUser;
@@ -35,6 +36,12 @@ public class TaskInfoController {
     private ITaskInfoService taskInfoService;
     @Autowired
     private IDemandService demandService;
+
+    @Autowired
+    private IEquipinfoService equipinfoService;
+    @Autowired
+    private IPurchaseService purchaseService;
+
 //    @Autowired
 //    private IProjectItemInfoService projectItemInfoService;
 
@@ -256,6 +263,162 @@ public class TaskInfoController {
             }
         }
         return result;
+    }
+
+    /**
+     * 根据ID查找任务
+     */
+    @GetMapping(value = "/getTaskById")
+    public Result<TaskInfo> getTaskById(@RequestParam(name = "taskId") String taskId){
+
+        Result<TaskInfo> result  =new Result<>();
+        try{
+            if(taskId == null || taskId.equals("")){
+                result.error500("任务ID为空，请及时排除！");
+            }else {
+                TaskInfo taskInfo = taskInfoService.getTaskById(taskId);
+                if (taskInfo != null) {
+                    result.setResult(taskInfo);
+                    result.setSuccess(true);
+                } else {
+                    result.error500("加载任务失败！");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("加载任务失败！");
+        }
+        return  result;
+
+    }
+
+    /**
+     * 修改设备进度
+     * @param taskId
+     * @return
+     */
+    @GetMapping(value = "/handOk")
+    public Result handOk(@RequestParam(name = "taskId") String taskId) {
+        Result<String> result = new Result<>();
+        try{
+            if (taskId == null || "".equals(taskId)) {
+                result.error500("任务ID为空，操作失败！");
+                return result;
+            }
+            Boolean isOk=taskInfoService.updateEquipStatus(taskId,1);
+            if(isOk){
+                result.setSuccess(true);
+                return result;
+            }else {
+                result.error500("修改设备进度失败！");
+                return result;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("修改设备进度失败！");
+            return result;
+        }
+
+    }
+
+    /**
+     * 处理任务设备，库存充足直接全部出库，
+     * 库存不足，出库库存中现有数量，不足的生成采购需求
+     * @param taskId
+     * @return
+     */
+    @GetMapping(value = "/chuli")
+    public Result<String> chuli(@RequestParam(name = "taskId") String taskId){
+        Result<String> result=new Result<>();
+        try{
+
+            if(taskId==null || "".equals(taskId)){
+                result.error500("任务ID为空，操作失败！");
+                return result;
+            }
+            /*需要的所有设备*/
+            List<Demand> DemandList=demandService.getDemangNumByTaskId(taskId);
+            int flag1=0;
+            int flag2=0;
+            if(DemandList.size()>0){
+                Demand demand=null;
+                for (int i=0;i<DemandList.size();i++){
+                    demand= DemandList.get(i);
+                    int needZuNinNum= demand.getNeedNumber();//需要的数量
+                    String materialId= demand.getMaterialId();//物料ID
+                    Integer haveWay=demand.getHaveWay();//拥有方式
+                    List<EquipInfo>  equipinfolist=equipinfoService.getEquipinfo(materialId ,haveWay );//设备库存
+                    int realityNum=equipinfolist.size();
+                    /*只要有库存就出库*/
+                    if(realityNum>0){
+                        if(needZuNinNum<=realityNum){
+                            //设备出库,出库数量就是需要的数量
+                            for(int j=0;j<needZuNinNum;j++){
+                                EquipInfo equipInfo= equipinfolist.get(j);
+                                equipInfo.setEquipStatus("INUSE");
+                                equipinfoService.updateById(equipInfo);
+                            }
+
+                        }else {
+                            //设备出库,出库数量就是库存数量
+                            for(int j=0;j<realityNum;j++){
+                                EquipInfo equipInfo= equipinfolist.get(j);
+                                equipInfo.setEquipStatus("INUSE");
+                                equipinfoService.updateById(equipInfo);
+                            }
+                            //生成采购需求，需求数量是需要数量减去出库数量
+                            Integer quantity=needZuNinNum-realityNum;
+                            PurchaseInfo purchaseInfo=new PurchaseInfo();
+                            purchaseInfo.setMaterialId(materialId);
+                            purchaseInfo.setTaskId(taskId);
+                            purchaseInfo.setQuantity(quantity);
+                            purchaseInfo.setCreateTime(new Date());
+                            purchaseInfo.setHaveWay(haveWay);
+                            purchaseInfo.setRemark(demand.getRemarks());
+                            purchaseService.save(purchaseInfo);
+                            flag1+=1;
+                        }
+                    }else {
+                        //生成采购需求
+                        PurchaseInfo purchaseInfo=new PurchaseInfo();
+                        purchaseInfo.setMaterialId(materialId);
+                        purchaseInfo.setTaskId(taskId);
+                        purchaseInfo.setQuantity(needZuNinNum);
+                        purchaseInfo.setCreateTime(new Date());
+                        purchaseInfo.setHaveWay(haveWay);
+                        purchaseInfo.setRemark(demand.getRemarks());
+                        purchaseService.save(purchaseInfo);
+                        flag2+=1;
+
+                    }
+                }
+
+            }else {
+                result.error500("该任务需求设备为空，操作失败！");
+                return result;
+            }
+
+            if(flag1==0 &&flag2==0){
+                taskInfoService.updateEquipStatus(taskId,3);
+                result.success("处理成功，设备已全部出库！");
+                return result;
+            }else {
+                taskInfoService.updateEquipStatus(taskId,2);
+                result.success("处理成功，注意此任务有设备需求生成，请尽快处理！");
+                return result;
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            return result;
+        }
+
+
     }
 
 }

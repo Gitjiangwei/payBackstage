@@ -16,6 +16,8 @@ import java.util.List;
 public interface ProjectItemInfoMapper extends BaseMapper<ProjectItemInfo> {
 
     List<ProjectItemVo> qryListProjectItemInfo(@Param("ProjectItemInfo") ProjectItemInfo projectItemInfo);
+    List<ProjectItemVo> qryListProjectItemInfo1(@Param("ProjectItemInfo") ProjectItemInfo projectItemInfo);
+
 
     String qryPrjItemIdByPrjItemName(String prjName);
 

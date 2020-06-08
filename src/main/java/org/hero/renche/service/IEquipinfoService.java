@@ -64,4 +64,9 @@ public interface IEquipinfoService extends IService<EquipInfo> {
      * @return
      */
     Boolean updateEuipStatusbaof(String equipId);
+
+    /**
+     * 根据拥有方式和物料ID查找空闲的设备库存
+     */
+    List<EquipInfo>  getEquipinfo(String materialId ,Integer haveWay );
 }

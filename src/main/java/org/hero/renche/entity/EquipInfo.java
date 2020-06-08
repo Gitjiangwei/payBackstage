@@ -44,7 +44,7 @@ public class EquipInfo implements Serializable {
     private String manufacoryNo;
 
     /**设备拥有方式（0租赁 1购买）*/
-    private String haveWay;
+    private Integer haveWay;
     /**租赁到期日期*/
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

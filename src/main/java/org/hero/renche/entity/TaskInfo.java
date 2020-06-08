@@ -62,6 +62,8 @@ public class TaskInfo implements Serializable {
     private Date createTime;
     /**是否生成需求设备(空为没有设备 0否 1是)*/
     private String isMakeDemand;
+    /**设备状态：（0.初始状态；1.待采购；2.待领取；3.已领取)*/
+    private Integer equipStatus;
 
 
 }

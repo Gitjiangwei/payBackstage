@@ -22,4 +22,8 @@ public interface ITaskInfoService extends IService<TaskInfo> {
 
     boolean makeSureToMakeDemand(String taskIds);
 
+    TaskInfo getTaskById(String taskId);
+
+    Boolean updateEquipStatus(String taskId,Integer EquStatus);
+
 }

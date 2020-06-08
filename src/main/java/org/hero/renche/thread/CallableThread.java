@@ -65,7 +65,7 @@ public class CallableThread implements Callable<Integer> {
                             equipInfo.setEquipNo(receivingMap.get("num"));//设备编号
                             equipInfo.setEquipPrice(map.get("equipPrice"));
                             equipInfo.setPurchaseId(map.get("purchaseId"));
-                            equipInfo.setHaveWay(map.get("haveWay"));
+                            equipInfo.setHaveWay(Integer.parseInt(map.get("haveWay")));
                             equipInfo.setExpirationDate(expirationDate);
                             equipInfoList1.add(equipInfo);
                         }

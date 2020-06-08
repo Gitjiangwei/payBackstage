@@ -24,4 +24,7 @@ public interface TaskInfoMapper extends BaseMapper<TaskInfo> {
     int editTaskStatus(@Param("taskId") String taskId, @Param("status") String status);
 
     int makeSureToMakeDemand(@Param("list") List<String> taskIds);
+    TaskInfo getTaskById(@Param("taskId") String taskId);
+
+    int updateEquipStatus(@Param("taskId") String taskId,@Param("EquStatus") Integer EquStatus);
 }

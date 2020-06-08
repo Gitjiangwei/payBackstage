@@ -138,7 +138,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
             purchaseInfo.setPurchaser(map.get("purchaser"));
             purchaseInfo.setIsarrival(map.get("isarrival"));
             purchaseInfo.setIsstorage(map.get("isstorage"));
-            purchaseInfo.setHaveWay(map.get("haveWay"));
+            purchaseInfo.setHaveWay(Integer.parseInt(map.get("haveWay")));
             if(map.get("purchaseTime") != null){
                 purchaseInfo.setPurchaseTime(sdf.parse(map.get("purchaseTime")));
             }

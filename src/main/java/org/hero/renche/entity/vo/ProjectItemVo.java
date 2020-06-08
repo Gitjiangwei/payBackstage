@@ -20,5 +20,9 @@ public class ProjectItemVo extends ProjectItemInfo implements Serializable {
     private String contractName;
     /**附件个数**/
     private String fileCount = "0";
+    /*任务名称*/
+    private String taskName;
+    /*任务ID*/
+    private String taskId;
 
 }

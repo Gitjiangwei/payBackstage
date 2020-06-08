@@ -23,7 +23,7 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
 
     List<EquipInfoVo> qryEquipListKeys(@Param("EquipInfo") EquipInfo equipInfo);
 
-    int qryEquipKeyCount(@Param("purchaseId") String purchaseId);
+    int qryEquipKeyCount(@Param("materialId") String materialId);
 
 
     int updateDetailEquipInfo(@Param("equipInfo") EquipInfo equipInfo);
@@ -33,5 +33,10 @@ public interface EquipInfoMapper extends BaseMapper<EquipInfo> {
     int updateEuipStatusweix(@Param("equipId") String equipId);
 
     int updateEuipStatusbaof(@Param("equipId") String equipId);
+
+    /**
+     * 根据拥有方式和物料ID查找空闲的设备库存
+     */
+     List<EquipInfo> getEquipinfo(@Param("materialId")  String materialId ,@Param("haveWay")  Integer haveWay );
 
 }

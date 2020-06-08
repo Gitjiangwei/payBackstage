@@ -23,7 +23,7 @@ public class AsynTask {
                 public void run() {
                     try {
                         //为防止阻塞让线程5秒以后开始执行
-                        Thread.sleep(5000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -31,7 +31,7 @@ public class AsynTask {
                     try {
                         Date expirationDate = null;
                         String expirationTime = map.get("expirationDate") == null?null : map.get("expirationDate").toString();
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         if(expirationTime != null && !"".equals(expirationTime)){
                             expirationDate = sdf.parse(expirationTime);
                         }
@@ -53,7 +53,7 @@ public class AsynTask {
                             equipInfo.setEquipNo(receivingMap.get("num"));//设备编号
                             equipInfo.setEquipPrice(map.get("equipPrice").toString());
                             equipInfo.setPurchaseId(map.get("purchaseId").toString());
-                            equipInfo.setHaveWay(map.get("haveWay").toString());
+                            equipInfo.setHaveWay(Integer.parseInt(map.get("haveWay").toString()));
                             equipInfo.setExpirationDate(expirationDate);
                             equipInfoList1.add(equipInfo);
                         }
@@ -65,6 +65,7 @@ public class AsynTask {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        System.out.println("11111111111111111111111111"+e.getMessage());
                     }
                 }
             });

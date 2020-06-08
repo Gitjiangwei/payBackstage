@@ -131,4 +131,14 @@ public class EquipInfoServiceImpl extends ServiceImpl<EquipInfoMapper,EquipInfo>
         }
         return flag;
     }
+    /**
+     * 根据拥有方式和物料ID查找空闲的设备库存
+     */
+    @Override
+    public List<EquipInfo>  getEquipinfo(String materialId, Integer haveWay) {
+
+        List<EquipInfo>  list =equipInfoMapper.getEquipinfo(materialId ,haveWay );
+
+        return list;
+    }
 }

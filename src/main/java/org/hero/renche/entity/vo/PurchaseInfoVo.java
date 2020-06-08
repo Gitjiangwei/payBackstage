@@ -22,4 +22,8 @@ public class PurchaseInfoVo extends PurchaseInfo implements Serializable {
     private String createUserName;
     /**采购来源名称*/
     private String companyName;
+    /*关联任务ID*/
+    private String taskId;
+    /*关联任务名称*/
+    private String taskName;
 }

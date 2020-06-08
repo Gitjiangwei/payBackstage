@@ -61,4 +61,10 @@ public interface DemandMapper extends BaseMapper<Demand> {
     List<Demand> queryDemandList(String prjItemId);
     List<Demand> queryDemandList1(String prjItemId);
 
+
+    /**
+     * 根据taskId查找需要设备
+     */
+    List<Demand> getDemangNumByTaskId(@Param("taskId") String taskId);
+
 }
