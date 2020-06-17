@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.UserTrainInfoMapper">
+
+    <select id="getUserTrainInfo" resultType="org.hero.renche.entity.UserTrainInfo">
+
+    select * from  tx_user_train_info where managing_people_id = #{managingPeopleId}
+
+    </select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.LeaseReturnMapper">
+
+    <resultMap id="demandMap" type="org.hero.renche.entity.vo.LeaseReturnVo" autoMapping="true">
+        <id column="lease_return_id" property="leaseReturnId"></id>
+        <collection property="demandList"  ofType="org.hero.renche.entity.vo.DemandVo" javaType="java.util.ArrayList" autoMapping="true">
+            <id column="demand_id" property="demandId"></id>
+        </collection>
+    </resultMap>
+
+    <select id="qryleaseReturnVoList"  resultMap="demandMap">
+        SELECT
+        a.Lease_return_id,
+        p.prj_item_name,
+        a.prj_item_id,
+        a.receiver,
+        a.recipient,
+        a.return_company,
+        a.start_date,
+        a.end_date,
+        a.return_pho_num,
+        a.phone_number,
+        a.return_person,
+        d.remarks,
+        d.need_number,
+        m.material_name,
+        m.material_no,
+        m.material_unit
+        FROM
+        tx_lease_return a
+        JOIN tx_demand d ON a.prj_item_id = d.prj_item_id
+        JOIN tx_material_info m ON d.material_id = m.material_id
+        JOIN tx_project_item p ON a.prj_item_id = p.prj_item_id
+        <where>
+            d.have_way='0'
+            <if test="LeaseReturnVo.prjItemId != null and LeaseReturnVo.prjItemId  != '' ">
+                a.prj_item_id = #{LeaseReturnVo.prjItemId}
+            </if>
+            <if test="LeaseReturnVo.prjItemName != null and LeaseReturnVo.prjItemName  != '' ">
+                and p.prj_item_name like CONCAT('%',#{LeaseReturnVo.prjItemName},'%')
+            </if>
+            <if test="LeaseReturnVo.receiver != null and LeaseReturnVo.receiver  != '' ">
+                and   a.receiver  like CONCAT('%',#{LeaseReturnVo.receiver},'%')
+            </if>
+        </where>
+
+        group by a.create_time
+    </select>
+
+    <select id="qryleaseReturnByPrjId" resultType="java.lang.Integer">
+        select count(*) from tx_lease_return where prj_item_id =#{prjItemId}
+    </select>
+
+</mapper>

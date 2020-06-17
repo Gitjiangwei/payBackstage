@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hero.renche.mapper.AffirmRunningInfoMapper">
+
+    <select id="getAffirmRunningInfo" resultType="org.hero.renche.entity.AffirmRunningInfo">
+    select * from  tx_affirm_running_info WHERE managing_people_id = #{managingPeopleId}
+
+
+    </select>
+
+</mapper>
