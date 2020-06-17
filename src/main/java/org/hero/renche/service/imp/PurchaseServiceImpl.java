@@ -3,12 +3,15 @@ package org.hero.renche.service.imp;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authc.AuthenticationException;
+import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.PurchaseInfo;
 import org.hero.renche.entity.vo.PurchaseInfoVo;
 import org.hero.renche.mapper.EquipInfoMapper;
 import org.hero.renche.mapper.PurchaseInfoMapper;
 import org.hero.renche.service.IPurchaseService;
 import org.hero.renche.thread.AsynTask;
+import org.hero.renche.util.DailyinComeNumberUtil;
 import org.hero.renche.util.ExcelData;
 import org.hero.renche.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,30 +53,108 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseInfoMapper,Purchase
     @Override
     public boolean insertReceiving(PurchaseInfoVo purchaseInfo) {
         Boolean flag = false;
-        Map<String,Object> receivingMap = new HashMap<String, Object>();
-        receivingMap.put("equipCount",purchaseInfo.getQuantity());
-        receivingMap.put("equipPrice",purchaseInfo.getPrice());
-        receivingMap.put("purchaseId",purchaseInfo.getPurchaseId());
-        receivingMap.put("materialId",purchaseInfo.getMaterialId());
-        receivingMap.put("materialName",purchaseInfo.getMaterialName());
-        receivingMap.put("materialType",purchaseInfo.getMaterialType());
-        receivingMap.put("haveWay",purchaseInfo.getHaveWay());
-        receivingMap.put("expirationDate",purchaseInfo.getExpirationDate());
-        //查询当前库存的设备数量
-        int thisEquipCounts = equipInfoMapper.qryEquipKeyCount(purchaseInfo.getMaterialId());
-        receivingMap.put("thisEquipCounts",String.valueOf(thisEquipCounts));
-        //注入mapper
-        receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
-        //执行线程
-        new AsynTask().asyncTask(receivingMap);
-        try {
-            Thread.sleep(1000);
+        try{
+            Map<String,Object> receivingMap = new HashMap<String, Object>();
+            receivingMap.put("equipCount",purchaseInfo.getQuantity());
+            receivingMap.put("equipPrice",purchaseInfo.getPrice());
+            receivingMap.put("purchaseId",purchaseInfo.getPurchaseId());
+            receivingMap.put("materialId",purchaseInfo.getMaterialId());
+            receivingMap.put("materialName",purchaseInfo.getMaterialName());
+            receivingMap.put("materialType",purchaseInfo.getMaterialType());
+            receivingMap.put("haveWay",purchaseInfo.getHaveWay());
+            receivingMap.put("expirationDate",purchaseInfo.getExpirationDate());
+            //查询当前库存的设备数量
+            int thisEquipCounts = equipInfoMapper.qryEquipKeyCount(purchaseInfo.getMaterialId());
+            receivingMap.put("thisEquipCounts",String.valueOf(thisEquipCounts));
+            //注入mapper
+            receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
+            //执行线程
+            new AsynTask().asyncTask(receivingMap);
             flag = true;
-        } catch (InterruptedException e) {
+          } catch (Exception e) {
             e.printStackTrace();
         }
         return flag;
     }
+
+    @Override
+    public List<String>  insertReceiving1(PurchaseInfoVo purchaseInfo) {
+        List<String> equipIds=new ArrayList<>();
+        try{
+            Map<String,Object> receivingMap = new HashMap<String, Object>();
+            receivingMap.put("equipCount",purchaseInfo.getQuantity());
+            receivingMap.put("equipPrice",purchaseInfo.getPrice());
+            receivingMap.put("purchaseId",purchaseInfo.getPurchaseId());
+            receivingMap.put("materialId",purchaseInfo.getMaterialId());
+            receivingMap.put("materialName",purchaseInfo.getMaterialName());
+            receivingMap.put("materialType",purchaseInfo.getMaterialType());
+            receivingMap.put("haveWay",purchaseInfo.getHaveWay());
+            receivingMap.put("expirationDate",purchaseInfo.getExpirationDate());
+            //查询当前库存的设备数量
+            int thisEquipCounts = equipInfoMapper.qryEquipKeyCount(purchaseInfo.getMaterialId());
+            receivingMap.put("thisEquipCounts",String.valueOf(thisEquipCounts));
+            //注入mapper
+            receivingMap.put("purchaseInfoMapper",purchaseInfoMapper);
+            //执行线程
+            equipIds= this.asyncTask1(receivingMap);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return equipIds;
+    }
+
+    public List<String> asyncTask1(Map<String,Object> map){
+        List<String> equipIds=new ArrayList<>();
+        try {
+            final int[] resultCount = {0};
+            String equipName = map.get("materialName").toString();
+            List<EquipInfo> equipInfoList1 = new ArrayList<EquipInfo>();
+            Date expirationDate = null;
+            String expirationTime = map.get("expirationDate") == null?null : map.get("expirationDate").toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            if(expirationTime != null && !"".equals(expirationTime)){
+                expirationDate = sdf.parse(expirationTime);
+            }
+
+            String thisEquipCount = map.get("thisEquipCounts").toString();
+            Map<String,String> purchaseMap = new HashMap<String, String>();
+            //设备名称
+            purchaseMap.put("equipName",equipName);
+            //设备型号
+            purchaseMap.put("equipModel",map.get("materialType").toString());
+            //入库生成设备编号
+            Map<String, String> receivingMap = new HashMap<String, String>();
+            for (int i = 1; i <= Integer.valueOf(map.get("equipCount").toString() == null ? "0" : map.get("equipCount").toString()); i++) {
+                EquipInfo equipInfo = new EquipInfo();
+                receivingMap = DailyinComeNumberUtil.dailyinNumber(String.valueOf(i), thisEquipCount,purchaseMap);
+                thisEquipCount = receivingMap.get("thisEquipCount");
+                String equipId=UUID.randomUUID().toString().replace("-", "");
+                equipInfo.setEquipId(equipId);
+                equipInfo.setMaterialId(map.get("materialId").toString());
+                equipInfo.setEquipNo(receivingMap.get("num"));//设备编号
+                equipInfo.setEquipPrice(map.get("equipPrice").toString());
+                equipInfo.setPurchaseId(map.get("purchaseId").toString());
+                equipInfo.setHaveWay(Integer.parseInt(map.get("haveWay").toString()));
+                equipInfo.setExpirationDate(expirationDate);
+                equipInfoList1.add(equipInfo);
+                equipIds.add(equipId);
+            }
+            PurchaseInfoMapper purchaseInfoMapper = (PurchaseInfoMapper)map.get("purchaseInfoMapper");
+            resultCount[0] = purchaseInfoMapper.insertReceiving(equipInfoList1);
+            int count = resultCount[0];
+            if(count>0) {
+                purchaseInfoMapper.updatePurchaseKey(map.get("purchaseId").toString());
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new AuthenticationException("设备“" + map.get("materialName") == null ? "" : map.get("materialName")+ "”入库失败！",e);
+        }
+        return equipIds;
+    }
+
+
 
     @Override
     public Boolean qryPurchaseInfoKey(String purchaseId) {

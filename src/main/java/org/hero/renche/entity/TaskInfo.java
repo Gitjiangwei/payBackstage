@@ -65,5 +65,8 @@ public class TaskInfo implements Serializable {
     /**设备状态：（0.初始状态；1.待采购；2.待领取；3.已领取)*/
     private Integer equipStatus;
 
+    /*拥有设备数量*/
+    private Integer haveNum;
+
 
 }

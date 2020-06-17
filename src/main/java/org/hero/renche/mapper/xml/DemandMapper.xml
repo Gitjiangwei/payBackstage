@@ -94,4 +94,9 @@
     <select id="getDemangNumByTaskId" resultType="org.hero.renche.entity.Demand">
       select * from tx_demand where task_id = #{taskId}
     </select>
+
+
+    <select id="getCountNum" resultType="java.lang.Integer">
+        SELECT SUM(need_number)	FROM tx_demand WHERE task_id = #{taskId}
+    </select>
 </mapper>

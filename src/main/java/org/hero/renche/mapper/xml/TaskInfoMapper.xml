@@ -126,7 +126,7 @@
 	</update>
 
 	<select id="getTaskById"  resultType="org.hero.renche.entity.vo.TaskInfoVo">
-		select t.equip_status as equipStatus,  t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
+		select t.have_num, t.equip_status as equipStatus,  t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
 		t.receive_user as receiveUser,s.realname as receiveUserName,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
 		t.file_rel_id as fileRelId,u.realname as createUserName,t.is_make_demand as isMakeDemand,t.create_time as createTime,
 		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount
@@ -136,7 +136,7 @@
 		left join sys_user u on u.id = t.create_user
 		where t.task_id =#{taskId}
 		union
-		select t.equip_status as equipStatus,  t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
+		select t.have_num, t.equip_status as equipStatus,  t.task_id as taskId,t.prj_item_id as prjItemId,p.prj_item_name as prjItemName,t.task_name as taskName,t.task_content as taskContent,
 		t.receive_user as receiveUser,s.realname as receiveUserName,t.contact_person as contactPerson,t.contact_tel as contactTel,t.status,
 		t.file_rel_id as fileRelId,u.realname as createUserName,t.is_make_demand as isMakeDemand,t.create_time as createTime,
 		length(t.file_rel_id)-length(replace(t.file_rel_id,',','')) as fileCount

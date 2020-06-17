@@ -26,4 +26,10 @@ public class PurchaseInfoVo extends PurchaseInfo implements Serializable {
     private String taskId;
     /*关联任务名称*/
     private String taskName;
+    /*关联任务ID*/
+    private String prjItemId;
+    /*工程点ID*/
+    private String prjItemName;
+    /*通知状态（0不可通知，1可通知，2已通知）*/
+    private Integer adviceStatus;
 }

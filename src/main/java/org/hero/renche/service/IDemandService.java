@@ -65,4 +65,7 @@ public interface IDemandService extends IService<Demand> {
      * @return
      */
     List<Demand> getDemangNumByTaskId(String taskId);
+
+
+    int getCountNum(String taskId);
 }

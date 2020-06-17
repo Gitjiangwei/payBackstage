@@ -67,4 +67,7 @@ public interface DemandMapper extends BaseMapper<Demand> {
      */
     List<Demand> getDemangNumByTaskId(@Param("taskId") String taskId);
 
+
+    int getCountNum(@Param("taskId")   String taskId);
+
 }

@@ -5,15 +5,41 @@
     
     <select id="qryListPurchaseInfo" resultType="org.hero.renche.entity.vo.PurchaseInfoVo">
 
-        select a.task_id,t.task_name, purchase_id as purchaseId,a.material_id as materialId,material_name as materialName,material_no as materialNo,material_type as materialType,
-        material_unit as materialUnit,price,quantity,purchaser,purchase_time as purchaseTime,which_company as whichCompany,c.company_name as companyName,
-        isarrival,isarrival,arrival_time as arrivalTime,s.realname as createUserName,total_price as totalPrice,ifnull(a.file_rel_id,'') as fileRelId,
-        have_way as haveWay,expiration_date as expirationDate,isstorage,a.remark
-        from tx_purchase_info a
-        left join tx_material_info m on m.material_id = a.material_id
-        left join tx_company_info c on c.company_id = a.which_company
-        left join sys_user s on s.id = a.create_user
-        left join tx_task_info t on t.task_id = a.task_id
+        SELECT
+        a.task_id,
+        t.task_name,
+        t.prj_item_id,
+        p.prj_item_name,
+        a.advice_status,
+        purchase_id AS purchaseId,
+        a.material_id AS materialId,
+        material_name AS materialName,
+        material_no AS materialNo,
+        material_type AS materialType,
+        material_unit AS materialUnit,
+        price,
+        quantity,
+        purchaser,
+        purchase_time AS purchaseTime,
+        which_company AS whichCompany,
+        c.company_name AS companyName,
+        isarrival,
+        isarrival,
+        arrival_time AS arrivalTime,
+        s.realname AS createUserName,
+        total_price AS totalPrice,
+        ifnull(a.file_rel_id, '') AS fileRelId,
+        a.have_way AS haveWay,
+        expiration_date AS expirationDate,
+        isstorage,
+        a.remark
+        FROM
+        tx_purchase_info a
+        LEFT JOIN tx_material_info m ON m.material_id = a.material_id
+        LEFT JOIN tx_company_info c ON c.company_id = a.which_company
+        LEFT JOIN sys_user s ON s.id = a.create_user
+        LEFT JOIN tx_task_info t ON t.task_id = a.task_id
+        LEFT JOIN tx_project_item p ON p.prj_item_id = t.prj_item_id
         <trim prefix="where" prefixOverrides="and">
             <if test="PurchaseInfoVo.haveWay != null and PurchaseInfoVo.haveWay != '' ">
                 and have_way = #{PurchaseInfoVo.haveWay}

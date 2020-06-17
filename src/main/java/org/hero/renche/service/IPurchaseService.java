@@ -39,6 +39,14 @@ public interface IPurchaseService extends IService<PurchaseInfo> {
     boolean insertReceiving(PurchaseInfoVo purchaseInfo);
 
     /**
+     * 设备入库
+     * @param purchaseInfo
+     * @return
+     */
+    List<String>  insertReceiving1(PurchaseInfoVo purchaseInfo);
+
+
+    /**
      * 监听设备入库情况
      * @param purchaseId
      * @return

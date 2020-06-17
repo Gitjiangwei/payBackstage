@@ -76,4 +76,17 @@ public class AsynTask {
             throw new AuthenticationException("设备“" + map.get("materialName") == null ? "" : map.get("materialName")+ "”入库失败！",e);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

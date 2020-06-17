@@ -223,4 +223,11 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return list;
     }
 
+    @Override
+    public int getCountNum(String taskId) {
+        int num=demandMapper.getCountNum(taskId);
+
+        return num;
+    }
+
 }

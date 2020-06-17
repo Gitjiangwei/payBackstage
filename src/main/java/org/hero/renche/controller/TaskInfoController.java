@@ -6,10 +6,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.hero.renche.entity.Demand;
-import org.hero.renche.entity.EquipInfo;
-import org.hero.renche.entity.PurchaseInfo;
-import org.hero.renche.entity.TaskInfo;
+import org.hero.renche.entity.*;
 import org.hero.renche.entity.vo.TaskInfoVo;
 import org.hero.renche.service.*;
 import org.jeecg.common.api.vo.Result;
@@ -41,6 +38,8 @@ public class TaskInfoController {
     private IEquipinfoService equipinfoService;
     @Autowired
     private IPurchaseService purchaseService;
+    @Autowired
+    private IOutEquipService outEquipService;
 
 //    @Autowired
 //    private IProjectItemInfoService projectItemInfoService;
@@ -341,12 +340,17 @@ public class TaskInfoController {
             }
             /*需要的所有设备*/
             List<Demand> DemandList=demandService.getDemangNumByTaskId(taskId);
+            TaskInfo taskInfo=taskInfoService.getTaskById(taskId);
+            Integer haveNum=taskInfo.getHaveNum()==null?0:taskInfo.getHaveNum();
+
+
             int flag1=0;
             int flag2=0;
             if(DemandList.size()>0){
                 Demand demand=null;
                 for (int i=0;i<DemandList.size();i++){
                     demand= DemandList.get(i);
+                    String prjItemId=demand.getPrjItemId();
                     int needZuNinNum= demand.getNeedNumber();//需要的数量
                     String materialId= demand.getMaterialId();//物料ID
                     Integer haveWay=demand.getHaveWay();//拥有方式
@@ -358,16 +362,22 @@ public class TaskInfoController {
                             //设备出库,出库数量就是需要的数量
                             for(int j=0;j<needZuNinNum;j++){
                                 EquipInfo equipInfo= equipinfolist.get(j);
-                                equipInfo.setEquipStatus("INUSE");
-                                equipinfoService.updateById(equipInfo);
+                               Boolean isOk= outEquipService.equipInfoOut(equipInfo.getEquipId(),prjItemId);
+                               if(isOk){
+                                   haveNum+=1;
+                               }
                             }
 
                         }else {
                             //设备出库,出库数量就是库存数量
                             for(int j=0;j<realityNum;j++){
                                 EquipInfo equipInfo= equipinfolist.get(j);
-                                equipInfo.setEquipStatus("INUSE");
-                                equipinfoService.updateById(equipInfo);
+                                /*equipInfo.setEquipStatus("INUSE");
+                                equipinfoService.updateById(equipInfo);*/
+                                Boolean isOk= outEquipService.equipInfoOut(equipInfo.getEquipId(),prjItemId);
+                                if(isOk){
+                                    haveNum+=1;
+                                }
                             }
                             //生成采购需求，需求数量是需要数量减去出库数量
                             Integer quantity=needZuNinNum-realityNum;
@@ -400,6 +410,8 @@ public class TaskInfoController {
                 result.error500("该任务需求设备为空，操作失败！");
                 return result;
             }
+            taskInfo.setHaveNum(haveNum);
+            taskInfoService.updateById(taskInfo);
 
             if(flag1==0 &&flag2==0){
                 taskInfoService.updateEquipStatus(taskId,3);

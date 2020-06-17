@@ -4,20 +4,24 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.hero.renche.entity.EquipInfo;
 import org.hero.renche.entity.FileRel;
 import org.hero.renche.entity.PurchaseInfo;
+import org.hero.renche.entity.TaskInfo;
 import org.hero.renche.entity.vo.PurchaseInfoVo;
-import org.hero.renche.service.IFileRelService;
-import org.hero.renche.service.IPurchaseService;
+import org.hero.renche.service.*;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.modules.system.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 @RestController
 @Slf4j
@@ -30,6 +34,13 @@ public class PurchaseInfoController {
 
     @Autowired
     private IFileRelService fileRelService;
+    @Autowired
+    private IOutEquipService outEquipService;
+    @Autowired
+    private ITaskInfoService taskInfoService;
+
+    @Autowired
+    private IDemandService demandService;
 
     /**
      * 查询采购设备信息
@@ -190,6 +201,102 @@ public class PurchaseInfoController {
         }
         return result;
     }
+
+    @AutoLog("设备入库同时出库")
+    @PostMapping(value = "/insertAndOutReceiving")
+    @Transactional
+    public Result<PurchaseInfoVo> insertAndOutReceiving(@RequestBody PurchaseInfoVo purchaseInfo){
+        Result<PurchaseInfoVo> result = new Result<>();
+        try{
+        String prjItemId= purchaseInfo.getPrjItemId();
+        String taskId=purchaseInfo.getTaskId();
+        if(prjItemId==null||"".equals(prjItemId)){
+            result.error500("工程点ID不存在，不能进行此步操作！");
+            return result;
+        }
+        if(taskId==null||"".equals(taskId)){
+            result.error500("任务ID不存在，不能进行此步操作！");
+            return result;
+        }
+            TaskInfo taskInfo=taskInfoService.getTaskById(taskId);
+           final Integer haveNum1=taskInfo.getHaveNum()==null?0:taskInfo.getHaveNum();
+        List<String> equipIds =IPurchaseService.insertReceiving1(purchaseInfo);
+        if(equipIds.size()==0||equipIds==null){
+            result.error500("入库失败!");
+            return result;
+        }
+
+
+            Callable callable = new Callable() {
+                    int haveNum=haveNum1;
+                @Override
+                public Object call() throws Exception {
+                    try{
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        log.info(e.getMessage());
+                    }
+
+
+                    //设备出库,出库数量就是需要的数量
+                    int temp=0;
+                    for(int j=0;j<equipIds.size();j++){
+                        String equipId=equipIds.get(j);
+                        Boolean isOk= outEquipService.equipInfoOut(equipId,prjItemId);
+                        if(isOk){
+                            temp+=1;
+                        }
+                    }
+                    haveNum+=temp;
+                    taskInfo.setHaveNum(haveNum);
+
+                    taskInfoService.updateById(taskInfo);
+                    if(temp==equipIds.size()){
+                        result.success("操作成功！");
+                    }else {
+                        result.error500("出库失败!");
+                    }
+                    /*根据taskId获取设备需要总数和任务拥有的数量对比，如果任务拥有的数量>=需要数量，则该采购通知状态改为可通知状态*/
+                    int num=demandService.getCountNum(taskId);
+                    if(haveNum>=num){
+                        purchaseInfo.setAdviceStatus(1);
+                        IPurchaseService.updateById(purchaseInfo);
+                    }
+
+                    return result;
+                }
+            };
+            /**
+             * 将callable丢进任务里面
+             */
+            FutureTask futureTask = new FutureTask(callable);
+
+            /**
+             * 启动线程, 执行任务
+             */
+            new Thread(futureTask).start();
+            System.out.println("////////////////////////////////////////////////////");
+            System.out.println(futureTask.get().toString());
+            System.out.println("////////////////////////////////////////////////////");
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info(e.getMessage());
+            result.error500("操作失败!");
+        }
+
+
+        return result;
+    }
+
+
+
+
+
+
 
     @GetMapping(value = "/qryPurchaseKey")
     public Result<PurchaseInfo> qryPurchaseKey(@RequestParam(name = "purchaseId") String purchaseId){
