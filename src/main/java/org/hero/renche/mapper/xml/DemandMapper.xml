@@ -46,7 +46,7 @@
         delete from tx_demand where task_id in
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item}
-        </foreach> and make_demand = '0'
+        </foreach>
     </delete>
 
     <update id="updateWhetherTime">

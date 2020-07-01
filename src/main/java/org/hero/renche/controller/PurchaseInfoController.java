@@ -232,7 +232,7 @@ public class PurchaseInfoController {
                 @Override
                 public Object call() throws Exception {
                     try{
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     }catch (Exception e){
                         e.printStackTrace();
                         log.info(e.getMessage());
@@ -277,7 +277,7 @@ public class PurchaseInfoController {
              */
             new Thread(futureTask).start();
             System.out.println("////////////////////////////////////////////////////");
-            System.out.println(futureTask.get().toString());
+            System.out.println("futureTask===="+futureTask.get().toString());
             System.out.println("////////////////////////////////////////////////////");
 
 
